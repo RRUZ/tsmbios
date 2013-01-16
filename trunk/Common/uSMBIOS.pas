@@ -29,7 +29,12 @@ uses
 
 type
   // TODO :
-  // future OSX support http://www.opensource.apple.com/source/AppleSMBIOS/AppleSMBIOS-38/SMBIOS.h
+  // Add OSX support http://www.opensource.apple.com/source/AppleSMBIOS/AppleSMBIOS-38/SMBIOS.h
+  // Add WINAPI Read support  EnumSystemFirmwareTables() and GetSystemFirmwareTable()
+  // Add remote support
+  // Add FPC support
+  // Add old Delphi versions support
+
 
   // Reference
   // http://www.dmtf.org/standards/smbios
@@ -356,6 +361,7 @@ type
     BiosRomSize: Byte;
     Characteristics: Int64;
     ExtensionBytes : array [0..1] of Byte;
+    LocalIndex : Word;
   end;
 
   TSysInfo = packed record
@@ -366,6 +372,7 @@ type
     SerialNumber: Byte;
     UUID: array [0 .. 15] of Byte;
     WakeUpType: Byte;
+    LocalIndex : Word;
   end;
 
   TBaseBoardInfo = packed record
@@ -374,6 +381,15 @@ type
     Product: Byte;
     Version: Byte;
     SerialNumber: Byte;
+    AssetTag  : Byte;
+    FeatureFlags : Byte;
+    LocationinChassis : Byte;
+    ChassisHandle : Word;
+    BoardType :  Byte;
+    NumberofContainedObjectHandles : Byte;
+    //ContainedObjectHandles :  Array of Word;
+    LocalIndex : Word;
+    function BoardTypeStr : AnsiString;
   end;
 
   TEnclosureInfo = packed record
@@ -388,6 +404,7 @@ type
     ThermalState: Byte;
     SecurityStatus: Byte;
     OEM_Defined: DWORD;
+    LocalIndex : Word;
   end;
 
   TProcessorInfo = packed record
@@ -410,6 +427,7 @@ type
     SerialNumber: Byte;
     AssetTag: Byte;
     PartNumber: Byte;
+    LocalIndex : Word;
   end;
 
   TBatteryInfo = packed record
@@ -429,6 +447,7 @@ type
     SBDSDeviceChemistry : Byte;
     DesignCapacityMultiplier : Byte;
     OEM_Specific: DWORD;
+    LocalIndex : Word;
   end;
 
   TCacheInfo = packed record
@@ -443,8 +462,10 @@ type
     ErrorCorrectionType: Byte;
     SystemCacheType: Byte;
     Associativity: Byte;
+    LocalIndex : Word;
   end;
 
+  //Incomplete
   TMemoryDevice   = packed record
     Header: TSmBiosTableHeader;
     PhysicalMemoryArrayHandle : Word;
@@ -464,22 +485,16 @@ type
     Index : Integer;
   end;
 
-
-
   TSMBios = class
   private
     FSize: integer;
     FBuffer: PByteArray;
     FDataString: AnsiString;
-    FBiosInfo: TBiosInfo;
-    FSysInfo: TSysInfo;
-    FBaseBoardInfo: TBaseBoardInfo;
-    FEnclosureInfo: TEnclosureInfo;
+    FBiosInfo: TArray<TBiosInfo>;
+    FSysInfo: TArray<TSysInfo>;
+    FBaseBoardInfo: TArray<TBaseBoardInfo>;
+    FEnclosureInfo: TArray<TEnclosureInfo>;
     FProcessorInfo: TProcessorInfo;
-    FBiosInfoIndex: Integer;
-    FSysInfoIndex: Integer;
-    FBaseBoardInfoIndex: Integer;
-    FEnclosureInfoIndex: Integer;
     FProcessorInfoIndex: Integer;
     FDmiRevision: Integer;
     FSmbiosMajorVersion: Integer;
@@ -504,28 +519,29 @@ type
     destructor Destroy; override;
 
     function SearchSMBiosTable(TableType: TSMBiosTablesTypes): integer;
-    function GetSMBiosTableIndex(TableType: TSMBiosTablesTypes): integer;
+    function GetSMBiosTableNextIndex(TableType: TSMBiosTablesTypes;Offset:Integer=0): integer;
+    function GetSMBiosTableEntries(TableType: TSMBiosTablesTypes): integer;
+
     function GetSMBiosString(Entry, Index: integer): AnsiString;
 
     property Size: integer read FSize;
-    property Buffer: PByteArray read FBuffer;
+     property Buffer: PByteArray read FBuffer;
     property DataString: AnsiString read FDataString;
     property DmiRevision: Integer read FDmiRevision;
     property SmbiosMajorVersion : Integer read FSmbiosMajorVersion;
     property SmbiosMinorVersion : Integer read FSmbiosMinorVersion;
     property SMBiosTablesList : TList<TSMBiosTableEntry> read FSMBiosTablesList;
 
-    property BiosInfo: TBiosInfo read FBiosInfo Write FBiosInfo;
-    property BiosInfoIndex: Integer read FBiosInfoIndex Write FBiosInfoIndex;
+    property BiosInfo: TArray<TBiosInfo> read FBiosInfo;
     property HasBiosInfo : Boolean read GetHasBiosInfo;
-    property SysInfo: TSysInfo read FSysInfo Write FSysInfo;
-    property SysInfoIndex: Integer read FSysInfoIndex Write FSysInfoIndex;
+
+    property SysInfo: TArray<TSysInfo> read FSysInfo Write FSysInfo;
     property HasSysInfo : Boolean read GetHasSysInfo;
-    property BaseBoardInfo: TBaseBoardInfo read FBaseBoardInfo write FBaseBoardInfo;
-    property BaseBoardInfoIndex: Integer read FBaseBoardInfoIndex Write FBaseBoardInfoIndex;
+
+    property BaseBoardInfo: TArray<TBaseBoardInfo> read FBaseBoardInfo write FBaseBoardInfo;
     property HasBaseBoardInfo : Boolean read GetHasBaseBoardInfo;
-    property EnclosureInfo: TEnclosureInfo read FEnclosureInfo write FEnclosureInfo;
-    property EnclosureInfoIndex: Integer read FEnclosureInfoIndex Write FEnclosureInfoIndex;
+
+    property EnclosureInfo: TArray<TEnclosureInfo> read FEnclosureInfo write FEnclosureInfo;
     property HasEnclosureInfo : Boolean read GetHasEnclosureInfo;
 
     property ProcessorInfo: TProcessorInfo read FProcessorInfo write FProcessorInfo;
@@ -556,6 +572,7 @@ begin
   Inherited;
   FBuffer := nil;
   FSMBiosTablesList:=nil;
+  FBiosInfo:=nil;
   LoadSMBIOS;
   ReadSMBiosTables;
 end;
@@ -568,12 +585,13 @@ begin
   if Assigned(FSMBiosTablesList) then
     FSMBiosTablesList.Free;
 
+  SetLength(FBiosInfo, 0);
   Inherited;
 end;
 
 function TSMBios.GetHasBaseBoardInfo: Boolean;
 begin
-  Result:=FBaseBoardInfoIndex>=0;
+  Result:=Length(FBaseBoardInfo)>0;
 end;
 
 function TSMBios.GetHasBatteryInfo: Boolean;
@@ -583,12 +601,12 @@ end;
 
 function TSMBios.GetHasBiosInfo: Boolean;
 begin
-  Result:=FBiosInfoIndex>=0;
+  Result:=Length(FBiosInfo)>0;
 end;
 
 function TSMBios.GetHasEnclosureInfo: Boolean;
 begin
-  Result:=FEnclosureInfoIndex>=0;
+  Result:=Length(FEnclosureInfo)>0;
 end;
 
 function TSMBios.GetHasMemoryDeviceInfo: Boolean;
@@ -603,7 +621,7 @@ end;
 
 function TSMBios.GetHasSysInfo: Boolean;
 begin
-  Result:=FSysInfoIndex>=0;
+  Result:=Length(FSysInfo)>0;
 end;
 
 function TSMBios.SearchSMBiosTable(TableType: TSMBiosTablesTypes): integer;
@@ -660,13 +678,23 @@ begin
   end;
 end;
 
-function TSMBios.GetSMBiosTableIndex(TableType: TSMBiosTablesTypes): integer;
+function TSMBios.GetSMBiosTableEntries(TableType: TSMBiosTablesTypes): integer;
+Var
+ Entry : TSMBiosTableEntry;
+begin
+ Result:=0;
+  for Entry in FSMBiosTablesList do
+    if Entry.Header.TableType=Ord(TableType)  then
+      Result:=Result+1;
+end;
+
+function TSMBios.GetSMBiosTableNextIndex(TableType: TSMBiosTablesTypes;Offset:Integer=0): integer;
 Var
  Entry : TSMBiosTableEntry;
 begin
  Result:=-1;
   for Entry in FSMBiosTablesList do
-    if Entry.Header.TableType=Ord(TableType)  then
+    if (Entry.Header.TableType=Ord(TableType)) and (Entry.Index>Offset)  then
     begin
       Result:=Entry.Index;
       Break;
@@ -750,35 +778,97 @@ begin;
 end;
 
 procedure TSMBios.ReadSMBiosTables;
+var
+ LIndex, i :  Integer;
 begin
-  FBiosInfoIndex := GetSMBiosTableIndex(BIOSInformation);
-  if FBiosInfoIndex >= 0 then
-    Move(Buffer[FBiosInfoIndex], FBiosInfo, SizeOf(FBiosInfo));
+  SetLength(FBiosInfo, GetSMBiosTableEntries(BIOSInformation));
+  i:=0;
+  LIndex:=0;
+  repeat
+    LIndex := GetSMBiosTableNextIndex(BIOSInformation, LIndex);
+    if LIndex >= 0 then
+    begin
+      Move(Buffer[LIndex], FBiosInfo[i], SizeOf(TBiosInfo)- SizeOf(FBiosInfo[i].LocalIndex));
+      FBiosInfo[i].LocalIndex:=LIndex;
+      Inc(i);
+    end;
+  until (LIndex=-1);
 
-  FSysInfoIndex := GetSMBiosTableIndex(SystemInformation);
-  if FSysInfoIndex >= 0 then
-    Move(Buffer[FSysInfoIndex], FSysInfo, SizeOf(FSysInfo));
+  SetLength(FSysInfo, GetSMBiosTableEntries(SystemInformation));
+  i:=0;
+  LIndex:=0;
+  repeat
+    LIndex := GetSMBiosTableNextIndex(SystemInformation, LIndex);
+    if LIndex >= 0 then
+    begin
+      Move(Buffer[LIndex], FSysInfo[i], SizeOf(TSysInfo)- SizeOf(FSysInfo[i].LocalIndex));
+      FSysInfo[i].LocalIndex:=LIndex;
+      Inc(i);
+    end;
+  until (LIndex=-1);
 
-  FBaseBoardInfoIndex := GetSMBiosTableIndex(BaseBoardInformation);
-  if FBaseBoardInfoIndex >= 0 then
-    Move(Buffer[FBaseBoardInfoIndex], FBaseBoardInfo, SizeOf(FBaseBoardInfo));
+  SetLength(FBaseBoardInfo, GetSMBiosTableEntries(BaseBoardInformation));
+  i:=0;
+  LIndex:=0;
+  repeat
+    LIndex := GetSMBiosTableNextIndex(BaseBoardInformation, LIndex);
+    if LIndex >= 0 then
+    begin
+      Move(Buffer[LIndex], FBaseBoardInfo[i], SizeOf(TBaseBoardInfo)- SizeOf(FBaseBoardInfo[i].LocalIndex));
+      FBaseBoardInfo[i].LocalIndex:=LIndex;
+      Inc(i);
+    end;
+  until (LIndex=-1);
 
-  FEnclosureInfoIndex := GetSMBiosTableIndex(EnclosureInformation);
-  if FEnclosureInfoIndex >= 0 then
-    Move(Buffer[FEnclosureInfoIndex], FEnclosureInfo, SizeOf(FEnclosureInfo));
+  SetLength(FEnclosureInfo, GetSMBiosTableEntries(EnclosureInformation));
+  i:=0;
+  LIndex:=0;
+  repeat
+    LIndex := GetSMBiosTableNextIndex(EnclosureInformation, LIndex);
+    if LIndex >= 0 then
+    begin
+      Move(Buffer[LIndex], FEnclosureInfo[i], SizeOf(TEnclosureInfo)- SizeOf(FEnclosureInfo[i].LocalIndex));
+      FEnclosureInfo[i].LocalIndex:=LIndex;
+      Inc(i);
+    end;
+  until (LIndex=-1);
 
-  FProcessorInfoIndex := GetSMBiosTableIndex(ProcessorInformation);
+
+  FProcessorInfoIndex := GetSMBiosTableNextIndex(ProcessorInformation);
   if FProcessorInfoIndex >= 0 then
     Move(Buffer[FProcessorInfoIndex], FProcessorInfo, SizeOf(FProcessorInfo));
 
 
-  FBatteryInfoIndex := GetSMBiosTableIndex(PortableBattery);
+  FBatteryInfoIndex := GetSMBiosTableNextIndex(PortableBattery);
   if FBatteryInfoIndex >= 0 then
     Move(Buffer[FBatteryInfoIndex], FBatteryInfo, SizeOf(FBatteryInfo));
 
-  FMemoryDeviceIndex := GetSMBiosTableIndex(MemoryDevice);
+  FMemoryDeviceIndex := GetSMBiosTableNextIndex(MemoryDevice);
   if FMemoryDeviceIndex >= 0 then
     Move(Buffer[FMemoryDeviceIndex], FMemoryDevice, SizeOf(FMemoryDevice));
+end;
+
+{ TBaseBoardInfo }
+
+function TBaseBoardInfo.BoardTypeStr: AnsiString;
+begin
+   case Self.BoardType of
+    $01 : result:='Unknown';
+    $02 : result:='Other';
+    $03 : result:='Server Blade';
+    $04 : result:='Connectivity Switch';
+    $05 : result:='System Management Module';
+    $06 : result:='Processor Module';
+    $07 : result:='I/O Module';
+    $08 : result:='Memory Module';
+    $09 : result:='Daughter board';
+    $0A : result:='Motherboard (includes processor, memory, and I/O)';
+    $0B : result:='Processor/Memory Module';
+    $0C : result:='Processor/IO Module';
+    $0D : result:='Interconnect Board'
+    else
+    result:='Unknown';
+   end;
 end;
 
 end.
