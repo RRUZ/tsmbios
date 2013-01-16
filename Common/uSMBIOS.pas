@@ -44,8 +44,8 @@ type
     BaseBoardInformation = 2,
     EnclosureInformation = 3,
     ProcessorInformation = 4,
-    MemoryControllerInformation = 5,
-    MemoryModuleInformation = 6,
+    MemoryControllerInformation = 5, //Obsolete starting with version 2.1
+    MemoryModuleInformation = 6,     //Obsolete starting with version 2.1
     CacheInformation = 7,
     PortConnectorInformation = 8,
     SystemSlotsInformation = 9,
@@ -897,31 +897,350 @@ type
     ///	</summary>
     {$ENDREGION}
     function  PowerSupplyStateStr : string;
-
   end;
 
+   TCacheInfo = packed record
+    Header: TSmBiosTableHeader;
+    SocketDesignation: Byte;
+    CacheConfiguration: DWORD;
+    MaximumCacheSize: Word;
+    InstalledSize: Word;
+    SupportedSRAMType: Word;
+    CurrentSRAMType: Word;
+    CacheSpeed: Byte;
+    ErrorCorrectionType: Byte;
+    SystemCacheType: Byte;
+    Associativity: Byte;
+    //helper fields and methods, not part of the SMBIOS spec.
+    LocalIndex : Word;
+  end;
+
+  {$REGION 'Documentation'}
+  ///	<summary>
+  ///	  <para>
+  ///	    The information in this structure (see Table 20) defines the
+  ///	    attributes of a single processor; a separate structure instance is
+  ///	    provided for each system processor socket/slot. For example, a system
+  ///	    with an IntelDX2™ processor would have a single structure instance
+  ///	    while a system with an IntelSX2™ processor would have a structure to
+  ///	    describe the main CPU and a second structure to describe the 80487
+  ///	    co892 processor.
+  ///	  </para>
+  ///	  <para>
+  ///
+  ///	    <b>NOTE: One structure is provided for each processor instance in a system. For example, a system that supports up to two processors includes two Processor Information structures — even if only one processor is currently installed. Software that interprets the SMBIOS information can count the Processor Information structures to determine the maximum possible configuration of the system.</b>
+  ///	  </para>
+  ///	</summary>
+  {$ENDREGION}
   TProcessorInfo = packed record
     Header: TSmBiosTableHeader;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  String number for Reference Designation EXAMPLE: ‘J202’,0
+    ///	</summary>
+    {$ENDREGION}
     SocketDesignation: Byte;
     ProcessorType: Byte;
     ProcessorFamily: Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  String number of Processor Manufacturer
+    ///	</summary>
+    {$ENDREGION}
     ProcessorManufacturer: Byte;
-    ProcessorID: Int64; // QWORD;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  <para>
+    ///	    Raw processor identification data.
+    ///	  </para>
+    ///	  <para>
+    ///	    The Processor ID field contains processor-specific information that
+    ///	    describes the processor’s features. x86-Class CPUs For x86 class
+    ///	    CPUs, the field’s format depends on the processor’s support of the
+    ///	    CPUID instruction. If the instruction is supported, the Processor
+    ///	    ID field contains two DWORD-formatted values. The first (offsets
+    ///	    08h-0Bh) is the EAX value returned by a CPUID instruction with
+    ///	    input EAX set to 1; the second (offsets 0Ch-0Fh) is the EDX value
+    ///	    returned by that instruction. Otherwise, only the first two bytes
+    ///	    of the Processor ID field are significant (all others are set to 0)
+    ///	    and contain (in WORD-format) the contents of the DX register at CPU
+    ///	    reset.
+    ///	  </para>
+    ///	</summary>
+    {$ENDREGION}
+    ProcessorID : Int64; // QWORD;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  String number describing the Processor
+    ///	</summary>
+    {$ENDREGION}
     ProcessorVersion: Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Two forms of information can be specified by the SMBIOS in this
+    ///	  field, dependent on the value present in bit 7 (the most-significant
+    ///	  bit). If bit 7 is 0 (legacy mode), the remaining bits of the field
+    ///	  represent the specific voltages that the processor socket can accept.
+    ///	</summary>
+    {$ENDREGION}
     Voltaje: Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  External Clock Frequency, in MHz. If the value is unknown, the field
+    ///	  is set to 0.
+    ///	</summary>
+    {$ENDREGION}
     ExternalClock: Word;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  <para>
+    ///	    Maximum processor speed (in MHz) supported by the system for this
+    ///	    processor socket. 0E9h for a 233 MHz processor. If the value is
+    ///	    unknown, the field is set to 0.
+    ///	  </para>
+    ///	  <para>
+    ///
+    ///	    <b>NOTE: This field identifies a capability for the system, not the processor itself.</b>
+    ///	  </para>
+    ///	</summary>
+    {$ENDREGION}
     MaxSpeed: Word;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  <para>
+    ///	    Same format as Max Speed
+    ///	  </para>
+    ///	  <para>
+    ///
+    ///	    <b>NOTE: This field identifies the processor's speed at system boot, and the Processor ID field implies the processor's additional speed characteristics (that is, single speed or multiple speed).</b>
+    ///	  </para>
+    ///	</summary>
+    {$ENDREGION}
     CurrentSpeed: Word;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  <para>
+    ///	    Bit 7 Reserved, must be zero
+    ///	  </para>
+    ///	  <para>
+    ///	    Bit 6 CPU Socket Populated 1 – CPU Socket Populated 0 – CPU Socket
+    ///	    Unpopulated
+    ///	  </para>
+    ///	  <para>
+    ///	    Bits 5:3 Reserved, must be zero
+    ///	  </para>
+    ///	  <para>
+    ///	    Bits 2:0 CPU Status
+    ///	  </para>
+    ///	  <list type="bullet">
+    ///	    <item>
+    ///	      0h – Unknown
+    ///	    </item>
+    ///	    <item>
+    ///	      1h – CPU Enabled
+    ///	    </item>
+    ///	    <item>
+    ///	      2h – CPU Disabled by User through BIOS Setup
+    ///	    </item>
+    ///	    <item>
+    ///	      3h – CPU Disabled By BIOS (POST Error)
+    ///	    </item>
+    ///	    <item>
+    ///	      4h – CPU is Idle, waiting to be enabled.
+    ///	    </item>
+    ///	    <item>
+    ///	      5-6h – Reserved
+    ///	    </item>
+    ///	    <item>
+    ///	      7h – Other
+    ///	    </item>
+    ///	  </list>
+    ///	</summary>
+    {$ENDREGION}
     Status: Byte;
     ProcessorUpgrade: Byte;
-    L1CacheHandler: Word;
-    L2CacheHandler: Word;
-    L3CacheHandler: Word;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The handle of a Cache Information structure that defines the
+    ///	  attributes of the primary (Level 1) cache for this processor. For
+    ///	  version 2.1 and version 2.2 implementations, the value is 0FFFFh if
+    ///	  the processor has no L1 cache. For version 2.3 and later
+    ///	  implementations, the value is 0FFFFh if the Cache Information
+    ///	  structure is not provided.
+    ///	</summary>
+    {$ENDREGION}
+    L1CacheHandle: Word;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The handle of a Cache Information structure that defines the
+    ///	  attributes of the secondary (Level 2) cache for this processor. For
+    ///	  version 2.1 and version 2.2 implementations, the value is 0FFFFh if
+    ///	  the processor has no L2 cache. For version 2.3 and later
+    ///	  implementations, the value is 0FFFFh if the Cache Information
+    ///	  structure is not provided.
+    ///	</summary>
+    {$ENDREGION}
+    L2CacheHandle: Word;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The handle of a Cache Information structure that defines the
+    ///	  attributes of the tertiary (Level 3) cache for this processor. For
+    ///	  version 2.1 and version 2.2 implementations, the value is 0FFFFh if
+    ///	  the processor has no L3 cache. For version 2.3 and later
+    ///	  implementations, the value is 0FFFFh if the Cache Information
+    ///	  structure is not provided.
+    ///	</summary>
+    {$ENDREGION}
+    L3CacheHandle: Word;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  String number for the serial number of this processor. This value is
+    ///	  set by the manufacturer and normally not changeable.
+    ///	</summary>
+    {$ENDREGION}
     SerialNumber: Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  String number for the asset tag of this processor.
+    ///	</summary>
+    {$ENDREGION}
     AssetTag: Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  String number for the part number of this processor. This value is
+    ///	  set by the manufacturer and normally not changeable.
+    ///	</summary>
+    {$ENDREGION}
     PartNumber: Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  <para>
+    ///	    Number of cores per processor socket. If the value is unknown, the
+    ///	    field is set to 0.
+    ///	  </para>
+    ///	  <para>
+    ///	    Core Count is the number of cores detected by the BIOS for this
+    ///	    processor socket. It does not necessarily indicate the full
+    ///	    capability of the processor. For example, platform hardware may
+    ///	    have the capability to limit the number of cores reported by the
+    ///	    processor without BIOS intervention or knowledge. For a dual940
+    ///	    processor installed in a platform where the hardware is set to
+    ///	    limit it to one core, the BIOS reports a value of 1 in Core Count.
+    ///	    For a dual-core processor with multi-core support disabled by BIOS,
+    ///	    the BIOS reports a value of 2 in Core Count.
+    ///	  </para>
+    ///	</summary>
+    {$ENDREGION}
+    CoreCount : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  <para>
+    ///	    Number of enabled cores per processor socket. If the value is
+    ///	    unknown, the field is set 0.
+    ///	  </para>
+    ///	  <para>
+    ///	    Core Enabled is the number of cores that are enabled by the BIOS
+    ///	    and available for Operating System use. For example, if the BIOS
+    ///	    detects a dual-core processor, it would report a value of 2 if it
+    ///	    leaves both cores enabled, and it would report a value of 1 if it
+    ///	    disables multi-core support.
+    ///	  </para>
+    ///	</summary>
+    {$ENDREGION}
+    CoreEnabled : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  <para>
+    ///	    Number of threads per processor socket. If the value is unknown,
+    ///	    the field is set to 0.
+    ///	  </para>
+    ///	  <para>
+    ///	    Thread Count is the total number of threads detected by the BIOS
+    ///	    for this processor socket. It is a processor-wide count, not a
+    ///	    thread-per-core count. It does not necessarily indicate the full
+    ///	    capability of the processor. For example, platform hardware may
+    ///	    have the capability to limit the number of threads reported by the
+    ///	    processor without BIOS intervention or knowledge. For a dual-thread
+    ///	    processor installed in a platform where the hardware is set to
+    ///	    limit it to one thread, the BIOS reports a value of 1 in Thread
+    ///	    Count. For a dual-thread processor with multi-threading disabled by
+    ///	    BIOS, the BIOS reports a value of 2 in Thread Count. For a
+    ///	    dual-core, dual-thread-per-core processor, the BIOS reports a value
+    ///	    of 4 in Thread Count.
+    ///	  </para>
+    ///	</summary>
+    {$ENDREGION}
+    ThreadCount : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Defines which functions the processor supports.
+    ///	</summary>
+    {$ENDREGION}
+    ProcessorCharacteristics : Word;
+    ProcessorFamily2 : Word;
     //helper fields and methods, not part of the SMBIOS spec.
     LocalIndex : Word;
+    FBuffer: PByteArray;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the ProcessorManufacturer property
+    ///	</summary>
+    {$ENDREGION}
+    function  ProcessorManufacturerStr: string;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the SocketDesignation property
+    ///	</summary>
+    {$ENDREGION}
+    function  SocketDesignationStr: string;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the description of the ProcessorType field.
+    ///	</summary>
+    {$ENDREGION}
+    function  ProcessorTypeStr: string;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the description for the ProcessorFamily and ProcessorFamily2 fields.
+    ///	</summary>
+    {$ENDREGION}
+    function  ProcessorFamilyStr: string;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the ProcessorVersion property
+    ///	</summary>
+    {$ENDREGION}
+    function  ProcessorVersionStr: string;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the  Voltaje of the Processor
+    ///	</summary>
+    {$ENDREGION}
+    function  GetProcessorVoltaje : Double;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the description  of the ProcessorUpgrade field
+    ///	</summary>
+    {$ENDREGION}
+    function  ProcessorUpgradeStr: string;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the SerialNumber field
+    ///	</summary>
+    {$ENDREGION}
+    function  SerialNumberStr: string;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the AssetTag field
+    ///	</summary>
+    {$ENDREGION}
+    function  AssetTagStr: string;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the PartNumber field
+    ///	</summary>
+    {$ENDREGION}
+    function  PartNumberStr: string;
   end;
 
   TBatteryInfo = packed record
@@ -945,21 +1264,7 @@ type
     LocalIndex : Word;
   end;
 
-  TCacheInfo = packed record
-    Header: TSmBiosTableHeader;
-    SocketDesignation: Byte;
-    CacheConfiguration: DWORD;
-    MaximumCacheSize: Word;
-    InstalledSize: Word;
-    SupportedSRAMType: Word;
-    CurrentSRAMType: Word;
-    CacheSpeed: Byte;
-    ErrorCorrectionType: Byte;
-    SystemCacheType: Byte;
-    Associativity: Byte;
-    //helper fields and methods, not part of the SMBIOS spec.
-    LocalIndex : Word;
-  end;
+
 
   //Incomplete
   TMemoryDevice   = packed record
@@ -990,8 +1295,7 @@ type
     FSysInfo: TArray<TSysInfo>;
     FBaseBoardInfo: TArray<TBaseBoardInfo>;
     FEnclosureInfo: TArray<TEnclosureInfo>;
-    FProcessorInfo: TProcessorInfo;
-    FProcessorInfoIndex: Integer;
+    FProcessorInfo: TArray<TProcessorInfo>;
     FDmiRevision: Integer;
     FSmbiosMajorVersion: Integer;
     FSmbiosMinorVersion: Integer;
@@ -1040,8 +1344,7 @@ type
     property EnclosureInfo: TArray<TEnclosureInfo> read FEnclosureInfo write FEnclosureInfo;
     property HasEnclosureInfo : Boolean read GetHasEnclosureInfo;
 
-    property ProcessorInfo: TProcessorInfo read FProcessorInfo write FProcessorInfo;
-    property ProcessorInfoIndex: Integer read FProcessorInfoIndex Write FProcessorInfoIndex;
+    property ProcessorInfo: TArray<TProcessorInfo> read FProcessorInfo write FProcessorInfo;
     property HasProcessorInfo : Boolean read GetHasProcessorInfo;
 
     property BatteryInfo: TBatteryInfo read FBatteryInfo write FBatteryInfo;
@@ -1091,6 +1394,10 @@ begin
   FBuffer := nil;
   FSMBiosTablesList:=nil;
   FBiosInfo:=nil;
+  FSysInfo:=nil;
+  FBaseBoardInfo:=nil;
+  FEnclosureInfo:=nil;
+  FProcessorInfo:=nil;
   LoadSMBIOS;
   ReadSMBiosTables;
 end;
@@ -1104,6 +1411,10 @@ begin
     FSMBiosTablesList.Free;
 
   SetLength(FBiosInfo, 0);
+  SetLength(FSysInfo, 0);
+  SetLength(FBaseBoardInfo, 0);
+  SetLength(FEnclosureInfo, 0);
+  SetLength(FProcessorInfo, 0);
   Inherited;
 end;
 
@@ -1134,7 +1445,7 @@ end;
 
 function TSMBios.GetHasProcessorInfo: Boolean;
 begin
-  Result:=FProcessorInfoIndex>=0;
+  Result:=Length(FProcessorInfo)>0;
 end;
 
 function TSMBios.GetHasSysInfo: Boolean;
@@ -1375,9 +1686,19 @@ begin
   until (LIndex=-1);
 
 
-  FProcessorInfoIndex := GetSMBiosTableNextIndex(ProcessorInformation);
-  if FProcessorInfoIndex >= 0 then
-    Move(Buffer[FProcessorInfoIndex], FProcessorInfo, SizeOf(FProcessorInfo));
+  SetLength(FProcessorInfo, GetSMBiosTableEntries(ProcessorInformation));
+  i:=0;
+  LIndex:=0;
+  repeat
+    LIndex := GetSMBiosTableNextIndex(ProcessorInformation, LIndex);
+    if LIndex >= 0 then
+    begin
+      Move(Buffer[LIndex], FProcessorInfo[i], SizeOf(TProcessorInfo)- SizeOf(FProcessorInfo[i].LocalIndex)- SizeOf(FProcessorInfo[i].FBuffer));
+      FProcessorInfo[i].LocalIndex:=LIndex;
+      FProcessorInfo[i].FBuffer   :=FBuffer;
+      Inc(i);
+    end;
+  until (LIndex=-1);
 
   FBatteryInfoIndex := GetSMBiosTableNextIndex(PortableBattery);
   if FBatteryInfoIndex >= 0 then
@@ -1580,6 +1901,361 @@ end;
 function TEnclosureInfo.VersionStr: string;
 begin
   Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.Version);
+end;
+
+{ TProcessorInfo }
+
+function TProcessorInfo.AssetTagStr: string;
+begin
+  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.AssetTag);
+end;
+
+function TProcessorInfo.GetProcessorVoltaje: Double;
+var
+  _Voltaje : Byte;
+begin
+  Result:=0;
+   _Voltaje:=Self.Voltaje;
+  if GetBit(_Voltaje, 7) then
+  begin
+    _Voltaje:=EnableBit(_Voltaje,7, False);
+    Result:=(_Voltaje*1.0)/10.0;
+  end
+  else
+  begin
+   {
+   Bit 0 – 5V
+   Bit 1 – 3.3V
+   Bit 2 – 2.9V
+   }
+   if GetBit(_Voltaje, 0) then
+    Result:=5
+   else
+   if GetBit(_Voltaje, 1) then
+    Result:=3.3
+   else
+   if GetBit(_Voltaje, 2) then
+    Result:=2.9;
+  end;
+end;
+
+function TProcessorInfo.PartNumberStr: string;
+begin
+  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.PartNumber);
+end;
+
+function TProcessorInfo.ProcessorFamilyStr: string;
+begin
+   if Self.ProcessorFamily2<$FF then
+   case Self.ProcessorFamily of
+      1 : Result:='Other';
+      2 : Result:='Unknown';
+      3 : Result:='8086';
+      4 : Result:='80286';
+      5 : Result:='Intel386™ processor';
+      6 : Result:='Intel486™ processor';
+      7 : Result:='8087';
+      8 : Result:='80287';
+      9 : Result:='80387';
+      10 : Result:='80487';
+      11 : Result:='Intel® Pentium® processor';
+      12 : Result:='Pentium® Pro processor';
+      13 : Result:='Pentium® II processor';
+      14 : Result:='Pentium® processor with MMX™ technology';
+      15 : Result:='Intel® Celeron® processor';
+      16 : Result:='Pentium® II Xeon™ processor';
+      17 : Result:='Pentium® III processor';
+      18 : Result:='M1 Family';
+      19 : Result:='M2 Family';
+      20 : Result:='Intel® Celeron® M processor';
+      21 : Result:='Intel® Pentium® 4 HT processor';
+      22..23 : Result:='Available for assignment';
+      24 : Result:='AMD Duron™ Processor Family';
+      25 : Result:='K5 Family';
+      26 : Result:='K6 Family';
+      27 : Result:='K6-2';
+      28 : Result:='K6-3';
+      29 : Result:='AMD Athlon™ Processor Family';
+      30 : Result:='AMD29000 Family';
+      31 : Result:='K6-2+';
+      32 : Result:='Power PC Family';
+      33 : Result:='Power PC 601';
+      34 : Result:='Power PC 603';
+      35 : Result:='Power PC 603+';
+      36 : Result:='Power PC 604';
+      37 : Result:='Power PC 620';
+      38 : Result:='Power PC x704';
+      39 : Result:='Power PC 750';
+      40 : Result:='Intel® Core™ Duo processor';
+      41 : Result:='Intel® Core™ Duo mobile processor';
+      42 : Result:='Intel® Core™ Solo mobile processor';
+      43 : Result:='Intel® Atom™ processor';
+      44..47 : Result:='Available for assignment';
+      48 : Result:='Alpha Family';
+      49 : Result:='Alpha 21064';
+      50 : Result:='Alpha 21066';
+      51 : Result:='Alpha 21164';
+      52 : Result:='Alpha 21164PC';
+      53 : Result:='Alpha 21164a';
+      54 : Result:='Alpha 21264';
+      55 : Result:='Alpha 21364';
+      56 : Result:='AMD Turion™ II Ultra Dual-Core Mobile';
+      57 : Result:='AMD Turion™ II Dual-Core Mobile M Processor';
+      58 : Result:='AMD Athlon™ II Dual-Core M Processor';
+      59 : Result:='AMD Opteron™ 6100 Series Processor';
+      60 : Result:='AMD Opteron™ 4100 Series Processor';
+      61 : Result:='AMD Opteron™ 6200 Series Processor';
+      62 : Result:='AMD Opteron™ 4200 Series Processor';
+      63 : Result:='Available for assignment';
+      64 : Result:='MIPS Family';
+      65 : Result:='MIPS R4000';
+      66 : Result:='MIPS R4200';
+      67 : Result:='MIPS R4400';
+      68 : Result:='MIPS R4600';
+      69 : Result:='MIPS R10000';
+      70 : Result:='AMD C-Series Processor';
+      71 : Result:='AMD E-Series Processor';
+      72 : Result:='AMD S-Series Processor';
+      73 : Result:='AMD G-Series Processor';
+      74..79 : Result:='Available for assignment';
+      80 : Result:='SPARC Family';
+      81 : Result:='SuperSPARC';
+      82 : Result:='microSPARC II';
+      83 : Result:='microSPARC IIep';
+      84 : Result:='UltraSPARC';
+      85 : Result:='UltraSPARC II';
+      86 : Result:='UltraSPARC IIi';
+      87 : Result:='UltraSPARC III';
+      88 : Result:='UltraSPARC IIIi';
+      89..95 : Result:='Available for assignment';
+      96 : Result:='68040 Family';
+      97 : Result:='68xxx';
+      98 : Result:='68000';
+      99 : Result:='68010';
+      100 : Result:='68020';
+      101 : Result:='68030';
+      102..111 : Result:='Available for assignment';
+      112 : Result:='Hobbit Family';
+      113..119 : Result:='Available for assignment';
+      120 : Result:='Crusoe™ TM5000 Family';
+      121 : Result:='Crusoe™ TM3000 Family';
+      122 : Result:='Efficeon™ TM8000 Family';
+      123..127 : Result:='Available for assignment';
+      128 : Result:='Weitek';
+      129 : Result:='Available for assignment';
+      130 : Result:='Itanium™ processor';
+      131 : Result:='AMD Athlon™ 64 Processor Family';
+      132 : Result:='AMD Opteron™ Processor Family';
+      133 : Result:='AMD Sempron™ Processor Family';
+      134 : Result:='AMD Turion™ 64 Mobile Technology';
+      135 : Result:='Dual-Core AMD Opteron™ Processor';
+      136 : Result:='AMD Athlon™ 64 X2 Dual-Core Processor';
+      137 : Result:='AMD Turion™ 64 X2 Mobile Technology';
+      138 : Result:='Quad-Core AMD Opteron™ Processor';
+      139 : Result:='Third-Generation AMD Opteron™';
+      140 : Result:='AMD Phenom™ FX Quad-Core Processor';
+      141 : Result:='AMD Phenom™ X4 Quad-Core Processor';
+      142 : Result:='AMD Phenom™ X2 Dual-Core Processor';
+      143 : Result:='AMD Athlon™ X2 Dual-Core Processor';
+      144 : Result:='PA-RISC Family';
+      145 : Result:='PA-RISC 8500';
+      146 : Result:='PA-RISC 8000';
+      147 : Result:='PA-RISC 7300LC';
+      148 : Result:='PA-RISC 7200';
+      149 : Result:='PA-RISC 7100LC';
+      150 : Result:='PA-RISC 7100';
+      151..159 : Result:='Available for assignment';
+      160 : Result:='V30 Family';
+      161 : Result:='Quad-Core Intel® Xeon® processor 3200 Series';
+      162 : Result:='Dual-Core Intel® Xeon® processor 3000 Series';
+      163 : Result:='Quad-Core Intel® Xeon® processor 5300 Series';
+      164 : Result:='Dual-Core Intel® Xeon® processor 5100 Series';
+      165 : Result:='Dual-Core Intel® Xeon® processor 5000 Series';
+      166 : Result:='Dual-Core Intel® Xeon® processor LV';
+      167 : Result:='Dual-Core Intel® Xeon® processor ULV';
+      168 : Result:='Dual-Core Intel® Xeon® processor';
+      169 : Result:='Quad-Core Intel® Xeon® processor';
+      170 : Result:='Quad-Core Intel® Xeon® processor';
+      171 : Result:='Dual-Core Intel® Xeon® processor';
+      172 : Result:='Dual-Core Intel® Xeon® processor';
+      173 : Result:='Quad-Core Intel® Xeon® processor';
+      174 : Result:='Quad-Core Intel® Xeon® processor';
+      175 : Result:='Multi-Core Intel® Xeon® processor';
+      176 : Result:='Pentium® III Xeon™ processor';
+      177 : Result:='Pentium® III Processor with Intel';
+      178 : Result:='Pentium® 4 Processor';
+      179 : Result:='Intel® Xeon® processor';
+      180 : Result:='AS400 Family';
+      181 : Result:='Intel® Xeon™ processor MP';
+      182 : Result:='AMD Athlon™ XP Processor Family';
+      183 : Result:='AMD Athlon™ MP Processor Family';
+      184 : Result:='Intel® Itanium® 2 processor';
+      185 : Result:='Intel® Pentium® M processor';
+      186 : Result:='Intel® Celeron® D processor';
+      187 : Result:='Intel® Pentium® D processor';
+      188 : Result:='Intel® Pentium® Processor Extreme';
+      189 : Result:='Intel® Core™ Solo Processor';
+      190 : Result:='Reserved';
+      191 : Result:='Intel® Core™ 2 Duo Processor';
+      192 : Result:='Intel® Core™ 2 Solo processor';
+      193 : Result:='Intel® Core™ 2 Extreme processor';
+      194 : Result:='Intel® Core™ 2 Quad processor';
+      195 : Result:='Intel® Core™ 2 Extreme mobile';
+      196 : Result:='Intel® Core™ 2 Duo mobile processor';
+      197 : Result:='Intel® Core™ 2 Solo mobile processor';
+      198 : Result:='Intel® Core™ i7 processor';
+      199 : Result:='Dual-Core Intel® Celeron® processor';
+      200 : Result:='IBM390 Family';
+      201 : Result:='G4';
+      202 : Result:='G5';
+      203 : Result:='ESA/390 G6';
+      204 : Result:='z/Architectur base';
+      205 : Result:='Intel® Core™ i5 processor';
+      206 : Result:='Intel® Core™ i3 processor';
+      207..209 : Result:='Available for assignment';
+      210 : Result:='VIA C7™-M Processor Family';
+      211 : Result:='VIA C7™-D Processor Family';
+      212 : Result:='VIA C7™ Processor Family';
+      213 : Result:='VIA Eden™ Processor Family';
+      214 : Result:='Multi-Core Intel® Xeon® processor';
+      215 : Result:='Dual-Core Intel® Xeon® processor 3xxx Series';
+      216 : Result:='Quad-Core Intel® Xeon® processor 3xxx Series';
+      217 : Result:='VIA Nano™ Processor Family';
+      218 : Result:='Dual-Core Intel® Xeon® processor 5xxx Series';
+      219 : Result:='Quad-Core Intel® Xeon® processor 5xxx Series';
+      220 : Result:='Available for assignment';
+      221 : Result:='Dual-Core Intel® Xeon® processor 7xxx Series';
+      222 : Result:='Quad-Core Intel® Xeon® processor 7xxx Series';
+      223 : Result:='Multi-Core Intel® Xeon® processor 7xxx Series';
+      224 : Result:='Multi-Core Intel® Xeon® processor 3400 Series';
+      225..229 : Result:='Available for assignment';
+      230 : Result:='Embedded AMD Opteron™ Quad-Core Processor Family';
+      231 : Result:='AMD Phenom™ Triple-Core Processor Family';
+      232 : Result:='AMD Turion™ Ultra Dual-Core Mobile Processor Family';
+      233 : Result:='AMD Turion™ Dual-Core Mobile Processor Family';
+      234 : Result:='AMD Athlon™ Dual-Core Processor Family';
+      235 : Result:='AMD Sempron™ SI Processor Family';
+      236 : Result:='AMD Phenom™ II Processor Family';
+      237 : Result:='AMD Athlon™ II Processor Family';
+      238 : Result:='Six-Core AMD Opteron™ Processor Family';
+      239 : Result:='AMD Sempron™ M Processor Family';
+      240..249 : Result:='Available for assignment';
+      250 : Result:='i860';
+      251 : Result:='i960';
+      252..253 : Result:='Available for assignment';
+      254 : Result:='Indicator to obtain the processor family from the Processor';
+      255 : Result:='Reserved';
+   else
+     result:='Unknown';
+   end
+   else
+   case Self.ProcessorFamily2 of
+      256..259,
+      262..279,
+      282..299,
+      303..319,
+      321..349,
+      351..499,
+      501..511 : Result:='These values are available for assignment';
+      260 : Result:='SH-3';
+      261 : Result:='SH-4';
+      280 : Result:='ARM';
+      281 : Result:='StrongARM';
+      300 : Result:='6x86';
+      301 : Result:='MediaGX';
+      302 : Result:='MII';
+      320 : Result:='WinChip';
+      350 : Result:='DSP';
+      500 : Result:='Video Processor';
+      512..65533 : Result:='Available for assignment';
+      65534..65535 : Result:='Reserved'
+   else
+     result:='Unknown';
+   end;
+end;
+
+function TProcessorInfo.ProcessorManufacturerStr: string;
+begin
+  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.ProcessorManufacturer);
+end;
+
+function TProcessorInfo.ProcessorTypeStr: string;
+begin
+   case Self.ProcessorType of
+      $01 : Result:='Other';
+      $02 : Result:='Unknown';
+      $03 : Result:='Central Processor';
+      $04 : Result:='Math Processor';
+      $05 : Result:='DSP Processor';
+      $06 : Result:='Video Processor'
+      else
+      Result:='Unknown';
+   end;
+end;
+
+function TProcessorInfo.ProcessorUpgradeStr: string;
+begin
+  case Self.ProcessorUpgrade of
+    $01 : Result:='Other';
+    $02 : Result:='Unknown';
+    $03 : Result:='Daughter Board';
+    $04 : Result:='ZIF Socket';
+    $05 : Result:='Replaceable Piggy Back';
+    $06 : Result:='None';
+    $07 : Result:='LIF Socket';
+    $08 : Result:='Slot 1';
+    $09 : Result:='Slot 2';
+    $0A : Result:='370-pin socket';
+    $0B : Result:='Slot A';
+    $0C : Result:='Slot M';
+    $0D : Result:='Socket 423';
+    $0E : Result:='Socket A (Socket 462)';
+    $0F : Result:='Socket 478';
+    $10 : Result:='Socket 754';
+    $11 : Result:='Socket 940';
+    $12 : Result:='Socket 939';
+    $13 : Result:='Socket mPGA604';
+    $14 : Result:='Socket LGA771';
+    $15 : Result:='Socket LGA775';
+    $16 : Result:='Socket S1';
+    $17 : Result:='Socket AM2';
+    $18 : Result:='Socket F (1207)';
+    $19 : Result:='Socket LGA1366';
+    $1A : Result:='Socket G34';
+    $1B : Result:='Socket AM3';
+    $1C : Result:='Socket C32';
+    $1D : Result:='Socket LGA1156';
+    $1E : Result:='Socket LGA1567';
+    $1F : Result:='Socket PGA988A';
+    $20 : Result:='Socket BGA1288';
+    $21 : Result:='Socket rPGA988B';
+    $22 : Result:='Socket BGA1023';
+    $23 : Result:='Socket BGA1224';
+    $24 : Result:='Socket BGA1155';
+    $25 : Result:='Socket LGA1356';
+    $26 : Result:='Socket LGA2011';
+    $27 : Result:='Socket FS1';
+    $28 : Result:='Socket FS2';
+    $29 : Result:='Socket FM1';
+    $2A : Result:='Socket FM2'
+  else
+    Result:='Unknown';
+  end;
+end;
+
+function TProcessorInfo.ProcessorVersionStr: string;
+begin
+  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.ProcessorVersion);
+end;
+
+function TProcessorInfo.SerialNumberStr: string;
+begin
+  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.SerialNumber);
+end;
+
+function TProcessorInfo.SocketDesignationStr: string;
+begin
+  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.SocketDesignation);
 end;
 
 end.
