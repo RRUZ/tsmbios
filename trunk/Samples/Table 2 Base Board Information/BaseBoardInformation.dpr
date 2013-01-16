@@ -34,13 +34,14 @@ begin
       if SMBios.HasBaseBoardInfo then
       for BBI in SMBios.BaseBoardInfo do
       begin
-        WriteLn('Manufacter          '+SMBios.GetSMBiosString(BBI.LocalIndex  + BBI.Header.Length, BBI.Manufacturer));
-        WriteLn('Product             '+SMBios.GetSMBiosString(BBI.LocalIndex  + BBI.Header.Length, BBI.Product));
-        WriteLn('Version             '+SMBios.GetSMBiosString(BBI.LocalIndex  + BBI.Header.Length, BBI.Version));
-        WriteLn('Serial Number       '+SMBios.GetSMBiosString(BBI.LocalIndex  + BBI.Header.Length, BBI.SerialNumber));
-        WriteLn('Asset Tag           '+SMBios.GetSMBiosString(BBI.LocalIndex  + BBI.Header.Length, BBI.AssetTag));
+        //WriteLn('Manufacter          '+SMBios.GetSMBiosString(BBI.LocalIndex  + BBI.Header.Length, BBI.Manufacturer));
+        WriteLn('Manufacter          '+BBI.ManufacturerStr);
+        WriteLn('Product             '+BBI.ProductStr);
+        WriteLn('Version             '+BBI.VersionStr);
+        WriteLn('Serial Number       '+BBI.SerialNumberStr);
+        WriteLn('Asset Tag           '+BBI.AssetTagStr);
         WriteLn('Feature Flags       '+ByteToStr(BBI.FeatureFlags));
-        WriteLn('Location in Chassis '+SMBios.GetSMBiosString(BBI.LocalIndex  + BBI.Header.Length, BBI.LocationinChassis));
+        WriteLn('Location in Chassis '+BBI.LocationinChassisStr);
         WriteLn(Format('Chassis Handle      %0.4x',[BBI.ChassisHandle]));
         WriteLn(Format('Board Type          %0.2x %s',[BBI.BoardType, BBI.BoardTypeStr]));
         WriteLn('Number of Contained Object Handles '+IntToStr(BBI.NumberofContainedObjectHandles));

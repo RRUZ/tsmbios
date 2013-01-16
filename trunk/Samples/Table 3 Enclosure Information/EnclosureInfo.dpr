@@ -22,10 +22,14 @@ begin
       if SMBios.HasEnclosureInfo then
       for EI in SMBios.EnclosureInfo do
       begin
-        WriteLn('Manufacter    '+SMBios.GetSMBiosString(EI.LocalIndex + EI.Header.Length, EI.Manufacturer));
-        WriteLn('Version       '+SMBios.GetSMBiosString(EI.LocalIndex + EI.Header.Length, EI.Version));
-        WriteLn('Serial Number '+SMBios.GetSMBiosString(EI.LocalIndex + EI.Header.Length, EI.SerialNumber));
-        WriteLn('Asset Tag Number '+SMBios.GetSMBiosString(EI.LocalIndex + EI.Header.Length, EI.AssetTagNumber));
+        //WriteLn('Manufacter    '+SMBios.GetSMBiosString(EI.LocalIndex + EI.Header.Length, EI.Manufacturer));
+        WriteLn('Manufacter         '+EI.ManufacturerStr);
+        WriteLn('Version            '+EI.VersionStr);
+        WriteLn('Serial Number      '+EI.SerialNumberStr);
+        WriteLn('Asset Tag Number   '+EI.AssetTagNumberStr);
+        WriteLn('Type               '+EI.TypeStr);
+        WriteLn('Power Supply State '+EI.PowerSupplyStateStr);
+        WriteLn('BootUp State       '+EI.BootUpStateStr);
         WriteLn;
       end
       else
