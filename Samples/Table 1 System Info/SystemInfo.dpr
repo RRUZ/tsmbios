@@ -23,12 +23,15 @@ begin
       if SMBios.HasSysInfo then
       for SI in SMBios.SysInfo do
       begin
-        WriteLn('Manufacter    '+SMBios.GetSMBiosString(SI.LocalIndex + SI.Header.Length, SI.Manufacturer));
-        WriteLn('Product Name  '+SMBios.GetSMBiosString(SI.LocalIndex + SI.Header.Length, SI.ProductName));
-        WriteLn('Version       '+SMBios.GetSMBiosString(SI.LocalIndex + SI.Header.Length, SI.Version));
-        WriteLn('Serial Number '+SMBios.GetSMBiosString(SI.LocalIndex + SI.Header.Length, SI.SerialNumber));
+        //WriteLn('Manufacter    '+SMBios.GetSMBiosString(SI.LocalIndex + SI.Header.Length, SI.Manufacturer));
+        WriteLn('Manufacter    '+SI.ManufacturerStr);
+        WriteLn('Product Name  '+SI.ProductNameStr);
+        WriteLn('Version       '+SI.VersionStr);
+        WriteLn('Serial Number '+SI.SerialNumberStr);
         BinToHex(@SI.UUID,UUID,SizeOf(SI.UUID));
         WriteLn('UUID          '+UUID);
+        WriteLn('SKU Number    '+SI.SKUNumberStr);
+        WriteLn('Family        '+SI.FamilyStr);
         WriteLn;
       end
       else

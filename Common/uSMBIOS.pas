@@ -455,8 +455,23 @@ type
     //helper fields and methods, not part of the SMBIOS spec.
     LocalIndex : Word;
     FBuffer: PByteArray;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the Vendor property
+    ///	</summary>
+    {$ENDREGION}
     function  VendorStr: string;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the Version property
+    ///	</summary>
+    {$ENDREGION}
     function  VersionStr: string;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the ReleaseDate property
+    ///	</summary>
+    {$ENDREGION}
     function  ReleaseDateStr: string;
   end;
 
@@ -497,7 +512,12 @@ type
     SerialNumber: Byte;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  Universal Unique ID number,
+    ///	  Universal Unique ID number, A UUID is an identifier that is designed
+    ///	  to be unique across both time and space. It requires no central
+    ///	  registration process. The UUID is 128 bits long. Its format is
+    ///	  described in RFC 4122, but the actual field contents are opaque and
+    ///	  not significant to the SMBIOS specification, which is only concerned
+    ///	  with the byte order.
     ///	</summary>
     {$ENDREGION}
     UUID: array [0 .. 15] of Byte;
@@ -533,6 +553,43 @@ type
     Family : Byte;
     //helper fields and methods, not part of the SMBIOS spec.
     LocalIndex : Word;
+    FBuffer: PByteArray;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the Manufacturer property
+    ///	</summary>
+    {$ENDREGION}
+    function  ManufacturerStr: string;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the ProductName property
+    ///	</summary>
+    {$ENDREGION}
+    function  ProductNameStr: string;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the Version property
+    ///	</summary>
+    {$ENDREGION}
+    function  VersionStr: string;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the SerialNumber property
+    ///	</summary>
+    {$ENDREGION}
+    function  SerialNumberStr: string;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the SKUNumber property
+    ///	</summary>
+    {$ENDREGION}
+    function  SKUNumberStr: string;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the Family property
+    ///	</summary>
+    {$ENDREGION}
+    function  FamilyStr: string;
   end;
 
   {$REGION 'Documentation'}
@@ -634,7 +691,49 @@ type
     //ContainedObjectHandles :  Array of Word;
     //helper fields and methods, not part of the SMBIOS spec.
     LocalIndex : Word;
+    FBuffer: PByteArray;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the description of the BoardType property
+    ///	</summary>
+    {$ENDREGION}
     function BoardTypeStr : AnsiString;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the Manufacturer property
+    ///	</summary>
+    {$ENDREGION}
+    function  ManufacturerStr: string;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the Product property
+    ///	</summary>
+    {$ENDREGION}
+    function  ProductStr: string;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the Version property
+    ///	</summary>
+    {$ENDREGION}
+    function  VersionStr: string;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the SerialNumber property
+    ///	</summary>
+    {$ENDREGION}
+    function  SerialNumberStr: string;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the AssetTag property
+    ///	</summary>
+    {$ENDREGION}
+    function  AssetTagStr: string;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the LocationinChassis property
+    ///	</summary>
+    {$ENDREGION}
+    function  LocationinChassisStr: string;
   end;
 
   {$REGION 'Documentation'}
@@ -748,11 +847,57 @@ type
     ///	</summary>
     {$ENDREGION}
     ContainedElementRecordLength : Byte;
+
+    //TODO Extension to support complex data representation
     //ContainedElements  n * m BYTEs
     //SKUNumber : Byte;
 
     //helper fields and methods, not part of the SMBIOS spec.
     LocalIndex : Word;
+    FBuffer: PByteArray;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the Manufacturer property
+    ///	</summary>
+    {$ENDREGION}
+    function  ManufacturerStr: string;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the Version property
+    ///	</summary>
+    {$ENDREGION}
+    function  VersionStr: string;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the SerialNumber property
+    ///	</summary>
+    {$ENDREGION}
+    function  SerialNumberStr: string;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the AssetTagNumber property
+    ///	</summary>
+    {$ENDREGION}
+    function  AssetTagNumberStr : string;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the description of the Type property
+    ///	</summary>
+    {$ENDREGION}
+    function  TypeStr : string;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the description of the BootUpState property
+    ///	</summary>
+    {$ENDREGION}
+    function  BootUpStateStr : string;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the description of the PowerSupplyState property
+    ///	</summary>
+    {$ENDREGION}
+    function  PowerSupplyStateStr : string;
+
   end;
 
   TProcessorInfo = packed record
@@ -916,6 +1061,28 @@ uses
   ComObj,
   ActiveX,
   Variants;
+
+
+function GetBit(const AValue: DWORD; const Bit: Byte): Boolean;
+begin
+  Result := (AValue and (1 shl Bit)) <> 0;
+end;
+
+function ClearBit(const AValue: DWORD; const Bit: Byte): DWORD;
+begin
+  Result := AValue and not (1 shl Bit);
+end;
+
+function SetBit(const AValue: DWORD; const Bit: Byte): DWORD;
+begin
+  Result := AValue or (1 shl Bit);
+end;
+
+function EnableBit(const AValue: DWORD; const Bit: Byte;
+  const Enable: Boolean): DWORD;
+begin
+  Result := (AValue or (1 shl Bit)) xor (DWord(not Enable) shl Bit);
+end;
 
 { TSMBios }
 constructor TSMBios.Create;
@@ -1172,8 +1339,9 @@ begin
     LIndex := GetSMBiosTableNextIndex(SystemInformation, LIndex);
     if LIndex >= 0 then
     begin
-      Move(Buffer[LIndex], FSysInfo[i], SizeOf(TSysInfo)- SizeOf(FSysInfo[i].LocalIndex));
+      Move(Buffer[LIndex], FSysInfo[i], SizeOf(TSysInfo)- SizeOf(FSysInfo[i].LocalIndex) - SizeOf(FSysInfo[i].FBuffer));
       FSysInfo[i].LocalIndex:=LIndex;
+      FSysInfo[i].FBuffer   :=FBuffer;
       Inc(i);
     end;
   until (LIndex=-1);
@@ -1185,8 +1353,9 @@ begin
     LIndex := GetSMBiosTableNextIndex(BaseBoardInformation, LIndex);
     if LIndex >= 0 then
     begin
-      Move(Buffer[LIndex], FBaseBoardInfo[i], SizeOf(TBaseBoardInfo)- SizeOf(FBaseBoardInfo[i].LocalIndex));
+      Move(Buffer[LIndex], FBaseBoardInfo[i], SizeOf(TBaseBoardInfo)- SizeOf(FBaseBoardInfo[i].LocalIndex) - SizeOf(FBaseBoardInfo[i].FBuffer));
       FBaseBoardInfo[i].LocalIndex:=LIndex;
+      FBaseBoardInfo[i].FBuffer   :=FBuffer;
       Inc(i);
     end;
   until (LIndex=-1);
@@ -1198,8 +1367,9 @@ begin
     LIndex := GetSMBiosTableNextIndex(EnclosureInformation, LIndex);
     if LIndex >= 0 then
     begin
-      Move(Buffer[LIndex], FEnclosureInfo[i], SizeOf(TEnclosureInfo)- SizeOf(FEnclosureInfo[i].LocalIndex));
+      Move(Buffer[LIndex], FEnclosureInfo[i], SizeOf(TEnclosureInfo)- SizeOf(FEnclosureInfo[i].LocalIndex)- SizeOf(FEnclosureInfo[i].FBuffer));
       FEnclosureInfo[i].LocalIndex:=LIndex;
+      FEnclosureInfo[i].FBuffer   :=FBuffer;
       Inc(i);
     end;
   until (LIndex=-1);
@@ -1208,7 +1378,6 @@ begin
   FProcessorInfoIndex := GetSMBiosTableNextIndex(ProcessorInformation);
   if FProcessorInfoIndex >= 0 then
     Move(Buffer[FProcessorInfoIndex], FProcessorInfo, SizeOf(FProcessorInfo));
-
 
   FBatteryInfoIndex := GetSMBiosTableNextIndex(PortableBattery);
   if FBatteryInfoIndex >= 0 then
@@ -1220,6 +1389,11 @@ begin
 end;
 
 { TBaseBoardInfo }
+
+function TBaseBoardInfo.AssetTagStr: string;
+begin
+
+end;
 
 function TBaseBoardInfo.BoardTypeStr: AnsiString;
 begin
@@ -1242,6 +1416,31 @@ begin
    end;
 end;
 
+function TBaseBoardInfo.LocationinChassisStr: string;
+begin
+  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.LocationinChassis);
+end;
+
+function TBaseBoardInfo.ManufacturerStr: string;
+begin
+  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.Manufacturer);
+end;
+
+function TBaseBoardInfo.ProductStr: string;
+begin
+  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.Product);
+end;
+
+function TBaseBoardInfo.SerialNumberStr: string;
+begin
+  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.SerialNumber);
+end;
+
+function TBaseBoardInfo.VersionStr: string;
+begin
+  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.Version);
+end;
+
 { TBiosInfo }
 
 function TBiosInfo.ReleaseDateStr: string;
@@ -1255,6 +1454,130 @@ begin
 end;
 
 function TBiosInfo.VersionStr: string;
+begin
+  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.Version);
+end;
+
+{ TSysInfo }
+
+function TSysInfo.FamilyStr: string;
+begin
+  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.Family);
+end;
+
+function TSysInfo.ManufacturerStr: string;
+begin
+  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.Manufacturer);
+end;
+
+function TSysInfo.ProductNameStr: string;
+begin
+  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.ProductName);
+end;
+
+function TSysInfo.SerialNumberStr: string;
+begin
+  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.SerialNumber);
+end;
+
+function TSysInfo.SKUNumberStr: string;
+begin
+  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.SKUNumber);
+end;
+
+function TSysInfo.VersionStr: string;
+begin
+  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.Version);
+end;
+
+{ TEnclosureInfo }
+
+function TEnclosureInfo.AssetTagNumberStr: string;
+begin
+  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.AssetTagNumber);
+end;
+
+function TEnclosureInfo.BootUpStateStr: string;
+begin
+ case Self.BootUpState of
+  $01 : Result:='Other';
+  $02 : Result:='Unknown';
+  $03 : Result:='Safe';
+  $04 : Result:='Warning';
+  $05 : Result:='Critical';
+  $06 : Result:='Non-recoverable'
+ else
+  Result:='Unknown';
+ end;
+end;
+
+function TEnclosureInfo.ManufacturerStr: string;
+begin
+  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.Manufacturer);
+end;
+
+function TEnclosureInfo.PowerSupplyStateStr: string;
+begin
+ case Self.PowerSupplyState of
+  $01 : Result:='Other';
+  $02 : Result:='Unknown';
+  $03 : Result:='Safe';
+  $04 : Result:='Warning';
+  $05 : Result:='Critical';
+  $06 : Result:='Non-recoverable'
+ else
+  Result:='Unknown';
+ end;
+end;
+
+function TEnclosureInfo.SerialNumberStr: string;
+begin
+  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.SerialNumber);
+end;
+
+function TEnclosureInfo.TypeStr: string;
+var
+  _Type : Byte;
+begin
+   _Type:=Self.&Type;
+  if GetBit(_Type, 7) then  _Type:=EnableBit(Self.&Type,7, False);
+
+  case _Type of
+   $01 : Result:='Other';
+   $02 : Result:='Unknown';
+   $03 : Result:='Desktop';
+   $04 : Result:='Low Profile Desktop';
+   $05 : Result:='Pizza Box';
+   $06 : Result:='Mini Tower';
+   $07 : Result:='Tower';
+   $08 : Result:='Portable';
+   $09 : Result:='LapTop';
+   $0A : Result:='Notebook';
+   $0B : Result:='Hand Held';
+   $0C : Result:='Docking Station';
+   $0D : Result:='All in One';
+   $0E : Result:='Sub Notebook';
+   $0F : Result:='Space-saving';
+   $10 : Result:='Lunc Box';
+   $11 : Result:='Main Server Chassis';
+   $12 : Result:='Expansion Chassis';
+   $13 : Result:='SubChassis';
+   $14 : Result:='Bus Expansion Chassis';
+   $15 : Result:='Peripheral Chassis';
+   $16 : Result:='RAID Chassis';
+   $17 : Result:='Rack Mount Chassis';
+   $18 : Result:='Sealed-case PC';
+   $19 : Result:='Multi-system chassis';
+   $1A : Result:='Compact PCI';
+   $1B : Result:='Advanced TCA';
+   $1C : Result:='Blade';
+   $1D : Result:='Blade Enclosure'
+   else
+    Result:='Unknown';
+  end;
+end;
+
+function TEnclosureInfo.VersionStr: string;
 begin
   Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.Version);
 end;
