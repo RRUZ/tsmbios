@@ -471,12 +471,66 @@ type
   {$ENDREGION}
   TSysInfo = packed record
     Header: TSmBiosTableHeader;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Number of Null terminated string
+    ///	</summary>
+    {$ENDREGION}
     Manufacturer: Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Number of Null terminated string
+    ///	</summary>
+    {$ENDREGION}
     ProductName: Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Number of Null terminated string
+    ///	</summary>
+    {$ENDREGION}
     Version: Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Number of Null terminated string
+    ///	</summary>
+    {$ENDREGION}
     SerialNumber: Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Universal Unique ID number,
+    ///	</summary>
+    {$ENDREGION}
     UUID: array [0 .. 15] of Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Identifies the event that caused the system to power up.
+    ///	</summary>
+    {$ENDREGION}
     WakeUpType: Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Number of Null terminated string This text string is used to identify
+    ///	  a particular computer configuration for sale. It is sometimes also
+    ///	  called a product ID or purchase order number. This number is
+    ///	  frequently found in existing fields, but there is no standard format.
+    ///	  Typically for a given system board from a given OEM, there are tens
+    ///	  of unique processor, memory, hard drive, and optical drive
+    ///	  configurations.
+    ///	</summary>
+    {$ENDREGION}
+    SKUNumber: Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Number of Null terminated string This text string is used to identify
+    ///	  the family a particular computer belongs to. A family refers to a set
+    ///	  of computers that are similar but not identical from a hardware or
+    ///	  software point of view. Typically, a family is composed of different
+    ///	  computer models, which have different configurations and pricing
+    ///	  points. Computers in the same family often have similar branding and
+    ///	  cosmetic features
+    ///	</summary>
+    {$ENDREGION}
+    Family : Byte;
     //helper fields and methods, not part of the SMBIOS spec.
     LocalIndex : Word;
   end;
@@ -497,15 +551,85 @@ type
   {$ENDREGION}
   TBaseBoardInfo = packed record
     Header: TSmBiosTableHeader;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Number of Null terminated string
+    ///	</summary>
+    {$ENDREGION}
     Manufacturer: Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Number of Null terminated string
+    ///	</summary>
+    {$ENDREGION}
     Product: Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Number of Null terminated string
+    ///	</summary>
+    {$ENDREGION}
     Version: Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Number of Null terminated string
+    ///	</summary>
+    {$ENDREGION}
     SerialNumber: Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Number of a null-terminated string
+    ///	</summary>
+    {$ENDREGION}
     AssetTag  : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  A collection of flags that identify features of this baseboard.
+    ///	</summary>
+    {$ENDREGION}
     FeatureFlags : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  <para>
+    ///	    Number of a null-terminated string that describes this board's
+    ///	    location within the chassis referenced by the Chassis Handle
+    ///	  </para>
+    ///	  <para>
+    ///
+    ///	    <b>NOTE: This field supports a CIM_Container class mapping where:</b>
+    ///	  </para>
+    ///	  <list type="bullet">
+    ///	    <item>
+    ///	      LocationWithinContainer is this field.
+    ///	    </item>
+    ///	    <item>
+    ///	      GroupComponent is the chassis referenced by Chassis Handle.
+    ///	    </item>
+    ///	    <item>
+    ///	      PartComponent is this baseboard.
+    ///	    </item>
+    ///	  </list>
+    ///	</summary>
+    {$ENDREGION}
     LocationinChassis : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The handle, or instance number, associated with the chassis in which
+    ///	  this board resides
+    ///	</summary>
+    {$ENDREGION}
     ChassisHandle : Word;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Identifies the type of board
+    ///	</summary>
+    {$ENDREGION}
     BoardType :  Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Identifies the number (0 to 255) of Contained Object Handles that
+    ///	  follow
+    ///	</summary>
+    {$ENDREGION}
     NumberofContainedObjectHandles : Byte;
     //ContainedObjectHandles :  Array of Word;
     //helper fields and methods, not part of the SMBIOS spec.
@@ -525,16 +649,108 @@ type
   {$ENDREGION}
   TEnclosureInfo = packed record
     Header: TSmBiosTableHeader;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Number of Null terminated string
+    ///	</summary>
+    {$ENDREGION}
     Manufacturer: Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Bit 7 Chassis lock is present if 1. Otherwise, either a lock is not
+    ///	  present or it is unknown if the enclosure has a lock. Bits 6:0
+    ///	  Enumeration value.
+    ///	</summary>
+    {$ENDREGION}
     &Type: Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Number of Null terminated string
+    ///	</summary>
+    {$ENDREGION}
     Version: Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Number of Null terminated string
+    ///	</summary>
+    {$ENDREGION}
     SerialNumber: Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Number of Null terminated string
+    ///	</summary>
+    {$ENDREGION}
     AssetTagNumber: Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Identifies the state of the enclosure when it was last booted.
+    ///	</summary>
+    {$ENDREGION}
     BootUpState: Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Identifies the state of the enclosure’s power supply (or supplies)
+    ///	  when last booted.
+    ///	</summary>
+    {$ENDREGION}
     PowerSupplyState: Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Identifies the enclosure’s thermal state when last booted.
+    ///	</summary>
+    {$ENDREGION}
     ThermalState: Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Identifies the enclosure’s physical security status when last booted.
+    ///	</summary>
+    {$ENDREGION}
     SecurityStatus: Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Contains OEM- or BIOS vendor-specific information.
+    ///	</summary>
+    {$ENDREGION}
     OEM_Defined: DWORD;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The height of the enclosure, in 'U's. A U is a standard unit of
+    ///	  measure for the height of a rack or rack-mountable component and is
+    ///	  equal to 1.75 inches or 4.445 cm. A value of 00h indicates that the
+    ///	  enclosure height is unspecified.
+    ///	</summary>
+    {$ENDREGION}
+    Height : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Identifies the number of power cords associated with the enclosure or
+    ///	  chassis. A value of 00h indicates that the number is unspecified.
+    ///	</summary>
+    {$ENDREGION}
+    NumberofPowerCords : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Identifies the number of Contained Element records that follow, in
+    ///	  the range 0 to 255. Each Contained Element group comprises m bytes,
+    ///	  as specified by the Contained Element Record Length field that
+    ///	  follows. If no Contained Elements are included, this field is set to
+    ///	  0.
+    ///	</summary>
+    {$ENDREGION}
+    ContainedElementCount : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Identifies the byte length of each Contained Element record that
+    ///	  follows, in the range 0 to 255. If no Contained Elements are
+    ///	  included, this field is set to 0. For version 2.3.2 and later of this
+    ///	  specification, this field is set to at least 03h when Contained
+    ///	  Elements are specified.
+    ///	</summary>
+    {$ENDREGION}
+    ContainedElementRecordLength : Byte;
+    //ContainedElements  n * m BYTEs
+    //SKUNumber : Byte;
+
     //helper fields and methods, not part of the SMBIOS spec.
     LocalIndex : Word;
   end;
