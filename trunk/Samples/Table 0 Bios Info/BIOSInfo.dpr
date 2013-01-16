@@ -26,7 +26,18 @@ begin
         WriteLn('Start Segment '+IntToHex(BI.StartingSegment,4));
         WriteLn('ReleaseDate   '+BI.ReleaseDateStr);
         WriteLn(Format('Bios Rom Size %d k',[64*(BI.BiosRomSize+1)]));
-        WriteLn('');
+
+        if BI.SystemBIOSMajorRelease<>$ff then
+        WriteLn(Format('System BIOS Major Release %d',[BI.SystemBIOSMajorRelease]));
+        if BI.SystemBIOSMinorRelease<>$ff then
+        WriteLn(Format('System BIOS Minor Release %d',[BI.SystemBIOSMinorRelease]));
+
+        //If the system does not have field upgradeable embedded controller firmware, the value is 0FFh.
+        if BI.EmbeddedControllerFirmwareMajorRelease<>$ff then
+        WriteLn(Format('Embedded Controller Firmware Major Release %d',[BI.EmbeddedControllerFirmwareMajorRelease]));
+        if BI.EmbeddedControllerFirmwareMinorRelease<>$ff then
+        WriteLn(Format('Embedded Controller Firmware Minor Releasee %d',[BI.EmbeddedControllerFirmwareMinorRelease]));
+        WriteLn;
       end
       else
       Writeln('No BIOS Info was found');

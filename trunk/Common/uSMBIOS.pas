@@ -359,19 +359,100 @@ type
   {$ENDREGION}
   TBiosInfo = packed record
     Header: TSmBiosTableHeader;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  String number of the BIOS Vendor’s Name.
+    ///	</summary>
+    {$ENDREGION}
     Vendor: Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  String number of the BIOS Version. This is a freeform string that may
+    ///	  contain Core and OEM version information.
+    ///	</summary>
+    {$ENDREGION}
     Version: Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Segment location of BIOS starting address (for example, 0E800h).
+    ///	  NOTE: The size of the runtime BIOS image can be computed by
+    ///	  subtracting the Starting Address Segment from 10000h and multiplying
+    ///	  the result by 16.
+    ///	</summary>
+    {$ENDREGION}
     StartingSegment: Word;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  String number of the BIOS release date. The date string, if supplied,
+    ///	  is in either mm/dd/yy or mm/dd/yyyy format. If the year portion of
+    ///	  the string is two digits, the year is assumed to be 19yy. NOTE: The
+    ///	  mm/dd/yyyy format is required for SMBIOS version 2.3 and later.
+    ///	</summary>
+    {$ENDREGION}
     ReleaseDate: Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Size (n) where 64K * (n+1) is the size of the physical device
+    ///	  containing the BIOS, in bytes
+    ///	</summary>
+    {$ENDREGION}
     BiosRomSize: Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Defines which functions the BIOS supports: PCI, PCMCIA, Flash, etc.
+    ///	</summary>
+    {$ENDREGION}
     Characteristics: Int64;
-    ExtensionBytes : array [0..1] of Byte;//For version 2.4 and later implementations, two BIOS Characteristics Extension Bytes are defined
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Optional space reserved for future supported functions. The number of
+    ///	  Extension Bytes that are present is indicated by the Length in offset
+    ///	  1 minus 12h.For version 2.4 and later implementations, two BIOS
+    ///	  Characteristics Extension Bytes are defined (12-13h) and bytes 14-
+    ///	  17h are also defined
+    ///	</summary>
+    {$ENDREGION}
+    ExtensionBytes : array [0..1] of Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Identifies the major release of the System BIOS; for example, the
+    ///	  value is 0Ah for revision 10.22 and 02h for revision 2.1. This field
+    ///	  and/or the System BIOS Minor Release field is updated each time a
+    ///	  System BIOS update for a given system is released. If the system does
+    ///	  not support the use of this field, the value is 0FFh for both this
+    ///	  field and the System BIOS Minor Release field.
+    ///	</summary>
+    {$ENDREGION}
     SystemBIOSMajorRelease : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Identifies the minor release of the System BIOS; for example, the
+    ///	  value is 16h for revision 10.22 and 01h for revision 2.1.
+    ///	</summary>
+    {$ENDREGION}
     SystemBIOSMinorRelease : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Identifies the major release of the embedded controller firmware; for
+    ///	  example, the value would be 0Ah for revision 10.22 and 02h for
+    ///	  revision 2.1. This field and/or the Embedded Controller Firmware
+    ///	  Minor Release field is updated each time an embedded controller
+    ///	  firmware update for a given system is released. If the system does
+    ///	  not have field upgradeable embedded controller firmware, the value is
+    ///	  0FFh.
+    ///	</summary>
+    {$ENDREGION}
     EmbeddedControllerFirmwareMajorRelease : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Identifies the minor release of the embedded controller firmware; for
+    ///	  example, the value is 16h for revision 10.22 and 01h for revision
+    ///	  2.1. If the system does not have field upgradeable embedded
+    ///	  controller firmware, the value is 0FFh.
+    ///	</summary>
+    {$ENDREGION}
     EmbeddedControllerFirmwareMinorRelease : Byte;
-
-    //helper fields and methods, not part opf the SMBIOS spec.
+    //helper fields and methods, not part of the SMBIOS spec.
     LocalIndex : Word;
     FBuffer: PByteArray;
     function  VendorStr: string;
@@ -396,6 +477,7 @@ type
     SerialNumber: Byte;
     UUID: array [0 .. 15] of Byte;
     WakeUpType: Byte;
+    //helper fields and methods, not part of the SMBIOS spec.
     LocalIndex : Word;
   end;
 
@@ -426,6 +508,7 @@ type
     BoardType :  Byte;
     NumberofContainedObjectHandles : Byte;
     //ContainedObjectHandles :  Array of Word;
+    //helper fields and methods, not part of the SMBIOS spec.
     LocalIndex : Word;
     function BoardTypeStr : AnsiString;
   end;
@@ -452,6 +535,7 @@ type
     ThermalState: Byte;
     SecurityStatus: Byte;
     OEM_Defined: DWORD;
+    //helper fields and methods, not part of the SMBIOS spec.
     LocalIndex : Word;
   end;
 
@@ -475,6 +559,7 @@ type
     SerialNumber: Byte;
     AssetTag: Byte;
     PartNumber: Byte;
+    //helper fields and methods, not part of the SMBIOS spec.
     LocalIndex : Word;
   end;
 
@@ -495,6 +580,7 @@ type
     SBDSDeviceChemistry : Byte;
     DesignCapacityMultiplier : Byte;
     OEM_Specific: DWORD;
+    //helper fields and methods, not part of the SMBIOS spec.
     LocalIndex : Word;
   end;
 
@@ -510,6 +596,7 @@ type
     ErrorCorrectionType: Byte;
     SystemCacheType: Byte;
     Associativity: Byte;
+    //helper fields and methods, not part of the SMBIOS spec.
     LocalIndex : Word;
   end;
 
