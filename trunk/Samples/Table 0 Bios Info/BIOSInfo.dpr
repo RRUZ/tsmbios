@@ -20,10 +20,11 @@ begin
       if SMBios.HasBiosInfo then
       for BI in SMBios.BiosInfo do
       begin
-        WriteLn('Vendor        '+SMBios.GetSMBiosString(BI.LocalIndex + BI.Header.Length, BI.Vendor));
-        WriteLn('Version       '+SMBios.GetSMBiosString(BI.LocalIndex + BI.Header.Length, BI.Version));
+        //WriteLn('Vendor        '+SMBios.GetSMBiosString(BI.LocalIndex + BI.Header.Length, BI.Vendor));
+        WriteLn('Vendor        '+BI.VendorStr);
+        WriteLn('Version       '+BI.VersionStr);
         WriteLn('Start Segment '+IntToHex(BI.StartingSegment,4));
-        WriteLn('ReleaseDate   '+SMBios.GetSMBiosString(BI.LocalIndex + BI.Header.Length, BI.ReleaseDate));
+        WriteLn('ReleaseDate   '+BI.ReleaseDateStr);
         WriteLn(Format('Bios Rom Size %d k',[64*(BI.BiosRomSize+1)]));
         WriteLn('');
       end

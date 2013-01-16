@@ -352,6 +352,11 @@ type
     Handle: Word;
   end;
 
+  {$REGION 'Documentation'}
+  ///	<summary>
+  ///	  BIOS Information structure
+  ///	</summary>
+  {$ENDREGION}
   TBiosInfo = packed record
     Header: TSmBiosTableHeader;
     Vendor: Byte;
@@ -360,10 +365,29 @@ type
     ReleaseDate: Byte;
     BiosRomSize: Byte;
     Characteristics: Int64;
-    ExtensionBytes : array [0..1] of Byte;
+    ExtensionBytes : array [0..1] of Byte;//For version 2.4 and later implementations, two BIOS Characteristics Extension Bytes are defined
+    SystemBIOSMajorRelease : Byte;
+    SystemBIOSMinorRelease : Byte;
+    EmbeddedControllerFirmwareMajorRelease : Byte;
+    EmbeddedControllerFirmwareMinorRelease : Byte;
+
+    //helper fields and methods, not part opf the SMBIOS spec.
     LocalIndex : Word;
+    FBuffer: PByteArray;
+    function  VendorStr: string;
+    function  VersionStr: string;
+    function  ReleaseDateStr: string;
   end;
 
+  {$REGION 'Documentation'}
+  ///	<summary>
+  ///	  The information in this structure defines attributes of the overall
+  ///	  system and is intended to be associated with the Component ID group of
+  ///	  the system’s MIF. An SMBIOS implementation is associated with a single
+  ///	  system instance and contains one and only one System Information (Type
+  ///	  1) structure.
+  ///	</summary>
+  {$ENDREGION}
   TSysInfo = packed record
     Header: TSmBiosTableHeader;
     Manufacturer: Byte;
@@ -375,6 +399,20 @@ type
     LocalIndex : Word;
   end;
 
+  {$REGION 'Documentation'}
+  ///	<summary>
+  ///	  the information in this structure defines attributes of a system
+  ///	  baseboard (for  example, a motherboard, planar, server blade, or other
+  ///	  standard system module). 850 NOTE: If more than one Type 2 structure is
+  ///	  provided by an SMBIOS implementation, each structure shall include the 
+  ///	  Number of Contained Object Handles and Contained Object Handles fields
+  ///	  to specify which system elements are  contained on which boards. If a
+  ///	  single Type 2 structure is provided and the contained object
+  ///	  information is not  present1, or if no Type 2 structure is provided,
+  ///	  then all system elements identified by the SMBIOS implementation are 
+  ///	  associated with a single motherboard.
+  ///	</summary>
+  {$ENDREGION}
   TBaseBoardInfo = packed record
     Header: TSmBiosTableHeader;
     Manufacturer: Byte;
@@ -392,6 +430,16 @@ type
     function BoardTypeStr : AnsiString;
   end;
 
+  {$REGION 'Documentation'}
+  ///	<summary>
+  ///	  The information in this structure defines attributes of the system’s
+  ///	  mechanical enclosure(s). For example, if a system included a separate
+  ///	  enclosure for its peripheral devices, two structures would be returned:
+  ///	  one for the main system enclosure and the second for the peripheral
+  ///	  device enclosure. The additions to this structure in version 2.1 of
+  ///	  this specification support the population of the CIM_Chassis class.
+  ///	</summary>
+  {$ENDREGION}
   TEnclosureInfo = packed record
     Header: TSmBiosTableHeader;
     Manufacturer: Byte;
@@ -525,7 +573,7 @@ type
     function GetSMBiosString(Entry, Index: integer): AnsiString;
 
     property Size: integer read FSize;
-     property Buffer: PByteArray read FBuffer;
+    property Buffer: PByteArray read FBuffer;
     property DataString: AnsiString read FDataString;
     property DmiRevision: Integer read FDmiRevision;
     property SmbiosMajorVersion : Integer read FSmbiosMajorVersion;
@@ -659,6 +707,25 @@ begin
   Result := Index;
 end;
 
+function GetSMBiosString(FBuffer: PByteArray;Entry, Index: integer): AnsiString;
+var
+  i: integer;
+  p: PAnsiChar;
+begin
+  Result := '';
+  for i := 1 to Index do
+  begin
+    p := PAnsiChar(@FBuffer[Entry]);
+    if i = Index then
+    begin
+      Result := p;
+      break;
+    end
+    else
+      inc(Entry, StrLen(p) + 1);
+  end;
+end;
+
 function TSMBios.GetSMBiosString(Entry, Index: integer): AnsiString;
 var
   i: integer;
@@ -667,7 +734,7 @@ begin
   Result := '';
   for i := 1 to Index do
   begin
-    p := PAnsiChar(@Buffer[Entry]);
+    p := PAnsiChar(@FBuffer[Entry]);
     if i = Index then
     begin
       Result := p;
@@ -788,8 +855,9 @@ begin
     LIndex := GetSMBiosTableNextIndex(BIOSInformation, LIndex);
     if LIndex >= 0 then
     begin
-      Move(Buffer[LIndex], FBiosInfo[i], SizeOf(TBiosInfo)- SizeOf(FBiosInfo[i].LocalIndex));
-      FBiosInfo[i].LocalIndex:=LIndex;
+      Move(Buffer[LIndex], FBiosInfo[i], SizeOf(TBiosInfo)- SizeOf(FBiosInfo[i].LocalIndex) - SizeOf(FBiosInfo[i].FBuffer));
+      FBiosInfo[i].LocalIndex := LIndex;
+      FBiosInfo[i].FBuffer    := FBuffer;
       Inc(i);
     end;
   until (LIndex=-1);
@@ -869,6 +937,23 @@ begin
     else
     result:='Unknown';
    end;
+end;
+
+{ TBiosInfo }
+
+function TBiosInfo.ReleaseDateStr: string;
+begin
+  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.ReleaseDate);
+end;
+
+function TBiosInfo.VendorStr: string;
+begin
+  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.Vendor);
+end;
+
+function TBiosInfo.VersionStr: string;
+begin
+  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.Version);
 end;
 
 end.
