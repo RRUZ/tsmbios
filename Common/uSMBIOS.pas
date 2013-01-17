@@ -1484,6 +1484,84 @@ type
     function  PartNumberStr: string;
   end;
 
+  {$REGION 'Documentation'}
+  ///	<summary>
+  ///	  The information in this structure defines the attributes of a system
+  ///	  port connector (for example, parallel, serial, keyboard, or mouse
+  ///	  ports). The port’s type and connector information are provided. One
+  ///	  structure is present for each port provided by the system.
+  ///	</summary>
+  {$ENDREGION}
+  TPortConnectorInfo=packed record
+    Header: TSmBiosTableHeader;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  String number for Internal Reference Designator, that is, internal to
+    ///	  the system enclosure EXAMPLE: ‘J101’, 0
+    ///	</summary>
+    {$ENDREGION}
+    InternalReferenceDesignator : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Internal Connector type
+    ///	</summary>
+    {$ENDREGION}
+    InternalConnectorType  : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  <para>
+    ///	    String number for the External Reference Designation external to
+    ///	    the system enclosure
+    ///	  </para>
+    ///	  <para>
+    ///	    EXAMPLE: ‘COM A’, 0
+    ///	  </para>
+    ///	</summary>
+    {$ENDREGION}
+    ExternalReferenceDesignator : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  External Connector type.
+    ///	</summary>
+    {$ENDREGION}
+    ExternalConnectorType: Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Describes the function of the port
+    ///	</summary>
+    {$ENDREGION}
+    PortType : Byte;
+    //helper fields and methods, not part of the SMBIOS spec.
+    LocalIndex : Word;
+    FBuffer: PByteArray;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the InternalReferenceDesignator
+    ///	  field.
+    ///	</summary>
+    {$ENDREGION}
+    function InternalReferenceDesignatorStr : string;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the description of the Connector Type Fields
+    ///	</summary>
+    {$ENDREGION}
+    function GetConnectorType(Connector:Byte) : string;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the ExternalReferenceDesignator
+    ///	  field.
+    ///	</summary>
+    {$ENDREGION}
+    function ExternalReferenceDesignatorStr : string;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the description  of the PortType field.
+    ///	</summary>
+    {$ENDREGION}
+    function PortTypeStr : string;
+  end;
+
   TBatteryInfo = packed record
     Header: TSmBiosTableHeader;
     Location : Byte;
@@ -1538,6 +1616,7 @@ type
     FEnclosureInfo: TArray<TEnclosureInfo>;
     FProcessorInfo: TArray<TProcessorInfo>;
     FCacheInfo: TArray<TCacheInfo>;
+    FPortConnectorInfo :  TArray<TPortConnectorInfo>;
     FDmiRevision: Integer;
     FSmbiosMajorVersion: Integer;
     FSmbiosMinorVersion: Integer;
@@ -1551,6 +1630,7 @@ type
     function GetHasEnclosureInfo: Boolean;
     function GetHasProcessorInfo: Boolean;
     function GetHasCacheInfo: Boolean;
+    function GetHasPortConnectorInfo: Boolean;
   public
     constructor Create;
     destructor Destroy; override;
@@ -1586,6 +1666,9 @@ type
 
     property ProcessorInfo: TArray<TProcessorInfo> read FProcessorInfo write FProcessorInfo;
     property HasProcessorInfo : Boolean read GetHasProcessorInfo;
+
+    property PortConnectorInfo: TArray<TPortConnectorInfo> read FPortConnectorInfo write FPortConnectorInfo;
+    property HasPortConnectorInfo : Boolean read GetHasPortConnectorInfo;
   end;
 
 implementation
@@ -1666,6 +1749,11 @@ end;
 function TSMBios.GetHasEnclosureInfo: Boolean;
 begin
   Result:=Length(FEnclosureInfo)>0;
+end;
+
+function TSMBios.GetHasPortConnectorInfo: Boolean;
+begin
+  Result:=Length(FPortConnectorInfo)>0;
 end;
 
 function TSMBios.GetHasProcessorInfo: Boolean;
@@ -1969,15 +2057,21 @@ begin
     end;
   until (LIndex=-1);
 
-  {
-  FBatteryInfoIndex := GetSMBiosTableNextIndex(PortableBattery);
-  if FBatteryInfoIndex >= 0 then
-    Move(Buffer[FBatteryInfoIndex], FBatteryInfo, SizeOf(FBatteryInfo));
 
-  FMemoryDeviceIndex := GetSMBiosTableNextIndex(MemoryDevice);
-  if FMemoryDeviceIndex >= 0 then
-    Move(Buffer[FMemoryDeviceIndex], FMemoryDevice, SizeOf(FMemoryDevice));
-  }
+  SetLength(FPortConnectorInfo, GetSMBiosTableEntries(PortConnectorInformation));
+  i:=0;
+  LIndex:=0;
+  repeat
+    LIndex := GetSMBiosTableNextIndex(PortConnectorInformation, LIndex);
+    if LIndex >= 0 then
+    begin
+      Move(Buffer[LIndex], FPortConnectorInfo[i], SizeOf(TPortConnectorInfo)- SizeOf(FPortConnectorInfo[i].LocalIndex) - SizeOf(FPortConnectorInfo[i].FBuffer));
+      FPortConnectorInfo[i].LocalIndex:=LIndex;
+      FPortConnectorInfo[i].FBuffer   :=FBuffer;
+      Inc(i);
+    end;
+  until (LIndex=-1);
+
 end;
 
 { TBaseBoardInfo }
@@ -2614,6 +2708,112 @@ end;
 function TCacheInfo.SocketDesignationStr: String;
 begin
   Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.SocketDesignation);
+end;
+
+{ TPortConnectorInfo }
+
+function TPortConnectorInfo.ExternalReferenceDesignatorStr: string;
+begin
+  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.ExternalReferenceDesignator);
+end;
+
+function TPortConnectorInfo.GetConnectorType(Connector: Byte): string;
+begin
+  case Connector of
+    $00 : Result:='None';
+    $01 : Result:='Centronics';
+    $02 : Result:='Mini Centronics';
+    $03 : Result:='Proprietary';
+    $04 : Result:='DB-25 pin male';
+    $05 : Result:='DB-25 pin female';
+    $06 : Result:='DB-15 pin male';
+    $07 : Result:='DB-15 pin female';
+    $08 : Result:='DB-9 pin male';
+    $09 : Result:='DB-9 pin female';
+    $0A : Result:='RJ-11';
+    $0B : Result:='RJ-45';
+    $0C : Result:='50-pin MiniSCSI';
+    $0D : Result:='Mini-DIN';
+    $0E : Result:='Micro-DIN';
+    $0F : Result:='PS/2';
+    $10 : Result:='Infrared';
+    $11 : Result:='HP-HIL';
+    $12 : Result:='Access Bus (USB)';
+    $13 : Result:='SSA SCSI';
+    $14 : Result:='Circular DIN-8 male';
+    $15 : Result:='Circular DIN-8 female';
+    $16 : Result:='On Board IDE';
+    $17 : Result:='On Board Floppy';
+    $18 : Result:='9-pin Dual Inline (pin 10 cut)';
+    $19 : Result:='25-pin Dual Inline (pin 26 cut)';
+    $1A : Result:='50-pin Dual Inline';
+    $1B : Result:='68-pin Dual Inline';
+    $1C : Result:='On Board Sound Input from CD-ROM';
+    $1D : Result:='Mini-Centronics Type-14';
+    $1E : Result:='Mini-Centronics Type-26';
+    $1F : Result:='Mini-jack (headphones)';
+    $20 : Result:='BNC';
+    $21 : Result:='1394';
+    $22 : Result:='SAS/SATA Plug Receptacle';
+    $A0 : Result:='PC-98';
+    $A1 : Result:='PC-98Hireso';
+    $A2 : Result:='PC-H98';
+    $A3 : Result:='PC-98Note';
+    $A4 : Result:='PC-98Full';
+    $FF : Result:='Other – Use Reference Designator Strings to supply information'
+    else
+    Result:='Unknown';
+  end;
+end;
+
+function TPortConnectorInfo.InternalReferenceDesignatorStr: string;
+begin
+  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.InternalReferenceDesignator);
+end;
+
+function TPortConnectorInfo.PortTypeStr: string;
+begin
+  case Self.PortType of
+    $00 :Result:='None';
+    $01 :Result:='Parallel Port XT/AT Compatible';
+    $02 :Result:='Parallel Port PS/2';
+    $03 :Result:='Parallel Port ECP';
+    $04 :Result:='Parallel Port EPP';
+    $05 :Result:='Parallel Port ECP/EPP';
+    $06 :Result:='Serial Port XT/AT Compatible';
+    $07 :Result:='Serial Port 16450 Compatible';
+    $08 :Result:='Serial Port 16550 Compatible';
+    $09 :Result:='Serial Port 16550A Compatible';
+    $0A :Result:='SCSI Port';
+    $0B :Result:='MIDI Port';
+    $0C :Result:='Joy Stick Port';
+    $0D :Result:='Keyboard Port';
+    $0E :Result:='Mouse Port';
+    $0F :Result:='SSA SCSI';
+    $10 :Result:='USB';
+    $11 :Result:='FireWire (IEEE P1394)';
+    $12 :Result:='PCMCIA Type I2';
+    $13 :Result:='PCMCIA Type II';
+    $14 :Result:='PCMCIA Type III';
+    $15 :Result:='Cardbus';
+    $16 :Result:='Access Bus Port';
+    $17 :Result:='SCSI II';
+    $18 :Result:='SCSI Wide';
+    $19 :Result:='PC-98';
+    $1A :Result:='PC-98-Hireso';
+    $1B :Result:='PC-H98';
+    $1C :Result:='Video Port';
+    $1D :Result:='Audio Port';
+    $1E :Result:='Modem Port';
+    $1F :Result:='Network Port';
+    $20 :Result:='SATA';
+    $21 :Result:='SAS';
+    $A0 :Result:='8251 Compatible';
+    $A1 :Result:='8251 FIFO Compatible';
+    $FF :Result:='Other'
+    else
+    Result:='Unknown';
+  end;
 end;
 
 end.
