@@ -457,19 +457,19 @@ type
     FBuffer: PByteArray;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  Get the string representation of the Vendor property
+    ///	  Get the string representation of the Vendor field
     ///	</summary>
     {$ENDREGION}
     function  VendorStr: string;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  Get the string representation of the Version property
+    ///	  Get the string representation of the Version field
     ///	</summary>
     {$ENDREGION}
     function  VersionStr: string;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  Get the string representation of the ReleaseDate property
+    ///	  Get the string representation of the ReleaseDate field
     ///	</summary>
     {$ENDREGION}
     function  ReleaseDateStr: string;
@@ -556,37 +556,37 @@ type
     FBuffer: PByteArray;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  Get the string representation of the Manufacturer property
+    ///	  Get the string representation of the Manufacturer field
     ///	</summary>
     {$ENDREGION}
     function  ManufacturerStr: string;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  Get the string representation of the ProductName property
+    ///	  Get the string representation of the ProductName field
     ///	</summary>
     {$ENDREGION}
     function  ProductNameStr: string;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  Get the string representation of the Version property
+    ///	  Get the string representation of the Version field
     ///	</summary>
     {$ENDREGION}
     function  VersionStr: string;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  Get the string representation of the SerialNumber property
+    ///	  Get the string representation of the SerialNumber field
     ///	</summary>
     {$ENDREGION}
     function  SerialNumberStr: string;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  Get the string representation of the SKUNumber property
+    ///	  Get the string representation of the SKUNumber field
     ///	</summary>
     {$ENDREGION}
     function  SKUNumberStr: string;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  Get the string representation of the Family property
+    ///	  Get the string representation of the Family field
     ///	</summary>
     {$ENDREGION}
     function  FamilyStr: string;
@@ -694,43 +694,43 @@ type
     FBuffer: PByteArray;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  Get the description of the BoardType property
+    ///	  Get the description of the BoardType field
     ///	</summary>
     {$ENDREGION}
     function BoardTypeStr : AnsiString;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  Get the string representation of the Manufacturer property
+    ///	  Get the string representation of the Manufacturer field
     ///	</summary>
     {$ENDREGION}
     function  ManufacturerStr: string;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  Get the string representation of the Product property
+    ///	  Get the string representation of the Product field
     ///	</summary>
     {$ENDREGION}
     function  ProductStr: string;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  Get the string representation of the Version property
+    ///	  Get the string representation of the Version field
     ///	</summary>
     {$ENDREGION}
     function  VersionStr: string;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  Get the string representation of the SerialNumber property
+    ///	  Get the string representation of the SerialNumber field
     ///	</summary>
     {$ENDREGION}
     function  SerialNumberStr: string;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  Get the string representation of the AssetTag property
+    ///	  Get the string representation of the AssetTag field
     ///	</summary>
     {$ENDREGION}
     function  AssetTagStr: string;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  Get the string representation of the LocationinChassis property
+    ///	  Get the string representation of the LocationinChassis field
     ///	</summary>
     {$ENDREGION}
     function  LocationinChassisStr: string;
@@ -857,62 +857,300 @@ type
     FBuffer: PByteArray;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  Get the string representation of the Manufacturer property
+    ///	  Get the string representation of the Manufacturer field
     ///	</summary>
     {$ENDREGION}
     function  ManufacturerStr: string;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  Get the string representation of the Version property
+    ///	  Get the string representation of the Version field
     ///	</summary>
     {$ENDREGION}
     function  VersionStr: string;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  Get the string representation of the SerialNumber property
+    ///	  Get the string representation of the SerialNumber field
     ///	</summary>
     {$ENDREGION}
     function  SerialNumberStr: string;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  Get the string representation of the AssetTagNumber property
+    ///	  Get the string representation of the AssetTagNumber field
     ///	</summary>
     {$ENDREGION}
     function  AssetTagNumberStr : string;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  Get the description of the Type property
+    ///	  Get the description of the Type field
     ///	</summary>
     {$ENDREGION}
     function  TypeStr : string;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  Get the description of the BootUpState property
+    ///	  Get the description of the BootUpState field
     ///	</summary>
     {$ENDREGION}
     function  BootUpStateStr : string;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  Get the description of the PowerSupplyState property
+    ///	  Get the description of the PowerSupplyState field
     ///	</summary>
     {$ENDREGION}
     function  PowerSupplyStateStr : string;
   end;
 
+   TCacheSRAMType =
+   (
+    SROther,
+    SRUnknown,
+    SRNon_Burst,
+    SRBurst,
+    SRPipelineBurst,
+    SRSynchronous,
+    SRAsynchronous
+   );
+
+   TCacheSRAMTypes = set of TCacheSRAMType;
+
+   TErrorCorrectionType=
+   (
+    ECFiller,
+    ECOther,
+    ECUnknown,
+    ECNone,
+    ECParity,
+    ECSingle_bitECC,
+    ECMulti_bitECC
+    );
+
+   Const
+   ErrorCorrectionTypeStr : Array [TErrorCorrectionType] of String  =(
+    'Filler',
+    'Other',
+    'Unknown',
+    'None',
+    'Parity',
+    'Single bit ECC',
+    'Multi bit ECC'
+   );
+
+   type
+
+   TSystemCacheType=
+   (
+    SCFiller,
+    SCOther,
+    SCUnknown,
+    SCInstruction,
+    SCData,
+    SCUnified
+    );
+
+   Const
+   SystemCacheTypeStr : Array [TSystemCacheType] of String  =(
+    'Filler',
+    'Other',
+    'Unknown',
+    'Instruction',
+    'Data',
+    'Unified'
+   );
+
+
+   type
+   {$REGION 'Documentation'}
+   ///	<summary>
+   ///	  The information in this structure defines the attributes of CPU cache
+   ///	  device in the system. One structure is specified for each such device,
+   ///	  whether the device is internal to or external to the CPU module. Cache
+   ///	  modules can be associated with a processor structure in one or two
+   ///	  ways depending on the SMBIOS version.
+   ///	</summary>
+   {$ENDREGION}
    TCacheInfo = packed record
     Header: TSmBiosTableHeader;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  String Number for Reference Designation EXAMPLE: “CACHE1”, 0
+    ///	</summary>
+    {$ENDREGION}
     SocketDesignation: Byte;
-    CacheConfiguration: DWORD;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  <para>
+    ///	    Bits 15:10 Reserved, must be zero
+    ///	  </para>
+    ///	  <para>
+    ///	    Bits 9:8 Operational Mode
+    ///	  </para>
+    ///	  <list type="bullet">
+    ///	    <item>
+    ///	      00b Write Through
+    ///	    </item>
+    ///	    <item>
+    ///	      01b Write Back
+    ///	    </item>
+    ///	    <item>
+    ///	      10b Varies with Memory Address
+    ///	    </item>
+    ///	    <item>
+    ///	      11b Unknown
+    ///	    </item>
+    ///	  </list>
+    ///	  <para>
+    ///	    Bit 7 Enabled/Disabled (at boot time)
+    ///	  </para>
+    ///	  <list type="bullet">
+    ///	    <item>
+    ///	      1b Enabled
+    ///	    </item>
+    ///	    <item>
+    ///	      0b Disabled
+    ///	    </item>
+    ///	  </list>
+    ///	  <para>
+    ///	    Bits 6:5 Location, relative to the CPU module:
+    ///	  </para>
+    ///	  <list type="bullet">
+    ///	    <item>
+    ///	      00b Internal
+    ///	    </item>
+    ///	    <item>
+    ///	      01b External
+    ///	    </item>
+    ///	    <item>
+    ///	      10b Reserved
+    ///	    </item>
+    ///	    <item>
+    ///	      11b Unknown
+    ///	    </item>
+    ///	  </list>
+    ///	  <para>
+    ///	    Bit 4 Reserved, must be zero
+    ///	  </para>
+    ///	  <para>
+    ///	    Bit 3 Cache Socketed
+    ///	  </para>
+    ///	  <list type="bullet">
+    ///	    <item>
+    ///	      1b Socketed
+    ///	    </item>
+    ///	    <item>
+    ///	      0b Not Socketed
+    ///	    </item>
+    ///	  </list>
+    ///	  <para>
+    ///	    Bits 2:0 Cache Level – 1 through 8 (For example, an L1 cache would
+    ///	    use value 000b and an L3
+    ///	  </para>
+    ///	</summary>
+    {$ENDREGION}
+    CacheConfiguration: Word;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  <para>
+    ///	    Maximum size that can be installed
+    ///	  </para>
+    ///	  <para>
+    ///	    Bit 15 Granularity
+    ///	  </para>
+    ///	  <list type="bullet">
+    ///	    <item>
+    ///	      0 – 1K granularity
+    ///	    </item>
+    ///	    <item>
+    ///	      1 – 64K granularity
+    ///	    </item>
+    ///	  </list>
+    ///	  <para>
+    ///	    Bits 14:0 Max size in given granularity
+    ///	  </para>
+    ///	  <para>
+    ///	    For multi-core processors, the cache size for the different levels
+    ///	    of the cache (L1, L2, L3) is the total amount of cache per level
+    ///	    per processor socket. The cache size is independent of the core
+    ///	    count. For example, the cache size is 2 MB for both a dual core
+    ///	    processor with a 2 MB L3 cache shared between the cores and a dual
+    ///	    core processor with 1 MB L3 cache (non-shared) per core.
+    ///	  </para>
+    ///	</summary>
+    {$ENDREGION}
     MaximumCacheSize: Word;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Same format as Max Cache Size field; set to 0 if no cache is
+    ///	  installed.
+    ///	</summary>
+    {$ENDREGION}
     InstalledSize: Word;
     SupportedSRAMType: Word;
     CurrentSRAMType: Word;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The cache module speed, in nanoseconds. The value is 0 if the speed
+    ///	  is unknown.
+    ///	</summary>
+    {$ENDREGION}
     CacheSpeed: Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The error-correction scheme supported by this cache component
+    ///	</summary>
+    {$ENDREGION}
     ErrorCorrectionType: Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The logical type of cache
+    ///	</summary>
+    {$ENDREGION}
     SystemCacheType: Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The associativity of the cache.
+    ///	</summary>
+    {$ENDREGION}
     Associativity: Byte;
     //helper fields and methods, not part of the SMBIOS spec.
     LocalIndex : Word;
+    FBuffer: PByteArray;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the  SocketDesignation field
+    ///	</summary>
+    {$ENDREGION}
+    function SocketDesignationStr: String;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the calculated value of the MaximumCacheSize field
+    ///	</summary>
+    {$ENDREGION}
+    function GetMaximumCacheSize: Integer;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the calculated value of the InstalledSize field
+    ///	</summary>
+    {$ENDREGION}
+    function GetInstalledCacheSize: Integer;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the calculated value of the SupportedSRAMType field
+    ///	</summary>
+    {$ENDREGION}
+    function GetSupportedSRAMType  : TCacheSRAMTypes;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the calculated value of the CurrentSRAMType field
+    ///	</summary>
+    {$ENDREGION}
+    function GetCurrentSRAMType  : TCacheSRAMTypes;
+    function GetErrorCorrectionType : TErrorCorrectionType;
+    function GetSystemCacheType : TSystemCacheType;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the  Associativity field
+    ///	</summary>
+    {$ENDREGION}
+    function AssociativityStr: String;
   end;
 
   {$REGION 'Documentation'}
@@ -1181,15 +1419,18 @@ type
     //helper fields and methods, not part of the SMBIOS spec.
     LocalIndex : Word;
     FBuffer: PByteArray;
+    L1Chache : TCacheInfo;
+    L2Chache : TCacheInfo;
+    L3Chache : TCacheInfo;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  Get the string representation of the ProcessorManufacturer property
+    ///	  Get the string representation of the ProcessorManufacturer field
     ///	</summary>
     {$ENDREGION}
     function  ProcessorManufacturerStr: string;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  Get the string representation of the SocketDesignation property
+    ///	  Get the string representation of the SocketDesignation field
     ///	</summary>
     {$ENDREGION}
     function  SocketDesignationStr: string;
@@ -1207,7 +1448,7 @@ type
     function  ProcessorFamilyStr: string;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  Get the string representation of the ProcessorVersion property
+    ///	  Get the string representation of the ProcessorVersion field
     ///	</summary>
     {$ENDREGION}
     function  ProcessorVersionStr: string;
@@ -1296,24 +1537,20 @@ type
     FBaseBoardInfo: TArray<TBaseBoardInfo>;
     FEnclosureInfo: TArray<TEnclosureInfo>;
     FProcessorInfo: TArray<TProcessorInfo>;
+    FCacheInfo: TArray<TCacheInfo>;
     FDmiRevision: Integer;
     FSmbiosMajorVersion: Integer;
     FSmbiosMinorVersion: Integer;
     FSMBiosTablesList: TList<TSMBiosTableEntry>;
-    FBatteryInfoIndex: Integer;
-    FBatteryInfo: TBatteryInfo;
-    FMemoryDeviceIndex: Integer;
-    FMemoryDevice: TMemoryDevice;
     procedure LoadSMBIOS;
     procedure ReadSMBiosTables;
+    function GetSMBiosTablesList:TList<TSMBiosTableEntry>;
     function GetHasBiosInfo: Boolean;
     function GetHasSysInfo: Boolean;
     function GetHasBaseBoardInfo: Boolean;
     function GetHasEnclosureInfo: Boolean;
     function GetHasProcessorInfo: Boolean;
-    function GetSMBiosTablesList:TList<TSMBiosTableEntry>;
-    function GetHasBatteryInfo: Boolean;
-    function GetHasMemoryDeviceInfo: Boolean;
+    function GetHasCacheInfo: Boolean;
   public
     constructor Create;
     destructor Destroy; override;
@@ -1344,18 +1581,11 @@ type
     property EnclosureInfo: TArray<TEnclosureInfo> read FEnclosureInfo write FEnclosureInfo;
     property HasEnclosureInfo : Boolean read GetHasEnclosureInfo;
 
+    property CacheInfo: TArray<TCacheInfo> read FCacheInfo write FCacheInfo;
+    property HasCacheInfo : Boolean read GetHasCacheInfo;
+
     property ProcessorInfo: TArray<TProcessorInfo> read FProcessorInfo write FProcessorInfo;
     property HasProcessorInfo : Boolean read GetHasProcessorInfo;
-
-    property BatteryInfo: TBatteryInfo read FBatteryInfo write FBatteryInfo;
-    property BatteryInfoIndex: Integer read FBatteryInfoIndex Write FBatteryInfoIndex;
-    property HasBatteryInfo : Boolean read GetHasBatteryInfo;
-
-    property MemoryDeviceInfo: TMemoryDevice read FMemoryDevice write FMemoryDevice;
-    property MemoryDeviceInfoIndex: Integer read FMemoryDeviceIndex Write FMemoryDeviceIndex;
-    property HasMemoryDeviceInfo : Boolean read GetHasMemoryDeviceInfo;
-
-
   end;
 
 implementation
@@ -1423,24 +1653,19 @@ begin
   Result:=Length(FBaseBoardInfo)>0;
 end;
 
-function TSMBios.GetHasBatteryInfo: Boolean;
-begin
-  Result:=FBatteryInfoIndex>=0;
-end;
-
 function TSMBios.GetHasBiosInfo: Boolean;
 begin
   Result:=Length(FBiosInfo)>0;
 end;
 
+function TSMBios.GetHasCacheInfo: Boolean;
+begin
+  Result:=Length(FCacheInfo)>0;
+end;
+
 function TSMBios.GetHasEnclosureInfo: Boolean;
 begin
   Result:=Length(FEnclosureInfo)>0;
-end;
-
-function TSMBios.GetHasMemoryDeviceInfo: Boolean;
-begin
-   Result:=FMemoryDeviceIndex>=0;
 end;
 
 function TSMBios.GetHasProcessorInfo: Boolean;
@@ -1628,6 +1853,7 @@ end;
 procedure TSMBios.ReadSMBiosTables;
 var
  LIndex, i :  Integer;
+ LCacheInfo : TCacheInfo;
 begin
   SetLength(FBiosInfo, GetSMBiosTableEntries(BIOSInformation));
   i:=0;
@@ -1685,6 +1911,20 @@ begin
     end;
   until (LIndex=-1);
 
+  SetLength(FCacheInfo, GetSMBiosTableEntries(CacheInformation));
+  i:=0;
+  LIndex:=0;
+  repeat
+    LIndex := GetSMBiosTableNextIndex(CacheInformation, LIndex);
+    if LIndex >= 0 then
+    begin
+      Move(Buffer[LIndex], FCacheInfo[i], SizeOf(TCacheInfo)- SizeOf(FCacheInfo[i].LocalIndex)- SizeOf(FCacheInfo[i].FBuffer));
+      FCacheInfo[i].LocalIndex:=LIndex;
+      FCacheInfo[i].FBuffer   :=FBuffer;
+      Inc(i);
+    end;
+  until (LIndex=-1);
+
 
   SetLength(FProcessorInfo, GetSMBiosTableEntries(ProcessorInformation));
   i:=0;
@@ -1693,13 +1933,43 @@ begin
     LIndex := GetSMBiosTableNextIndex(ProcessorInformation, LIndex);
     if LIndex >= 0 then
     begin
-      Move(Buffer[LIndex], FProcessorInfo[i], SizeOf(TProcessorInfo)- SizeOf(FProcessorInfo[i].LocalIndex)- SizeOf(FProcessorInfo[i].FBuffer));
+      Move(Buffer[LIndex], FProcessorInfo[i], SizeOf(TProcessorInfo)- SizeOf(FProcessorInfo[i].LocalIndex)- SizeOf(FProcessorInfo[i].FBuffer) - (SizeOf(TCacheInfo)*3));
       FProcessorInfo[i].LocalIndex:=LIndex;
       FProcessorInfo[i].FBuffer   :=FBuffer;
+
+      ZeroMemory(@FProcessorInfo[i].L1Chache, SizeOf(FProcessorInfo[i].L1Chache));
+      ZeroMemory(@FProcessorInfo[i].L2Chache, SizeOf(FProcessorInfo[i].L2Chache));
+      ZeroMemory(@FProcessorInfo[i].L3Chache, SizeOf(FProcessorInfo[i].L3Chache));
+
+      if FProcessorInfo[i].L1CacheHandle>0 then
+        for LCacheInfo in FCacheInfo do
+          if LCacheInfo.Header.Handle=FProcessorInfo[i].L1CacheHandle then
+          begin
+            Move(LCacheInfo, FProcessorInfo[i].L1Chache, SizeOf(LCacheInfo));
+            Break;
+          end;
+
+      if FProcessorInfo[i].L2CacheHandle>0 then
+        for LCacheInfo in FCacheInfo do
+          if LCacheInfo.Header.Handle=FProcessorInfo[i].L2CacheHandle then
+          begin
+            Move(LCacheInfo, FProcessorInfo[i].L2Chache, SizeOf(LCacheInfo));
+            Break;
+          end;
+
+      if FProcessorInfo[i].L3CacheHandle>0 then
+        for LCacheInfo in FCacheInfo do
+          if LCacheInfo.Header.Handle=FProcessorInfo[i].L3CacheHandle then
+          begin
+            Move(LCacheInfo, FProcessorInfo[i].L3Chache, SizeOf(LCacheInfo));
+            Break;
+          end;
+
       Inc(i);
     end;
   until (LIndex=-1);
 
+  {
   FBatteryInfoIndex := GetSMBiosTableNextIndex(PortableBattery);
   if FBatteryInfoIndex >= 0 then
     Move(Buffer[FBatteryInfoIndex], FBatteryInfo, SizeOf(FBatteryInfo));
@@ -1707,13 +1977,14 @@ begin
   FMemoryDeviceIndex := GetSMBiosTableNextIndex(MemoryDevice);
   if FMemoryDeviceIndex >= 0 then
     Move(Buffer[FMemoryDeviceIndex], FMemoryDevice, SizeOf(FMemoryDevice));
+  }
 end;
 
 { TBaseBoardInfo }
 
 function TBaseBoardInfo.AssetTagStr: string;
 begin
-
+  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.BoardType);
 end;
 
 function TBaseBoardInfo.BoardTypeStr: AnsiString;
@@ -2254,6 +2525,93 @@ begin
 end;
 
 function TProcessorInfo.SocketDesignationStr: string;
+begin
+  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.SocketDesignation);
+end;
+
+{ TCacheInfo }
+
+function TCacheInfo.AssociativityStr: String;
+begin
+  case Self.Associativity of
+    $01 : Result:='Other';
+    $02 : Result:='Unknown';
+    $03 : Result:='Direct Mapped';
+    $04 : Result:='2-way Set-Associative';
+    $05 : Result:='4-way Set-Associative';
+    $06 : Result:='Fully Associative';
+    $07 : Result:='8-way Set-Associative';
+    $08 : Result:='16-way Set-Associative';
+    $09 : Result:='12-way Set-Associative';
+    $0A : Result:='24-way Set-Associative';
+    $0B : Result:='32-way Set-Associative';
+    $0C : Result:='48-way Set-Associative';
+    $0D : Result:='64-way Set-Associative';
+    $0E : Result:='20-way Set-Associative';
+  else
+    Result:='Unknown';
+  end;
+end;
+
+function TCacheInfo.GetCurrentSRAMType: TCacheSRAMTypes;
+var
+  i: integer;
+begin
+   Result:=[];
+   for i := 0 to 6 do
+    if GetBit(Self.CurrentSRAMType, i) then
+       Include(Result,  TCacheSRAMType(i));
+end;
+
+function TCacheInfo.GetErrorCorrectionType: TErrorCorrectionType;
+begin
+  if Self.ErrorCorrectionType>6 then
+   Result:=ECUnknown
+  else
+   Result:=TErrorCorrectionType(Self.ErrorCorrectionType);
+end;
+
+function TCacheInfo.GetInstalledCacheSize: Integer;
+var
+  Granularity : Integer;
+begin
+   Granularity:=1;
+   if GetBit(Self.InstalledSize, 15) then
+     Granularity:=64;
+
+  Result:=Granularity*EnableBit(Self.InstalledSize, 15, false);
+end;
+
+function TCacheInfo.GetMaximumCacheSize: Integer;
+var
+  Granularity : Integer;
+begin
+   Granularity:=1;
+   if GetBit(Self.MaximumCacheSize, 15) then
+     Granularity:=64;
+
+  Result:=Granularity*EnableBit(Self.MaximumCacheSize, 15, false);
+end;
+
+function TCacheInfo.GetSupportedSRAMType: TCacheSRAMTypes;
+var
+  i: integer;
+begin
+   Result:=[];
+   for i := 0 to 6 do
+    if GetBit(Self.SupportedSRAMType, i) then
+       Include(Result,  TCacheSRAMType(i));
+end;
+
+function TCacheInfo.GetSystemCacheType: TSystemCacheType;
+begin
+  if Self.SystemCacheType>5 then
+   Result:=SCUnknown
+  else
+   Result:=TSystemCacheType(Self.SystemCacheType);
+end;
+
+function TCacheInfo.SocketDesignationStr: String;
 begin
   Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.SocketDesignation);
 end;
