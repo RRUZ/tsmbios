@@ -1562,6 +1562,94 @@ type
     function PortTypeStr : string;
   end;
 
+
+  {$REGION 'Documentation'}
+  ///	<summary>
+  ///	  the information in this structure defines the attributes of a system
+  ///	  slot. One structure is provided for each slot in the system.
+  ///	</summary>
+  {$ENDREGION}
+  TSystemSlotInfo=packed record
+    Header: TSmBiosTableHeader;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  String number for reference designation EXAMPLE: ‘PCI-1’,0
+    ///	</summary>
+    {$ENDREGION}
+    SlotDesignation : Byte;
+    SlotType : Byte;
+    SlotDataBusWidth : Byte;
+    CurrentUsage : Byte;
+    SlotLength : Byte;
+
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The Slot ID field of the System Slot structure provides a mechanism
+    ///	  to correlate the physical attributes of  the slot to its logical
+    ///	  access method (which varies based on the Slot Type field).
+    ///	</summary>
+    {$ENDREGION}
+    SlotID : Word;
+    SlotCharacteristics1 :  Byte;
+    SlotCharacteristics2 :  Byte;
+
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  For slots that are not of types PCI, AGP, PCI-X, or PCI-Express that
+    ///	  do not have bus/device/function information, 0FFh should be populated
+    ///	  in the fields of Segment Group Number, Bus Number, Device/Function
+    ///	  Number. Segment Group Number is defined in the PCI Firmware
+    ///	  Specification. The value is 0 for a single-segment topology.
+    ///	</summary>
+    {$ENDREGION}
+    SegmentGroupNumber :Word;
+    BusNumber : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  <para>
+    ///	    Bits 7:3 – device number
+    ///	  </para>
+    ///	  <para>
+    ///	    Bits 2:0 – function number
+    ///	  </para>
+    ///	</summary>
+    {$ENDREGION}
+    DeviceFunctionNumber : Byte;
+    //helper fields and methods, not part of the SMBIOS spec.
+    LocalIndex : Word;
+    FBuffer: PByteArray;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the SlotDesignation field.
+    ///	</summary>
+    {$ENDREGION}
+    function SlotDesignationStr : string;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the description for the SlotType field
+    ///	</summary>
+    {$ENDREGION}
+    function GetSlotType : string;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the description for the SlotDataBusWidth field
+    ///	</summary>
+    {$ENDREGION}
+    function GetSlotDataBusWidth : string;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the description for the CurrentUsage field
+    ///	</summary>
+    {$ENDREGION}
+    function GetCurrentUsage : string;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the description for the SlotLength field
+    ///	</summary>
+    {$ENDREGION}
+    function GetSlotLength : string;
+  end;
+
   TBatteryInfo = packed record
     Header: TSmBiosTableHeader;
     Location : Byte;
@@ -1613,6 +1701,7 @@ type
   ArrProcessorInfo    = Array of TProcessorInfo;
   ArrCacheInfo        = Array of TCacheInfo;
   ArrPortConnectorInfo= Array of TPortConnectorInfo;
+  ArrSystemSlotInfo   = Array of TSystemSlotInfo;
   ArrSMBiosTableEntry = Array of TSMBiosTableEntry;
   {$IFEND}
 
@@ -1628,6 +1717,7 @@ type
     FProcessorInfo: {$IF CompilerVersion < 20}ArrProcessorInfo; {$ELSE}TArray<TProcessorInfo>;{$IFEND}
     FCacheInfo: {$IF CompilerVersion < 20}ArrCacheInfo; {$ELSE}TArray<TCacheInfo>;{$IFEND}
     FPortConnectorInfo : {$IF CompilerVersion < 20}ArrPortConnectorInfo; {$ELSE} TArray<TPortConnectorInfo>; {$IFEND}
+    FSystemSlotInfo : {$IF CompilerVersion < 20}ArrSystemSlotInfo; {$ELSE} TArray<TSystemSlotInfo>; {$IFEND}
     FDmiRevision: Integer;
     FSmbiosMajorVersion: Integer;
     FSmbiosMinorVersion: Integer;
@@ -1643,6 +1733,7 @@ type
     function GetHasProcessorInfo: Boolean;
     function GetHasCacheInfo: Boolean;
     function GetHasPortConnectorInfo: Boolean;
+    function GetHasSystemSlotInfo: Boolean;
   public
     constructor Create;
     destructor Destroy; override;
@@ -1681,6 +1772,9 @@ type
 
     property PortConnectorInfo: {$IF CompilerVersion < 20}ArrPortConnectorInfo {$ELSE} TArray<TPortConnectorInfo> {$IFEND} read FPortConnectorInfo write FPortConnectorInfo;
     property HasPortConnectorInfo : Boolean read GetHasPortConnectorInfo;
+
+    property SystemSlotInfo: {$IF CompilerVersion < 20}ArrSystemSlotInfo {$ELSE} TArray<TSystemSlotInfo> {$IFEND} read FSystemSlotInfo write FSystemSlotInfo;
+    property HasSystemSlotInfo : Boolean read GetHasSystemSlotInfo;
   end;
 
 implementation
@@ -1777,6 +1871,11 @@ end;
 function TSMBios.GetHasSysInfo: Boolean;
 begin
   Result:=Length(FSysInfo)>0;
+end;
+
+function TSMBios.GetHasSystemSlotInfo: Boolean;
+begin
+  Result:=Length(FSystemSlotInfo)>0;
 end;
 
 function TSMBios.SearchSMBiosTable(TableType: TSMBiosTablesTypes): integer;
@@ -2114,6 +2213,19 @@ begin
     end;
   until (LIndex=-1);
 
+  SetLength(FSystemSlotInfo, GetSMBiosTableEntries(SystemSlotsInformation));
+  i:=0;
+  LIndex:=0;
+  repeat
+    LIndex := GetSMBiosTableNextIndex(SystemSlotsInformation, LIndex);
+    if LIndex >= 0 then
+    begin
+      Move(Buffer[LIndex], FSystemSlotInfo[i], SizeOf(TSystemSlotInfo)- SizeOf(FSystemSlotInfo[i].LocalIndex) - SizeOf(FSystemSlotInfo[i].FBuffer));
+      FSystemSlotInfo[i].LocalIndex:=LIndex;
+      FSystemSlotInfo[i].FBuffer   :=FBuffer;
+      Inc(i);
+    end;
+  until (LIndex=-1);
 end;
 
 { TBaseBoardInfo }
@@ -2856,6 +2968,109 @@ begin
     else
     Result:='Unknown';
   end;
+end;
+
+{ TSystemSlotInfo }
+
+function TSystemSlotInfo.GetCurrentUsage: string;
+begin
+  case Self.CurrentUsage of
+    $01 :Result:='Other';
+    $02 :Result:='Unknown';
+    $03 :Result:='Available';
+    $04 :Result:='In use';
+  else
+    Result:='Unknown';
+  end;
+end;
+
+function TSystemSlotInfo.GetSlotDataBusWidth: string;
+begin
+  case Self.SlotDataBusWidth of
+    $01 :Result:='Other';
+    $02 :Result:='Unknown';
+    $03 :Result:='8 bit';
+    $04 :Result:='16 bit';
+    $05 :Result:='32 bit';
+    $06 :Result:='64 bit';
+    $07 :Result:='128 bit';
+    $08 :Result:='1x or x1';
+    $09 :Result:='2x or x2';
+    $0A :Result:='4x or x4';
+    $0B :Result:='8x or x8';
+    $0C :Result:='12x or x12';
+    $0D :Result:='16x or x16';
+    $0E :Result:='32x or x32'
+  else
+    Result:='Unknown';
+  end;
+end;
+
+function TSystemSlotInfo.GetSlotLength: string;
+begin
+  case Self.SlotLength of
+    $01 :Result:='Other';
+    $02 :Result:='Unknown';
+    $03 :Result:='Short Length';
+    $04 :Result:='Long Length'
+  else
+    Result:='Unknown';
+  end;
+end;
+
+function TSystemSlotInfo.GetSlotType: string;
+begin
+  case Self.SlotType of
+    $01 :Result:='Other';
+    $02 :Result:='Unknown';
+    $03 :Result:='ISA';
+    $04 :Result:='MCA';
+    $05 :Result:='EISA';
+    $06 :Result:='PCI';
+    $07 :Result:='PC Card (PCMCIA)';
+    $08 :Result:='VL-VESA';
+    $09 :Result:='Proprietary';
+    $0A :Result:='Processor Card Slot';
+    $0B :Result:='Proprietary Memory Card Slot';
+    $0C :Result:='I/O Riser Card Slot';
+    $0D :Result:='NuBus';
+    $0E :Result:='PCI – 66MHz Capable';
+    $0F :Result:='AGP';
+    $10 :Result:='AGP 2X';
+    $11 :Result:='AGP 4X';
+    $12 :Result:='PCI-X';
+    $13 :Result:='AGP 8X';
+    $A0 :Result:='PC-98/C20';
+    $A1 :Result:='PC-98/C24';
+    $A2 :Result:='PC-98/E';
+    $A3 :Result:='PC-98/Local Bus';
+    $A4 :Result:='PC-98/Card';
+    $A5 :Result:='PCI Express';
+    $A6 :Result:='PCI Express x1';
+    $A7 :Result:='PCI Express x2';
+    $A8 :Result:='PCI Express x4';
+    $A9 :Result:='PCI Express x8';
+    $AA :Result:='PCI Express x16';
+    $AB :Result:='PCI Express Gen 2';
+    $AC :Result:='PCI Express Gen 2 x1';
+    $AD :Result:='PCI Express Gen 2 x2';
+    $AE :Result:='PCI Express Gen 2 x4';
+    $AF :Result:='PCI Express Gen 2 x8';
+    $B0 :Result:='PCI Express Gen 2 x16';
+    $B1 :Result:='PCI Express Gen 3';
+    $B2 :Result:='PCI Express Gen 3 x1';
+    $B3 :Result:='PCI Express Gen 3 x2';
+    $B4 :Result:='PCI Express Gen 3 x4';
+    $B5 :Result:='PCI Express Gen 3 x8';
+    $B6 :Result:='PCI Express Gen 3 x16'
+  else
+    Result:='Unknown';
+  end;
+end;
+
+function TSystemSlotInfo.SlotDesignationStr: string;
+begin
+  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.SlotDesignation);
 end;
 
 end.
