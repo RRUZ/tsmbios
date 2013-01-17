@@ -17,7 +17,7 @@ Var
 begin
   SMBios:=TSMBios.Create;
   try
-    Writeln(Format('%d SMBios tables found',[SMBios.SMBiosTablesList.Count]));
+    Writeln(Format('%d SMBios tables found',[Length(SMBios.SMBiosTablesList)]));
     Writeln;
     Writeln('Type Handle Length Index Description');
     for Entry in SMBios.SMBiosTablesList do

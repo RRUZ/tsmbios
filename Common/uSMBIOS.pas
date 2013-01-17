@@ -24,7 +24,7 @@ interface
 uses
   SysUtils,
   Windows,
-  Generics.Collections,
+  {$IF CompilerVersion >= 20}Generics.Collections,{$IFEND}
   Classes;
 
 type
@@ -49,7 +49,7 @@ type
     CacheInformation = 7,
     PortConnectorInformation = 8,
     SystemSlotsInformation = 9,
-    OnBoardDevicesInformation = 10,
+    OnBoardDevicesInformation = 10, //This structure is obsolete starting with version 2.6
     OEMStrings = 11,
     SystemConfigurationOptions = 12,
     BIOSLanguageInformation = 13,
@@ -1605,25 +1605,37 @@ type
     Index : Integer;
   end;
 
+  {$IF CompilerVersion < 20}
+  ArrBiosInfo         = Array of TBiosInfo;
+  ArrSysInfo          = Array of TSysInfo;
+  ArrBaseBoardInfo    = Array of TBaseBoardInfo;
+  ArrEnclosureInfo    = Array of TEnclosureInfo;
+  ArrProcessorInfo    = Array of TProcessorInfo;
+  ArrCacheInfo        = Array of TCacheInfo;
+  ArrPortConnectorInfo= Array of TPortConnectorInfo;
+  ArrSMBiosTableEntry = Array of TSMBiosTableEntry;
+  {$IFEND}
+
   TSMBios = class
   private
     FSize: integer;
     FBuffer: PByteArray;
     FDataString: AnsiString;
-    FBiosInfo: TArray<TBiosInfo>;
-    FSysInfo: TArray<TSysInfo>;
-    FBaseBoardInfo: TArray<TBaseBoardInfo>;
-    FEnclosureInfo: TArray<TEnclosureInfo>;
-    FProcessorInfo: TArray<TProcessorInfo>;
-    FCacheInfo: TArray<TCacheInfo>;
-    FPortConnectorInfo :  TArray<TPortConnectorInfo>;
+    FBiosInfo: {$IF CompilerVersion < 20}ArrBiosInfo; {$ELSE} TArray<TBiosInfo>; {$IFEND}
+    FSysInfo: {$IF CompilerVersion < 20}ArrSysInfo; {$ELSE}TArray<TSysInfo>;{$IFEND}
+    FBaseBoardInfo: {$IF CompilerVersion < 20}ArrBaseBoardInfo; {$ELSE}TArray<TBaseBoardInfo>;{$IFEND}
+    FEnclosureInfo: {$IF CompilerVersion < 20}ArrEnclosureInfo; {$ELSE}TArray<TEnclosureInfo>;{$IFEND}
+    FProcessorInfo: {$IF CompilerVersion < 20}ArrProcessorInfo; {$ELSE}TArray<TProcessorInfo>;{$IFEND}
+    FCacheInfo: {$IF CompilerVersion < 20}ArrCacheInfo; {$ELSE}TArray<TCacheInfo>;{$IFEND}
+    FPortConnectorInfo : {$IF CompilerVersion < 20}ArrPortConnectorInfo; {$ELSE} TArray<TPortConnectorInfo>; {$IFEND}
     FDmiRevision: Integer;
     FSmbiosMajorVersion: Integer;
     FSmbiosMinorVersion: Integer;
-    FSMBiosTablesList: TList<TSMBiosTableEntry>;
+    FSMBiosTablesList: {$IF CompilerVersion < 20}ArrSMBiosTableEntry; {$ELSE} TArray<TSMBiosTableEntry>;{$IFEND}
     procedure LoadSMBIOS;
     procedure ReadSMBiosTables;
-    function GetSMBiosTablesList:TList<TSMBiosTableEntry>;
+    function GetSMBiosTablesList:{$IF CompilerVersion < 20}ArrSMBiosTableEntry; {$ELSE} TArray<TSMBiosTableEntry>;{$IFEND}
+    function GetSMBiosTablesCount: Integer;
     function GetHasBiosInfo: Boolean;
     function GetHasSysInfo: Boolean;
     function GetHasBaseBoardInfo: Boolean;
@@ -1647,27 +1659,27 @@ type
     property DmiRevision: Integer read FDmiRevision;
     property SmbiosMajorVersion : Integer read FSmbiosMajorVersion;
     property SmbiosMinorVersion : Integer read FSmbiosMinorVersion;
-    property SMBiosTablesList : TList<TSMBiosTableEntry> read FSMBiosTablesList;
+    property SMBiosTablesList : {$IF CompilerVersion < 20}ArrSMBiosTableEntry {$ELSE}TArray<TSMBiosTableEntry> {$IFEND} read FSMBiosTablesList;
 
-    property BiosInfo: TArray<TBiosInfo> read FBiosInfo;
+    property BiosInfo: {$IF CompilerVersion < 20}ArrBiosInfo {$ELSE}TArray<TBiosInfo> {$IFEND} read FBiosInfo;
     property HasBiosInfo : Boolean read GetHasBiosInfo;
 
-    property SysInfo: TArray<TSysInfo> read FSysInfo Write FSysInfo;
+    property SysInfo: {$IF CompilerVersion < 20}ArrSysInfo {$ELSE}TArray<TSysInfo> {$IFEND} read FSysInfo Write FSysInfo;
     property HasSysInfo : Boolean read GetHasSysInfo;
 
-    property BaseBoardInfo: TArray<TBaseBoardInfo> read FBaseBoardInfo write FBaseBoardInfo;
+    property BaseBoardInfo: {$IF CompilerVersion < 20}ArrBaseBoardInfo {$ELSE}TArray<TBaseBoardInfo> {$IFEND} read FBaseBoardInfo write FBaseBoardInfo;
     property HasBaseBoardInfo : Boolean read GetHasBaseBoardInfo;
 
-    property EnclosureInfo: TArray<TEnclosureInfo> read FEnclosureInfo write FEnclosureInfo;
+    property EnclosureInfo: {$IF CompilerVersion < 20}ArrEnclosureInfo {$ELSE}TArray<TEnclosureInfo> {$IFEND} read FEnclosureInfo write FEnclosureInfo;
     property HasEnclosureInfo : Boolean read GetHasEnclosureInfo;
 
-    property CacheInfo: TArray<TCacheInfo> read FCacheInfo write FCacheInfo;
+    property CacheInfo: {$IF CompilerVersion < 20}ArrCacheInfo {$ELSE}TArray<TCacheInfo> {$IFEND} read FCacheInfo write FCacheInfo;
     property HasCacheInfo : Boolean read GetHasCacheInfo;
 
-    property ProcessorInfo: TArray<TProcessorInfo> read FProcessorInfo write FProcessorInfo;
+    property ProcessorInfo: {$IF CompilerVersion < 20}ArrProcessorInfo {$ELSE}TArray<TProcessorInfo> {$IFEND} read FProcessorInfo write FProcessorInfo;
     property HasProcessorInfo : Boolean read GetHasProcessorInfo;
 
-    property PortConnectorInfo: TArray<TPortConnectorInfo> read FPortConnectorInfo write FPortConnectorInfo;
+    property PortConnectorInfo: {$IF CompilerVersion < 20}ArrPortConnectorInfo {$ELSE} TArray<TPortConnectorInfo> {$IFEND} read FPortConnectorInfo write FPortConnectorInfo;
     property HasPortConnectorInfo : Boolean read GetHasPortConnectorInfo;
   end;
 
@@ -1720,14 +1732,15 @@ begin
   if Assigned(FBuffer) and (FSize > 0) then
     FreeMem(FBuffer);
 
-  if Assigned(FSMBiosTablesList) then
-    FSMBiosTablesList.Free;
 
+  SetLength(FSMBiosTablesList, 0);
   SetLength(FBiosInfo, 0);
   SetLength(FSysInfo, 0);
   SetLength(FBaseBoardInfo, 0);
   SetLength(FEnclosureInfo, 0);
   SetLength(FProcessorInfo, 0);
+  SetLength(FCacheInfo, 0);
+  SetLength(FPortConnectorInfo, 0);
   Inherited;
 end;
 
@@ -1862,21 +1875,50 @@ begin
     end;
 end;
 
-function TSMBios.GetSMBiosTablesList: TList<TSMBiosTableEntry>;
+function TSMBios.GetSMBiosTablesCount: Integer;
 Var
   Index : integer;
   Header: TSmBiosTableHeader;
+begin
+  Result    := 0;
+  Index     := 0;
+  repeat
+    Move(Buffer[Index], Header, SizeOf(Header));
+    Inc(Result);
+
+    if Header.TableType=Ord(EndofTable) then break;
+
+    inc(Index, Header.Length);// + 1);
+    if Index+1>FSize then
+      Break;
+
+    while not((Buffer[Index] = 0) and (Buffer[Index + 1] = 0)) do
+    if Index+1>FSize then
+     Break
+    else
+     inc(Index);
+
+    inc(Index, 2);
+  until (Index>FSize);
+end;
+
+function TSMBios.GetSMBiosTablesList: {$IF CompilerVersion < 20}ArrSMBiosTableEntry; {$ELSE} TArray<TSMBiosTableEntry>;{$IFEND}
+Var
+  I,Index : integer;
+  Header: TSmBiosTableHeader;
   Entry    : TSMBiosTableEntry;
 begin
-  Result    := TList<TSMBiosTableEntry>.Create;
+  SetLength(Result, GetSMBiosTablesCount);
+  I:=0;
   Index     := 0;
   repeat
     Move(Buffer[Index], Header, SizeOf(Header));
     Entry.Header:=Header;
     Entry.Index:=Index;
-    Result.Add(Entry);
+    Move(Entry, Result[I], SizeOf(Entry));
+    Inc(I);
 
-    if Header.TableType=Ord(TSMBiosTablesTypes.EndofTable) then break;
+    if Header.TableType=Ord(EndofTable) then break;
 
     inc(Index, Header.Length);// + 1);
     if Index+1>FSize then
