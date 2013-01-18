@@ -14,28 +14,23 @@ uses
 procedure GetSystemInfo;
 Var
   SMBios : TSMBios;
-  SI     : TSysInfo;
+  LSystem: TSysInfo;
   UUID   : Array[0..31] of AnsiChar;
 begin
   SMBios:=TSMBios.Create;
   try
-      WriteLn('System Information');
-      if SMBios.HasSysInfo then
-      for SI in SMBios.SysInfo do
-      begin
-        //WriteLn('Manufacter    '+SMBios.GetSMBiosString(SI.LocalIndex + SI.Header.Length, SI.Manufacturer));
-        WriteLn('Manufacter    '+SI.ManufacturerStr);
-        WriteLn('Product Name  '+SI.ProductNameStr);
-        WriteLn('Version       '+SI.VersionStr);
-        WriteLn('Serial Number '+SI.SerialNumberStr);
-        BinToHex(@SI.UUID,UUID,SizeOf(SI.UUID));
-        WriteLn('UUID          '+UUID);
-        WriteLn('SKU Number    '+SI.SKUNumberStr);
-        WriteLn('Family        '+SI.FamilyStr);
-        WriteLn;
-      end
-      else
-      Writeln('No System Info was found');
+    LSystem:=SMBios.SysInfo;
+    WriteLn('System Information');
+    //WriteLn('Manufacter    '+SMBios.GetSMBiosString(LSystem.LocalIndex + LSystem.Header.Length, LSystem.Manufacturer));
+    WriteLn('Manufacter    '+LSystem.ManufacturerStr);
+    WriteLn('Product Name  '+LSystem.ProductNameStr);
+    WriteLn('Version       '+LSystem.VersionStr);
+    WriteLn('Serial Number '+LSystem.SerialNumberStr);
+    BinToHex(@LSystem.UUID,UUID,SizeOf(LSystem.UUID));
+    WriteLn('UUID          '+UUID);
+    WriteLn('SKU Number    '+LSystem.SKUNumberStr);
+    WriteLn('Family        '+LSystem.FamilyStr);
+    WriteLn;
   finally
    SMBios.Free;
   end;
