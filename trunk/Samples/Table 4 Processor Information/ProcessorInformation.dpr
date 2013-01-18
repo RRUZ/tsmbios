@@ -73,13 +73,20 @@ begin
         WriteLn(Format('Current processor speed %d  Mhz',[LProcessorInfo.CurrentSpeed]));
         WriteLn('Processor Upgrade   '+LProcessorInfo.ProcessorUpgradeStr);
         WriteLn(Format('External Clock     %d  Mhz',[LProcessorInfo.ExternalClock]));
-        WriteLn('Serial Number      '+LProcessorInfo.SerialNumberStr);
-        WriteLn('Asset Tag          '+LProcessorInfo.AssetTagStr);
-        WriteLn('Part Number        '+LProcessorInfo.PartNumberStr);
-        WriteLn(Format('Core Count         %d',[LProcessorInfo.CoreCount]));
-        WriteLn(Format('Cores Enabled      %d',[LProcessorInfo.CoreEnabled]));
-        WriteLn(Format('Threads Count      %d',[LProcessorInfo.ThreadCount]));
-        WriteLn(Format('Processor Characteristics %.4x',[LProcessorInfo.ProcessorCharacteristics]));
+
+        if SMBios.SmbiosVersion>='2.3' then
+        begin
+          WriteLn('Serial Number      '+LProcessorInfo.SerialNumberStr);
+          WriteLn('Asset Tag          '+LProcessorInfo.AssetTagStr);
+          WriteLn('Part Number        '+LProcessorInfo.PartNumberStr);
+          if SMBios.SmbiosVersion>='2.5' then
+          begin
+            WriteLn(Format('Core Count         %d',[LProcessorInfo.CoreCount]));
+            WriteLn(Format('Cores Enabled      %d',[LProcessorInfo.CoreEnabled]));
+            WriteLn(Format('Threads Count      %d',[LProcessorInfo.ThreadCount]));
+            WriteLn(Format('Processor Characteristics %.4x',[LProcessorInfo.ProcessorCharacteristics]));
+          end;
+        end;
         Writeln;
 
         if LProcessorInfo.L1CacheHandle>0 then

@@ -42,9 +42,11 @@ begin
         WriteLn(Format('Slot ID             %.4x',[LSlot.SlotID]));
         WriteLn('Characteristics 1   '+ByteToBinStr(LSlot.SlotCharacteristics1));
         WriteLn('Characteristics 2   '+ByteToBinStr(LSlot.SlotCharacteristics2));
-        WriteLn(Format('Segment Group Number %.4x',[LSlot.SegmentGroupNumber]));
-        WriteLn(Format('Bus Number           %d',[LSlot.BusNumber]));
-
+        if SMBios.SmbiosVersion>='2.6' then
+        begin
+          WriteLn(Format('Segment Group Number %.4x',[LSlot.SegmentGroupNumber]));
+          WriteLn(Format('Bus Number           %d',[LSlot.BusNumber]));
+        end;
         WriteLn;
       end
       else

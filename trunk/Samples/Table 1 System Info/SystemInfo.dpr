@@ -28,14 +28,16 @@ begin
     WriteLn('Serial Number '+LSystem.SerialNumberStr);
     BinToHex(@LSystem.UUID,UUID,SizeOf(LSystem.UUID));
     WriteLn('UUID          '+UUID);
-    WriteLn('SKU Number    '+LSystem.SKUNumberStr);
-    WriteLn('Family        '+LSystem.FamilyStr);
+    if SMBios.SmbiosVersion>='2.4' then
+    begin
+      WriteLn('SKU Number    '+LSystem.SKUNumberStr);
+      WriteLn('Family        '+LSystem.FamilyStr);
+    end;
     WriteLn;
   finally
    SMBios.Free;
   end;
 end;
-
 
 begin
  try
