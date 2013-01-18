@@ -17,6 +17,7 @@
 { Portions created by Rodrigo Ruz V. are Copyright (C) 2012-2013 Rodrigo Ruz V.                    }
 { All Rights Reserved.                                                                             }
 {                                                                                                  }
+{**************************************************************************************************}
 unit uSMBIOS;
 
 interface
@@ -27,6 +28,8 @@ uses
   {$IF CompilerVersion >= 20}Generics.Collections,{$IFEND}
   Classes;
 
+{.$DEFINE USEWMI}
+
 type
   // TODO :
   // Add OSX support http://www.opensource.apple.com/source/AppleSMBIOS/AppleSMBIOS-38/SMBIOS.h
@@ -35,6 +38,16 @@ type
   // Add FPC support
   // Add old Delphi versions support
 
+
+  PRawSMBIOSData = ^TRawSMBIOSData;
+  TRawSMBIOSData = record
+    Used20CallingMethod : Byte;
+    SMBIOSMajorVersion : Byte;
+    SMBIOSMinorVersion : Byte;
+    DmiRevision : Byte;
+    Length : DWORD;
+    SMBIOSTableData : PByteArray;
+  end;
 
   // Reference
   // http://www.dmtf.org/standards/smbios
@@ -49,7 +62,7 @@ type
     CacheInformation = 7,
     PortConnectorInformation = 8,
     SystemSlotsInformation = 9,
-    OnBoardDevicesInformation = 10, //This structure is obsolete starting with version 2.6
+    OnBoardDevicesInformation = 10,  //This structure is obsolete starting with version 2.6
     OEMStrings = 11,
     SystemConfigurationOptions = 12,
     BIOSLanguageInformation = 13,
@@ -2023,8 +2036,7 @@ type
 
   TSMBios = class
   private
-    FSize: integer;
-    FBuffer: PByteArray;
+    FRawSMBIOSData : TRawSMBIOSData;
     FDataString: AnsiString;
     FBiosInfo: TBiosInfo;
     FSysInfo: TSysInfo;
@@ -2034,13 +2046,12 @@ type
     FCacheInfo: {$IF CompilerVersion < 20}ArrCacheInfo; {$ELSE}TArray<TCacheInfo>;{$IFEND}
     FPortConnectorInfo : {$IF CompilerVersion < 20}ArrPortConnectorInfo; {$ELSE} TArray<TPortConnectorInfo>; {$IFEND}
     FSystemSlotInfo : {$IF CompilerVersion < 20}ArrSystemSlotInfo; {$ELSE} TArray<TSystemSlotInfo>; {$IFEND}
-    FDmiRevision: Integer;
-    FSmbiosMajorVersion: Integer;
-    FSmbiosMinorVersion: Integer;
-    FSMBiosTablesList: {$IF CompilerVersion < 20}ArrSMBiosTableEntry; {$ELSE} TArray<TSMBiosTableEntry>;
-    FSmbiosVersion: string;{$IFEND}
-
-    procedure LoadSMBIOS;
+    FSMBiosTablesList: {$IF CompilerVersion < 20}ArrSMBiosTableEntry; {$ELSE} TArray<TSMBiosTableEntry>;{$IFEND}
+    {$IFDEF USEWMI}
+    procedure LoadSMBIOSWMI;
+    {$ELSE}
+    procedure LoadSMBIOSWinAPI;
+    {$ENDIF}
     procedure ReadSMBiosTables;
     function GetSMBiosTablesList:{$IF CompilerVersion < 20}ArrSMBiosTableEntry; {$ELSE} TArray<TSMBiosTableEntry>;{$IFEND}
     function GetSMBiosTablesCount: Integer;
@@ -2050,6 +2061,7 @@ type
     function GetHasCacheInfo: Boolean;
     function GetHasPortConnectorInfo: Boolean;
     function GetHasSystemSlotInfo: Boolean;
+    function GetSmbiosVersion: string;
   public
     constructor Create;
     destructor Destroy; override;
@@ -2060,13 +2072,9 @@ type
 
     function GetSMBiosString(Entry, Index: integer): AnsiString;
 
-    property Size: integer read FSize;
-    property Buffer: PByteArray read FBuffer;
     property DataString: AnsiString read FDataString;
-    property DmiRevision: Integer read FDmiRevision;
-    property SmbiosMajorVersion : Integer read FSmbiosMajorVersion;
-    property SmbiosMinorVersion : Integer read FSmbiosMinorVersion;
-    property SmbiosVersion : string   read FSmbiosVersion;
+    property RawSMBIOSData : TRawSMBIOSData read FRawSMBIOSData;
+    property SmbiosVersion : string  read GetSmbiosVersion;
     property SMBiosTablesList : {$IF CompilerVersion < 20}ArrSMBiosTableEntry {$ELSE}TArray<TSMBiosTableEntry> {$IFEND} read FSMBiosTablesList;
 
     property BiosInfo: TBiosInfo read FBiosInfo;
@@ -2093,11 +2101,12 @@ type
 
 implementation
 
+{$IFDEF USEWMI}
 uses
   ComObj,
   ActiveX,
   Variants;
-
+{$ENDIF}
 
 function GetBit(const AValue: DWORD; const Bit: Byte): Boolean;
 begin
@@ -2124,20 +2133,23 @@ end;
 constructor TSMBios.Create;
 begin
   Inherited;
-  FBuffer := nil;
   FSMBiosTablesList:=nil;
   FBaseBoardInfo:=nil;
   FEnclosureInfo:=nil;
   FProcessorInfo:=nil;
-  LoadSMBIOS;
+  {$IFDEF USEWMI}
+  LoadSMBIOSWMI;
+  {$ELSE}
+  LoadSMBIOSWinAPI;
+  {$ENDIF}
+  FSMBiosTablesList:=GetSMBiosTablesList;
   ReadSMBiosTables;
 end;
 
 destructor TSMBios.Destroy;
 begin
-  if Assigned(FBuffer) and (FSize > 0) then
-    FreeMem(FBuffer);
-
+  if Assigned(RawSMBIOSData.SMBIOSTableData) and (RawSMBIOSData.Length > 0) then
+    FreeMem(RawSMBIOSData.SMBIOSTableData);
 
   SetLength(FSMBiosTablesList, 0);
   SetLength(FBaseBoardInfo, 0);
@@ -2185,21 +2197,21 @@ Var
 begin
   Index     := 0;
   repeat
-    Move(Buffer[Index], Header, SizeOf(Header));
+    Move(RawSMBIOSData.SMBIOSTableData[Index], Header, SizeOf(Header));
 
     if Header.TableType = Ord(TableType) then
       break
     else
     begin
        inc(Index, Header.Length);
-       if Index+1>FSize then
+       if Index+1>RawSMBIOSData.Length then
        begin
          Index:=-1;
          Break;
        end;
 
-      while not((Buffer[Index] = 0) and (Buffer[Index + 1] = 0)) do
-       if Index+1>FSize then
+      while not((RawSMBIOSData.SMBIOSTableData[Index] = 0) and (RawSMBIOSData.SMBIOSTableData[Index + 1] = 0)) do
+       if Index+1>RawSMBIOSData.Length then
        begin
          Index:=-1;
          Break;
@@ -2209,9 +2221,10 @@ begin
 
        inc(Index, 2);
     end;
-  until (Index>FSize);
+  until (Index>RawSMBIOSData.Length);
   Result := Index;
 end;
+
 
 function GetSMBiosString(FBuffer: PByteArray;Entry, Index: integer): AnsiString;
 var
@@ -2232,6 +2245,7 @@ begin
   end;
 end;
 
+
 function TSMBios.GetSMBiosString(Entry, Index: integer): AnsiString;
 var
   i: integer;
@@ -2240,7 +2254,7 @@ begin
   Result := '';
   for i := 1 to Index do
   begin
-    p := PAnsiChar(@FBuffer[Entry]);
+    p := PAnsiChar(@RawSMBIOSData.SMBIOSTableData[Entry]);
     if i = Index then
     begin
       Result := p;
@@ -2282,23 +2296,23 @@ begin
   Result    := 0;
   Index     := 0;
   repeat
-    Move(Buffer[Index], Header, SizeOf(Header));
+    Move(RawSMBIOSData.SMBIOSTableData[Index], Header, SizeOf(Header));
     Inc(Result);
 
     if Header.TableType=Ord(EndofTable) then break;
 
     inc(Index, Header.Length);// + 1);
-    if Index+1>FSize then
+    if Index+1>RawSMBIOSData.Length then
       Break;
 
-    while not((Buffer[Index] = 0) and (Buffer[Index + 1] = 0)) do
-    if Index+1>FSize then
+    while not((RawSMBIOSData.SMBIOSTableData[Index] = 0) and (RawSMBIOSData.SMBIOSTableData[Index + 1] = 0)) do
+    if Index+1>RawSMBIOSData.Length then
      Break
     else
      inc(Index);
 
     inc(Index, 2);
-  until (Index>FSize);
+  until (Index>RawSMBIOSData.Length);
 end;
 
 function TSMBios.GetSMBiosTablesList: {$IF CompilerVersion < 20}ArrSMBiosTableEntry; {$ELSE} TArray<TSMBiosTableEntry>;{$IFEND}
@@ -2311,7 +2325,7 @@ begin
   I:=0;
   Index     := 0;
   repeat
-    Move(Buffer[Index], Header, SizeOf(Header));
+    Move(RawSMBIOSData.SMBIOSTableData[Index], Header, SizeOf(Header));
     Entry.Header:=Header;
     Entry.Index:=Index;
     Move(Entry, Result[I], SizeOf(Entry));
@@ -2320,21 +2334,65 @@ begin
     if Header.TableType=Ord(EndofTable) then break;
 
     inc(Index, Header.Length);// + 1);
-    if Index+1>FSize then
+    if Index+1>RawSMBIOSData.Length then
       Break;
 
-    while not((Buffer[Index] = 0) and (Buffer[Index + 1] = 0)) do
-    if Index+1>FSize then
+    while not((RawSMBIOSData.SMBIOSTableData[Index] = 0) and (RawSMBIOSData.SMBIOSTableData[Index + 1] = 0)) do
+    if Index+1>RawSMBIOSData.Length then
      Break
     else
      inc(Index);
 
     inc(Index, 2);
-  until (Index>FSize);
+  until (Index>RawSMBIOSData.Length);
 end;
 
 
-procedure TSMBios.LoadSMBIOS;
+function TSMBios.GetSmbiosVersion: string;
+begin
+   Result := Format('%d.%d',[RawSMBIOSData.SMBIOSMajorVersion, RawSMBIOSData.SMBIOSMinorVersion]);
+end;
+
+{$IFNDEF USEWMI}
+procedure TSMBios.LoadSMBIOSWinAPI;
+type
+  //http://msdn.microsoft.com/en-us/library/windows/desktop/ms724379%28v=vs.85%29.aspx
+  TFNGetSystemFirmwareTable = function(FirmwareTableProviderSignature: DWORD;
+    FirmwareTableID: DWORD; out pFirmwareTableBuffer; BufferSize: DWORD): UINT; stdcall;
+const
+  FirmwareTableProviderSignature = $52534D42;  // 'RSMB'
+var
+  GetSystemFirmwareTable: TFNGetSystemFirmwareTable;
+  hModule: Windows.HMODULE;
+  BufferSize: UINT;
+  Buffer : PByteArray;
+begin
+  ZeroMemory(@RawSMBIOSData, SizeOf(RawSMBIOSData));
+  hModule := GetModuleHandle(kernel32);
+  GetSystemFirmwareTable := GetProcAddress(hModule, 'GetSystemFirmwareTable');
+  if Assigned(GetSystemFirmwareTable) then
+  begin
+     BufferSize:=GetSystemFirmwareTable(FirmwareTableProviderSignature, 0, nil^, BufferSize);
+     if BufferSize>0 then
+     begin
+       GetMem(FRawSMBIOSData.SMBIOSTableData, BufferSize-8);
+       GetMem(Buffer, BufferSize);
+       try
+         GetSystemFirmwareTable(FirmwareTableProviderSignature, 0, Buffer^, BufferSize);
+         Move(Buffer[0], FRawSMBIOSData, 8);
+         Move(Buffer[8], FRawSMBIOSData.SMBIOSTableData^[0], FRawSMBIOSData.Length);
+       finally
+         FreeMem(Buffer);
+       end;
+     end
+     else
+     RaiseLastOSError;
+  end;
+end;
+{$ENDIF}
+
+{$IFDEF USEWMI}
+procedure TSMBios.LoadSMBIOSWMI;
 const
   wbemFlagForwardOnly = $00000020;
 var
@@ -2348,21 +2406,22 @@ var
   Value: integer;
   i: integer;
 begin;
+  ZeroMemory(@RawSMBIOSData, SizeOf(RawSMBIOSData));
   FSWbemLocator := CreateOleObject('WbemScripting.SWbemLocator');
   FWMIService := FSWbemLocator.ConnectServer('localhost', 'root\WMI', '', '');
   FWbemObjectSet := FWMIService.ExecQuery('SELECT * FROM MSSmBios_RawSMBiosTables', 'WQL', wbemFlagForwardOnly);
   oEnum := IUnknown(FWbemObjectSet._NewEnum) as IEnumvariant;
   if oEnum.Next(1, FWbemObject, iValue) = 0 then
   begin
-    FSize := FWbemObject.Size;
-    GetMem(FBuffer, FSize);
+    //FSize := FWbemObject.Size;
+    FRawSMBIOSData.Length             :=FWbemObject.Size;
+    GetMem(FRawSMBIOSData.SMBIOSTableData, FRawSMBIOSData.Length);
+    FRawSMBIOSData.DmiRevision:= FWbemObject.DmiRevision;
+    FRawSMBIOSData.SMBIOSMajorVersion :=FWbemObject.SmbiosMajorVersion;
+    FRawSMBIOSData.SMBIOSMinorVersion :=FWbemObject.SmbiosMinorVersion;
 
-    FDmiRevision:= FWbemObject.DmiRevision;
-    FSmbiosMajorVersion :=FWbemObject.SmbiosMajorVersion;
-    FSmbiosMinorVersion :=FWbemObject.SmbiosMinorVersion;
-    FSmbiosVersion:=Format('%d.%d',[FSmbiosMajorVersion,FSmbiosMinorVersion]);
-    if FSmbiosVersion<'2.4' then
-     raise Exception.Create(Format('Sorry, SMBIOS Version not supported %s',[FSmbiosVersion]));
+    if SmbiosVersion<'2.4' then
+     raise Exception.Create(Format('Sorry, SMBIOS Version not supported %s',[SmbiosVersion]));
 
     vArray := FWbemObject.SMBiosData;
 
@@ -2370,18 +2429,16 @@ begin;
       for i := VarArrayLowBound(vArray, 1) to VarArrayHighBound(vArray, 1) do
       begin
         Value := vArray[i];
-        Buffer[i] := Value;
+        FRawSMBIOSData.SMBIOSTableData[i] := Value;
         if Value in [$20..$7E] then
           FDataString := FDataString + AnsiString(Chr(Value))
         else
           FDataString := FDataString + '.';
       end;
-
-    FSMBiosTablesList:=GetSMBiosTablesList;
     FWbemObject := Unassigned;
   end;
 end;
-
+{$ENDIF}
 procedure TSMBios.ReadSMBiosTables;
 var
  LIndex, i :  Integer;
@@ -2390,24 +2447,24 @@ var
 
 begin
 
-  LIndex := GetSMBiosTableNextIndex(BIOSInformation, LIndex);
+  LIndex := GetSMBiosTableNextIndex(BIOSInformation, 0);
   if LIndex >= 0 then
   begin
     ZeroMemory(@FBiosInfo, SizeOf(FBiosInfo));
-    Move(Buffer[LIndex], FBiosInfo, SizeOf(TBiosInfo)- SizeOf(FBiosInfo.LocalIndex) - SizeOf(FBiosInfo.FBuffer));
+    Move(RawSMBIOSData.SMBIOSTableData[LIndex], FBiosInfo, SizeOf(TBiosInfo)- SizeOf(FBiosInfo.LocalIndex) - SizeOf(FBiosInfo.FBuffer));
     FBiosInfo.LocalIndex := LIndex;
-    FBiosInfo.FBuffer    := FBuffer;
+    FBiosInfo.FBuffer    := RawSMBIOSData.SMBIOSTableData;
     Inc(i);
   end;
 
 
-  LIndex := GetSMBiosTableNextIndex(SystemInformation, LIndex);
+  LIndex := GetSMBiosTableNextIndex(SystemInformation, 0);
   if LIndex >= 0 then
   begin
     ZeroMemory(@FSysInfo, SizeOf(FSysInfo));
-    Move(Buffer[LIndex], FSysInfo, SizeOf(TSysInfo)- SizeOf(FSysInfo.LocalIndex) - SizeOf(FSysInfo.FBuffer));
+    Move(RawSMBIOSData.SMBIOSTableData[LIndex], FSysInfo, SizeOf(TSysInfo)- SizeOf(FSysInfo.LocalIndex) - SizeOf(FSysInfo.FBuffer));
     FSysInfo.LocalIndex:=LIndex;
-    FSysInfo.FBuffer   :=FBuffer;
+    FSysInfo.FBuffer   :=RawSMBIOSData.SMBIOSTableData;
     Inc(i);
   end;
 
@@ -2426,9 +2483,9 @@ begin
 
         }
 
-      Move(Buffer[LIndex], FBaseBoardInfo[i], SizeOf(TBaseBoardInfo)- SizeOf(FBaseBoardInfo[i].LocalIndex) - SizeOf(FBaseBoardInfo[i].FBuffer));
+      Move(RawSMBIOSData.SMBIOSTableData[LIndex], FBaseBoardInfo[i], SizeOf(TBaseBoardInfo)- SizeOf(FBaseBoardInfo[i].LocalIndex) - SizeOf(FBaseBoardInfo[i].FBuffer));
       FBaseBoardInfo[i].LocalIndex:=LIndex;
-      FBaseBoardInfo[i].FBuffer   :=FBuffer;
+      FBaseBoardInfo[i].FBuffer   :=RawSMBIOSData.SMBIOSTableData;
       Inc(i);
     end;
   until (LIndex=-1);
@@ -2441,9 +2498,9 @@ begin
     LIndex := GetSMBiosTableNextIndex(EnclosureInformation, LIndex);
     if LIndex >= 0 then
     begin
-      Move(Buffer[LIndex], FEnclosureInfo[i], SizeOf(TEnclosureInfo)- SizeOf(FEnclosureInfo[i].LocalIndex)- SizeOf(FEnclosureInfo[i].FBuffer));
+      Move(RawSMBIOSData.SMBIOSTableData[LIndex], FEnclosureInfo[i], SizeOf(TEnclosureInfo)- SizeOf(FEnclosureInfo[i].LocalIndex)- SizeOf(FEnclosureInfo[i].FBuffer));
       FEnclosureInfo[i].LocalIndex:=LIndex;
-      FEnclosureInfo[i].FBuffer   :=FBuffer;
+      FEnclosureInfo[i].FBuffer   :=RawSMBIOSData.SMBIOSTableData;
       Inc(i);
     end;
   until (LIndex=-1);
@@ -2456,9 +2513,9 @@ begin
     LIndex := GetSMBiosTableNextIndex(CacheInformation, LIndex);
     if LIndex >= 0 then
     begin
-      Move(Buffer[LIndex], FCacheInfo[i], SizeOf(TCacheInfo)- SizeOf(FCacheInfo[i].LocalIndex)- SizeOf(FCacheInfo[i].FBuffer));
+      Move(RawSMBIOSData.SMBIOSTableData[LIndex], FCacheInfo[i], SizeOf(TCacheInfo)- SizeOf(FCacheInfo[i].LocalIndex)- SizeOf(FCacheInfo[i].FBuffer));
       FCacheInfo[i].LocalIndex:=LIndex;
-      FCacheInfo[i].FBuffer   :=FBuffer;
+      FCacheInfo[i].FBuffer   :=RawSMBIOSData.SMBIOSTableData;
       Inc(i);
     end;
   until (LIndex=-1);
@@ -2472,9 +2529,9 @@ begin
     LIndex := GetSMBiosTableNextIndex(ProcessorInformation, LIndex);
     if LIndex >= 0 then
     begin
-      Move(Buffer[LIndex], FProcessorInfo[i], SizeOf(TProcessorInfo)- SizeOf(FProcessorInfo[i].LocalIndex)- SizeOf(FProcessorInfo[i].FBuffer) - (SizeOf(TCacheInfo)*3));
+      Move(RawSMBIOSData.SMBIOSTableData[LIndex], FProcessorInfo[i], SizeOf(TProcessorInfo)- SizeOf(FProcessorInfo[i].LocalIndex)- SizeOf(FProcessorInfo[i].FBuffer) - (SizeOf(TCacheInfo)*3));
       FProcessorInfo[i].LocalIndex:=LIndex;
-      FProcessorInfo[i].FBuffer   :=FBuffer;
+      FProcessorInfo[i].FBuffer   :=RawSMBIOSData.SMBIOSTableData;
 
       ZeroMemory(@FProcessorInfo[i].L1Chache, SizeOf(FProcessorInfo[i].L1Chache));
       ZeroMemory(@FProcessorInfo[i].L2Chache, SizeOf(FProcessorInfo[i].L2Chache));
@@ -2517,9 +2574,9 @@ begin
     LIndex := GetSMBiosTableNextIndex(PortConnectorInformation, LIndex);
     if LIndex >= 0 then
     begin
-      Move(Buffer[LIndex], FPortConnectorInfo[i], SizeOf(TPortConnectorInfo)- SizeOf(FPortConnectorInfo[i].LocalIndex) - SizeOf(FPortConnectorInfo[i].FBuffer));
+      Move(RawSMBIOSData.SMBIOSTableData[LIndex], FPortConnectorInfo[i], SizeOf(TPortConnectorInfo)- SizeOf(FPortConnectorInfo[i].LocalIndex) - SizeOf(FPortConnectorInfo[i].FBuffer));
       FPortConnectorInfo[i].LocalIndex:=LIndex;
-      FPortConnectorInfo[i].FBuffer   :=FBuffer;
+      FPortConnectorInfo[i].FBuffer   :=RawSMBIOSData.SMBIOSTableData;
       Inc(i);
     end;
   until (LIndex=-1);
@@ -2532,9 +2589,9 @@ begin
     LIndex := GetSMBiosTableNextIndex(SystemSlotsInformation, LIndex);
     if LIndex >= 0 then
     begin
-      Move(Buffer[LIndex], FSystemSlotInfo[i], SizeOf(TSystemSlotInfo)- SizeOf(FSystemSlotInfo[i].LocalIndex) - SizeOf(FSystemSlotInfo[i].FBuffer));
+      Move(RawSMBIOSData.SMBIOSTableData[LIndex], FSystemSlotInfo[i], SizeOf(TSystemSlotInfo)- SizeOf(FSystemSlotInfo[i].LocalIndex) - SizeOf(FSystemSlotInfo[i].FBuffer));
       FSystemSlotInfo[i].LocalIndex:=LIndex;
-      FSystemSlotInfo[i].FBuffer   :=FBuffer;
+      FSystemSlotInfo[i].FBuffer   :=RawSMBIOSData.SMBIOSTableData;
       Inc(i);
     end;
   until (LIndex=-1);
