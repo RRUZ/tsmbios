@@ -17,7 +17,7 @@ Var
 begin
   SMBios:=TSMBios.Create;
   try
-    Writeln(Format('SMBIOS Version %d.%d',[SMBios.SmbiosMajorVersion, SMBios.SmbiosMinorVersion]));
+    Writeln(Format('SMBIOS Version %s',[SMBios.SmbiosVersion]));
     Writeln(Format('%d SMBios tables found',[Length(SMBios.SMBiosTablesList)]));
     Writeln;
     Writeln('Type Handle Length Index Description');
