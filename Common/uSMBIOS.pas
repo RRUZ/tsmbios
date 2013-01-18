@@ -347,10 +347,26 @@ const
 
 type
   TSmBiosTableHeader = packed record
+    {$REGION 'Documentation'}
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
+    {$ENDREGION}
     TableType: Byte;
+    {$REGION 'Documentation'}
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
+    {$ENDREGION}
     Length: Byte;
+    {$REGION 'Documentation'}
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
+    {$ENDREGION}
     Handle: Word;
   end;
+
 
   {$REGION 'Documentation'}
   ///	<summary>
@@ -363,6 +379,9 @@ type
     ///	<summary>
     ///	  String number of the BIOS Vendor’s Name.
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     Vendor: Byte;
     {$REGION 'Documentation'}
@@ -370,6 +389,9 @@ type
     ///	  String number of the BIOS Version. This is a freeform string that may
     ///	  contain Core and OEM version information.
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     Version: Byte;
     {$REGION 'Documentation'}
@@ -379,6 +401,9 @@ type
     ///	  subtracting the Starting Address Segment from 10000h and multiplying
     ///	  the result by 16.
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     StartingSegment: Word;
     {$REGION 'Documentation'}
@@ -388,6 +413,9 @@ type
     ///	  the string is two digits, the year is assumed to be 19yy. NOTE: The
     ///	  mm/dd/yyyy format is required for SMBIOS version 2.3 and later.
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     ReleaseDate: Byte;
     {$REGION 'Documentation'}
@@ -395,12 +423,18 @@ type
     ///	  Size (n) where 64K * (n+1) is the size of the physical device
     ///	  containing the BIOS, in bytes
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     BiosRomSize: Byte;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Defines which functions the BIOS supports: PCI, PCMCIA, Flash, etc.
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     Characteristics: Int64;
     {$REGION 'Documentation'}
@@ -411,6 +445,9 @@ type
     ///	  Characteristics Extension Bytes are defined (12-13h) and bytes 14-
     ///	  17h are also defined
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     ExtensionBytes : array [0..1] of Byte;
     {$REGION 'Documentation'}
@@ -422,6 +459,9 @@ type
     ///	  not support the use of this field, the value is 0FFh for both this
     ///	  field and the System BIOS Minor Release field.
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     SystemBIOSMajorRelease : Byte;
     {$REGION 'Documentation'}
@@ -429,6 +469,9 @@ type
     ///	  Identifies the minor release of the System BIOS; for example, the
     ///	  value is 16h for revision 10.22 and 01h for revision 2.1.
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     SystemBIOSMinorRelease : Byte;
     {$REGION 'Documentation'}
@@ -441,6 +484,9 @@ type
     ///	  not have field upgradeable embedded controller firmware, the value is
     ///	  0FFh.
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     EmbeddedControllerFirmwareMajorRelease : Byte;
     {$REGION 'Documentation'}
@@ -450,6 +496,9 @@ type
     ///	  2.1. If the system does not have field upgradeable embedded
     ///	  controller firmware, the value is 0FFh.
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     EmbeddedControllerFirmwareMinorRelease : Byte;
     //helper fields and methods, not part of the SMBIOS spec.
@@ -490,24 +539,36 @@ type
     ///	<summary>
     ///	  Number of Null terminated string
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     Manufacturer: Byte;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Number of Null terminated string
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     ProductName: Byte;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Number of Null terminated string
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     Version: Byte;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Number of Null terminated string
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     SerialNumber: Byte;
     {$REGION 'Documentation'}
@@ -519,12 +580,18 @@ type
     ///	  not significant to the SMBIOS specification, which is only concerned
     ///	  with the byte order.
     ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
     {$ENDREGION}
     UUID: array [0 .. 15] of Byte;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Identifies the event that caused the system to power up.
     ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
     {$ENDREGION}
     WakeUpType: Byte;
     {$REGION 'Documentation'}
@@ -537,8 +604,12 @@ type
     ///	  of unique processor, memory, hard drive, and optical drive
     ///	  configurations.
     ///	</summary>
+    ///	<remarks>
+    ///	  2.4+
+    ///	</remarks>
     {$ENDREGION}
     SKUNumber: Byte;
+
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Number of Null terminated string This text string is used to identify
@@ -549,6 +620,9 @@ type
     ///	  points. Computers in the same family often have similar branding and
     ///	  cosmetic features
     ///	</summary>
+    ///	<remarks>
+    ///	  2.4+
+    ///	</remarks>
     {$ENDREGION}
     Family : Byte;
     //helper fields and methods, not part of the SMBIOS spec.
@@ -612,36 +686,54 @@ type
     ///	<summary>
     ///	  Number of Null terminated string
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     Manufacturer: Byte;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Number of Null terminated string
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     Product: Byte;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Number of Null terminated string
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     Version: Byte;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Number of Null terminated string
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     SerialNumber: Byte;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Number of a null-terminated string
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     AssetTag  : Byte;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  A collection of flags that identify features of this baseboard.
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     FeatureFlags : Byte;
     {$REGION 'Documentation'}
@@ -666,6 +758,9 @@ type
     ///	    </item>
     ///	  </list>
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     LocationinChassis : Byte;
     {$REGION 'Documentation'}
@@ -673,12 +768,18 @@ type
     ///	  The handle, or instance number, associated with the chassis in which
     ///	  this board resides
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     ChassisHandle : Word;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Identifies the type of board
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     BoardType :  Byte;
     {$REGION 'Documentation'}
@@ -686,6 +787,9 @@ type
     ///	  Identifies the number (0 to 255) of Contained Object Handles that
     ///	  follow
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     NumberofContainedObjectHandles : Byte;
     //ContainedObjectHandles :  Array of Word;
@@ -748,24 +852,36 @@ type
   {$ENDREGION}
   TEnclosureInfo = packed record
     Header: TSmBiosTableHeader;
+
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Number of Null terminated string
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     Manufacturer: Byte;
+
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Bit 7 Chassis lock is present if 1. Otherwise, either a lock is not
     ///	  present or it is unknown if the enclosure has a lock. Bits 6:0
     ///	  Enumeration value.
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     &Type: Byte;
+
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Number of Null terminated string
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     Version: Byte;
     {$REGION 'Documentation'}
@@ -778,37 +894,57 @@ type
     ///	<summary>
     ///	  Number of Null terminated string
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     AssetTagNumber: Byte;
+
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Identifies the state of the enclosure when it was last booted.
     ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
     {$ENDREGION}
     BootUpState: Byte;
+
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Identifies the state of the enclosure’s power supply (or supplies)
     ///	  when last booted.
     ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
     {$ENDREGION}
     PowerSupplyState: Byte;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Identifies the enclosure’s thermal state when last booted.
     ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
     {$ENDREGION}
     ThermalState: Byte;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Identifies the enclosure’s physical security status when last booted.
     ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
     {$ENDREGION}
     SecurityStatus: Byte;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Contains OEM- or BIOS vendor-specific information.
     ///	</summary>
+    ///	<remarks>
+    ///	  2.3+
+    ///	</remarks>
     {$ENDREGION}
     OEM_Defined: DWORD;
     {$REGION 'Documentation'}
@@ -818,6 +954,9 @@ type
     ///	  equal to 1.75 inches or 4.445 cm. A value of 00h indicates that the
     ///	  enclosure height is unspecified.
     ///	</summary>
+    ///	<remarks>
+    ///	  2.3+
+    ///	</remarks>
     {$ENDREGION}
     Height : Byte;
     {$REGION 'Documentation'}
@@ -825,6 +964,9 @@ type
     ///	  Identifies the number of power cords associated with the enclosure or
     ///	  chassis. A value of 00h indicates that the number is unspecified.
     ///	</summary>
+    ///	<remarks>
+    ///	  2.3+
+    ///	</remarks>
     {$ENDREGION}
     NumberofPowerCords : Byte;
     {$REGION 'Documentation'}
@@ -835,6 +977,9 @@ type
     ///	  follows. If no Contained Elements are included, this field is set to
     ///	  0.
     ///	</summary>
+    ///	<remarks>
+    ///	  2.3+
+    ///	</remarks>
     {$ENDREGION}
     ContainedElementCount : Byte;
     {$REGION 'Documentation'}
@@ -845,13 +990,15 @@ type
     ///	  specification, this field is set to at least 03h when Contained
     ///	  Elements are specified.
     ///	</summary>
+    ///	<remarks>
+    ///	  2.3+
+    ///	</remarks>
     {$ENDREGION}
     ContainedElementRecordLength : Byte;
 
     //TODO Extension to support complex data representation
     //ContainedElements  n * m BYTEs
-    //SKUNumber : Byte;
-
+    //SKUNumber : Byte;     *******Added in SMBIOS 2.7*********
     //helper fields and methods, not part of the SMBIOS spec.
     LocalIndex : Word;
     FBuffer: PByteArray;
@@ -973,6 +1120,9 @@ type
     ///	<summary>
     ///	  String Number for Reference Designation EXAMPLE: “CACHE1”, 0
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     SocketDesignation: Byte;
     {$REGION 'Documentation'}
@@ -1044,6 +1194,9 @@ type
     ///	    use value 000b and an L3
     ///	  </para>
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     CacheConfiguration: Word;
     {$REGION 'Documentation'}
@@ -1074,6 +1227,9 @@ type
     ///	    core processor with 1 MB L3 cache (non-shared) per core.
     ///	  </para>
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     MaximumCacheSize: Word;
     {$REGION 'Documentation'}
@@ -1081,33 +1237,58 @@ type
     ///	  Same format as Max Cache Size field; set to 0 if no cache is
     ///	  installed.
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     InstalledSize: Word;
+    {$REGION 'Documentation'}
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
+    {$ENDREGION}
     SupportedSRAMType: Word;
+    {$REGION 'Documentation'}
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
+    {$ENDREGION}
     CurrentSRAMType: Word;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  The cache module speed, in nanoseconds. The value is 0 if the speed
     ///	  is unknown.
     ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
     {$ENDREGION}
     CacheSpeed: Byte;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  The error-correction scheme supported by this cache component
     ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
     {$ENDREGION}
     ErrorCorrectionType: Byte;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  The logical type of cache
     ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
     {$ENDREGION}
     SystemCacheType: Byte;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  The associativity of the cache.
     ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
     {$ENDREGION}
     Associativity: Byte;
     //helper fields and methods, not part of the SMBIOS spec.
@@ -1176,14 +1357,30 @@ type
     ///	<summary>
     ///	  String number for Reference Designation EXAMPLE: ‘J202’,0
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     SocketDesignation: Byte;
+    {$REGION 'Documentation'}
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
+    {$ENDREGION}
     ProcessorType: Byte;
+    {$REGION 'Documentation'}
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
+    {$ENDREGION}
     ProcessorFamily: Byte;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  String number of Processor Manufacturer
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     ProcessorManufacturer: Byte;
     {$REGION 'Documentation'}
@@ -1205,12 +1402,18 @@ type
     ///	    reset.
     ///	  </para>
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     ProcessorID : Int64; // QWORD;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  String number describing the Processor
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     ProcessorVersion: Byte;
     {$REGION 'Documentation'}
@@ -1220,6 +1423,9 @@ type
     ///	  bit). If bit 7 is 0 (legacy mode), the remaining bits of the field
     ///	  represent the specific voltages that the processor socket can accept.
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     Voltaje: Byte;
     {$REGION 'Documentation'}
@@ -1227,6 +1433,9 @@ type
     ///	  External Clock Frequency, in MHz. If the value is unknown, the field
     ///	  is set to 0.
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     ExternalClock: Word;
     {$REGION 'Documentation'}
@@ -1241,6 +1450,9 @@ type
     ///	    <b>NOTE: This field identifies a capability for the system, not the processor itself.</b>
     ///	  </para>
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     MaxSpeed: Word;
     {$REGION 'Documentation'}
@@ -1253,6 +1465,9 @@ type
     ///	    <b>NOTE: This field identifies the processor's speed at system boot, and the Processor ID field implies the processor's additional speed characteristics (that is, single speed or multiple speed).</b>
     ///	  </para>
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     CurrentSpeed: Word;
     {$REGION 'Documentation'}
@@ -1294,8 +1509,16 @@ type
     ///	    </item>
     ///	  </list>
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     Status: Byte;
+    {$REGION 'Documentation'}
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
+    {$ENDREGION}
     ProcessorUpgrade: Byte;
     {$REGION 'Documentation'}
     ///	<summary>
@@ -1306,6 +1529,9 @@ type
     ///	  implementations, the value is 0FFFFh if the Cache Information
     ///	  structure is not provided.
     ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
     {$ENDREGION}
     L1CacheHandle: Word;
     {$REGION 'Documentation'}
@@ -1317,6 +1543,9 @@ type
     ///	  implementations, the value is 0FFFFh if the Cache Information
     ///	  structure is not provided.
     ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
     {$ENDREGION}
     L2CacheHandle: Word;
     {$REGION 'Documentation'}
@@ -1328,6 +1557,9 @@ type
     ///	  implementations, the value is 0FFFFh if the Cache Information
     ///	  structure is not provided.
     ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
     {$ENDREGION}
     L3CacheHandle: Word;
     {$REGION 'Documentation'}
@@ -1335,12 +1567,18 @@ type
     ///	  String number for the serial number of this processor. This value is
     ///	  set by the manufacturer and normally not changeable.
     ///	</summary>
+    ///	<remarks>
+    ///	  2.3+
+    ///	</remarks>
     {$ENDREGION}
     SerialNumber: Byte;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  String number for the asset tag of this processor.
     ///	</summary>
+    ///	<remarks>
+    ///	  2.3+
+    ///	</remarks>
     {$ENDREGION}
     AssetTag: Byte;
     {$REGION 'Documentation'}
@@ -1348,6 +1586,9 @@ type
     ///	  String number for the part number of this processor. This value is
     ///	  set by the manufacturer and normally not changeable.
     ///	</summary>
+    ///	<remarks>
+    ///	  2.3+
+    ///	</remarks>
     {$ENDREGION}
     PartNumber: Byte;
     {$REGION 'Documentation'}
@@ -1368,6 +1609,9 @@ type
     ///	    the BIOS reports a value of 2 in Core Count.
     ///	  </para>
     ///	</summary>
+    ///	<remarks>
+    ///	  2.5+
+    ///	</remarks>
     {$ENDREGION}
     CoreCount : Byte;
     {$REGION 'Documentation'}
@@ -1384,6 +1628,9 @@ type
     ///	    disables multi-core support.
     ///	  </para>
     ///	</summary>
+    ///	<remarks>
+    ///	  2.5+
+    ///	</remarks>
     {$ENDREGION}
     CoreEnabled : Byte;
     {$REGION 'Documentation'}
@@ -1407,14 +1654,25 @@ type
     ///	    of 4 in Thread Count.
     ///	  </para>
     ///	</summary>
+    ///	<remarks>
+    ///	  2.5+
+    ///	</remarks>
     {$ENDREGION}
     ThreadCount : Byte;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Defines which functions the processor supports.
     ///	</summary>
+    ///	<remarks>
+    ///	  2.5+
+    ///	</remarks>
     {$ENDREGION}
     ProcessorCharacteristics : Word;
+    {$REGION 'Documentation'}
+    ///	<remarks>
+    ///	  2.6+
+    ///	</remarks>
+    {$ENDREGION}
     ProcessorFamily2 : Word;
     //helper fields and methods, not part of the SMBIOS spec.
     LocalIndex : Word;
@@ -1499,12 +1757,18 @@ type
     ///	  String number for Internal Reference Designator, that is, internal to
     ///	  the system enclosure EXAMPLE: ‘J101’, 0
     ///	</summary>
+    ///	<remarks>
+    ///	  +2.0
+    ///	</remarks>
     {$ENDREGION}
     InternalReferenceDesignator : Byte;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Internal Connector type
     ///	</summary>
+    ///	<remarks>
+    ///	  +2.0
+    ///	</remarks>
     {$ENDREGION}
     InternalConnectorType  : Byte;
     {$REGION 'Documentation'}
@@ -1517,18 +1781,27 @@ type
     ///	    EXAMPLE: ‘COM A’, 0
     ///	  </para>
     ///	</summary>
+    ///	<remarks>
+    ///	  +2.0
+    ///	</remarks>
     {$ENDREGION}
     ExternalReferenceDesignator : Byte;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  External Connector type.
     ///	</summary>
+    ///	<remarks>
+    ///	  +2.0
+    ///	</remarks>
     {$ENDREGION}
     ExternalConnectorType: Byte;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Describes the function of the port
     ///	</summary>
+    ///	<remarks>
+    ///	  +2.0
+    ///	</remarks>
     {$ENDREGION}
     PortType : Byte;
     //helper fields and methods, not part of the SMBIOS spec.
@@ -1539,12 +1812,18 @@ type
     ///	  Get the string representation of the InternalReferenceDesignator
     ///	  field.
     ///	</summary>
+    ///	<remarks>
+    ///	  +2.0
+    ///	</remarks>
     {$ENDREGION}
     function InternalReferenceDesignatorStr : string;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the description of the Connector Type Fields
     ///	</summary>
+    ///	<remarks>
+    ///	  +2.0
+    ///	</remarks>
     {$ENDREGION}
     function GetConnectorType(Connector:Byte) : string;
     {$REGION 'Documentation'}
@@ -1552,12 +1831,18 @@ type
     ///	  Get the string representation of the ExternalReferenceDesignator
     ///	  field.
     ///	</summary>
+    ///	<remarks>
+    ///	  +2.0
+    ///	</remarks>
     {$ENDREGION}
     function ExternalReferenceDesignatorStr : string;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  Get the description  of the PortType field.
+    ///	  Get the description of the PortType field.
     ///	</summary>
+    ///	<remarks>
+    ///	  +2.0
+    ///	</remarks>
     {$ENDREGION}
     function PortTypeStr : string;
   end;
@@ -1575,24 +1860,53 @@ type
     ///	<summary>
     ///	  String number for reference designation EXAMPLE: ‘PCI-1’,0
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     SlotDesignation : Byte;
+    {$REGION 'Documentation'}
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
+    {$ENDREGION}
     SlotType : Byte;
+    {$REGION 'Documentation'}
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
+    {$ENDREGION}
     SlotDataBusWidth : Byte;
+    {$REGION 'Documentation'}
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
+    {$ENDREGION}
     CurrentUsage : Byte;
     SlotLength : Byte;
-
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  The Slot ID field of the System Slot structure provides a mechanism
     ///	  to correlate the physical attributes of  the slot to its logical
     ///	  access method (which varies based on the Slot Type field).
     ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
     {$ENDREGION}
     SlotID : Word;
+    {$REGION 'Documentation'}
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
+    {$ENDREGION}
     SlotCharacteristics1 :  Byte;
+    {$REGION 'Documentation'}
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
+    {$ENDREGION}
     SlotCharacteristics2 :  Byte;
-
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  For slots that are not of types PCI, AGP, PCI-X, or PCI-Express that
@@ -1601,8 +1915,16 @@ type
     ///	  Number. Segment Group Number is defined in the PCI Firmware
     ///	  Specification. The value is 0 for a single-segment topology.
     ///	</summary>
+    ///	<remarks>
+    ///	  2.6+
+    ///	</remarks>
     {$ENDREGION}
     SegmentGroupNumber :Word;
+    {$REGION 'Documentation'}
+    ///	<remarks>
+    ///	  2.6+
+    ///	</remarks>
+    {$ENDREGION}
     BusNumber : Byte;
     {$REGION 'Documentation'}
     ///	<summary>
@@ -1613,6 +1935,9 @@ type
     ///	    Bits 2:0 – function number
     ///	  </para>
     ///	</summary>
+    ///	<remarks>
+    ///	  2.6+
+    ///	</remarks>
     {$ENDREGION}
     DeviceFunctionNumber : Byte;
     //helper fields and methods, not part of the SMBIOS spec.
@@ -1694,8 +2019,6 @@ type
   end;
 
   {$IF CompilerVersion < 20}
-  ArrBiosInfo         = Array of TBiosInfo;
-  ArrSysInfo          = Array of TSysInfo;
   ArrBaseBoardInfo    = Array of TBaseBoardInfo;
   ArrEnclosureInfo    = Array of TEnclosureInfo;
   ArrProcessorInfo    = Array of TProcessorInfo;
@@ -1710,8 +2033,8 @@ type
     FSize: integer;
     FBuffer: PByteArray;
     FDataString: AnsiString;
-    FBiosInfo: {$IF CompilerVersion < 20}ArrBiosInfo; {$ELSE} TArray<TBiosInfo>; {$IFEND}
-    FSysInfo: {$IF CompilerVersion < 20}ArrSysInfo; {$ELSE}TArray<TSysInfo>;{$IFEND}
+    FBiosInfo: TBiosInfo;
+    FSysInfo: TSysInfo;
     FBaseBoardInfo: {$IF CompilerVersion < 20}ArrBaseBoardInfo; {$ELSE}TArray<TBaseBoardInfo>;{$IFEND}
     FEnclosureInfo: {$IF CompilerVersion < 20}ArrEnclosureInfo; {$ELSE}TArray<TEnclosureInfo>;{$IFEND}
     FProcessorInfo: {$IF CompilerVersion < 20}ArrProcessorInfo; {$ELSE}TArray<TProcessorInfo>;{$IFEND}
@@ -1721,13 +2044,13 @@ type
     FDmiRevision: Integer;
     FSmbiosMajorVersion: Integer;
     FSmbiosMinorVersion: Integer;
-    FSMBiosTablesList: {$IF CompilerVersion < 20}ArrSMBiosTableEntry; {$ELSE} TArray<TSMBiosTableEntry>;{$IFEND}
+    FSMBiosTablesList: {$IF CompilerVersion < 20}ArrSMBiosTableEntry; {$ELSE} TArray<TSMBiosTableEntry>;
+    FSmbiosVersion: string;{$IFEND}
+
     procedure LoadSMBIOS;
     procedure ReadSMBiosTables;
     function GetSMBiosTablesList:{$IF CompilerVersion < 20}ArrSMBiosTableEntry; {$ELSE} TArray<TSMBiosTableEntry>;{$IFEND}
     function GetSMBiosTablesCount: Integer;
-    function GetHasBiosInfo: Boolean;
-    function GetHasSysInfo: Boolean;
     function GetHasBaseBoardInfo: Boolean;
     function GetHasEnclosureInfo: Boolean;
     function GetHasProcessorInfo: Boolean;
@@ -1750,13 +2073,11 @@ type
     property DmiRevision: Integer read FDmiRevision;
     property SmbiosMajorVersion : Integer read FSmbiosMajorVersion;
     property SmbiosMinorVersion : Integer read FSmbiosMinorVersion;
+    property SmbiosVersion : string   read FSmbiosVersion;
     property SMBiosTablesList : {$IF CompilerVersion < 20}ArrSMBiosTableEntry {$ELSE}TArray<TSMBiosTableEntry> {$IFEND} read FSMBiosTablesList;
 
-    property BiosInfo: {$IF CompilerVersion < 20}ArrBiosInfo {$ELSE}TArray<TBiosInfo> {$IFEND} read FBiosInfo;
-    property HasBiosInfo : Boolean read GetHasBiosInfo;
-
-    property SysInfo: {$IF CompilerVersion < 20}ArrSysInfo {$ELSE}TArray<TSysInfo> {$IFEND} read FSysInfo Write FSysInfo;
-    property HasSysInfo : Boolean read GetHasSysInfo;
+    property BiosInfo: TBiosInfo read FBiosInfo;
+    property SysInfo: TSysInfo read FSysInfo Write FSysInfo;
 
     property BaseBoardInfo: {$IF CompilerVersion < 20}ArrBaseBoardInfo {$ELSE}TArray<TBaseBoardInfo> {$IFEND} read FBaseBoardInfo write FBaseBoardInfo;
     property HasBaseBoardInfo : Boolean read GetHasBaseBoardInfo;
@@ -1812,8 +2133,6 @@ begin
   Inherited;
   FBuffer := nil;
   FSMBiosTablesList:=nil;
-  FBiosInfo:=nil;
-  FSysInfo:=nil;
   FBaseBoardInfo:=nil;
   FEnclosureInfo:=nil;
   FProcessorInfo:=nil;
@@ -1828,8 +2147,6 @@ begin
 
 
   SetLength(FSMBiosTablesList, 0);
-  SetLength(FBiosInfo, 0);
-  SetLength(FSysInfo, 0);
   SetLength(FBaseBoardInfo, 0);
   SetLength(FEnclosureInfo, 0);
   SetLength(FProcessorInfo, 0);
@@ -1841,11 +2158,6 @@ end;
 function TSMBios.GetHasBaseBoardInfo: Boolean;
 begin
   Result:=Length(FBaseBoardInfo)>0;
-end;
-
-function TSMBios.GetHasBiosInfo: Boolean;
-begin
-  Result:=Length(FBiosInfo)>0;
 end;
 
 function TSMBios.GetHasCacheInfo: Boolean;
@@ -1866,11 +2178,6 @@ end;
 function TSMBios.GetHasProcessorInfo: Boolean;
 begin
   Result:=Length(FProcessorInfo)>0;
-end;
-
-function TSMBios.GetHasSysInfo: Boolean;
-begin
-  Result:=Length(FSysInfo)>0;
 end;
 
 function TSMBios.GetHasSystemSlotInfo: Boolean;
@@ -2060,6 +2367,9 @@ begin;
     FDmiRevision:= FWbemObject.DmiRevision;
     FSmbiosMajorVersion :=FWbemObject.SmbiosMajorVersion;
     FSmbiosMinorVersion :=FWbemObject.SmbiosMinorVersion;
+    FSmbiosVersion:=Format('%d.%d',[FSmbiosMajorVersion,FSmbiosMinorVersion]);
+    if FSmbiosVersion<'2.4' then
+     raise Exception.Create(Format('Sorry, SMBIOS Version not supported %s',[FSmbiosVersion]));
 
     vArray := FWbemObject.SMBiosData;
 
@@ -2083,42 +2393,46 @@ procedure TSMBios.ReadSMBiosTables;
 var
  LIndex, i :  Integer;
  LCacheInfo : TCacheInfo;
-begin
-  SetLength(FBiosInfo, GetSMBiosTableEntries(BIOSInformation));
-  i:=0;
-  LIndex:=0;
-  repeat
-    LIndex := GetSMBiosTableNextIndex(BIOSInformation, LIndex);
-    if LIndex >= 0 then
-    begin
-      Move(Buffer[LIndex], FBiosInfo[i], SizeOf(TBiosInfo)- SizeOf(FBiosInfo[i].LocalIndex) - SizeOf(FBiosInfo[i].FBuffer));
-      FBiosInfo[i].LocalIndex := LIndex;
-      FBiosInfo[i].FBuffer    := FBuffer;
-      Inc(i);
-    end;
-  until (LIndex=-1);
+ LHeader    : TSmBiosTableHeader;
 
-  SetLength(FSysInfo, GetSMBiosTableEntries(SystemInformation));
-  i:=0;
-  LIndex:=0;
-  repeat
-    LIndex := GetSMBiosTableNextIndex(SystemInformation, LIndex);
-    if LIndex >= 0 then
-    begin
-      Move(Buffer[LIndex], FSysInfo[i], SizeOf(TSysInfo)- SizeOf(FSysInfo[i].LocalIndex) - SizeOf(FSysInfo[i].FBuffer));
-      FSysInfo[i].LocalIndex:=LIndex;
-      FSysInfo[i].FBuffer   :=FBuffer;
-      Inc(i);
-    end;
-  until (LIndex=-1);
+begin
+
+  LIndex := GetSMBiosTableNextIndex(BIOSInformation, LIndex);
+  if LIndex >= 0 then
+  begin
+    ZeroMemory(@FBiosInfo, SizeOf(FBiosInfo));
+    Move(Buffer[LIndex], FBiosInfo, SizeOf(TBiosInfo)- SizeOf(FBiosInfo.LocalIndex) - SizeOf(FBiosInfo.FBuffer));
+    FBiosInfo.LocalIndex := LIndex;
+    FBiosInfo.FBuffer    := FBuffer;
+    Inc(i);
+  end;
+
+
+  LIndex := GetSMBiosTableNextIndex(SystemInformation, LIndex);
+  if LIndex >= 0 then
+  begin
+    ZeroMemory(@FSysInfo, SizeOf(FSysInfo));
+    Move(Buffer[LIndex], FSysInfo, SizeOf(TSysInfo)- SizeOf(FSysInfo.LocalIndex) - SizeOf(FSysInfo.FBuffer));
+    FSysInfo.LocalIndex:=LIndex;
+    FSysInfo.FBuffer   :=FBuffer;
+    Inc(i);
+  end;
+
 
   SetLength(FBaseBoardInfo, GetSMBiosTableEntries(BaseBoardInformation));
   i:=0;
   LIndex:=0;
   repeat
+    ZeroMemory(@FBaseBoardInfo[i], SizeOf(FBaseBoardInfo[i]));
     LIndex := GetSMBiosTableNextIndex(BaseBoardInformation, LIndex);
     if LIndex >= 0 then
     begin
+    {
+      Move(Buffer[LIndex], LHeader, SizeOf(TSmBiosTableHeader));
+      if LHeader.Length then
+
+        }
+
       Move(Buffer[LIndex], FBaseBoardInfo[i], SizeOf(TBaseBoardInfo)- SizeOf(FBaseBoardInfo[i].LocalIndex) - SizeOf(FBaseBoardInfo[i].FBuffer));
       FBaseBoardInfo[i].LocalIndex:=LIndex;
       FBaseBoardInfo[i].FBuffer   :=FBuffer;
@@ -2130,6 +2444,7 @@ begin
   i:=0;
   LIndex:=0;
   repeat
+    ZeroMemory(@FEnclosureInfo[i], SizeOf(FEnclosureInfo[i]));
     LIndex := GetSMBiosTableNextIndex(EnclosureInformation, LIndex);
     if LIndex >= 0 then
     begin
@@ -2144,6 +2459,7 @@ begin
   i:=0;
   LIndex:=0;
   repeat
+    ZeroMemory(@FCacheInfo[i], SizeOf(FCacheInfo[i]));
     LIndex := GetSMBiosTableNextIndex(CacheInformation, LIndex);
     if LIndex >= 0 then
     begin
@@ -2159,6 +2475,7 @@ begin
   i:=0;
   LIndex:=0;
   repeat
+    ZeroMemory(@FProcessorInfo[i], SizeOf(FProcessorInfo[i]));
     LIndex := GetSMBiosTableNextIndex(ProcessorInformation, LIndex);
     if LIndex >= 0 then
     begin
@@ -2203,6 +2520,7 @@ begin
   i:=0;
   LIndex:=0;
   repeat
+    ZeroMemory(@FPortConnectorInfo[i], SizeOf(FPortConnectorInfo[i]));
     LIndex := GetSMBiosTableNextIndex(PortConnectorInformation, LIndex);
     if LIndex >= 0 then
     begin
@@ -2217,6 +2535,7 @@ begin
   i:=0;
   LIndex:=0;
   repeat
+    ZeroMemory(@FSystemSlotInfo[i], SizeOf(FSystemSlotInfo[i]));
     LIndex := GetSMBiosTableNextIndex(SystemSlotsInformation, LIndex);
     if LIndex >= 0 then
     begin
