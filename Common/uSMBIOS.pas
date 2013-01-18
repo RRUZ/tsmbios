@@ -609,7 +609,6 @@ type
     ///	</remarks>
     {$ENDREGION}
     SKUNumber: Byte;
-
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Number of Null terminated string This text string is used to identify
@@ -852,7 +851,6 @@ type
   {$ENDREGION}
   TEnclosureInfo = packed record
     Header: TSmBiosTableHeader;
-
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Number of Null terminated string
@@ -862,7 +860,6 @@ type
     ///	</remarks>
     {$ENDREGION}
     Manufacturer: Byte;
-
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Bit 7 Chassis lock is present if 1. Otherwise, either a lock is not
@@ -874,7 +871,6 @@ type
     ///	</remarks>
     {$ENDREGION}
     &Type: Byte;
-
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Number of Null terminated string
@@ -899,7 +895,6 @@ type
     ///	</remarks>
     {$ENDREGION}
     AssetTagNumber: Byte;
-
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Identifies the state of the enclosure when it was last booted.
@@ -909,7 +904,6 @@ type
     ///	</remarks>
     {$ENDREGION}
     BootUpState: Byte;
-
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Identifies the state of the enclosure’s power supply (or supplies)
@@ -995,7 +989,6 @@ type
     ///	</remarks>
     {$ENDREGION}
     ContainedElementRecordLength : Byte;
-
     //TODO Extension to support complex data representation
     //ContainedElements  n * m BYTEs
     //SKUNumber : Byte;     *******Added in SMBIOS 2.7*********
@@ -2551,7 +2544,7 @@ end;
 
 function TBaseBoardInfo.AssetTagStr: string;
 begin
-  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.BoardType);
+  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.AssetTag);
 end;
 
 function TBaseBoardInfo.BoardTypeStr: AnsiString;

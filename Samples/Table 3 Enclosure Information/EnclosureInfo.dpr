@@ -14,22 +14,22 @@ uses
 procedure GetEnclosureInfo;
 Var
   SMBios : TSMBios;
-  EI     : TEnclosureInfo;
+  LEnclosure  : TEnclosureInfo;
 begin
   SMBios:=TSMBios.Create;
   try
       WriteLn('Enclosure Information');
       if SMBios.HasEnclosureInfo then
-      for EI in SMBios.EnclosureInfo do
+      for LEnclosure in SMBios.EnclosureInfo do
       begin
         //WriteLn('Manufacter    '+SMBios.GetSMBiosString(EI.LocalIndex + EI.Header.Length, EI.Manufacturer));
-        WriteLn('Manufacter         '+EI.ManufacturerStr);
-        WriteLn('Version            '+EI.VersionStr);
-        WriteLn('Serial Number      '+EI.SerialNumberStr);
-        WriteLn('Asset Tag Number   '+EI.AssetTagNumberStr);
-        WriteLn('Type               '+EI.TypeStr);
-        WriteLn('Power Supply State '+EI.PowerSupplyStateStr);
-        WriteLn('BootUp State       '+EI.BootUpStateStr);
+        WriteLn('Manufacter         '+LEnclosure.ManufacturerStr);
+        WriteLn('Version            '+LEnclosure.VersionStr);
+        WriteLn('Serial Number      '+LEnclosure.SerialNumberStr);
+        WriteLn('Asset Tag Number   '+LEnclosure.AssetTagNumberStr);
+        WriteLn('Type               '+LEnclosure.TypeStr);
+        WriteLn('Power Supply State '+LEnclosure.PowerSupplyStateStr);
+        WriteLn('BootUp State       '+LEnclosure.BootUpStateStr);
         WriteLn;
       end
       else
