@@ -1981,6 +1981,34 @@ type
     function GetSlotLength : string;
   end;
 
+
+  {$REGION 'Documentation'}
+  ///	<summary>
+  ///	  This structure contains free-form strings defined by the OEM.  Examples
+  ///	  of this are part numbers for system reference documents, contact
+  ///	  information for the manufacturer, etc.
+  ///	</summary>
+  {$ENDREGION}
+  TOEMStringsInfo = packed record
+    Header: TSmBiosTableHeader;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Number of strings
+    ///	</summary>
+    {$ENDREGION}
+    Count : Byte;
+    //helper fields and methods, not part of the SMBIOS spec.
+    LocalIndex : Word;
+    FBuffer: PByteArray;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Returns the OEM String based in the Index 
+    ///	</summary>
+    {$ENDREGION}
+    function GetOEMString(index : Integer) : string;
+  end;
+
+
   TBatteryInfo = packed record
     Header: TSmBiosTableHeader;
     Location : Byte;
@@ -2032,6 +2060,7 @@ type
   ArrPortConnectorInfo= Array of TPortConnectorInfo;
   ArrSystemSlotInfo   = Array of TSystemSlotInfo;
   ArrSMBiosTableEntry = Array of TSMBiosTableEntry;
+  ArrOEMStringsInfo   = Array of TOEMStringsInfo;
   {$IFEND}
 
   TSMBios = class
@@ -2047,6 +2076,7 @@ type
     FPortConnectorInfo : {$IF CompilerVersion < 20}ArrPortConnectorInfo; {$ELSE} TArray<TPortConnectorInfo>; {$IFEND}
     FSystemSlotInfo : {$IF CompilerVersion < 20}ArrSystemSlotInfo; {$ELSE} TArray<TSystemSlotInfo>; {$IFEND}
     FSMBiosTablesList: {$IF CompilerVersion < 20}ArrSMBiosTableEntry; {$ELSE} TArray<TSMBiosTableEntry>;{$IFEND}
+    FOEMStringsInfo: {$IF CompilerVersion < 20}ArrOEMStringsInfo; {$ELSE}TArray<TOEMStringsInfo>;{$IFEND}
     {$IFDEF USEWMI}
     procedure LoadSMBIOSWMI;
     {$ELSE}
@@ -2062,6 +2092,7 @@ type
     function GetHasPortConnectorInfo: Boolean;
     function GetHasSystemSlotInfo: Boolean;
     function GetSmbiosVersion: string;
+    function GetHasOEMStringsInfo: Boolean;
   public
     constructor Create;
     destructor Destroy; override;
@@ -2097,6 +2128,10 @@ type
 
     property SystemSlotInfo: {$IF CompilerVersion < 20}ArrSystemSlotInfo {$ELSE} TArray<TSystemSlotInfo> {$IFEND} read FSystemSlotInfo write FSystemSlotInfo;
     property HasSystemSlotInfo : Boolean read GetHasSystemSlotInfo;
+
+    property OEMStringsInfo: {$IF CompilerVersion < 20}ArrOEMStringsInfo {$ELSE} TArray<TOEMStringsInfo> {$IFEND} read FOEMStringsInfo write FOEMStringsInfo;
+    property HasOEMStringsInfo : Boolean read GetHasOEMStringsInfo;
+
   end;
 
 implementation
@@ -2173,6 +2208,11 @@ end;
 function TSMBios.GetHasEnclosureInfo: Boolean;
 begin
   Result:=Length(FEnclosureInfo)>0;
+end;
+
+function TSMBios.GetHasOEMStringsInfo: Boolean;
+begin
+  Result:=Length(FOEMStringsInfo)>0;
 end;
 
 function TSMBios.GetHasPortConnectorInfo: Boolean;
@@ -2477,12 +2517,6 @@ begin
     LIndex := GetSMBiosTableNextIndex(BaseBoardInformation, LIndex);
     if LIndex >= 0 then
     begin
-    {
-      Move(Buffer[LIndex], LHeader, SizeOf(TSmBiosTableHeader));
-      if LHeader.Length then
-
-        }
-
       Move(RawSMBIOSData.SMBIOSTableData[LIndex], FBaseBoardInfo[i], SizeOf(TBaseBoardInfo)- SizeOf(FBaseBoardInfo[i].LocalIndex) - SizeOf(FBaseBoardInfo[i].FBuffer));
       FBaseBoardInfo[i].LocalIndex:=LIndex;
       FBaseBoardInfo[i].FBuffer   :=RawSMBIOSData.SMBIOSTableData;
@@ -2592,6 +2626,21 @@ begin
       Move(RawSMBIOSData.SMBIOSTableData[LIndex], FSystemSlotInfo[i], SizeOf(TSystemSlotInfo)- SizeOf(FSystemSlotInfo[i].LocalIndex) - SizeOf(FSystemSlotInfo[i].FBuffer));
       FSystemSlotInfo[i].LocalIndex:=LIndex;
       FSystemSlotInfo[i].FBuffer   :=RawSMBIOSData.SMBIOSTableData;
+      Inc(i);
+    end;
+  until (LIndex=-1);
+
+  SetLength(FOEMStringsInfo, GetSMBiosTableEntries(OEMStrings));
+  i:=0;
+  LIndex:=0;
+  repeat
+    ZeroMemory(@FOEMStringsInfo[i], SizeOf(FOEMStringsInfo[i]));
+    LIndex := GetSMBiosTableNextIndex(OEMStrings, LIndex);
+    if LIndex >= 0 then
+    begin
+      Move(RawSMBIOSData.SMBIOSTableData[LIndex], FOEMStringsInfo[i], SizeOf(TOEMStringsInfo)- SizeOf(FOEMStringsInfo[i].LocalIndex) - SizeOf(FOEMStringsInfo[i].FBuffer));
+      FOEMStringsInfo[i].LocalIndex:=LIndex;
+      FOEMStringsInfo[i].FBuffer   :=RawSMBIOSData.SMBIOSTableData;
       Inc(i);
     end;
   until (LIndex=-1);
@@ -3440,6 +3489,13 @@ end;
 function TSystemSlotInfo.SlotDesignationStr: string;
 begin
   Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.SlotDesignation);
+end;
+
+{ TOEMStrings }
+
+function TOEMStringsInfo.GetOEMString(index: Integer): string;
+begin
+  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, index);
 end;
 
 end.
