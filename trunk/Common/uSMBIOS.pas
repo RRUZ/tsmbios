@@ -2008,6 +2008,75 @@ type
     function GetOEMString(index : Integer) : string;
   end;
 
+  {$REGION 'Documentation'}
+  ///	<summary>
+  ///	  The information in this structure defines the installable language
+  ///	  attributes of the BIOS.
+  ///	</summary>
+  {$ENDREGION}
+  TBIOSLanguageInformation = packed record
+    Header: TSmBiosTableHeader;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Number of languages available. Each available language has a
+    ///	  description string. This field contains the number of strings that
+    ///	  follow the formatted area of the structure.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
+    {$ENDREGION}
+    InstallableLanguages : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  <para>
+    ///	    Bits 7:1 Reserved
+    ///	  </para>
+    ///	  <para>
+    ///	    Bit 0 If set to 1, the Current Language strings use the abbreviated
+    ///	    format. Otherwise, the strings use the long
+    ///	  </para>
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
+    {$ENDREGION}
+    Flags:Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Reserved for future use
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
+    {$ENDREGION}
+    Reserved: array[0..14] of Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  String number (one-based) of the currently installed language
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
+    {$ENDREGION}
+    CurrentLanguage : Byte;
+    //helper fields and methods, not part of the SMBIOS spec.
+    LocalIndex : Word;
+    FBuffer: PByteArray;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Returns the Installed language string based in the Index 
+    ///	</summary>
+    {$ENDREGION}
+    function GetLanguageString(index : Integer) : string;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Returns the current language as a string
+    ///	</summary>
+    {$ENDREGION}
+    function GetCurrentLanguageStr : string;
+  end;
+
 
   TBatteryInfo = packed record
     Header: TSmBiosTableHeader;
@@ -2061,6 +2130,7 @@ type
   ArrSystemSlotInfo   = Array of TSystemSlotInfo;
   ArrSMBiosTableEntry = Array of TSMBiosTableEntry;
   ArrOEMStringsInfo   = Array of TOEMStringsInfo;
+  ArrBIOSLanguageInfo = Array of TBIOSLanguageInformation;
   {$IFEND}
 
   TSMBios = class
@@ -2077,6 +2147,8 @@ type
     FSystemSlotInfo : {$IF CompilerVersion < 20}ArrSystemSlotInfo; {$ELSE} TArray<TSystemSlotInfo>; {$IFEND}
     FSMBiosTablesList: {$IF CompilerVersion < 20}ArrSMBiosTableEntry; {$ELSE} TArray<TSMBiosTableEntry>;{$IFEND}
     FOEMStringsInfo: {$IF CompilerVersion < 20}ArrOEMStringsInfo; {$ELSE}TArray<TOEMStringsInfo>;{$IFEND}
+    FBIOSLanguageInfo: {$IF CompilerVersion < 20}ArrBIOSLanguageInfo; {$ELSE}TArray<TBIOSLanguageInformation>;{$IFEND}
+
     {$IFDEF USEWMI}
     procedure LoadSMBIOSWMI;
     {$ELSE}
@@ -2093,6 +2165,7 @@ type
     function GetHasSystemSlotInfo: Boolean;
     function GetSmbiosVersion: string;
     function GetHasOEMStringsInfo: Boolean;
+    function GetHasBIOSLanguageInfo: Boolean;
   public
     constructor Create;
     destructor Destroy; override;
@@ -2132,6 +2205,8 @@ type
     property OEMStringsInfo: {$IF CompilerVersion < 20}ArrOEMStringsInfo {$ELSE} TArray<TOEMStringsInfo> {$IFEND} read FOEMStringsInfo write FOEMStringsInfo;
     property HasOEMStringsInfo : Boolean read GetHasOEMStringsInfo;
 
+    property BIOSLanguageInfo: {$IF CompilerVersion < 20}ArrBIOSLanguageInfo {$ELSE} TArray<TBIOSLanguageInformation> {$IFEND} read FBIOSLanguageInfo write FBIOSLanguageInfo;
+    property HasBIOSLanguageInfo : Boolean read GetHasBIOSLanguageInfo;
   end;
 
 implementation
@@ -2198,6 +2273,11 @@ end;
 function TSMBios.GetHasBaseBoardInfo: Boolean;
 begin
   Result:=Length(FBaseBoardInfo)>0;
+end;
+
+function TSMBios.GetHasBIOSLanguageInfo: Boolean;
+begin
+  Result:=Length(FBIOSLanguageInfo)>0;
 end;
 
 function TSMBios.GetHasCacheInfo: Boolean;
@@ -2641,6 +2721,21 @@ begin
       Move(RawSMBIOSData.SMBIOSTableData[LIndex], FOEMStringsInfo[i], SizeOf(TOEMStringsInfo)- SizeOf(FOEMStringsInfo[i].LocalIndex) - SizeOf(FOEMStringsInfo[i].FBuffer));
       FOEMStringsInfo[i].LocalIndex:=LIndex;
       FOEMStringsInfo[i].FBuffer   :=RawSMBIOSData.SMBIOSTableData;
+      Inc(i);
+    end;
+  until (LIndex=-1);
+
+  SetLength(FBIOSLanguageInfo, GetSMBiosTableEntries(BIOSLanguageInformation));
+  i:=0;
+  LIndex:=0;
+  repeat
+    ZeroMemory(@FBIOSLanguageInfo[i], SizeOf(FBIOSLanguageInfo[i]));
+    LIndex := GetSMBiosTableNextIndex(BIOSLanguageInformation, LIndex);
+    if LIndex >= 0 then
+    begin
+      Move(RawSMBIOSData.SMBIOSTableData[LIndex], FBIOSLanguageInfo[i], SizeOf(TBIOSLanguageInformation)- SizeOf(FBIOSLanguageInfo[i].LocalIndex) - SizeOf(FBIOSLanguageInfo[i].FBuffer));
+      FBIOSLanguageInfo[i].LocalIndex:=LIndex;
+      FBIOSLanguageInfo[i].FBuffer   :=RawSMBIOSData.SMBIOSTableData;
       Inc(i);
     end;
   until (LIndex=-1);
@@ -3494,6 +3589,18 @@ end;
 { TOEMStrings }
 
 function TOEMStringsInfo.GetOEMString(index: Integer): string;
+begin
+  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, index);
+end;
+
+{ TBIOSLanguageInformation }
+
+function TBIOSLanguageInformation.GetCurrentLanguageStr: string;
+begin
+  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.CurrentLanguage);
+end;
+
+function TBIOSLanguageInformation.GetLanguageString(index: Integer): string;
 begin
   Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, index);
 end;
