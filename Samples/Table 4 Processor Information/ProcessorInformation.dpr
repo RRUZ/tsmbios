@@ -7,8 +7,10 @@ program ProcessorInformation;
 uses
   Classes,
   SysUtils,
+  {
   ActiveX,
   ComObj,
+  }
   TypInfo,
   uSMBIOS in '..\..\Common\uSMBIOS.pas';
 
@@ -153,15 +155,15 @@ end;
 
 begin
  try
-    CoInitialize(nil);
+//    CoInitialize(nil);
     try
       GetEnclosureInfo;
     finally
-      CoUninitialize;
+//      CoUninitialize;
     end;
  except
-    on E:EOleException do
-        Writeln(Format('EOleException %s %x', [E.Message,E.ErrorCode]));
+//    on E:EOleException do
+//        Writeln(Format('EOleException %s %x', [E.Message,E.ErrorCode]));
     on E:Exception do
         Writeln(E.Classname, ':', E.Message);
  end;

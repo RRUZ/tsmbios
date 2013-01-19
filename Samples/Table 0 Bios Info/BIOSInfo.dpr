@@ -11,8 +11,10 @@ uses
 
 procedure GetBIOSInfo;
 Var
-  SMBios : TSMBios;
-  LBIOS     : TBiosInfo;
+  SMBios  : TSMBios;
+  LBIOS   : TBiosInfo;
+  OEMStr  : TOEMStringsInfo;
+  i : Integer;
 begin
   SMBios:=TSMBios.Create;
   try
@@ -36,6 +38,18 @@ begin
     if LBIOS.EmbeddedControllerFirmwareMinorRelease<>$ff then
     WriteLn(Format('Embedded Controller Firmware Minor Releasee %d',[LBIOS.EmbeddedControllerFirmwareMinorRelease]));
     WriteLn;
+
+
+    if SMBios.HasOEMStringsInfo then
+    begin
+     Writeln('OEM Strings');
+     Writeln('-----------');
+     for OEMStr in SMBios.OEMStringsInfo do
+      for i:=1 to OEMStr.Count do
+       Writeln(OEMStr.GetOEMString(i));
+
+    end;
+
   finally
    SMBios.Free;
   end;
@@ -56,6 +70,7 @@ begin
     on E:Exception do
         Writeln(E.Classname, ':', E.Message);
  end;
+ Writeln;
  Writeln('Press Enter to exit');
  Readln;
 end.
