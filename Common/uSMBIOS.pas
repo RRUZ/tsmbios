@@ -1016,6 +1016,7 @@ type
   end;
 
   TEnclosureInformation = class
+  public
     RAWEnclosureInformation : ^TEnclosureInfo;
     {$REGION 'Documentation'}
     ///	<summary>
@@ -1309,6 +1310,7 @@ type
   end;
 
   TCacheInformation=class
+  public
     RAWCacheInformation : ^TCacheInfo;
     {$REGION 'Documentation'}
     ///	<summary>
@@ -1693,6 +1695,7 @@ type
   end;
 
   TProcessorInformation=class
+  public
     RAWProcessorInformation : ^TProcessorInfo;
     L1Chache : TCacheInformation;
     L2Chache : TCacheInformation;
@@ -1824,6 +1827,7 @@ type
   end;
 
   TPortConnectorInformation=class
+  public
     RAWPortConnectorInformation : ^TPortConnectorInfo;
     {$REGION 'Documentation'}
     ///	<summary>
@@ -2027,6 +2031,33 @@ type
 
   {$REGION 'Documentation'}
   ///	<summary>
+  ///	  This structure contains information required to configure the
+  ///	  baseboard’s Jumpers and Switches.
+  ///	</summary>
+  {$ENDREGION}
+  TSystemConfInfo = packed record
+    Header: TSmBiosTableHeader;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Number of strings
+    ///	</summary>
+    {$ENDREGION}
+    Count : Byte;
+  end;
+
+  TSystemConfInformation = class
+  public
+    RAWSystemConfInformation : ^TSystemConfInfo;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Returns the configuration String based in the Index 
+    ///	</summary>
+    {$ENDREGION}
+    function GetConfString(index : Integer) : AnsiString;
+  end;
+
+  {$REGION 'Documentation'}
+  ///	<summary>
   ///	  The information in this structure defines the installable language
   ///	  attributes of the BIOS.
   ///	</summary>
@@ -2081,7 +2112,7 @@ type
 
   TBIOSLanguageInformation=class
   public
-    RAWTBIOSLanguageInformation : ^TBIOSLanguageInfo;
+    RAWBIOSLanguageInformation : ^TBIOSLanguageInfo;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Returns the Installed language string based in the Index 
@@ -2150,6 +2181,7 @@ type
   ArrSMBiosTableEntry = Array of TSMBiosTableEntry;
   ArrOEMStringsInfo   = Array of TOEMStringsInformation;
   ArrBIOSLanguageInfo = Array of TBIOSLanguageInformation;
+  ArrSystemConfInfo   = Array of TSystemConfInformation;
   {$IFEND}
 
   TSMBios = class
@@ -2167,7 +2199,7 @@ type
     FSMBiosTablesList: {$IF CompilerVersion < 20}ArrSMBiosTableEntry; {$ELSE} TArray<TSMBiosTableEntry>;{$IFEND}
     FOEMStringsInfo: {$IF CompilerVersion < 20}ArrOEMStringsInfo; {$ELSE}TArray<TOEMStringsInformation>;{$IFEND}
     FBIOSLanguageInfo: {$IF CompilerVersion < 20}ArrBIOSLanguageInfo; {$ELSE}TArray<TBIOSLanguageInformation>;{$IFEND}
-
+    FSystemConfInfo: {$IF CompilerVersion < 20}ArrSystemConfInfo; {$ELSE}TArray<TSystemConfInformation>;{$IFEND}
     {$IFDEF USEWMI}
     procedure LoadSMBIOSWMI;
     {$ELSE}
@@ -2185,6 +2217,7 @@ type
     function GetSmbiosVersion: string;
     function GetHasOEMStringsInfo: Boolean;
     function GetHasBIOSLanguageInfo: Boolean;
+    function GetHasSystemConfInfo : Boolean;
   public
     constructor Create;
     destructor Destroy; override;
@@ -2226,6 +2259,9 @@ type
 
     property BIOSLanguageInfo: {$IF CompilerVersion < 20}ArrBIOSLanguageInfo {$ELSE} TArray<TBIOSLanguageInformation> {$IFEND} read FBIOSLanguageInfo write FBIOSLanguageInfo;
     property HasBIOSLanguageInfo : Boolean read GetHasBIOSLanguageInfo;
+
+    property SystemConfInfo: {$IF CompilerVersion < 20}ArrSystemConfInfo {$ELSE} TArray<TSystemConfInformation> {$IFEND} read FSystemConfInfo write FSystemConfInfo;
+    property HasSystemConfInfo : Boolean read GetHasSystemConfInfo;
   end;
 
 implementation
@@ -2307,6 +2343,9 @@ begin
   for i:=0 to Length(FSystemSlotInfo)-1 do
    FSystemSlotInfo[i].Free;
 
+  for i:=0 to Length(FSystemConfInfo)-1 do
+   FSystemConfInfo[i].Free;
+
   SetLength(FSMBiosTablesList, 0);
   SetLength(FBaseBoardInfo, 0);
   SetLength(FEnclosureInfo, 0);
@@ -2349,6 +2388,11 @@ end;
 function TSMBios.GetHasProcessorInfo: Boolean;
 begin
   Result:=Length(FProcessorInfo)>0;
+end;
+
+function TSMBios.GetHasSystemConfInfo: Boolean;
+begin
+  Result:=Length(FSystemConfInfo)>0;
 end;
 
 function TSMBios.GetHasSystemSlotInfo: Boolean;
@@ -2746,7 +2790,21 @@ begin
     if LIndex >= 0 then
     begin
       FBIOSLanguageInfo[i]:=TBIOSLanguageInformation.Create;
-      FBIOSLanguageInfo[i].RAWTBIOSLanguageInformation:=@RawSMBIOSData.SMBIOSTableData[LIndex];
+      FBIOSLanguageInfo[i].RAWBIOSLanguageInformation:=@RawSMBIOSData.SMBIOSTableData[LIndex];
+      Inc(i);
+    end;
+  until (LIndex=-1);
+
+
+  SetLength(FSystemConfInfo, GetSMBiosTableEntries(SystemConfigurationOptions));
+  i:=0;
+  LIndex:=0;
+  repeat
+    LIndex := GetSMBiosTableNextIndex(SystemConfigurationOptions, LIndex);
+    if LIndex >= 0 then
+    begin
+      FSystemConfInfo[i]:=TSystemConfInformation.Create;
+      FSystemConfInfo[i].RAWSystemConfInformation:=@RawSMBIOSData.SMBIOSTableData[LIndex];
       Inc(i);
     end;
   until (LIndex=-1);
@@ -3501,12 +3559,12 @@ end;
 
 function TBIOSLanguageInformation.GetCurrentLanguageStr: AnsiString;
 begin
-  Result:= GetSMBiosString(@RAWTBIOSLanguageInformation^, RAWTBIOSLanguageInformation.Header.Length, RAWTBIOSLanguageInformation.CurrentLanguage);
+  Result:= GetSMBiosString(@RAWBIOSLanguageInformation^, RAWBIOSLanguageInformation.Header.Length, RAWBIOSLanguageInformation.CurrentLanguage);
 end;
 
 function TBIOSLanguageInformation.GetLanguageString(index: Integer): AnsiString;
 begin
-  Result:= GetSMBiosString(@RAWTBIOSLanguageInformation^, RAWTBIOSLanguageInformation.Header.Length, index);
+  Result:= GetSMBiosString(@RAWBIOSLanguageInformation^, RAWBIOSLanguageInformation.Header.Length, index);
 end;
 
 { TBiosInformation }
@@ -3617,6 +3675,14 @@ end;
 function TBaseBoardInformation.VersionStr: AnsiString;
 begin
   Result:= GetSMBiosString(@RAWBaseBoardInformation^, RAWBaseBoardInformation.Header.Length, RAWBaseBoardInformation.Version);
+end;
+
+{ TSystemConfInformation }
+
+function TSystemConfInformation.GetConfString(index: Integer): AnsiString;
+begin
+  Result:= GetSMBiosString(@RAWSystemConfInformation^, RAWSystemConfInformation.Header.Length,index);
+
 end;
 
 end.
