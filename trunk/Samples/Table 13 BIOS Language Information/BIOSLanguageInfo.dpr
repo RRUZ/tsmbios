@@ -32,15 +32,15 @@ begin
       if SMBios.HasBIOSLanguageInfo then
       for LBIOSLng in SMBios.BIOSLanguageInfo do
       begin
-        WriteLn('Installable Languages  '+IntToStr( LBIOSLng.RAWTBIOSLanguageInformation.InstallableLanguages));
-        WriteLn('Flags                  '+ByteToBinStr(LBIOSLng.RAWTBIOSLanguageInformation.Flags));
+        WriteLn('Installable Languages  '+IntToStr( LBIOSLng.RAWBIOSLanguageInformation.InstallableLanguages));
+        WriteLn('Flags                  '+ByteToBinStr(LBIOSLng.RAWBIOSLanguageInformation.Flags));
         WriteLn('Current Language       '+LBIOSLng.GetCurrentLanguageStr);
 
-        if LBIOSLng.RAWTBIOSLanguageInformation.InstallableLanguages>1 then
+        if LBIOSLng.RAWBIOSLanguageInformation.InstallableLanguages>1 then
         begin
           WriteLn('BIOS Languages');
           WriteLn('--------------');
-          for i:=1 to LBIOSLng.RAWTBIOSLanguageInformation.InstallableLanguages do
+          for i:=1 to LBIOSLng.RAWBIOSLanguageInformation.InstallableLanguages do
             WriteLn('  '+LBIOSLng.GetLanguageString(i));
         end;
 
