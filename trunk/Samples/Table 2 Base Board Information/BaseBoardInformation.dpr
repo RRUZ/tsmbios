@@ -7,12 +7,10 @@ program BaseBoardInformation;
 uses
   Classes,
   SysUtils,
-  ActiveX,
-  ComObj,
   uSMBIOS in '..\..\Common\uSMBIOS.pas';
 
 
-function ByteToStr(AValue:Byte):string;
+function ByteToBinStr(AValue:Byte):string;
 const
   Bits : array[1..8] of byte = (128,64,32,16,8,4,2,1);
   var i: integer;
@@ -26,25 +24,25 @@ end;
 procedure GetBaseBoardInfo;
 Var
   SMBios : TSMBios;
-  BBI    : TBaseBoardInfo;
+  LBaseBoard : TBaseBoardInformation;
 begin
   SMBios:=TSMBios.Create;
   try
       WriteLn('Base Board Information');
       if SMBios.HasBaseBoardInfo then
-      for BBI in SMBios.BaseBoardInfo do
+      for LBaseBoard in SMBios.BaseBoardInfo do
       begin
         //WriteLn('Manufacter          '+SMBios.GetSMBiosString(BBI.LocalIndex  + BBI.Header.Length, BBI.Manufacturer));
-        WriteLn('Manufacter          '+BBI.ManufacturerStr);
-        WriteLn('Product             '+BBI.ProductStr);
-        WriteLn('Version             '+BBI.VersionStr);
-        WriteLn('Serial Number       '+BBI.SerialNumberStr);
-        WriteLn('Asset Tag           '+BBI.AssetTagStr);
-        WriteLn('Feature Flags       '+ByteToStr(BBI.FeatureFlags));
-        WriteLn('Location in Chassis '+BBI.LocationinChassisStr);
-        WriteLn(Format('Chassis Handle      %0.4x',[BBI.ChassisHandle]));
-        WriteLn(Format('Board Type          %0.2x %s',[BBI.BoardType, BBI.BoardTypeStr]));
-        WriteLn('Number of Contained Object Handles '+IntToStr(BBI.NumberofContainedObjectHandles));
+        WriteLn('Manufacter          '+LBaseBoard.ManufacturerStr);
+        WriteLn('Product             '+LBaseBoard.ProductStr);
+        WriteLn('Version             '+LBaseBoard.VersionStr);
+        WriteLn('Serial Number       '+LBaseBoard.SerialNumberStr);
+        WriteLn('Asset Tag           '+LBaseBoard.AssetTagStr);
+        WriteLn('Feature Flags       '+ByteToBinStr(LBaseBoard.RAWBaseBoardInformation.FeatureFlags));
+        WriteLn('Location in Chassis '+LBaseBoard.LocationinChassisStr);
+        WriteLn(Format('Chassis Handle      %0.4x',[LBaseBoard.RAWBaseBoardInformation.ChassisHandle]));
+        WriteLn(Format('Board Type          %0.2x %s',[LBaseBoard.RAWBaseBoardInformation.BoardType, LBaseBoard.BoardTypeStr]));
+        WriteLn('Number of Contained Object Handles '+IntToStr(LBaseBoard.RAWBaseBoardInformation.NumberofContainedObjectHandles));
         WriteLn;
       end
       else
@@ -57,15 +55,8 @@ end;
 
 begin
  try
-    CoInitialize(nil);
-    try
-      GetBaseBoardInfo;
-    finally
-      CoUninitialize;
-    end;
+   GetBaseBoardInfo;
  except
-    on E:EOleException do
-        Writeln(Format('EOleException %s %x', [E.Message,E.ErrorCode]));
     on E:Exception do
         Writeln(E.Classname, ':', E.Message);
  end;

@@ -33,7 +33,6 @@ uses
 type
   // TODO :
   // Add OSX support http://www.opensource.apple.com/source/AppleSMBIOS/AppleSMBIOS-38/SMBIOS.h
-  // Add WINAPI Read support  EnumSystemFirmwareTables() and GetSystemFirmwareTable()
   // Add remote support
   // Add FPC support
   // Add old Delphi versions support
@@ -514,28 +513,31 @@ type
     ///	</remarks>
     {$ENDREGION}
     EmbeddedControllerFirmwareMinorRelease : Byte;
-    //helper fields and methods, not part of the SMBIOS spec.
-    LocalIndex : Word;
-    FBuffer: PByteArray;
+  end;
+
+  TBiosInformation = class
+  public
+    RAWBiosInformation : ^TBiosInfo;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the string representation of the Vendor field
     ///	</summary>
     {$ENDREGION}
-    function  VendorStr: string;
+    function  VendorStr: AnsiString;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the string representation of the Version field
     ///	</summary>
     {$ENDREGION}
-    function  VersionStr: string;
+    function  VersionStr: AnsiString;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the string representation of the ReleaseDate field
     ///	</summary>
     {$ENDREGION}
-    function  ReleaseDateStr: string;
+    function  ReleaseDateStr: AnsiString;
   end;
+
 
   {$REGION 'Documentation'}
   ///	<summary>
@@ -637,46 +639,49 @@ type
     ///	</remarks>
     {$ENDREGION}
     Family : Byte;
-    //helper fields and methods, not part of the SMBIOS spec.
-    LocalIndex : Word;
-    FBuffer: PByteArray;
+  end;
+
+  TSystemInformation = class
+  public
+    RAWSystemInformation : ^TSysInfo;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the string representation of the Manufacturer field
     ///	</summary>
     {$ENDREGION}
-    function  ManufacturerStr: string;
+    function  ManufacturerStr: AnsiString;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the string representation of the ProductName field
     ///	</summary>
     {$ENDREGION}
-    function  ProductNameStr: string;
+    function  ProductNameStr: AnsiString;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the string representation of the Version field
     ///	</summary>
     {$ENDREGION}
-    function  VersionStr: string;
+    function  VersionStr: AnsiString;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the string representation of the SerialNumber field
     ///	</summary>
     {$ENDREGION}
-    function  SerialNumberStr: string;
+    function  SerialNumberStr: AnsiString;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the string representation of the SKUNumber field
     ///	</summary>
     {$ENDREGION}
-    function  SKUNumberStr: string;
+    function  SKUNumberStr: AnsiString;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the string representation of the Family field
     ///	</summary>
     {$ENDREGION}
-    function  FamilyStr: string;
+    function  FamilyStr: AnsiString;
   end;
+
 
   {$REGION 'Documentation'}
   ///	<summary>
@@ -805,9 +810,12 @@ type
     {$ENDREGION}
     NumberofContainedObjectHandles : Byte;
     //ContainedObjectHandles :  Array of Word;
-    //helper fields and methods, not part of the SMBIOS spec.
-    LocalIndex : Word;
-    FBuffer: PByteArray;
+  end;
+
+
+  TBaseBoardInformation = class
+  public
+    RAWBaseBoardInformation : ^TBaseBoardInfo;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the description of the BoardType field
@@ -819,37 +827,37 @@ type
     ///	  Get the string representation of the Manufacturer field
     ///	</summary>
     {$ENDREGION}
-    function  ManufacturerStr: string;
+    function  ManufacturerStr: AnsiString;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the string representation of the Product field
     ///	</summary>
     {$ENDREGION}
-    function  ProductStr: string;
+    function  ProductStr: AnsiString;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the string representation of the Version field
     ///	</summary>
     {$ENDREGION}
-    function  VersionStr: string;
+    function  VersionStr: AnsiString;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the string representation of the SerialNumber field
     ///	</summary>
     {$ENDREGION}
-    function  SerialNumberStr: string;
+    function  SerialNumberStr: AnsiString;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the string representation of the AssetTag field
     ///	</summary>
     {$ENDREGION}
-    function  AssetTagStr: string;
+    function  AssetTagStr: AnsiString;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the string representation of the LocationinChassis field
     ///	</summary>
     {$ENDREGION}
-    function  LocationinChassisStr: string;
+    function  LocationinChassisStr: AnsiString;
   end;
 
   {$REGION 'Documentation'}
@@ -1005,51 +1013,52 @@ type
     //TODO Extension to support complex data representation
     //ContainedElements  n * m BYTEs
     //SKUNumber : Byte;     *******Added in SMBIOS 2.7*********
-    //helper fields and methods, not part of the SMBIOS spec.
-    LocalIndex : Word;
-    FBuffer: PByteArray;
+  end;
+
+  TEnclosureInformation = class
+    RAWEnclosureInformation : ^TEnclosureInfo;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the string representation of the Manufacturer field
     ///	</summary>
     {$ENDREGION}
-    function  ManufacturerStr: string;
+    function  ManufacturerStr: AnsiString;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the string representation of the Version field
     ///	</summary>
     {$ENDREGION}
-    function  VersionStr: string;
+    function  VersionStr: AnsiString;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the string representation of the SerialNumber field
     ///	</summary>
     {$ENDREGION}
-    function  SerialNumberStr: string;
+    function  SerialNumberStr: AnsiString;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the string representation of the AssetTagNumber field
     ///	</summary>
     {$ENDREGION}
-    function  AssetTagNumberStr : string;
+    function  AssetTagNumberStr : AnsiString;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the description of the Type field
     ///	</summary>
     {$ENDREGION}
-    function  TypeStr : string;
+    function  TypeStr : AnsiString;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the description of the BootUpState field
     ///	</summary>
     {$ENDREGION}
-    function  BootUpStateStr : string;
+    function  BootUpStateStr : AnsiString;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the description of the PowerSupplyState field
     ///	</summary>
     {$ENDREGION}
-    function  PowerSupplyStateStr : string;
+    function  PowerSupplyStateStr : AnsiString;
   end;
 
    TCacheSRAMType =
@@ -1297,15 +1306,16 @@ type
     ///	</remarks>
     {$ENDREGION}
     Associativity: Byte;
-    //helper fields and methods, not part of the SMBIOS spec.
-    LocalIndex : Word;
-    FBuffer: PByteArray;
+  end;
+
+  TCacheInformation=class
+    RAWCacheInformation : ^TCacheInfo;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the string representation of the  SocketDesignation field
     ///	</summary>
     {$ENDREGION}
-    function SocketDesignationStr: String;
+    function SocketDesignationStr: AnsiString;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the calculated value of the MaximumCacheSize field
@@ -1337,7 +1347,7 @@ type
     ///	  Get the string representation of the  Associativity field
     ///	</summary>
     {$ENDREGION}
-    function AssociativityStr: String;
+    function AssociativityStr: AnsiString;
   end;
 
   {$REGION 'Documentation'}
@@ -1680,42 +1690,43 @@ type
     ///	</remarks>
     {$ENDREGION}
     ProcessorFamily2 : Word;
-    //helper fields and methods, not part of the SMBIOS spec.
-    LocalIndex : Word;
-    FBuffer: PByteArray;
-    L1Chache : TCacheInfo;
-    L2Chache : TCacheInfo;
-    L3Chache : TCacheInfo;
+  end;
+
+  TProcessorInformation=class
+    RAWProcessorInformation : ^TProcessorInfo;
+    L1Chache : TCacheInformation;
+    L2Chache : TCacheInformation;
+    L3Chache : TCacheInformation;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the string representation of the ProcessorManufacturer field
     ///	</summary>
     {$ENDREGION}
-    function  ProcessorManufacturerStr: string;
+    function  ProcessorManufacturerStr: AnsiString;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the string representation of the SocketDesignation field
     ///	</summary>
     {$ENDREGION}
-    function  SocketDesignationStr: string;
+    function  SocketDesignationStr: AnsiString;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the description of the ProcessorType field.
     ///	</summary>
     {$ENDREGION}
-    function  ProcessorTypeStr: string;
+    function  ProcessorTypeStr: AnsiString;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the description for the ProcessorFamily and ProcessorFamily2 fields.
     ///	</summary>
     {$ENDREGION}
-    function  ProcessorFamilyStr: string;
+    function  ProcessorFamilyStr: AnsiString;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the string representation of the ProcessorVersion field
     ///	</summary>
     {$ENDREGION}
-    function  ProcessorVersionStr: string;
+    function  ProcessorVersionStr: AnsiString;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the  Voltaje of the Processor
@@ -1727,25 +1738,25 @@ type
     ///	  Get the description  of the ProcessorUpgrade field
     ///	</summary>
     {$ENDREGION}
-    function  ProcessorUpgradeStr: string;
+    function  ProcessorUpgradeStr: AnsiString;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the string representation of the SerialNumber field
     ///	</summary>
     {$ENDREGION}
-    function  SerialNumberStr: string;
+    function  SerialNumberStr: AnsiString;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the string representation of the AssetTag field
     ///	</summary>
     {$ENDREGION}
-    function  AssetTagStr: string;
+    function  AssetTagStr: AnsiString;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the string representation of the PartNumber field
     ///	</summary>
     {$ENDREGION}
-    function  PartNumberStr: string;
+    function  PartNumberStr: AnsiString;
   end;
 
   {$REGION 'Documentation'}
@@ -1810,9 +1821,10 @@ type
     ///	</remarks>
     {$ENDREGION}
     PortType : Byte;
-    //helper fields and methods, not part of the SMBIOS spec.
-    LocalIndex : Word;
-    FBuffer: PByteArray;
+  end;
+
+  TPortConnectorInformation=class
+    RAWPortConnectorInformation : ^TPortConnectorInfo;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the string representation of the InternalReferenceDesignator
@@ -1822,7 +1834,7 @@ type
     ///	  +2.0
     ///	</remarks>
     {$ENDREGION}
-    function InternalReferenceDesignatorStr : string;
+    function InternalReferenceDesignatorStr : AnsiString;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the description of the Connector Type Fields
@@ -1831,7 +1843,7 @@ type
     ///	  +2.0
     ///	</remarks>
     {$ENDREGION}
-    function GetConnectorType(Connector:Byte) : string;
+    function GetConnectorType(Connector:Byte) : AnsiString;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the string representation of the ExternalReferenceDesignator
@@ -1841,7 +1853,7 @@ type
     ///	  +2.0
     ///	</remarks>
     {$ENDREGION}
-    function ExternalReferenceDesignatorStr : string;
+    function ExternalReferenceDesignatorStr : AnsiString;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the description of the PortType field.
@@ -1850,7 +1862,7 @@ type
     ///	  +2.0
     ///	</remarks>
     {$ENDREGION}
-    function PortTypeStr : string;
+    function PortTypeStr : AnsiString;
   end;
 
 
@@ -1946,39 +1958,42 @@ type
     ///	</remarks>
     {$ENDREGION}
     DeviceFunctionNumber : Byte;
-    //helper fields and methods, not part of the SMBIOS spec.
-    LocalIndex : Word;
-    FBuffer: PByteArray;
+
+  end;
+
+  TSystemSlotInformation=class
+  public
+    RAWSystemSlotInformation : ^TSystemSlotInfo;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the string representation of the SlotDesignation field.
     ///	</summary>
     {$ENDREGION}
-    function SlotDesignationStr : string;
+    function SlotDesignationStr : AnsiString;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the description for the SlotType field
     ///	</summary>
     {$ENDREGION}
-    function GetSlotType : string;
+    function GetSlotType : AnsiString;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the description for the SlotDataBusWidth field
     ///	</summary>
     {$ENDREGION}
-    function GetSlotDataBusWidth : string;
+    function GetSlotDataBusWidth : AnsiString;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the description for the CurrentUsage field
     ///	</summary>
     {$ENDREGION}
-    function GetCurrentUsage : string;
+    function GetCurrentUsage : AnsiString;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the description for the SlotLength field
     ///	</summary>
     {$ENDREGION}
-    function GetSlotLength : string;
+    function GetSlotLength : AnsiString;
   end;
 
 
@@ -1997,15 +2012,17 @@ type
     ///	</summary>
     {$ENDREGION}
     Count : Byte;
-    //helper fields and methods, not part of the SMBIOS spec.
-    LocalIndex : Word;
-    FBuffer: PByteArray;
+  end;
+
+  TOEMStringsInformation = class
+  public
+    RAWOEMStringsInformation : ^TOEMStringsInfo;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Returns the OEM String based in the Index 
     ///	</summary>
     {$ENDREGION}
-    function GetOEMString(index : Integer) : string;
+    function GetOEMString(index : Integer) : AnsiString;
   end;
 
   {$REGION 'Documentation'}
@@ -2014,7 +2031,7 @@ type
   ///	  attributes of the BIOS.
   ///	</summary>
   {$ENDREGION}
-  TBIOSLanguageInformation = packed record
+  TBIOSLanguageInfo = packed record
     Header: TSmBiosTableHeader;
     {$REGION 'Documentation'}
     ///	<summary>
@@ -2060,21 +2077,23 @@ type
     ///	</remarks>
     {$ENDREGION}
     CurrentLanguage : Byte;
-    //helper fields and methods, not part of the SMBIOS spec.
-    LocalIndex : Word;
-    FBuffer: PByteArray;
+  end;
+
+  TBIOSLanguageInformation=class
+  public
+    RAWTBIOSLanguageInformation : ^TBIOSLanguageInfo;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Returns the Installed language string based in the Index 
     ///	</summary>
     {$ENDREGION}
-    function GetLanguageString(index : Integer) : string;
+    function GetLanguageString(index : Integer) : AnsiString;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Returns the current language as a string
     ///	</summary>
     {$ENDREGION}
-    function GetCurrentLanguageStr : string;
+    function GetCurrentLanguageStr : AnsiString;
   end;
 
 
@@ -2122,14 +2141,14 @@ type
   end;
 
   {$IF CompilerVersion < 20}
-  ArrBaseBoardInfo    = Array of TBaseBoardInfo;
-  ArrEnclosureInfo    = Array of TEnclosureInfo;
-  ArrProcessorInfo    = Array of TProcessorInfo;
-  ArrCacheInfo        = Array of TCacheInfo;
-  ArrPortConnectorInfo= Array of TPortConnectorInfo;
-  ArrSystemSlotInfo   = Array of TSystemSlotInfo;
+  ArrBaseBoardInfo    = Array of TBaseBoardInformation;
+  ArrEnclosureInfo    = Array of TEnclosureInformation;
+  ArrProcessorInfo    = Array of TProcessorInformation;
+  ArrCacheInfo        = Array of TCacheInformation;
+  ArrPortConnectorInfo= Array of TPortConnectorInformation;
+  ArrSystemSlotInfo   = Array of TSystemSlotInformation;
   ArrSMBiosTableEntry = Array of TSMBiosTableEntry;
-  ArrOEMStringsInfo   = Array of TOEMStringsInfo;
+  ArrOEMStringsInfo   = Array of TOEMStringsInformation;
   ArrBIOSLanguageInfo = Array of TBIOSLanguageInformation;
   {$IFEND}
 
@@ -2137,16 +2156,16 @@ type
   private
     FRawSMBIOSData : TRawSMBIOSData;
     FDataString: AnsiString;
-    FBiosInfo: TBiosInfo;
-    FSysInfo: TSysInfo;
-    FBaseBoardInfo: {$IF CompilerVersion < 20}ArrBaseBoardInfo; {$ELSE}TArray<TBaseBoardInfo>;{$IFEND}
-    FEnclosureInfo: {$IF CompilerVersion < 20}ArrEnclosureInfo; {$ELSE}TArray<TEnclosureInfo>;{$IFEND}
-    FProcessorInfo: {$IF CompilerVersion < 20}ArrProcessorInfo; {$ELSE}TArray<TProcessorInfo>;{$IFEND}
-    FCacheInfo: {$IF CompilerVersion < 20}ArrCacheInfo; {$ELSE}TArray<TCacheInfo>;{$IFEND}
-    FPortConnectorInfo : {$IF CompilerVersion < 20}ArrPortConnectorInfo; {$ELSE} TArray<TPortConnectorInfo>; {$IFEND}
-    FSystemSlotInfo : {$IF CompilerVersion < 20}ArrSystemSlotInfo; {$ELSE} TArray<TSystemSlotInfo>; {$IFEND}
+    FBiosInfo: TBiosInformation;
+    FSysInfo: TSystemInformation;
+    FBaseBoardInfo: {$IF CompilerVersion < 20}ArrBaseBoardInfo; {$ELSE}TArray<TBaseBoardInformation>;{$IFEND}
+    FEnclosureInfo: {$IF CompilerVersion < 20}ArrEnclosureInfo; {$ELSE}TArray<TEnclosureInformation>;{$IFEND}
+    FProcessorInfo: {$IF CompilerVersion < 20}ArrProcessorInfo; {$ELSE}TArray<TProcessorInformation>;{$IFEND}
+    FCacheInfo: {$IF CompilerVersion < 20}ArrCacheInfo; {$ELSE}TArray<TCacheInformation>;{$IFEND}
+    FPortConnectorInfo : {$IF CompilerVersion < 20}ArrPortConnectorInfo; {$ELSE} TArray<TPortConnectorInformation>; {$IFEND}
+    FSystemSlotInfo : {$IF CompilerVersion < 20}ArrSystemSlotInfo; {$ELSE} TArray<TSystemSlotInformation>; {$IFEND}
     FSMBiosTablesList: {$IF CompilerVersion < 20}ArrSMBiosTableEntry; {$ELSE} TArray<TSMBiosTableEntry>;{$IFEND}
-    FOEMStringsInfo: {$IF CompilerVersion < 20}ArrOEMStringsInfo; {$ELSE}TArray<TOEMStringsInfo>;{$IFEND}
+    FOEMStringsInfo: {$IF CompilerVersion < 20}ArrOEMStringsInfo; {$ELSE}TArray<TOEMStringsInformation>;{$IFEND}
     FBIOSLanguageInfo: {$IF CompilerVersion < 20}ArrBIOSLanguageInfo; {$ELSE}TArray<TBIOSLanguageInformation>;{$IFEND}
 
     {$IFDEF USEWMI}
@@ -2181,28 +2200,28 @@ type
     property SmbiosVersion : string  read GetSmbiosVersion;
     property SMBiosTablesList : {$IF CompilerVersion < 20}ArrSMBiosTableEntry {$ELSE}TArray<TSMBiosTableEntry> {$IFEND} read FSMBiosTablesList;
 
-    property BiosInfo: TBiosInfo read FBiosInfo;
-    property SysInfo: TSysInfo read FSysInfo Write FSysInfo;
+    property BiosInfo: TBiosInformation read FBiosInfo;
+    property SysInfo: TSystemInformation read FSysInfo Write FSysInfo;
 
-    property BaseBoardInfo: {$IF CompilerVersion < 20}ArrBaseBoardInfo {$ELSE}TArray<TBaseBoardInfo> {$IFEND} read FBaseBoardInfo write FBaseBoardInfo;
+    property BaseBoardInfo: {$IF CompilerVersion < 20}ArrBaseBoardInfo {$ELSE}TArray<TBaseBoardInformation> {$IFEND} read FBaseBoardInfo write FBaseBoardInfo;
     property HasBaseBoardInfo : Boolean read GetHasBaseBoardInfo;
 
-    property EnclosureInfo: {$IF CompilerVersion < 20}ArrEnclosureInfo {$ELSE}TArray<TEnclosureInfo> {$IFEND} read FEnclosureInfo write FEnclosureInfo;
+    property EnclosureInfo: {$IF CompilerVersion < 20}ArrEnclosureInfo {$ELSE}TArray<TEnclosureInformation> {$IFEND} read FEnclosureInfo write FEnclosureInfo;
     property HasEnclosureInfo : Boolean read GetHasEnclosureInfo;
 
-    property CacheInfo: {$IF CompilerVersion < 20}ArrCacheInfo {$ELSE}TArray<TCacheInfo> {$IFEND} read FCacheInfo write FCacheInfo;
+    property CacheInfo: {$IF CompilerVersion < 20}ArrCacheInfo {$ELSE}TArray<TCacheInformation> {$IFEND} read FCacheInfo write FCacheInfo;
     property HasCacheInfo : Boolean read GetHasCacheInfo;
 
-    property ProcessorInfo: {$IF CompilerVersion < 20}ArrProcessorInfo {$ELSE}TArray<TProcessorInfo> {$IFEND} read FProcessorInfo write FProcessorInfo;
+    property ProcessorInfo: {$IF CompilerVersion < 20}ArrProcessorInfo {$ELSE}TArray<TProcessorInformation> {$IFEND} read FProcessorInfo write FProcessorInfo;
     property HasProcessorInfo : Boolean read GetHasProcessorInfo;
 
-    property PortConnectorInfo: {$IF CompilerVersion < 20}ArrPortConnectorInfo {$ELSE} TArray<TPortConnectorInfo> {$IFEND} read FPortConnectorInfo write FPortConnectorInfo;
+    property PortConnectorInfo: {$IF CompilerVersion < 20}ArrPortConnectorInfo {$ELSE} TArray<TPortConnectorInformation> {$IFEND} read FPortConnectorInfo write FPortConnectorInfo;
     property HasPortConnectorInfo : Boolean read GetHasPortConnectorInfo;
 
-    property SystemSlotInfo: {$IF CompilerVersion < 20}ArrSystemSlotInfo {$ELSE} TArray<TSystemSlotInfo> {$IFEND} read FSystemSlotInfo write FSystemSlotInfo;
+    property SystemSlotInfo: {$IF CompilerVersion < 20}ArrSystemSlotInfo {$ELSE} TArray<TSystemSlotInformation> {$IFEND} read FSystemSlotInfo write FSystemSlotInfo;
     property HasSystemSlotInfo : Boolean read GetHasSystemSlotInfo;
 
-    property OEMStringsInfo: {$IF CompilerVersion < 20}ArrOEMStringsInfo {$ELSE} TArray<TOEMStringsInfo> {$IFEND} read FOEMStringsInfo write FOEMStringsInfo;
+    property OEMStringsInfo: {$IF CompilerVersion < 20}ArrOEMStringsInfo {$ELSE} TArray<TOEMStringsInformation> {$IFEND} read FOEMStringsInfo write FOEMStringsInfo;
     property HasOEMStringsInfo : Boolean read GetHasOEMStringsInfo;
 
     property BIOSLanguageInfo: {$IF CompilerVersion < 20}ArrBIOSLanguageInfo {$ELSE} TArray<TBIOSLanguageInformation> {$IFEND} read FBIOSLanguageInfo write FBIOSLanguageInfo;
@@ -2243,6 +2262,10 @@ end;
 constructor TSMBios.Create;
 begin
   Inherited;
+  FBiosInfo:=TBiosInformation.Create;
+  FSysInfo:=TSystemInformation.Create;
+
+
   FSMBiosTablesList:=nil;
   FBaseBoardInfo:=nil;
   FEnclosureInfo:=nil;
@@ -2257,9 +2280,32 @@ begin
 end;
 
 destructor TSMBios.Destroy;
+var
+  i : Integer;
 begin
   if Assigned(RawSMBIOSData.SMBIOSTableData) and (RawSMBIOSData.Length > 0) then
     FreeMem(RawSMBIOSData.SMBIOSTableData);
+
+  FBiosInfo.Free;
+  FSysInfo.Free;
+
+  for i:=0 to Length(FOEMStringsInfo)-1 do
+   FOEMStringsInfo[i].Free;
+
+  for i:=0 to Length(FEnclosureInfo)-1 do
+   FEnclosureInfo[i].Free;
+
+  for i:=0 to Length(FCacheInfo)-1 do
+   FCacheInfo[i].Free;
+
+  for i:=0 to Length(FProcessorInfo)-1 do
+   FProcessorInfo[i].Free;
+
+  for i:=0 to Length(FPortConnectorInfo)-1 do
+   FPortConnectorInfo[i].Free;
+
+  for i:=0 to Length(FSystemSlotInfo)-1 do
+   FSystemSlotInfo[i].Free;
 
   SetLength(FSMBiosTablesList, 0);
   SetLength(FBaseBoardInfo, 0);
@@ -2312,28 +2358,29 @@ end;
 
 function TSMBios.SearchSMBiosTable(TableType: TSMBiosTablesTypes): integer;
 Var
-  Index  : integer;
+  Index  : DWORD;
   Header : TSmBiosTableHeader;
 begin
   Index     := 0;
+  Result    := 0;
   repeat
     Move(RawSMBIOSData.SMBIOSTableData[Index], Header, SizeOf(Header));
 
-    if Header.TableType = Ord(TableType) then
+    if Header.TableType = Byte(Ord(TableType)) then
       break
     else
     begin
        inc(Index, Header.Length);
        if Index+1>RawSMBIOSData.Length then
        begin
-         Index:=-1;
+         Result:=-1;
          Break;
        end;
 
       while not((RawSMBIOSData.SMBIOSTableData[Index] = 0) and (RawSMBIOSData.SMBIOSTableData[Index + 1] = 0)) do
        if Index+1>RawSMBIOSData.Length then
        begin
-         Index:=-1;
+         Result:=-1;
          Break;
        end
        else
@@ -2342,7 +2389,9 @@ begin
        inc(Index, 2);
     end;
   until (Index>RawSMBIOSData.Length);
-  Result := Index;
+
+  if Result<>-1 then
+   Result := Index;
 end;
 
 
@@ -2391,7 +2440,7 @@ Var
 begin
  Result:=0;
   for Entry in FSMBiosTablesList do
-    if Entry.Header.TableType=Ord(TableType)  then
+    if Entry.Header.TableType=Byte(Ord(TableType))  then
       Result:=Result+1;
 end;
 
@@ -2401,7 +2450,7 @@ Var
 begin
  Result:=-1;
   for Entry in FSMBiosTablesList do
-    if (Entry.Header.TableType=Ord(TableType)) and (Entry.Index>Offset)  then
+    if (Entry.Header.TableType=Byte(Ord(TableType))) and (Entry.Index>Offset)  then
     begin
       Result:=Entry.Index;
       Break;
@@ -2410,7 +2459,7 @@ end;
 
 function TSMBios.GetSMBiosTablesCount: Integer;
 Var
-  Index : integer;
+  Index : DWORD;
   Header: TSmBiosTableHeader;
 begin
   Result    := 0;
@@ -2419,7 +2468,7 @@ begin
     Move(RawSMBIOSData.SMBIOSTableData[Index], Header, SizeOf(Header));
     Inc(Result);
 
-    if Header.TableType=Ord(EndofTable) then break;
+    if Header.TableType=Byte(Ord(EndofTable)) then break;
 
     inc(Index, Header.Length);// + 1);
     if Index+1>RawSMBIOSData.Length then
@@ -2437,7 +2486,7 @@ end;
 
 function TSMBios.GetSMBiosTablesList: {$IF CompilerVersion < 20}ArrSMBiosTableEntry; {$ELSE} TArray<TSMBiosTableEntry>;{$IFEND}
 Var
-  I,Index : integer;
+  I,Index : DWORD;
   Header: TSmBiosTableHeader;
   Entry    : TSMBiosTableEntry;
 begin
@@ -2451,7 +2500,7 @@ begin
     Move(Entry, Result[I], SizeOf(Entry));
     Inc(I);
 
-    if Header.TableType=Ord(EndofTable) then break;
+    if Header.TableType=Byte(Ord(EndofTable)) then break;
 
     inc(Index, Header.Length);// + 1);
     if Index+1>RawSMBIOSData.Length then
@@ -2562,44 +2611,40 @@ end;
 procedure TSMBios.ReadSMBiosTables;
 var
  LIndex, i :  Integer;
- LCacheInfo : TCacheInfo;
- LHeader    : TSmBiosTableHeader;
-
+ LCacheInfo : TCacheInformation;
 begin
 
   LIndex := GetSMBiosTableNextIndex(BIOSInformation, 0);
   if LIndex >= 0 then
-  begin
-    ZeroMemory(@FBiosInfo, SizeOf(FBiosInfo));
-    Move(RawSMBIOSData.SMBIOSTableData[LIndex], FBiosInfo, SizeOf(TBiosInfo)- SizeOf(FBiosInfo.LocalIndex) - SizeOf(FBiosInfo.FBuffer));
-    FBiosInfo.LocalIndex := LIndex;
-    FBiosInfo.FBuffer    := RawSMBIOSData.SMBIOSTableData;
-    Inc(i);
-  end;
-
+    FBiosInfo.RAWBiosInformation:=@RawSMBIOSData.SMBIOSTableData[LIndex];
 
   LIndex := GetSMBiosTableNextIndex(SystemInformation, 0);
   if LIndex >= 0 then
-  begin
-    ZeroMemory(@FSysInfo, SizeOf(FSysInfo));
-    Move(RawSMBIOSData.SMBIOSTableData[LIndex], FSysInfo, SizeOf(TSysInfo)- SizeOf(FSysInfo.LocalIndex) - SizeOf(FSysInfo.FBuffer));
-    FSysInfo.LocalIndex:=LIndex;
-    FSysInfo.FBuffer   :=RawSMBIOSData.SMBIOSTableData;
-    Inc(i);
-  end;
+    FSysInfo.RAWSystemInformation:=@RawSMBIOSData.SMBIOSTableData[LIndex];
+
+  SetLength(FOEMStringsInfo, GetSMBiosTableEntries(OEMStrings));
+  i:=0;
+  LIndex:=0;
+  repeat
+    LIndex := GetSMBiosTableNextIndex(OEMStrings, LIndex);
+    if LIndex >= 0 then
+    begin
+      FOEMStringsInfo[i]:=TOEMStringsInformation.Create;
+      FOEMStringsInfo[i].RAWOEMStringsInformation:=@RawSMBIOSData.SMBIOSTableData[LIndex];
+      Inc(i);
+    end;
+  until (LIndex=-1);
 
 
   SetLength(FBaseBoardInfo, GetSMBiosTableEntries(BaseBoardInformation));
   i:=0;
   LIndex:=0;
   repeat
-    ZeroMemory(@FBaseBoardInfo[i], SizeOf(FBaseBoardInfo[i]));
     LIndex := GetSMBiosTableNextIndex(BaseBoardInformation, LIndex);
     if LIndex >= 0 then
     begin
-      Move(RawSMBIOSData.SMBIOSTableData[LIndex], FBaseBoardInfo[i], SizeOf(TBaseBoardInfo)- SizeOf(FBaseBoardInfo[i].LocalIndex) - SizeOf(FBaseBoardInfo[i].FBuffer));
-      FBaseBoardInfo[i].LocalIndex:=LIndex;
-      FBaseBoardInfo[i].FBuffer   :=RawSMBIOSData.SMBIOSTableData;
+      FBaseBoardInfo[i]:=TBaseBoardInformation.Create;
+      FBaseBoardInfo[i].RAWBaseBoardInformation:=@RawSMBIOSData.SMBIOSTableData[LIndex];
       Inc(i);
     end;
   until (LIndex=-1);
@@ -2608,13 +2653,11 @@ begin
   i:=0;
   LIndex:=0;
   repeat
-    ZeroMemory(@FEnclosureInfo[i], SizeOf(FEnclosureInfo[i]));
     LIndex := GetSMBiosTableNextIndex(EnclosureInformation, LIndex);
     if LIndex >= 0 then
     begin
-      Move(RawSMBIOSData.SMBIOSTableData[LIndex], FEnclosureInfo[i], SizeOf(TEnclosureInfo)- SizeOf(FEnclosureInfo[i].LocalIndex)- SizeOf(FEnclosureInfo[i].FBuffer));
-      FEnclosureInfo[i].LocalIndex:=LIndex;
-      FEnclosureInfo[i].FBuffer   :=RawSMBIOSData.SMBIOSTableData;
+      FEnclosureInfo[i]:=TEnclosureInformation.Create;
+      FEnclosureInfo[i].RAWEnclosureInformation:=@RawSMBIOSData.SMBIOSTableData[LIndex];
       Inc(i);
     end;
   until (LIndex=-1);
@@ -2623,13 +2666,11 @@ begin
   i:=0;
   LIndex:=0;
   repeat
-    ZeroMemory(@FCacheInfo[i], SizeOf(FCacheInfo[i]));
     LIndex := GetSMBiosTableNextIndex(CacheInformation, LIndex);
     if LIndex >= 0 then
     begin
-      Move(RawSMBIOSData.SMBIOSTableData[LIndex], FCacheInfo[i], SizeOf(TCacheInfo)- SizeOf(FCacheInfo[i].LocalIndex)- SizeOf(FCacheInfo[i].FBuffer));
-      FCacheInfo[i].LocalIndex:=LIndex;
-      FCacheInfo[i].FBuffer   :=RawSMBIOSData.SMBIOSTableData;
+      FCacheInfo[i]:=TCacheInformation.Create;
+      FCacheInfo[i].RAWCacheInformation:=@RawSMBIOSData.SMBIOSTableData[LIndex];
       Inc(i);
     end;
   until (LIndex=-1);
@@ -2639,41 +2680,32 @@ begin
   i:=0;
   LIndex:=0;
   repeat
-    ZeroMemory(@FProcessorInfo[i], SizeOf(FProcessorInfo[i]));
     LIndex := GetSMBiosTableNextIndex(ProcessorInformation, LIndex);
     if LIndex >= 0 then
     begin
-      Move(RawSMBIOSData.SMBIOSTableData[LIndex], FProcessorInfo[i], SizeOf(TProcessorInfo)- SizeOf(FProcessorInfo[i].LocalIndex)- SizeOf(FProcessorInfo[i].FBuffer) - (SizeOf(TCacheInfo)*3));
-      FProcessorInfo[i].LocalIndex:=LIndex;
-      FProcessorInfo[i].FBuffer   :=RawSMBIOSData.SMBIOSTableData;
+      FProcessorInfo[i]:=TProcessorInformation.Create;
+      FProcessorInfo[i].RAWProcessorInformation:=@RawSMBIOSData.SMBIOSTableData[LIndex];
 
+      {
       ZeroMemory(@FProcessorInfo[i].L1Chache, SizeOf(FProcessorInfo[i].L1Chache));
       ZeroMemory(@FProcessorInfo[i].L2Chache, SizeOf(FProcessorInfo[i].L2Chache));
       ZeroMemory(@FProcessorInfo[i].L3Chache, SizeOf(FProcessorInfo[i].L3Chache));
+      }
 
-      if FProcessorInfo[i].L1CacheHandle>0 then
+      if FProcessorInfo[i].RAWProcessorInformation.L1CacheHandle>0 then
         for LCacheInfo in FCacheInfo do
-          if LCacheInfo.Header.Handle=FProcessorInfo[i].L1CacheHandle then
-          begin
-            Move(LCacheInfo, FProcessorInfo[i].L1Chache, SizeOf(LCacheInfo));
-            Break;
-          end;
+          if LCacheInfo.RAWCacheInformation.Header.Handle=FProcessorInfo[i].RAWProcessorInformation.L1CacheHandle then
+            FProcessorInfo[i].L1Chache:=LCacheInfo;
 
-      if FProcessorInfo[i].L2CacheHandle>0 then
+      if FProcessorInfo[i].RAWProcessorInformation.L2CacheHandle>0 then
         for LCacheInfo in FCacheInfo do
-          if LCacheInfo.Header.Handle=FProcessorInfo[i].L2CacheHandle then
-          begin
-            Move(LCacheInfo, FProcessorInfo[i].L2Chache, SizeOf(LCacheInfo));
-            Break;
-          end;
+          if LCacheInfo.RAWCacheInformation.Header.Handle=FProcessorInfo[i].RAWProcessorInformation.L2CacheHandle then
+            FProcessorInfo[i].L2Chache:=LCacheInfo;
 
-      if FProcessorInfo[i].L3CacheHandle>0 then
+      if FProcessorInfo[i].RAWProcessorInformation.L3CacheHandle>0 then
         for LCacheInfo in FCacheInfo do
-          if LCacheInfo.Header.Handle=FProcessorInfo[i].L3CacheHandle then
-          begin
-            Move(LCacheInfo, FProcessorInfo[i].L3Chache, SizeOf(LCacheInfo));
-            Break;
-          end;
+          if LCacheInfo.RAWCacheInformation.Header.Handle=FProcessorInfo[i].RAWProcessorInformation.L3CacheHandle then
+            FProcessorInfo[i].L3Chache:=LCacheInfo;
 
       Inc(i);
     end;
@@ -2684,13 +2716,11 @@ begin
   i:=0;
   LIndex:=0;
   repeat
-    ZeroMemory(@FPortConnectorInfo[i], SizeOf(FPortConnectorInfo[i]));
     LIndex := GetSMBiosTableNextIndex(PortConnectorInformation, LIndex);
     if LIndex >= 0 then
     begin
-      Move(RawSMBIOSData.SMBIOSTableData[LIndex], FPortConnectorInfo[i], SizeOf(TPortConnectorInfo)- SizeOf(FPortConnectorInfo[i].LocalIndex) - SizeOf(FPortConnectorInfo[i].FBuffer));
-      FPortConnectorInfo[i].LocalIndex:=LIndex;
-      FPortConnectorInfo[i].FBuffer   :=RawSMBIOSData.SMBIOSTableData;
+      FPortConnectorInfo[i]:=TPortConnectorInformation.Create;
+      FPortConnectorInfo[i].RAWPortConnectorInformation:=@RawSMBIOSData.SMBIOSTableData[LIndex];
       Inc(i);
     end;
   until (LIndex=-1);
@@ -2699,28 +2729,11 @@ begin
   i:=0;
   LIndex:=0;
   repeat
-    ZeroMemory(@FSystemSlotInfo[i], SizeOf(FSystemSlotInfo[i]));
     LIndex := GetSMBiosTableNextIndex(SystemSlotsInformation, LIndex);
     if LIndex >= 0 then
     begin
-      Move(RawSMBIOSData.SMBIOSTableData[LIndex], FSystemSlotInfo[i], SizeOf(TSystemSlotInfo)- SizeOf(FSystemSlotInfo[i].LocalIndex) - SizeOf(FSystemSlotInfo[i].FBuffer));
-      FSystemSlotInfo[i].LocalIndex:=LIndex;
-      FSystemSlotInfo[i].FBuffer   :=RawSMBIOSData.SMBIOSTableData;
-      Inc(i);
-    end;
-  until (LIndex=-1);
-
-  SetLength(FOEMStringsInfo, GetSMBiosTableEntries(OEMStrings));
-  i:=0;
-  LIndex:=0;
-  repeat
-    ZeroMemory(@FOEMStringsInfo[i], SizeOf(FOEMStringsInfo[i]));
-    LIndex := GetSMBiosTableNextIndex(OEMStrings, LIndex);
-    if LIndex >= 0 then
-    begin
-      Move(RawSMBIOSData.SMBIOSTableData[LIndex], FOEMStringsInfo[i], SizeOf(TOEMStringsInfo)- SizeOf(FOEMStringsInfo[i].LocalIndex) - SizeOf(FOEMStringsInfo[i].FBuffer));
-      FOEMStringsInfo[i].LocalIndex:=LIndex;
-      FOEMStringsInfo[i].FBuffer   :=RawSMBIOSData.SMBIOSTableData;
+      FSystemSlotInfo[i]:=TSystemSlotInformation.Create;
+      FSystemSlotInfo[i].RAWSystemSlotInformation:=@RawSMBIOSData.SMBIOSTableData[LIndex];
       Inc(i);
     end;
   until (LIndex=-1);
@@ -2729,130 +2742,27 @@ begin
   i:=0;
   LIndex:=0;
   repeat
-    ZeroMemory(@FBIOSLanguageInfo[i], SizeOf(FBIOSLanguageInfo[i]));
     LIndex := GetSMBiosTableNextIndex(BIOSLanguageInformation, LIndex);
     if LIndex >= 0 then
     begin
-      Move(RawSMBIOSData.SMBIOSTableData[LIndex], FBIOSLanguageInfo[i], SizeOf(TBIOSLanguageInformation)- SizeOf(FBIOSLanguageInfo[i].LocalIndex) - SizeOf(FBIOSLanguageInfo[i].FBuffer));
-      FBIOSLanguageInfo[i].LocalIndex:=LIndex;
-      FBIOSLanguageInfo[i].FBuffer   :=RawSMBIOSData.SMBIOSTableData;
+      FBIOSLanguageInfo[i]:=TBIOSLanguageInformation.Create;
+      FBIOSLanguageInfo[i].RAWTBIOSLanguageInformation:=@RawSMBIOSData.SMBIOSTableData[LIndex];
       Inc(i);
     end;
   until (LIndex=-1);
 end;
 
-{ TBaseBoardInfo }
 
-function TBaseBoardInfo.AssetTagStr: string;
+{ TEnclosureInformation }
+
+function TEnclosureInformation.AssetTagNumberStr: AnsiString;
 begin
-  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.AssetTag);
+  Result:= GetSMBiosString(@RAWEnclosureInformation^, RAWEnclosureInformation.Header.Length, RAWEnclosureInformation.AssetTagNumber);
 end;
 
-function TBaseBoardInfo.BoardTypeStr: AnsiString;
+function TEnclosureInformation.BootUpStateStr: AnsiString;
 begin
-   case Self.BoardType of
-    $01 : result:='Unknown';
-    $02 : result:='Other';
-    $03 : result:='Server Blade';
-    $04 : result:='Connectivity Switch';
-    $05 : result:='System Management Module';
-    $06 : result:='Processor Module';
-    $07 : result:='I/O Module';
-    $08 : result:='Memory Module';
-    $09 : result:='Daughter board';
-    $0A : result:='Motherboard (includes processor, memory, and I/O)';
-    $0B : result:='Processor/Memory Module';
-    $0C : result:='Processor/IO Module';
-    $0D : result:='Interconnect Board'
-    else
-    result:='Unknown';
-   end;
-end;
-
-function TBaseBoardInfo.LocationinChassisStr: string;
-begin
-  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.LocationinChassis);
-end;
-
-function TBaseBoardInfo.ManufacturerStr: string;
-begin
-  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.Manufacturer);
-end;
-
-function TBaseBoardInfo.ProductStr: string;
-begin
-  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.Product);
-end;
-
-function TBaseBoardInfo.SerialNumberStr: string;
-begin
-  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.SerialNumber);
-end;
-
-function TBaseBoardInfo.VersionStr: string;
-begin
-  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.Version);
-end;
-
-{ TBiosInfo }
-
-function TBiosInfo.ReleaseDateStr: string;
-begin
-  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.ReleaseDate);
-end;
-
-function TBiosInfo.VendorStr: string;
-begin
-  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.Vendor);
-end;
-
-function TBiosInfo.VersionStr: string;
-begin
-  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.Version);
-end;
-
-{ TSysInfo }
-
-function TSysInfo.FamilyStr: string;
-begin
-  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.Family);
-end;
-
-function TSysInfo.ManufacturerStr: string;
-begin
-  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.Manufacturer);
-end;
-
-function TSysInfo.ProductNameStr: string;
-begin
-  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.ProductName);
-end;
-
-function TSysInfo.SerialNumberStr: string;
-begin
-  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.SerialNumber);
-end;
-
-function TSysInfo.SKUNumberStr: string;
-begin
-  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.SKUNumber);
-end;
-
-function TSysInfo.VersionStr: string;
-begin
-  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.Version);
-end;
-
-{ TEnclosureInfo }
-
-function TEnclosureInfo.AssetTagNumberStr: string;
-begin
-  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.AssetTagNumber);
-end;
-
-function TEnclosureInfo.BootUpStateStr: string;
-begin
- case Self.BootUpState of
+ case RAWEnclosureInformation.BootUpState of
   $01 : Result:='Other';
   $02 : Result:='Unknown';
   $03 : Result:='Safe';
@@ -2864,14 +2774,14 @@ begin
  end;
 end;
 
-function TEnclosureInfo.ManufacturerStr: string;
+function TEnclosureInformation.ManufacturerStr: AnsiString;
 begin
-  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.Manufacturer);
+  Result:= GetSMBiosString(@RAWEnclosureInformation^, RAWEnclosureInformation.Header.Length, RAWEnclosureInformation.Manufacturer);
 end;
 
-function TEnclosureInfo.PowerSupplyStateStr: string;
+function TEnclosureInformation.PowerSupplyStateStr: AnsiString;
 begin
- case Self.PowerSupplyState of
+ case RAWEnclosureInformation.PowerSupplyState of
   $01 : Result:='Other';
   $02 : Result:='Unknown';
   $03 : Result:='Safe';
@@ -2883,17 +2793,17 @@ begin
  end;
 end;
 
-function TEnclosureInfo.SerialNumberStr: string;
+function TEnclosureInformation.SerialNumberStr: AnsiString;
 begin
-  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.SerialNumber);
+  Result:= GetSMBiosString(@RAWEnclosureInformation^, RAWEnclosureInformation.Header.Length, RAWEnclosureInformation.SerialNumber);
 end;
 
-function TEnclosureInfo.TypeStr: string;
+function TEnclosureInformation.TypeStr: AnsiString;
 var
   _Type : Byte;
 begin
-   _Type:=Self.&Type;
-  if GetBit(_Type, 7) then  _Type:=EnableBit(Self.&Type,7, False);
+   _Type:=RAWEnclosureInformation.&Type;
+  if GetBit(_Type, 7) then  _Type:=EnableBit(RAWEnclosureInformation.&Type,7, False);
 
   case _Type of
    $01 : Result:='Other';
@@ -2930,24 +2840,24 @@ begin
   end;
 end;
 
-function TEnclosureInfo.VersionStr: string;
+function TEnclosureInformation.VersionStr: AnsiString;
 begin
-  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.Version);
+  Result:= GetSMBiosString(@RAWEnclosureInformation^, RAWEnclosureInformation.Header.Length, RAWEnclosureInformation.Version);
 end;
 
-{ TProcessorInfo }
+{ TProcessorInformation }
 
-function TProcessorInfo.AssetTagStr: string;
+function TProcessorInformation.AssetTagStr: AnsiString;
 begin
-  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.AssetTag);
+  Result:= GetSMBiosString(@RAWProcessorInformation^, RAWProcessorInformation.Header.Length, RAWProcessorInformation.AssetTag);
 end;
 
-function TProcessorInfo.GetProcessorVoltaje: Double;
+function TProcessorInformation.GetProcessorVoltaje: Double;
 var
   _Voltaje : Byte;
 begin
   Result:=0;
-   _Voltaje:=Self.Voltaje;
+   _Voltaje:=RAWProcessorInformation.Voltaje;
   if GetBit(_Voltaje, 7) then
   begin
     _Voltaje:=EnableBit(_Voltaje,7, False);
@@ -2971,15 +2881,15 @@ begin
   end;
 end;
 
-function TProcessorInfo.PartNumberStr: string;
+function TProcessorInformation.PartNumberStr: AnsiString;
 begin
-  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.PartNumber);
+  Result:= GetSMBiosString(@RAWProcessorInformation^, RAWProcessorInformation.Header.Length, RAWProcessorInformation.PartNumber);
 end;
 
-function TProcessorInfo.ProcessorFamilyStr: string;
+function TProcessorInformation.ProcessorFamilyStr: AnsiString;
 begin
-   if Self.ProcessorFamily2<$FF then
-   case Self.ProcessorFamily of
+   if RAWProcessorInformation.ProcessorFamily2<$FF then
+   case RAWProcessorInformation.ProcessorFamily of
       1 : Result:='Other';
       2 : Result:='Unknown';
       3 : Result:='8086';
@@ -3181,7 +3091,7 @@ begin
      result:='Unknown';
    end
    else
-   case Self.ProcessorFamily2 of
+   case RAWProcessorInformation.ProcessorFamily2 of
       256..259,
       262..279,
       282..299,
@@ -3206,14 +3116,14 @@ begin
    end;
 end;
 
-function TProcessorInfo.ProcessorManufacturerStr: string;
+function TProcessorInformation.ProcessorManufacturerStr: AnsiString;
 begin
-  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.ProcessorManufacturer);
+  Result:= GetSMBiosString(@RAWProcessorInformation^, RAWProcessorInformation.Header.Length, RAWProcessorInformation.ProcessorManufacturer);
 end;
 
-function TProcessorInfo.ProcessorTypeStr: string;
+function TProcessorInformation.ProcessorTypeStr: AnsiString;
 begin
-   case Self.ProcessorType of
+   case RAWProcessorInformation.ProcessorType of
       $01 : Result:='Other';
       $02 : Result:='Unknown';
       $03 : Result:='Central Processor';
@@ -3225,9 +3135,9 @@ begin
    end;
 end;
 
-function TProcessorInfo.ProcessorUpgradeStr: string;
+function TProcessorInformation.ProcessorUpgradeStr: AnsiString;
 begin
-  case Self.ProcessorUpgrade of
+  case RAWProcessorInformation.ProcessorUpgrade of
     $01 : Result:='Other';
     $02 : Result:='Unknown';
     $03 : Result:='Daughter Board';
@@ -3275,26 +3185,26 @@ begin
   end;
 end;
 
-function TProcessorInfo.ProcessorVersionStr: string;
+function TProcessorInformation.ProcessorVersionStr: AnsiString;
 begin
-  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.ProcessorVersion);
+  Result:= GetSMBiosString(@RAWProcessorInformation^, RAWProcessorInformation.Header.Length, RAWProcessorInformation.ProcessorVersion);
 end;
 
-function TProcessorInfo.SerialNumberStr: string;
+function TProcessorInformation.SerialNumberStr: AnsiString;
 begin
-  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.SerialNumber);
+  Result:= GetSMBiosString(@RAWProcessorInformation^, RAWProcessorInformation.Header.Length, RAWProcessorInformation.SerialNumber);
 end;
 
-function TProcessorInfo.SocketDesignationStr: string;
+function TProcessorInformation.SocketDesignationStr: AnsiString;
 begin
-  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.SocketDesignation);
+  Result:= GetSMBiosString(@RAWProcessorInformation^, RAWProcessorInformation.Header.Length, RAWProcessorInformation.SocketDesignation);
 end;
 
-{ TCacheInfo }
+{ TCacheInformation }
 
-function TCacheInfo.AssociativityStr: String;
+function TCacheInformation.AssociativityStr: AnsiString;
 begin
-  case Self.Associativity of
+  case RAWCacheInformation.Associativity of
     $01 : Result:='Other';
     $02 : Result:='Unknown';
     $03 : Result:='Direct Mapped';
@@ -3314,77 +3224,77 @@ begin
   end;
 end;
 
-function TCacheInfo.GetCurrentSRAMType: TCacheSRAMTypes;
+function TCacheInformation.GetCurrentSRAMType: TCacheSRAMTypes;
 var
   i: integer;
 begin
    Result:=[];
    for i := 0 to 6 do
-    if GetBit(Self.CurrentSRAMType, i) then
+    if GetBit(RAWCacheInformation.CurrentSRAMType, i) then
        Include(Result,  TCacheSRAMType(i));
 end;
 
-function TCacheInfo.GetErrorCorrectionType: TErrorCorrectionType;
+function TCacheInformation.GetErrorCorrectionType: TErrorCorrectionType;
 begin
-  if Self.ErrorCorrectionType>6 then
+  if RAWCacheInformation.ErrorCorrectionType>6 then
    Result:=ECUnknown
   else
-   Result:=TErrorCorrectionType(Self.ErrorCorrectionType);
+   Result:=TErrorCorrectionType(RAWCacheInformation.ErrorCorrectionType);
 end;
 
-function TCacheInfo.GetInstalledCacheSize: Integer;
+function TCacheInformation.GetInstalledCacheSize: Integer;
 var
-  Granularity : Integer;
+  Granularity : DWORD;
 begin
    Granularity:=1;
-   if GetBit(Self.InstalledSize, 15) then
+   if GetBit(RAWCacheInformation.InstalledSize, 15) then
      Granularity:=64;
 
-  Result:=Granularity*EnableBit(Self.InstalledSize, 15, false);
+  Result:=Granularity*EnableBit(RAWCacheInformation.InstalledSize, 15, false);
 end;
 
-function TCacheInfo.GetMaximumCacheSize: Integer;
+function TCacheInformation.GetMaximumCacheSize: Integer;
 var
-  Granularity : Integer;
+  Granularity : DWORD;
 begin
    Granularity:=1;
-   if GetBit(Self.MaximumCacheSize, 15) then
+   if GetBit(RAWCacheInformation.MaximumCacheSize, 15) then
      Granularity:=64;
 
-  Result:=Granularity*EnableBit(Self.MaximumCacheSize, 15, false);
+  Result:=Granularity*EnableBit(RAWCacheInformation.MaximumCacheSize, 15, false);
 end;
 
-function TCacheInfo.GetSupportedSRAMType: TCacheSRAMTypes;
+function TCacheInformation.GetSupportedSRAMType: TCacheSRAMTypes;
 var
   i: integer;
 begin
    Result:=[];
    for i := 0 to 6 do
-    if GetBit(Self.SupportedSRAMType, i) then
+    if GetBit(RAWCacheInformation.SupportedSRAMType, i) then
        Include(Result,  TCacheSRAMType(i));
 end;
 
-function TCacheInfo.GetSystemCacheType: TSystemCacheType;
+function TCacheInformation.GetSystemCacheType: TSystemCacheType;
 begin
-  if Self.SystemCacheType>5 then
+  if RAWCacheInformation.SystemCacheType>5 then
    Result:=SCUnknown
   else
-   Result:=TSystemCacheType(Self.SystemCacheType);
+   Result:=TSystemCacheType(RAWCacheInformation.SystemCacheType);
 end;
 
-function TCacheInfo.SocketDesignationStr: String;
+function TCacheInformation.SocketDesignationStr: AnsiString;
 begin
-  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.SocketDesignation);
+  Result:= GetSMBiosString(@RAWCacheInformation^, RAWCacheInformation.Header.Length, RAWCacheInformation.SocketDesignation);
 end;
 
-{ TPortConnectorInfo }
+{ TPortConnectorInformation }
 
-function TPortConnectorInfo.ExternalReferenceDesignatorStr: string;
+function TPortConnectorInformation.ExternalReferenceDesignatorStr: AnsiString;
 begin
-  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.ExternalReferenceDesignator);
+  Result:= GetSMBiosString(@RAWPortConnectorInformation^, RAWPortConnectorInformation.Header.Length, RAWPortConnectorInformation.ExternalReferenceDesignator);
 end;
 
-function TPortConnectorInfo.GetConnectorType(Connector: Byte): string;
+function TPortConnectorInformation.GetConnectorType(Connector: Byte): AnsiString;
 begin
   case Connector of
     $00 : Result:='None';
@@ -3433,14 +3343,14 @@ begin
   end;
 end;
 
-function TPortConnectorInfo.InternalReferenceDesignatorStr: string;
+function TPortConnectorInformation.InternalReferenceDesignatorStr: AnsiString;
 begin
-  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.InternalReferenceDesignator);
+  Result:= GetSMBiosString(@RAWPortConnectorInformation^, RAWPortConnectorInformation.Header.Length, RAWPortConnectorInformation.InternalReferenceDesignator);
 end;
 
-function TPortConnectorInfo.PortTypeStr: string;
+function TPortConnectorInformation.PortTypeStr: AnsiString;
 begin
-  case Self.PortType of
+  case RAWPortConnectorInformation.PortType of
     $00 :Result:='None';
     $01 :Result:='Parallel Port XT/AT Compatible';
     $02 :Result:='Parallel Port PS/2';
@@ -3483,11 +3393,11 @@ begin
   end;
 end;
 
-{ TSystemSlotInfo }
+{ TSystemSlotInformation }
 
-function TSystemSlotInfo.GetCurrentUsage: string;
+function TSystemSlotInformation.GetCurrentUsage: AnsiString;
 begin
-  case Self.CurrentUsage of
+  case RAWSystemSlotInformation.CurrentUsage of
     $01 :Result:='Other';
     $02 :Result:='Unknown';
     $03 :Result:='Available';
@@ -3497,9 +3407,9 @@ begin
   end;
 end;
 
-function TSystemSlotInfo.GetSlotDataBusWidth: string;
+function TSystemSlotInformation.GetSlotDataBusWidth: AnsiString;
 begin
-  case Self.SlotDataBusWidth of
+  case RAWSystemSlotInformation.SlotDataBusWidth of
     $01 :Result:='Other';
     $02 :Result:='Unknown';
     $03 :Result:='8 bit';
@@ -3519,9 +3429,9 @@ begin
   end;
 end;
 
-function TSystemSlotInfo.GetSlotLength: string;
+function TSystemSlotInformation.GetSlotLength: AnsiString;
 begin
-  case Self.SlotLength of
+  case RAWSystemSlotInformation.SlotLength of
     $01 :Result:='Other';
     $02 :Result:='Unknown';
     $03 :Result:='Short Length';
@@ -3531,9 +3441,9 @@ begin
   end;
 end;
 
-function TSystemSlotInfo.GetSlotType: string;
+function TSystemSlotInformation.GetSlotType: AnsiString;
 begin
-  case Self.SlotType of
+  case RAWSystemSlotInformation.SlotType of
     $01 :Result:='Other';
     $02 :Result:='Unknown';
     $03 :Result:='ISA';
@@ -3581,28 +3491,132 @@ begin
   end;
 end;
 
-function TSystemSlotInfo.SlotDesignationStr: string;
+function TSystemSlotInformation.SlotDesignationStr: AnsiString;
 begin
-  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.SlotDesignation);
+  Result:= GetSMBiosString(@RAWSystemSlotInformation^, RAWSystemSlotInformation.Header.Length, RAWSystemSlotInformation.SlotDesignation);
 end;
 
-{ TOEMStrings }
-
-function TOEMStringsInfo.GetOEMString(index: Integer): string;
-begin
-  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, index);
-end;
 
 { TBIOSLanguageInformation }
 
-function TBIOSLanguageInformation.GetCurrentLanguageStr: string;
+function TBIOSLanguageInformation.GetCurrentLanguageStr: AnsiString;
 begin
-  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, Self.CurrentLanguage);
+  Result:= GetSMBiosString(@RAWTBIOSLanguageInformation^, RAWTBIOSLanguageInformation.Header.Length, RAWTBIOSLanguageInformation.CurrentLanguage);
 end;
 
-function TBIOSLanguageInformation.GetLanguageString(index: Integer): string;
+function TBIOSLanguageInformation.GetLanguageString(index: Integer): AnsiString;
 begin
-  Result:= GetSMBiosString(FBuffer, Self.LocalIndex + Self.Header.Length, index);
+  Result:= GetSMBiosString(@RAWTBIOSLanguageInformation^, RAWTBIOSLanguageInformation.Header.Length, index);
+end;
+
+{ TBiosInformation }
+
+function TBiosInformation.ReleaseDateStr: AnsiString;
+begin
+  Result:= GetSMBiosString(@RAWBiosInformation^, RAWBiosInformation.Header.Length, RAWBiosInformation.ReleaseDate);
+end;
+
+function TBiosInformation.VendorStr: AnsiString;
+begin
+  Result:= GetSMBiosString(@RAWBiosInformation^, RAWBiosInformation.Header.Length, RAWBiosInformation.Vendor);
+end;
+
+function TBiosInformation.VersionStr: AnsiString;
+begin
+  Result:= GetSMBiosString(@RAWBiosInformation^, RAWBiosInformation.Header.Length, RAWBiosInformation.Version);
+end;
+
+{ TSystemInformation }
+
+function TSystemInformation.FamilyStr: AnsiString;
+begin
+  Result:= GetSMBiosString(@RAWSystemInformation^, RAWSystemInformation.Header.Length, RAWSystemInformation.Family);
+end;
+
+function TSystemInformation.ManufacturerStr: AnsiString;
+begin
+  Result:= GetSMBiosString(@RAWSystemInformation^, RAWSystemInformation.Header.Length, RAWSystemInformation.Manufacturer);
+end;
+
+function TSystemInformation.ProductNameStr: AnsiString;
+begin
+  Result:= GetSMBiosString(@RAWSystemInformation^, RAWSystemInformation.Header.Length, RAWSystemInformation.ProductName);
+end;
+
+function TSystemInformation.SerialNumberStr: AnsiString;
+begin
+  Result:= GetSMBiosString(@RAWSystemInformation^, RAWSystemInformation.Header.Length, RAWSystemInformation.SerialNumber);
+end;
+
+function TSystemInformation.SKUNumberStr: AnsiString;
+begin
+  Result:= GetSMBiosString(@RAWSystemInformation^, RAWSystemInformation.Header.Length, RAWSystemInformation.SKUNumber);
+end;
+
+function TSystemInformation.VersionStr: AnsiString;
+begin
+  Result:= GetSMBiosString(@RAWSystemInformation^, RAWSystemInformation.Header.Length, RAWSystemInformation.Version);
+end;
+
+{ TOEMStringsInformation }
+
+function TOEMStringsInformation.GetOEMString(index: Integer): AnsiString;
+begin
+  Result:= GetSMBiosString(@RAWOEMStringsInformation^, RAWOEMStringsInformation.Header.Length, index);
+end;
+
+{ TBaseBoardInformation }
+
+function TBaseBoardInformation.AssetTagStr: AnsiString;
+begin
+  Result:= GetSMBiosString(@RAWBaseBoardInformation^, RAWBaseBoardInformation.Header.Length, RAWBaseBoardInformation.AssetTag);
+end;
+
+function TBaseBoardInformation.BoardTypeStr: AnsiString;
+begin
+   case RAWBaseBoardInformation.BoardType of
+    $01 : result:='Unknown';
+    $02 : result:='Other';
+    $03 : result:='Server Blade';
+    $04 : result:='Connectivity Switch';
+    $05 : result:='System Management Module';
+    $06 : result:='Processor Module';
+    $07 : result:='I/O Module';
+    $08 : result:='Memory Module';
+    $09 : result:='Daughter board';
+    $0A : result:='Motherboard (includes processor, memory, and I/O)';
+    $0B : result:='Processor/Memory Module';
+    $0C : result:='Processor/IO Module';
+    $0D : result:='Interconnect Board'
+    else
+    result:='Unknown';
+   end;
+end;
+
+
+function TBaseBoardInformation.LocationinChassisStr: AnsiString;
+begin
+  Result:= GetSMBiosString(@RAWBaseBoardInformation^, RAWBaseBoardInformation.Header.Length, RAWBaseBoardInformation.LocationinChassis);
+end;
+
+function TBaseBoardInformation.ManufacturerStr: AnsiString;
+begin
+  Result:= GetSMBiosString(@RAWBaseBoardInformation^, RAWBaseBoardInformation.Header.Length, RAWBaseBoardInformation.Manufacturer);
+end;
+
+function TBaseBoardInformation.ProductStr: AnsiString;
+begin
+  Result:= GetSMBiosString(@RAWBaseBoardInformation^, RAWBaseBoardInformation.Header.Length, RAWBaseBoardInformation.Product);
+end;
+
+function TBaseBoardInformation.SerialNumberStr: AnsiString;
+begin
+  Result:= GetSMBiosString(@RAWBaseBoardInformation^, RAWBaseBoardInformation.Header.Length, RAWBaseBoardInformation.SerialNumber);
+end;
+
+function TBaseBoardInformation.VersionStr: AnsiString;
+begin
+  Result:= GetSMBiosString(@RAWBaseBoardInformation^, RAWBaseBoardInformation.Header.Length, RAWBaseBoardInformation.Version);
 end;
 
 end.

@@ -7,8 +7,6 @@ program BIOSLanguageInfo;
 uses
   Classes,
   SysUtils,
-  ActiveX,
-  ComObj,
   uSMBIOS in '..\..\Common\uSMBIOS.pas';
 
 function ByteToBinStr(AValue:Byte):string;
@@ -34,15 +32,15 @@ begin
       if SMBios.HasBIOSLanguageInfo then
       for LBIOSLng in SMBios.BIOSLanguageInfo do
       begin
-        WriteLn('Installable Languages  '+IntToStr( LBIOSLng.InstallableLanguages));
-        WriteLn('Flags                  '+ByteToBinStr(LBIOSLng.Flags));
+        WriteLn('Installable Languages  '+IntToStr( LBIOSLng.RAWTBIOSLanguageInformation.InstallableLanguages));
+        WriteLn('Flags                  '+ByteToBinStr(LBIOSLng.RAWTBIOSLanguageInformation.Flags));
         WriteLn('Current Language       '+LBIOSLng.GetCurrentLanguageStr);
 
-        if LBIOSLng.InstallableLanguages>1 then
+        if LBIOSLng.RAWTBIOSLanguageInformation.InstallableLanguages>1 then
         begin
           WriteLn('BIOS Languages');
           WriteLn('--------------');
-          for i:=1 to LBIOSLng.InstallableLanguages do
+          for i:=1 to LBIOSLng.RAWTBIOSLanguageInformation.InstallableLanguages do
             WriteLn('  '+LBIOSLng.GetLanguageString(i));
         end;
 
@@ -58,15 +56,8 @@ end;
 
 begin
  try
-    CoInitialize(nil);
-    try
-      GetBIOSLanguageInfo;
-    finally
-      CoUninitialize;
-    end;
+    GetBIOSLanguageInfo;
  except
-    on E:EOleException do
-        Writeln(Format('EOleException %s %x', [E.Message,E.ErrorCode]));
     on E:Exception do
         Writeln(E.Classname, ':', E.Message);
  end;

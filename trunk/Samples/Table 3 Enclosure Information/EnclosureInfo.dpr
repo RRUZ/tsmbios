@@ -7,14 +7,12 @@ program EnclosureInfo;
 uses
   Classes,
   SysUtils,
-  ActiveX,
-  ComObj,
   uSMBIOS in '..\..\Common\uSMBIOS.pas';
 
 procedure GetEnclosureInfo;
 Var
   SMBios : TSMBios;
-  LEnclosure  : TEnclosureInfo;
+  LEnclosure  : TEnclosureInformation;
 begin
   SMBios:=TSMBios.Create;
   try
@@ -42,15 +40,8 @@ end;
 
 begin
  try
-    CoInitialize(nil);
-    try
-      GetEnclosureInfo;
-    finally
-      CoUninitialize;
-    end;
+   GetEnclosureInfo;
  except
-    on E:EOleException do
-        Writeln(Format('EOleException %s %x', [E.Message,E.ErrorCode]));
     on E:Exception do
         Writeln(E.Classname, ':', E.Message);
  end;

@@ -7,10 +7,6 @@ program ProcessorInformation;
 uses
   Classes,
   SysUtils,
-  {
-  ActiveX,
-  ComObj,
-  }
   TypInfo,
   uSMBIOS in '..\..\Common\uSMBIOS.pas';
 
@@ -54,7 +50,7 @@ end;
 procedure GetEnclosureInfo;
 Var
   SMBios             : TSMBios;
-  LProcessorInfo     : TProcessorInfo;
+  LProcessorInfo     : TProcessorInformation;
   LSRAMTypes         : TCacheSRAMTypes;
 begin
   SMBios:=TSMBios.Create;
@@ -68,13 +64,13 @@ begin
         WriteLn('Type               '+LProcessorInfo.ProcessorTypeStr);
         WriteLn('Familiy            '+LProcessorInfo.ProcessorFamilyStr);
         WriteLn('Version            '+LProcessorInfo.ProcessorVersionStr);
-        WriteLn(Format('Processor ID       %x',[LProcessorInfo.ProcessorID]));
+        WriteLn(Format('Processor ID       %x',[LProcessorInfo.RAWProcessorInformation.ProcessorID]));
         WriteLn(Format('Voltaje            %n',[LProcessorInfo.GetProcessorVoltaje]));
-        WriteLn(Format('External Clock     %d  Mhz',[LProcessorInfo.ExternalClock]));
-        WriteLn(Format('Maximum processor speed %d  Mhz',[LProcessorInfo.MaxSpeed]));
-        WriteLn(Format('Current processor speed %d  Mhz',[LProcessorInfo.CurrentSpeed]));
+        WriteLn(Format('External Clock     %d  Mhz',[LProcessorInfo.RAWProcessorInformation.ExternalClock]));
+        WriteLn(Format('Maximum processor speed %d  Mhz',[LProcessorInfo.RAWProcessorInformation.MaxSpeed]));
+        WriteLn(Format('Current processor speed %d  Mhz',[LProcessorInfo.RAWProcessorInformation.CurrentSpeed]));
         WriteLn('Processor Upgrade   '+LProcessorInfo.ProcessorUpgradeStr);
-        WriteLn(Format('External Clock     %d  Mhz',[LProcessorInfo.ExternalClock]));
+        WriteLn(Format('External Clock     %d  Mhz',[LProcessorInfo.RAWProcessorInformation.ExternalClock]));
 
         if SMBios.SmbiosVersion>='2.3' then
         begin
@@ -83,20 +79,20 @@ begin
           WriteLn('Part Number        '+LProcessorInfo.PartNumberStr);
           if SMBios.SmbiosVersion>='2.5' then
           begin
-            WriteLn(Format('Core Count         %d',[LProcessorInfo.CoreCount]));
-            WriteLn(Format('Cores Enabled      %d',[LProcessorInfo.CoreEnabled]));
-            WriteLn(Format('Threads Count      %d',[LProcessorInfo.ThreadCount]));
-            WriteLn(Format('Processor Characteristics %.4x',[LProcessorInfo.ProcessorCharacteristics]));
+            WriteLn(Format('Core Count         %d',[LProcessorInfo.RAWProcessorInformation.CoreCount]));
+            WriteLn(Format('Cores Enabled      %d',[LProcessorInfo.RAWProcessorInformation.CoreEnabled]));
+            WriteLn(Format('Threads Count      %d',[LProcessorInfo.RAWProcessorInformation.ThreadCount]));
+            WriteLn(Format('Processor Characteristics %.4x',[LProcessorInfo.RAWProcessorInformation.ProcessorCharacteristics]));
           end;
         end;
         Writeln;
 
-        if LProcessorInfo.L1CacheHandle>0 then
+        if LProcessorInfo.RAWProcessorInformation.L1CacheHandle>0 then
         begin
           WriteLn('L1 Cache Handle Info');
           WriteLn('--------------------');
           WriteLn('  Socket Designation    '+LProcessorInfo.L1Chache.SocketDesignationStr);
-          WriteLn(Format('  Cache Configuration   %.4x',[LProcessorInfo.L1Chache.CacheConfiguration]));
+          WriteLn(Format('  Cache Configuration   %.4x',[LProcessorInfo.L1Chache.RAWCacheInformation.CacheConfiguration]));
           WriteLn(Format('  Maximum Cache Size    %d Kb',[LProcessorInfo.L1Chache.GetMaximumCacheSize]));
           WriteLn(Format('  Installed Cache Size  %d Kb',[LProcessorInfo.L1Chache.GetInstalledCacheSize]));
           LSRAMTypes:=LProcessorInfo.L1Chache.GetSupportedSRAMType;
@@ -109,12 +105,12 @@ begin
           WriteLn(Format('  Associativity         %s',[LProcessorInfo.L1Chache.AssociativityStr]));
         end;
 
-        if LProcessorInfo.L2CacheHandle>0 then
+        if LProcessorInfo.RAWProcessorInformation.L2CacheHandle>0 then
         begin
           WriteLn('L2 Cache Handle Info');
           WriteLn('--------------------');
           WriteLn('  Socket Designation    '+LProcessorInfo.L2Chache.SocketDesignationStr);
-          WriteLn(Format('  Cache Configuration   %.4x',[LProcessorInfo.L2Chache.CacheConfiguration]));
+          WriteLn(Format('  Cache Configuration   %.4x',[LProcessorInfo.L2Chache.RAWCacheInformation.CacheConfiguration]));
           WriteLn(Format('  Maximum Cache Size    %d Kb',[LProcessorInfo.L2Chache.GetMaximumCacheSize]));
           WriteLn(Format('  Installed Cache Size  %d Kb',[LProcessorInfo.L2Chache.GetInstalledCacheSize]));
           LSRAMTypes:=LProcessorInfo.L2Chache.GetSupportedSRAMType;
@@ -127,12 +123,12 @@ begin
           WriteLn(Format('  Associativity         %s',[LProcessorInfo.L2Chache.AssociativityStr]));
         end;
 
-        if LProcessorInfo.L3CacheHandle>0 then
+        if LProcessorInfo.RAWProcessorInformation.L3CacheHandle>0 then
         begin
           WriteLn('L3 Cache Handle Info');
           WriteLn('--------------------');
           WriteLn('  Socket Designation    '+LProcessorInfo.L3Chache.SocketDesignationStr);
-          WriteLn(Format('  Cache Configuration   %.4x',[LProcessorInfo.L3Chache.CacheConfiguration]));
+          WriteLn(Format('  Cache Configuration   %.4x',[LProcessorInfo.L3Chache.RAWCacheInformation.CacheConfiguration]));
           WriteLn(Format('  Maximum Cache Size    %d Kb',[LProcessorInfo.L3Chache.GetMaximumCacheSize]));
           WriteLn(Format('  Installed Cache Size  %d Kb',[LProcessorInfo.L3Chache.GetInstalledCacheSize]));
           LSRAMTypes:=LProcessorInfo.L3Chache.GetSupportedSRAMType;
@@ -155,15 +151,8 @@ end;
 
 begin
  try
-//    CoInitialize(nil);
-    try
-      GetEnclosureInfo;
-    finally
-//      CoUninitialize;
-    end;
+   GetEnclosureInfo;
  except
-//    on E:EOleException do
-//        Writeln(Format('EOleException %s %x', [E.Message,E.ErrorCode]));
     on E:Exception do
         Writeln(E.Classname, ':', E.Message);
  end;
