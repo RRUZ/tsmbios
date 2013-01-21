@@ -7,14 +7,12 @@ program PortConnectorInfo;
 uses
   Classes,
   SysUtils,
-  ActiveX,
-  ComObj,
   uSMBIOS in '..\..\Common\uSMBIOS.pas';
 
 procedure GetPortConnectorInfo;
 Var
   SMBios : TSMBios;
-  LPort  : TPortConnectorInfo;
+  LPort  : TPortConnectorInformation;
 begin
   SMBios:=TSMBios.Create;
   try
@@ -24,9 +22,9 @@ begin
       for LPort in SMBios.PortConnectorInfo do
       begin
         WriteLn('Internal Reference Designator '+LPort.InternalReferenceDesignatorStr);
-        WriteLn('Internal Connector Type       '+LPort.GetConnectorType(LPort.InternalConnectorType));
+        WriteLn('Internal Connector Type       '+LPort.GetConnectorType(LPort.RAWPortConnectorInformation.InternalConnectorType));
         WriteLn('External Reference Designator '+LPort.ExternalReferenceDesignatorStr);
-        WriteLn('External Connector Type       '+LPort.GetConnectorType(LPort.ExternalConnectorType));
+        WriteLn('External Connector Type       '+LPort.GetConnectorType(LPort.RAWPortConnectorInformation.ExternalConnectorType));
         WriteLn('Port Type                     '+LPort.PortTypeStr);
         WriteLn;
       end
@@ -40,15 +38,8 @@ end;
 
 begin
  try
-    CoInitialize(nil);
-    try
-      GetPortConnectorInfo;
-    finally
-      CoUninitialize;
-    end;
+    GetPortConnectorInfo;
  except
-    on E:EOleException do
-        Writeln(Format('EOleException %s %x', [E.Message,E.ErrorCode]));
     on E:Exception do
         Writeln(E.Classname, ':', E.Message);
  end;

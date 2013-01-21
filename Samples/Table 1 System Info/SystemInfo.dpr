@@ -7,26 +7,23 @@ program SystemInfo;
 uses
   Classes,
   SysUtils,
-  ActiveX,
-  ComObj,
   uSMBIOS in '..\..\Common\uSMBIOS.pas';
 
 procedure GetSystemInfo;
 Var
   SMBios : TSMBios;
-  LSystem: TSysInfo;
+  LSystem: TSystemInformation;
   UUID   : Array[0..31] of AnsiChar;
 begin
   SMBios:=TSMBios.Create;
   try
     LSystem:=SMBios.SysInfo;
     WriteLn('System Information');
-    //WriteLn('Manufacter    '+SMBios.GetSMBiosString(LSystem.LocalIndex + LSystem.Header.Length, LSystem.Manufacturer));
     WriteLn('Manufacter    '+LSystem.ManufacturerStr);
     WriteLn('Product Name  '+LSystem.ProductNameStr);
     WriteLn('Version       '+LSystem.VersionStr);
     WriteLn('Serial Number '+LSystem.SerialNumberStr);
-    BinToHex(@LSystem.UUID,UUID,SizeOf(LSystem.UUID));
+    BinToHex(@LSystem.RAWSystemInformation.UUID,UUID,SizeOf(LSystem.RAWSystemInformation.UUID));
     WriteLn('UUID          '+UUID);
     if SMBios.SmbiosVersion>='2.4' then
     begin
@@ -41,15 +38,8 @@ end;
 
 begin
  try
-    CoInitialize(nil);
-    try
-      GetSystemInfo;
-    finally
-      CoUninitialize;
-    end;
+    GetSystemInfo;
  except
-    on E:EOleException do
-        Writeln(Format('EOleException %s %x', [E.Message,E.ErrorCode]));
     on E:Exception do
         Writeln(E.Classname, ':', E.Message);
  end;

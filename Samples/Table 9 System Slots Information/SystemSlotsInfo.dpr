@@ -7,8 +7,6 @@ program SystemSlotsInfo;
 uses
   Classes,
   SysUtils,
-  ActiveX,
-  ComObj,
   uSMBIOS in '..\..\Common\uSMBIOS.pas';
 
 function ByteToBinStr(AValue:Byte):string;
@@ -25,7 +23,7 @@ end;
 procedure GetSystemSlotInfo;
 Var
   SMBios : TSMBios;
-  LSlot  : TSystemSlotInfo;
+  LSlot  : TSystemSlotInformation;
 begin
   SMBios:=TSMBios.Create;
   try
@@ -39,13 +37,13 @@ begin
         WriteLn('Slot Data Bus Width '+LSlot.GetSlotDataBusWidth);
         WriteLn('Current Usage       '+LSlot.GetCurrentUsage);
         WriteLn('Slot Length         '+LSlot.GetSlotLength);
-        WriteLn(Format('Slot ID             %.4x',[LSlot.SlotID]));
-        WriteLn('Characteristics 1   '+ByteToBinStr(LSlot.SlotCharacteristics1));
-        WriteLn('Characteristics 2   '+ByteToBinStr(LSlot.SlotCharacteristics2));
+        WriteLn(Format('Slot ID             %.4x',[LSlot.RAWSystemSlotInformation.SlotID]));
+        WriteLn('Characteristics 1   '+ByteToBinStr(LSlot.RAWSystemSlotInformation.SlotCharacteristics1));
+        WriteLn('Characteristics 2   '+ByteToBinStr(LSlot.RAWSystemSlotInformation.SlotCharacteristics2));
         if SMBios.SmbiosVersion>='2.6' then
         begin
-          WriteLn(Format('Segment Group Number %.4x',[LSlot.SegmentGroupNumber]));
-          WriteLn(Format('Bus Number           %d',[LSlot.BusNumber]));
+          WriteLn(Format('Segment Group Number %.4x',[LSlot.RAWSystemSlotInformation.SegmentGroupNumber]));
+          WriteLn(Format('Bus Number           %d',[LSlot.RAWSystemSlotInformation.BusNumber]));
         end;
         WriteLn;
       end
@@ -59,15 +57,8 @@ end;
 
 begin
  try
-    CoInitialize(nil);
-    try
-      GetSystemSlotInfo;
-    finally
-      CoUninitialize;
-    end;
+    GetSystemSlotInfo;
  except
-    on E:EOleException do
-        Writeln(Format('EOleException %s %x', [E.Message,E.ErrorCode]));
     on E:Exception do
         Writeln(E.Classname, ':', E.Message);
  end;

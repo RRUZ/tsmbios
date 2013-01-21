@@ -5,8 +5,6 @@ program SMBiosTables;
 uses
   Classes,
   SysUtils,
-  ActiveX,
-  ComObj,
   uSMBIOS in '..\..\Common\uSMBIOS.pas';
 
 procedure ListSMBiosTables;
@@ -31,15 +29,8 @@ end;
 
 begin
  try
-    CoInitialize(nil);
-    try
-      ListSMBiosTables;
-    finally
-      CoUninitialize;
-    end;
+    ListSMBiosTables;
  except
-    on E:EOleException do
-        Writeln(Format('EOleException %s %x', [E.Message,E.ErrorCode]));
     on E:Exception do
         Writeln(E.Classname, ':', E.Message);
  end;
