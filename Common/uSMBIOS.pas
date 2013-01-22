@@ -2741,17 +2741,26 @@ begin
       if FProcessorInfo[i].RAWProcessorInformation.L1CacheHandle>0 then
         for LCacheInfo in FCacheInfo do
           if LCacheInfo.RAWCacheInformation.Header.Handle=FProcessorInfo[i].RAWProcessorInformation.L1CacheHandle then
+          begin
             FProcessorInfo[i].L1Chache:=LCacheInfo;
+            Break;
+          end;
 
       if FProcessorInfo[i].RAWProcessorInformation.L2CacheHandle>0 then
         for LCacheInfo in FCacheInfo do
           if LCacheInfo.RAWCacheInformation.Header.Handle=FProcessorInfo[i].RAWProcessorInformation.L2CacheHandle then
+          begin
             FProcessorInfo[i].L2Chache:=LCacheInfo;
+            Break;
+          end;
 
       if FProcessorInfo[i].RAWProcessorInformation.L3CacheHandle>0 then
         for LCacheInfo in FCacheInfo do
           if LCacheInfo.RAWCacheInformation.Header.Handle=FProcessorInfo[i].RAWProcessorInformation.L3CacheHandle then
+          begin
             FProcessorInfo[i].L3Chache:=LCacheInfo;
+            Break;
+          end;
 
       Inc(i);
     end;

@@ -87,7 +87,7 @@ begin
         end;
         Writeln;
 
-        if LProcessorInfo.RAWProcessorInformation.L1CacheHandle>0 then
+        if (LProcessorInfo.RAWProcessorInformation.L1CacheHandle>0) and (LProcessorInfo.L2Chache<>nil)  then
         begin
           WriteLn('L1 Cache Handle Info');
           WriteLn('--------------------');
@@ -105,7 +105,7 @@ begin
           WriteLn(Format('  Associativity         %s',[LProcessorInfo.L1Chache.AssociativityStr]));
         end;
 
-        if LProcessorInfo.RAWProcessorInformation.L2CacheHandle>0 then
+        if (LProcessorInfo.RAWProcessorInformation.L2CacheHandle>0)  and (LProcessorInfo.L2Chache<>nil)  then
         begin
           WriteLn('L2 Cache Handle Info');
           WriteLn('--------------------');
@@ -123,7 +123,7 @@ begin
           WriteLn(Format('  Associativity         %s',[LProcessorInfo.L2Chache.AssociativityStr]));
         end;
 
-        if LProcessorInfo.RAWProcessorInformation.L3CacheHandle>0 then
+        if (LProcessorInfo.RAWProcessorInformation.L3CacheHandle>0) and (LProcessorInfo.L3Chache<>nil) then
         begin
           WriteLn('L3 Cache Handle Info');
           WriteLn('--------------------');
@@ -140,6 +140,8 @@ begin
           WriteLn(Format('  System Cache Type     %s',[SystemCacheTypeStr[LProcessorInfo.L3Chache.GetSystemCacheType]]));
           WriteLn(Format('  Associativity         %s',[LProcessorInfo.L3Chache.AssociativityStr]));
         end;
+
+        Readln;
       end
       else
       Writeln('No Processor Info was found');
