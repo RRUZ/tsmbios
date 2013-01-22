@@ -10,7 +10,6 @@ uses
 procedure ListSMBiosTables;
 Var
   SMBios : TSMBios;
-  UUID   : Array[0..31] of Char;
   Entry  : TSMBiosTableEntry;
 begin
   SMBios:=TSMBios.Create;
