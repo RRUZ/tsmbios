@@ -1962,7 +1962,6 @@ type
     ///	</remarks>
     {$ENDREGION}
     DeviceFunctionNumber : Byte;
-
   end;
 
   TSystemSlotInformation=class
@@ -2475,7 +2474,60 @@ type
   public
     RAWMemoryDeviceInfo : ^TMemoryDeviceInfo;
     PhysicalMemoryArray : TPhysicalMemoryArrayInformation;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the calculated size in Mb of the memory device
+    ///	</summary>
+    {$ENDREGION}
     function GetSize : DWORD;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the description of the FormFactor field.
+    ///	</summary>
+    {$ENDREGION}
+    function GetFormFactor : AnsiString;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the description of the DeviceLocator field.
+    ///	</summary>
+    {$ENDREGION}
+    function GetDeviceLocatorStr : AnsiString;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the description of the BankLocator field.
+    ///	</summary>
+    {$ENDREGION}
+    function GetBankLocatorStr : AnsiString;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the description of the MemoryType field.
+    ///	</summary>
+    {$ENDREGION}
+    function GetMemoryTypeStr : AnsiString;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the Manufacturer field
+    ///	</summary>
+    {$ENDREGION}
+    function ManufacturerStr: AnsiString;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the SerialNumber field
+    ///	</summary>
+    {$ENDREGION}
+    function  SerialNumberStr: AnsiString;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the AssetTag field
+    ///	</summary>
+    {$ENDREGION}
+    function  AssetTagStr: AnsiString;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the PartNumber field
+    ///	</summary>
+    {$ENDREGION}
+    function  PartNumberStr: AnsiString;
   end;
 
   TBatteryInfo = packed record
@@ -4130,20 +4182,76 @@ begin
 end;
 
 { TMemoryDeviceInformation }
-{
-  The size of the memory device. If the value is 0, no
-  memory device is installed in the socket; if the size
-  is unknown, the field value is FFFFh. If the size is
-  32 GB-1 MB or greater, the field value is 7FFFh and
-  the actual size is stored in the Extended Size field.
-  The granularity in which the value is specified
-  depends on the setting of the most-significant bit (bit
-  15). If the bit is 0, the value is specified in megabyte
-  units; if the bit is 1, the value is specified in kilobyte
-  units. For example, the value 8100h identifies a
-  256 KB memory device and 0100h identifies a
-  256 MB memory device.
-}
+
+
+function TMemoryDeviceInformation.AssetTagStr: AnsiString;
+begin
+  Result:= GetSMBiosString(@RAWMemoryDeviceInfo^, RAWMemoryDeviceInfo.Header.Length, RAWMemoryDeviceInfo.AssetTag);
+end;
+
+function TMemoryDeviceInformation.GetBankLocatorStr: AnsiString;
+begin
+  Result:= GetSMBiosString(@RAWMemoryDeviceInfo^, RAWMemoryDeviceInfo.Header.Length, RAWMemoryDeviceInfo.BankLocator);
+end;
+
+function TMemoryDeviceInformation.GetDeviceLocatorStr: AnsiString;
+begin
+  Result:= GetSMBiosString(@RAWMemoryDeviceInfo^, RAWMemoryDeviceInfo.Header.Length, RAWMemoryDeviceInfo.DeviceLocator);
+end;
+
+function TMemoryDeviceInformation.GetFormFactor: AnsiString;
+begin
+  case RAWMemoryDeviceInfo.FormFactor of
+    $01 : Result:='Other';
+    $02 : Result:='Unknown';
+    $03 : Result:='SIMM';
+    $04 : Result:='SIP';
+    $05 : Result:='Chip';
+    $06 : Result:='DIP';
+    $07 : Result:='ZIP';
+    $08 : Result:='Proprietary Card';
+    $09 : Result:='DIMM';
+    $0A : Result:='TSOP';
+    $0B : Result:='Row of chips';
+    $0C : Result:='RIMM';
+    $0D : Result:='SODIMM';
+    $0E : Result:='SRIMM';
+    $0F : Result:='FB-DIMM'
+    else
+    Result:='Unknown';
+  end;
+end;
+
+function TMemoryDeviceInformation.GetMemoryTypeStr: AnsiString;
+begin
+  case RAWMemoryDeviceInfo.MemoryType of
+    $01 : Result:='Other';
+    $02 : Result:='Unknown';
+    $03 : Result:='DRAM';
+    $04 : Result:='EDRAM';
+    $05 : Result:='VRAM';
+    $06 : Result:='SRAM';
+    $07 : Result:='RAM';
+    $08 : Result:='ROM';
+    $09 : Result:='FLASH';
+    $0A : Result:='EEPROM';
+    $0B : Result:='FEPROM';
+    $0C : Result:='EPROM';
+    $0D : Result:='CDRAM';
+    $0E : Result:='3DRAM';
+    $0F : Result:='SDRAM';
+    $10 : Result:='SGRAM';
+    $11 : Result:='RDRAM';
+    $12 : Result:='DDR';
+    $13 : Result:='DDR2';
+    $14 : Result:='DDR2 FB-DIMM';
+    $15..$17 : Result:='Reserved';
+    $18 : Result:='DDR3';
+    $19 : Result:='FBD2'
+    else
+    Result:='Unknown';
+  end;
+end;
 
 function TMemoryDeviceInformation.GetSize: DWORD;
 begin
@@ -4162,6 +4270,21 @@ begin
 end;
 
 
+
+function TMemoryDeviceInformation.ManufacturerStr: AnsiString;
+begin
+  Result:= GetSMBiosString(@RAWMemoryDeviceInfo^, RAWMemoryDeviceInfo.Header.Length, RAWMemoryDeviceInfo.Manufacturer);
+end;
+
+function TMemoryDeviceInformation.PartNumberStr: AnsiString;
+begin
+  Result:= GetSMBiosString(@RAWMemoryDeviceInfo^, RAWMemoryDeviceInfo.Header.Length, RAWMemoryDeviceInfo.PartNumber);
+end;
+
+function TMemoryDeviceInformation.SerialNumberStr: AnsiString;
+begin
+  Result:= GetSMBiosString(@RAWMemoryDeviceInfo^, RAWMemoryDeviceInfo.Header.Length, RAWMemoryDeviceInfo.SerialNumber);
+end;
 
 {$IFDEF USEWMI}
 initialization
