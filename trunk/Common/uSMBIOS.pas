@@ -2600,7 +2600,9 @@ begin
      end
      else
      RaiseLastOSError;
-  end;
+  end
+  else
+  Raise Exception.Create('GetSystemFirmwareTable function not found');
 end;
 {$ENDIF}
 
@@ -3684,5 +3686,16 @@ begin
   Result:= GetSMBiosString(@RAWSystemConfInformation^, RAWSystemConfInformation.Header.Length,index);
 
 end;
+
+{$IFDEF USEWMI}
+initialization
+  CoInitialize(nil);
+{$ENDIF}
+
+
+{$IFDEF USEWMI}
+finalization
+  CoUninitialize;
+{$ENDIF}
 
 end.
