@@ -22,10 +22,16 @@ unit uSMBIOS;
 
 interface
 
+{$IFDEF FPC}
+ {$DEFINE NOGENERICS}
+{$ELSE}
+ {$IF CompilerVersion < 20} {$DEFINE NOGENERICS}  {$IFEND}
+{$ENDIF}
+
 uses
   SysUtils,
   Windows,
-  {$IF CompilerVersion >= 20}Generics.Collections,{$IFEND}
+  {$IFNDEF NOGENERICS}Generics.Collections,{$ENDIF}
   Classes;
 
 {.$DEFINE USEWMI}
@@ -2557,7 +2563,7 @@ type
     Index : Integer;
   end;
 
-  {$IF CompilerVersion < 20}
+ {$IFDEF NOGENERICS}
   ArrBaseBoardInfo    = Array of TBaseBoardInformation;
   ArrEnclosureInfo    = Array of TEnclosureInformation;
   ArrProcessorInfo    = Array of TProcessorInformation;
@@ -2570,7 +2576,7 @@ type
   ArrSystemConfInfo   = Array of TSystemConfInformation;
   ArrPhysicalMemoryArrayInfo   = Array of TPhysicalMemoryArrayInformation;
   ArrMemoryDeviceInfo   = Array of TMemoryDeviceInformation;
-  {$IFEND}
+  {$ENDIF}
 
   TSMBios = class
   private
@@ -2578,25 +2584,25 @@ type
     FDataString: AnsiString;
     FBiosInfo: TBiosInformation;
     FSysInfo: TSystemInformation;
-    FBaseBoardInfo: {$IF CompilerVersion < 20}ArrBaseBoardInfo; {$ELSE}TArray<TBaseBoardInformation>;{$IFEND}
-    FEnclosureInfo: {$IF CompilerVersion < 20}ArrEnclosureInfo; {$ELSE}TArray<TEnclosureInformation>;{$IFEND}
-    FProcessorInfo: {$IF CompilerVersion < 20}ArrProcessorInfo; {$ELSE}TArray<TProcessorInformation>;{$IFEND}
-    FCacheInfo: {$IF CompilerVersion < 20}ArrCacheInfo; {$ELSE}TArray<TCacheInformation>;{$IFEND}
-    FPortConnectorInfo : {$IF CompilerVersion < 20}ArrPortConnectorInfo; {$ELSE} TArray<TPortConnectorInformation>; {$IFEND}
-    FSystemSlotInfo : {$IF CompilerVersion < 20}ArrSystemSlotInfo; {$ELSE} TArray<TSystemSlotInformation>; {$IFEND}
-    FSMBiosTablesList: {$IF CompilerVersion < 20}ArrSMBiosTableEntry; {$ELSE} TArray<TSMBiosTableEntry>;{$IFEND}
-    FOEMStringsInfo: {$IF CompilerVersion < 20}ArrOEMStringsInfo; {$ELSE}TArray<TOEMStringsInformation>;{$IFEND}
-    FBIOSLanguageInfo: {$IF CompilerVersion < 20}ArrBIOSLanguageInfo; {$ELSE}TArray<TBIOSLanguageInformation>;{$IFEND}
-    FSystemConfInfo: {$IF CompilerVersion < 20}ArrSystemConfInfo; {$ELSE}TArray<TSystemConfInformation>;{$IFEND}
-    FPhysicalMemoryArrayInfo: {$IF CompilerVersion < 20}ArrPhysicalMemoryArrayInfo; {$ELSE}TArray<TPhysicalMemoryArrayInformation>;{$IFEND}
-    FMemoryDeviceInformation : {$IF CompilerVersion < 20}ArrMemoryDeviceInfo; {$ELSE}TArray<TMemoryDeviceInformation>;{$IFEND}
+    FBaseBoardInfo: {$IFDEF NOGENERICS}ArrBaseBoardInfo; {$ELSE}TArray<TBaseBoardInformation>;{$ENDIF}
+    FEnclosureInfo: {$IFDEF NOGENERICS}ArrEnclosureInfo; {$ELSE}TArray<TEnclosureInformation>;{$ENDIF}
+    FProcessorInfo: {$IFDEF NOGENERICS}ArrProcessorInfo; {$ELSE}TArray<TProcessorInformation>;{$ENDIF}
+    FCacheInfo: {$IFDEF NOGENERICS}ArrCacheInfo; {$ELSE}TArray<TCacheInformation>;{$ENDIF}
+    FPortConnectorInfo : {$IFDEF NOGENERICS}ArrPortConnectorInfo; {$ELSE} TArray<TPortConnectorInformation>; {$ENDIF}
+    FSystemSlotInfo : {$IFDEF NOGENERICS}ArrSystemSlotInfo; {$ELSE} TArray<TSystemSlotInformation>; {$ENDIF}
+    FSMBiosTablesList: {$IFDEF NOGENERICS}ArrSMBiosTableEntry; {$ELSE} TArray<TSMBiosTableEntry>;{$ENDIF}
+    FOEMStringsInfo: {$IFDEF NOGENERICS}ArrOEMStringsInfo; {$ELSE}TArray<TOEMStringsInformation>;{$ENDIF}
+    FBIOSLanguageInfo: {$IFDEF NOGENERICS}ArrBIOSLanguageInfo; {$ELSE}TArray<TBIOSLanguageInformation>;{$ENDIF}
+    FSystemConfInfo: {$IFDEF NOGENERICS}ArrSystemConfInfo; {$ELSE}TArray<TSystemConfInformation>;{$ENDIF}
+    FPhysicalMemoryArrayInfo: {$IFDEF NOGENERICS}ArrPhysicalMemoryArrayInfo; {$ELSE}TArray<TPhysicalMemoryArrayInformation>;{$ENDIF}
+    FMemoryDeviceInformation : {$IFDEF NOGENERICS}ArrMemoryDeviceInfo; {$ELSE}TArray<TMemoryDeviceInformation>;{$ENDIF}
     {$IFDEF USEWMI}
     procedure LoadSMBIOSWMI;
     {$ELSE}
     procedure LoadSMBIOSWinAPI;
     {$ENDIF}
     procedure ReadSMBiosTables;
-    function GetSMBiosTablesList:{$IF CompilerVersion < 20}ArrSMBiosTableEntry; {$ELSE} TArray<TSMBiosTableEntry>;{$IFEND}
+    function GetSMBiosTablesList:{$IFDEF NOGENERICS}ArrSMBiosTableEntry; {$ELSE} TArray<TSMBiosTableEntry>;{$ENDIF}
     function GetSMBiosTablesCount: Integer;
     function GetHasBaseBoardInfo: Boolean;
     function GetHasEnclosureInfo: Boolean;
@@ -2623,42 +2629,42 @@ type
     property DataString: AnsiString read FDataString;
     property RawSMBIOSData : TRawSMBIOSData read FRawSMBIOSData;
     property SmbiosVersion : string  read GetSmbiosVersion;
-    property SMBiosTablesList : {$IF CompilerVersion < 20}ArrSMBiosTableEntry {$ELSE}TArray<TSMBiosTableEntry> {$IFEND} read FSMBiosTablesList;
+    property SMBiosTablesList : {$IFDEF NOGENERICS}ArrSMBiosTableEntry {$ELSE}TArray<TSMBiosTableEntry> {$ENDIF} read FSMBiosTablesList;
 
     property BiosInfo: TBiosInformation read FBiosInfo;
     property SysInfo: TSystemInformation read FSysInfo;
 
-    property BaseBoardInfo: {$IF CompilerVersion < 20}ArrBaseBoardInfo {$ELSE}TArray<TBaseBoardInformation> {$IFEND} read FBaseBoardInfo;
+    property BaseBoardInfo: {$IFDEF NOGENERICS}ArrBaseBoardInfo {$ELSE}TArray<TBaseBoardInformation> {$ENDIF} read FBaseBoardInfo;
     property HasBaseBoardInfo : Boolean read GetHasBaseBoardInfo;
 
-    property EnclosureInfo: {$IF CompilerVersion < 20}ArrEnclosureInfo {$ELSE}TArray<TEnclosureInformation> {$IFEND} read FEnclosureInfo;
+    property EnclosureInfo: {$IFDEF NOGENERICS}ArrEnclosureInfo {$ELSE}TArray<TEnclosureInformation> {$ENDIF} read FEnclosureInfo;
     property HasEnclosureInfo : Boolean read GetHasEnclosureInfo;
 
-    property CacheInfo: {$IF CompilerVersion < 20}ArrCacheInfo {$ELSE}TArray<TCacheInformation> {$IFEND} read FCacheInfo;
+    property CacheInfo: {$IFDEF NOGENERICS}ArrCacheInfo {$ELSE}TArray<TCacheInformation> {$ENDIF} read FCacheInfo;
     property HasCacheInfo : Boolean read GetHasCacheInfo;
 
-    property ProcessorInfo: {$IF CompilerVersion < 20}ArrProcessorInfo {$ELSE}TArray<TProcessorInformation> {$IFEND} read FProcessorInfo;
+    property ProcessorInfo: {$IFDEF NOGENERICS}ArrProcessorInfo {$ELSE}TArray<TProcessorInformation> {$ENDIF} read FProcessorInfo;
     property HasProcessorInfo : Boolean read GetHasProcessorInfo;
 
-    property PortConnectorInfo: {$IF CompilerVersion < 20}ArrPortConnectorInfo {$ELSE} TArray<TPortConnectorInformation> {$IFEND} read FPortConnectorInfo;
+    property PortConnectorInfo: {$IFDEF NOGENERICS}ArrPortConnectorInfo {$ELSE} TArray<TPortConnectorInformation> {$ENDIF} read FPortConnectorInfo;
     property HasPortConnectorInfo : Boolean read GetHasPortConnectorInfo;
 
-    property SystemSlotInfo: {$IF CompilerVersion < 20}ArrSystemSlotInfo {$ELSE} TArray<TSystemSlotInformation> {$IFEND} read FSystemSlotInfo;
+    property SystemSlotInfo: {$IFDEF NOGENERICS}ArrSystemSlotInfo {$ELSE} TArray<TSystemSlotInformation> {$ENDIF} read FSystemSlotInfo;
     property HasSystemSlotInfo : Boolean read GetHasSystemSlotInfo;
 
-    property OEMStringsInfo: {$IF CompilerVersion < 20}ArrOEMStringsInfo {$ELSE} TArray<TOEMStringsInformation> {$IFEND} read FOEMStringsInfo;
+    property OEMStringsInfo: {$IFDEF NOGENERICS}ArrOEMStringsInfo {$ELSE} TArray<TOEMStringsInformation> {$ENDIF} read FOEMStringsInfo;
     property HasOEMStringsInfo : Boolean read GetHasOEMStringsInfo;
 
-    property BIOSLanguageInfo: {$IF CompilerVersion < 20}ArrBIOSLanguageInfo {$ELSE} TArray<TBIOSLanguageInformation> {$IFEND} read FBIOSLanguageInfo;
+    property BIOSLanguageInfo: {$IFDEF NOGENERICS}ArrBIOSLanguageInfo {$ELSE} TArray<TBIOSLanguageInformation> {$ENDIF} read FBIOSLanguageInfo;
     property HasBIOSLanguageInfo : Boolean read GetHasBIOSLanguageInfo;
 
-    property SystemConfInfo: {$IF CompilerVersion < 20}ArrSystemConfInfo {$ELSE} TArray<TSystemConfInformation> {$IFEND} read FSystemConfInfo;
+    property SystemConfInfo: {$IFDEF NOGENERICS}ArrSystemConfInfo {$ELSE} TArray<TSystemConfInformation> {$ENDIF} read FSystemConfInfo;
     property HasSystemConfInfo : Boolean read GetHasSystemConfInfo;
 
-    property PhysicalMemoryArrayInfo : {$IF CompilerVersion < 20} ArrSystemConfInfo {$ELSE} TArray<TPhysicalMemoryArrayInformation> {$IFEND} read FPhysicalMemoryArrayInfo;
+    property PhysicalMemoryArrayInfo : {$IFDEF NOGENERICS} ArrPhysicalMemoryArrayInfo {$ELSE} TArray<TPhysicalMemoryArrayInformation> {$ENDIF} read FPhysicalMemoryArrayInfo;
     property HasPhysicalMemoryArrayInfo : Boolean read GetHasPhysicalMemoryArrayInfo;
 
-    property MemoryDeviceInformation: {$IF CompilerVersion < 20} ArrMemoryDeviceInfo {$ELSE} TArray<TMemoryDeviceInformation> {$IFEND} read FMemoryDeviceInformation;
+    property MemoryDeviceInformation: {$IFDEF NOGENERICS} ArrMemoryDeviceInfo {$ELSE} TArray<TMemoryDeviceInformation> {$ENDIF} read FMemoryDeviceInformation;
     property HasMemoryDeviceInfo : Boolean read GetHasMemoryDeviceInfo;
   end;
 
@@ -2831,7 +2837,7 @@ begin
          Break;
        end;
 
-      while not((RawSMBIOSData.SMBIOSTableData[Index] = 0) and (RawSMBIOSData.SMBIOSTableData[Index + 1] = 0)) do
+      while not((RawSMBIOSData.SMBIOSTableData^[Index] = Byte(0)) and (RawSMBIOSData.SMBIOSTableData^[Index + 1] = 0)) do
        if Index+1>RawSMBIOSData.Length then
        begin
          Result:=-1;
@@ -2857,7 +2863,7 @@ begin
   Result := '';
   for i := 1 to Index do
   begin
-    p := PAnsiChar(@FBuffer[Entry]);
+    p := PAnsiChar(@FBuffer^[Entry]);
     if i = Index then
     begin
       Result := p;
@@ -2877,7 +2883,7 @@ begin
   Result := '';
   for i := 1 to Index do
   begin
-    p := PAnsiChar(@RawSMBIOSData.SMBIOSTableData[Entry]);
+    p := PAnsiChar(@RawSMBIOSData.SMBIOSTableData^[Entry]);
     if i = Index then
     begin
       Result := p;
@@ -2919,36 +2925,37 @@ begin
   Result    := 0;
   Index     := 0;
   repeat
-    Move(RawSMBIOSData.SMBIOSTableData[Index], Header, SizeOf(Header));
+    Move(FRawSMBIOSData.SMBIOSTableData^[Index], Header, SizeOf(Header));
     Inc(Result);
 
     if Header.TableType=Byte(Ord(EndofTable)) then break;
 
     inc(Index, Header.Length);// + 1);
-    if Index+1>RawSMBIOSData.Length then
+    if Index+1>FRawSMBIOSData.Length then
       Break;
 
-    while not((RawSMBIOSData.SMBIOSTableData[Index] = 0) and (RawSMBIOSData.SMBIOSTableData[Index + 1] = 0)) do
+    while not((FRawSMBIOSData.SMBIOSTableData^[Index] = Byte(0)) and (FRawSMBIOSData.SMBIOSTableData^[Index + 1] = Byte(0))) do
     if Index+1>RawSMBIOSData.Length then
      Break
     else
      inc(Index);
 
     inc(Index, 2);
-  until (Index>RawSMBIOSData.Length);
+  until (Index>FRawSMBIOSData.Length);
 end;
 
-function TSMBios.GetSMBiosTablesList: {$IF CompilerVersion < 20}ArrSMBiosTableEntry; {$ELSE} TArray<TSMBiosTableEntry>;{$IFEND}
+function TSMBios.GetSMBiosTablesList: {$IFDEF NOGENERICS}ArrSMBiosTableEntry; {$ELSE} TArray<TSMBiosTableEntry>;{$ENDIF}
 Var
   I,Index : DWORD;
   Header: TSmBiosTableHeader;
   Entry    : TSMBiosTableEntry;
 begin
-  SetLength(Result, GetSMBiosTablesCount);
+  I:=GetSMBiosTablesCount;
+  SetLength(Result, I);
   I:=0;
   Index     := 0;
   repeat
-    Move(RawSMBIOSData.SMBIOSTableData[Index], Header, SizeOf(Header));
+    Move(RawSMBIOSData.SMBIOSTableData^[Index], Header, SizeOf(Header));
     Entry.Header:=Header;
     Entry.Index:=Index;
     Move(Entry, Result[I], SizeOf(Entry));
@@ -2960,7 +2967,7 @@ begin
     if Index+1>RawSMBIOSData.Length then
       Break;
 
-    while not((RawSMBIOSData.SMBIOSTableData[Index] = 0) and (RawSMBIOSData.SMBIOSTableData[Index + 1] = 0)) do
+    while not((RawSMBIOSData.SMBIOSTableData^[Index] = 0) and (RawSMBIOSData.SMBIOSTableData^[Index + 1] = 0)) do
     if Index+1>RawSMBIOSData.Length then
      Break
     else
@@ -2992,7 +2999,12 @@ var
 begin
   ZeroMemory(@RawSMBIOSData, SizeOf(RawSMBIOSData));
   hModule := GetModuleHandle(kernel32);
+  {$IFDEF FPC}
+  GetSystemFirmwareTable := TFNGetSystemFirmwareTable(GetProcAddress(hModule, 'GetSystemFirmwareTable'));
+  {$ELSE}
   GetSystemFirmwareTable := GetProcAddress(hModule, 'GetSystemFirmwareTable');
+  {$ENDIF}
+
   if Assigned(GetSystemFirmwareTable) then
   begin
      BufferSize:=GetSystemFirmwareTable(FirmwareTableProviderSignature, 0, nil^, BufferSize);
@@ -3002,8 +3014,8 @@ begin
        GetMem(Buffer, BufferSize);
        try
          GetSystemFirmwareTable(FirmwareTableProviderSignature, 0, Buffer^, BufferSize);
-         Move(Buffer[0], FRawSMBIOSData, 8);
-         Move(Buffer[8], FRawSMBIOSData.SMBIOSTableData^[0], FRawSMBIOSData.Length);
+         Move(Buffer^[0], FRawSMBIOSData, 8);
+         Move(Buffer^[8], FRawSMBIOSData.SMBIOSTableData^[0], FRawSMBIOSData.Length);
        finally
          FreeMem(Buffer);
        end;
@@ -3024,7 +3036,7 @@ var
   FSWbemLocator: OLEVariant;
   FWMIService: OLEVariant;
   FWbemObjectSet: OLEVariant;
-  FWbemObject: OLEVariant;
+  FWbemObject: {$IFDEF FPC}Variant {$ELSE} OLEVariant{$ENDIF};
   oEnum: IEnumvariant;
   iValue: LongWord;
   vArray: variant;
@@ -3036,7 +3048,7 @@ begin;
   FWMIService := FSWbemLocator.ConnectServer('localhost', 'root\WMI', '', '');
   FWbemObjectSet := FWMIService.ExecQuery('SELECT * FROM MSSmBios_RawSMBiosTables', 'WQL', wbemFlagForwardOnly);
   oEnum := IUnknown(FWbemObjectSet._NewEnum) as IEnumvariant;
-  if oEnum.Next(1, FWbemObject, iValue) = 0 then
+  if {$IFDEF FPC} oEnum.Next(1, FWbemObject, nil){$ELSE}oEnum.Next(1, FWbemObject, iValue){$ENDIF} = 0 then
   begin
     //FSize := FWbemObject.Size;
     FRawSMBIOSData.Length             :=FWbemObject.Size;
@@ -3054,7 +3066,7 @@ begin;
       for i := VarArrayLowBound(vArray, 1) to VarArrayHighBound(vArray, 1) do
       begin
         Value := vArray[i];
-        FRawSMBIOSData.SMBIOSTableData[i] := Value;
+        FRawSMBIOSData.SMBIOSTableData^[i] := Value;
         if Value in [$20..$7E] then
           FDataString := FDataString + AnsiString(Chr(Value))
         else
@@ -3073,11 +3085,11 @@ begin
 
   LIndex := GetSMBiosTableNextIndex(BIOSInformation, 0);
   if LIndex >= 0 then
-    FBiosInfo.RAWBiosInformation:=@RawSMBIOSData.SMBIOSTableData[LIndex];
+    FBiosInfo.RAWBiosInformation:=@RawSMBIOSData.SMBIOSTableData^[LIndex];
 
   LIndex := GetSMBiosTableNextIndex(SystemInformation, 0);
   if LIndex >= 0 then
-    FSysInfo.RAWSystemInformation:=@RawSMBIOSData.SMBIOSTableData[LIndex];
+    FSysInfo.RAWSystemInformation:=@RawSMBIOSData.SMBIOSTableData^[LIndex];
 
   SetLength(FOEMStringsInfo, GetSMBiosTableEntries(OEMStrings));
   i:=0;
@@ -3087,7 +3099,7 @@ begin
     if LIndex >= 0 then
     begin
       FOEMStringsInfo[i]:=TOEMStringsInformation.Create;
-      FOEMStringsInfo[i].RAWOEMStringsInformation:=@RawSMBIOSData.SMBIOSTableData[LIndex];
+      FOEMStringsInfo[i].RAWOEMStringsInformation:=@RawSMBIOSData.SMBIOSTableData^[LIndex];
       Inc(i);
     end;
   until (LIndex=-1);
@@ -3101,7 +3113,7 @@ begin
     if LIndex >= 0 then
     begin
       FBaseBoardInfo[i]:=TBaseBoardInformation.Create;
-      FBaseBoardInfo[i].RAWBaseBoardInformation:=@RawSMBIOSData.SMBIOSTableData[LIndex];
+      FBaseBoardInfo[i].RAWBaseBoardInformation:=@RawSMBIOSData.SMBIOSTableData^[LIndex];
       Inc(i);
     end;
   until (LIndex=-1);
@@ -3114,7 +3126,7 @@ begin
     if LIndex >= 0 then
     begin
       FEnclosureInfo[i]:=TEnclosureInformation.Create;
-      FEnclosureInfo[i].RAWEnclosureInformation:=@RawSMBIOSData.SMBIOSTableData[LIndex];
+      FEnclosureInfo[i].RAWEnclosureInformation:=@RawSMBIOSData.SMBIOSTableData^[LIndex];
       Inc(i);
     end;
   until (LIndex=-1);
@@ -3127,7 +3139,7 @@ begin
     if LIndex >= 0 then
     begin
       FCacheInfo[i]:=TCacheInformation.Create;
-      FCacheInfo[i].RAWCacheInformation:=@RawSMBIOSData.SMBIOSTableData[LIndex];
+      FCacheInfo[i].RAWCacheInformation:=@RawSMBIOSData.SMBIOSTableData^[LIndex];
       Inc(i);
     end;
   until (LIndex=-1);
@@ -3141,27 +3153,27 @@ begin
     if LIndex >= 0 then
     begin
       FProcessorInfo[i]:=TProcessorInformation.Create;
-      FProcessorInfo[i].RAWProcessorInformation:=@RawSMBIOSData.SMBIOSTableData[LIndex];
+      FProcessorInfo[i].RAWProcessorInformation:=@RawSMBIOSData.SMBIOSTableData^[LIndex];
 
-      if FProcessorInfo[i].RAWProcessorInformation.L1CacheHandle>0 then
+      if FProcessorInfo[i].RAWProcessorInformation^.L1CacheHandle>0 then
         for LCacheInfo in FCacheInfo do
-          if LCacheInfo.RAWCacheInformation.Header.Handle=FProcessorInfo[i].RAWProcessorInformation.L1CacheHandle then
+          if LCacheInfo.RAWCacheInformation^.Header.Handle=FProcessorInfo[i].RAWProcessorInformation^.L1CacheHandle then
           begin
             FProcessorInfo[i].L1Chache:=LCacheInfo;
             Break;
           end;
 
-      if FProcessorInfo[i].RAWProcessorInformation.L2CacheHandle>0 then
+      if FProcessorInfo[i].RAWProcessorInformation^.L2CacheHandle>0 then
         for LCacheInfo in FCacheInfo do
-          if LCacheInfo.RAWCacheInformation.Header.Handle=FProcessorInfo[i].RAWProcessorInformation.L2CacheHandle then
+          if LCacheInfo.RAWCacheInformation^.Header.Handle=FProcessorInfo[i].RAWProcessorInformation^.L2CacheHandle then
           begin
             FProcessorInfo[i].L2Chache:=LCacheInfo;
             Break;
           end;
 
-      if FProcessorInfo[i].RAWProcessorInformation.L3CacheHandle>0 then
+      if FProcessorInfo[i].RAWProcessorInformation^.L3CacheHandle>0 then
         for LCacheInfo in FCacheInfo do
-          if LCacheInfo.RAWCacheInformation.Header.Handle=FProcessorInfo[i].RAWProcessorInformation.L3CacheHandle then
+          if LCacheInfo.RAWCacheInformation^.Header.Handle=FProcessorInfo[i].RAWProcessorInformation^.L3CacheHandle then
           begin
             FProcessorInfo[i].L3Chache:=LCacheInfo;
             Break;
@@ -3180,7 +3192,7 @@ begin
     if LIndex >= 0 then
     begin
       FPortConnectorInfo[i]:=TPortConnectorInformation.Create;
-      FPortConnectorInfo[i].RAWPortConnectorInformation:=@RawSMBIOSData.SMBIOSTableData[LIndex];
+      FPortConnectorInfo[i].RAWPortConnectorInformation:=@RawSMBIOSData.SMBIOSTableData^[LIndex];
       Inc(i);
     end;
   until (LIndex=-1);
@@ -3193,7 +3205,7 @@ begin
     if LIndex >= 0 then
     begin
       FSystemSlotInfo[i]:=TSystemSlotInformation.Create;
-      FSystemSlotInfo[i].RAWSystemSlotInformation:=@RawSMBIOSData.SMBIOSTableData[LIndex];
+      FSystemSlotInfo[i].RAWSystemSlotInformation:=@RawSMBIOSData.SMBIOSTableData^[LIndex];
       Inc(i);
     end;
   until (LIndex=-1);
@@ -3206,7 +3218,7 @@ begin
     if LIndex >= 0 then
     begin
       FBIOSLanguageInfo[i]:=TBIOSLanguageInformation.Create;
-      FBIOSLanguageInfo[i].RAWBIOSLanguageInformation:=@RawSMBIOSData.SMBIOSTableData[LIndex];
+      FBIOSLanguageInfo[i].RAWBIOSLanguageInformation:=@RawSMBIOSData.SMBIOSTableData^[LIndex];
       Inc(i);
     end;
   until (LIndex=-1);
@@ -3220,7 +3232,7 @@ begin
     if LIndex >= 0 then
     begin
       FSystemConfInfo[i]:=TSystemConfInformation.Create;
-      FSystemConfInfo[i].RAWSystemConfInformation:=@RawSMBIOSData.SMBIOSTableData[LIndex];
+      FSystemConfInfo[i].RAWSystemConfInformation:=@RawSMBIOSData.SMBIOSTableData^[LIndex];
       Inc(i);
     end;
   until (LIndex=-1);
@@ -3233,10 +3245,11 @@ begin
     if LIndex >= 0 then
     begin
       FPhysicalMemoryArrayInfo[i]:=TPhysicalMemoryArrayInformation.Create;
-      FPhysicalMemoryArrayInfo[i].RAWPhysicalMemoryArrayInformation:=@RawSMBIOSData.SMBIOSTableData[LIndex];
+      FPhysicalMemoryArrayInfo[i].RAWPhysicalMemoryArrayInformation:=@RawSMBIOSData.SMBIOSTableData^[LIndex];
       Inc(i);
     end;
   until (LIndex=-1);
+
 
   SetLength(FMemoryDeviceInformation, GetSMBiosTableEntries(MemoryDevice));
   i:=0;
@@ -3246,11 +3259,11 @@ begin
     if LIndex >= 0 then
     begin
       FMemoryDeviceInformation[i]:=TMemoryDeviceInformation.Create;
-      FMemoryDeviceInformation[i].RAWMemoryDeviceInfo:=@RawSMBIOSData.SMBIOSTableData[LIndex];
+      FMemoryDeviceInformation[i].RAWMemoryDeviceInfo:=@RawSMBIOSData.SMBIOSTableData^[LIndex];
 
-      if FMemoryDeviceInformation[i].RAWMemoryDeviceInfo.PhysicalMemoryArrayHandle>0 then
+      if FMemoryDeviceInformation[i].RAWMemoryDeviceInfo^.PhysicalMemoryArrayHandle>0 then
         for LArrMemory in FPhysicalMemoryArrayInfo do
-          if LArrMemory.RAWPhysicalMemoryArrayInformation.Header.Handle=FMemoryDeviceInformation[i].RAWMemoryDeviceInfo.PhysicalMemoryArrayHandle then
+          if LArrMemory.RAWPhysicalMemoryArrayInformation^.Header.Handle=FMemoryDeviceInformation[i].RAWMemoryDeviceInfo^.PhysicalMemoryArrayHandle then
           begin
             FMemoryDeviceInformation[i].PhysicalMemoryArray:=LArrMemory;
             Break;
@@ -3259,6 +3272,7 @@ begin
       Inc(i);
     end;
   until (LIndex=-1);
+
 end;
 
 
@@ -3266,12 +3280,12 @@ end;
 
 function TEnclosureInformation.AssetTagNumberStr: AnsiString;
 begin
-  Result:= GetSMBiosString(@RAWEnclosureInformation^, RAWEnclosureInformation.Header.Length, RAWEnclosureInformation.AssetTagNumber);
+  Result:= GetSMBiosString(@RAWEnclosureInformation^, RAWEnclosureInformation^.Header.Length, RAWEnclosureInformation^.AssetTagNumber);
 end;
 
 function TEnclosureInformation.BootUpStateStr: AnsiString;
 begin
- case RAWEnclosureInformation.BootUpState of
+ case RAWEnclosureInformation^.BootUpState of
   $01 : Result:='Other';
   $02 : Result:='Unknown';
   $03 : Result:='Safe';
@@ -3285,12 +3299,12 @@ end;
 
 function TEnclosureInformation.ManufacturerStr: AnsiString;
 begin
-  Result:= GetSMBiosString(@RAWEnclosureInformation^, RAWEnclosureInformation.Header.Length, RAWEnclosureInformation.Manufacturer);
+  Result:= GetSMBiosString(@RAWEnclosureInformation^, RAWEnclosureInformation^.Header.Length, RAWEnclosureInformation^.Manufacturer);
 end;
 
 function TEnclosureInformation.PowerSupplyStateStr: AnsiString;
 begin
- case RAWEnclosureInformation.PowerSupplyState of
+ case RAWEnclosureInformation^.PowerSupplyState of
   $01 : Result:='Other';
   $02 : Result:='Unknown';
   $03 : Result:='Safe';
@@ -3304,15 +3318,15 @@ end;
 
 function TEnclosureInformation.SerialNumberStr: AnsiString;
 begin
-  Result:= GetSMBiosString(@RAWEnclosureInformation^, RAWEnclosureInformation.Header.Length, RAWEnclosureInformation.SerialNumber);
+  Result:= GetSMBiosString(@RAWEnclosureInformation^, RAWEnclosureInformation^.Header.Length, RAWEnclosureInformation^.SerialNumber);
 end;
 
 function TEnclosureInformation.TypeStr: AnsiString;
 var
   _Type : Byte;
 begin
-   _Type:=RAWEnclosureInformation.&Type;
-  if GetBit(_Type, 7) then  _Type:=EnableBit(RAWEnclosureInformation.&Type,7, False);
+   _Type:=RAWEnclosureInformation^.&Type;
+  if GetBit(_Type, 7) then  _Type:=EnableBit(RAWEnclosureInformation^.&Type,7, False);
 
   case _Type of
    $01 : Result:='Other';
@@ -3351,14 +3365,14 @@ end;
 
 function TEnclosureInformation.VersionStr: AnsiString;
 begin
-  Result:= GetSMBiosString(@RAWEnclosureInformation^, RAWEnclosureInformation.Header.Length, RAWEnclosureInformation.Version);
+  Result:= GetSMBiosString(@RAWEnclosureInformation^, RAWEnclosureInformation^.Header.Length, RAWEnclosureInformation^.Version);
 end;
 
 { TProcessorInformation }
 
 function TProcessorInformation.AssetTagStr: AnsiString;
 begin
-  Result:= GetSMBiosString(@RAWProcessorInformation^, RAWProcessorInformation.Header.Length, RAWProcessorInformation.AssetTag);
+  Result:= GetSMBiosString(@RAWProcessorInformation^, RAWProcessorInformation^.Header.Length, RAWProcessorInformation^.AssetTag);
 end;
 
 function TProcessorInformation.GetProcessorVoltaje: Double;
@@ -3366,7 +3380,7 @@ var
   _Voltaje : Byte;
 begin
   Result:=0;
-   _Voltaje:=RAWProcessorInformation.Voltaje;
+   _Voltaje:=RAWProcessorInformation^.Voltaje;
   if GetBit(_Voltaje, 7) then
   begin
     _Voltaje:=EnableBit(_Voltaje,7, False);
@@ -3392,13 +3406,13 @@ end;
 
 function TProcessorInformation.PartNumberStr: AnsiString;
 begin
-  Result:= GetSMBiosString(@RAWProcessorInformation^, RAWProcessorInformation.Header.Length, RAWProcessorInformation.PartNumber);
+  Result:= GetSMBiosString(@RAWProcessorInformation^, RAWProcessorInformation^.Header.Length, RAWProcessorInformation^.PartNumber);
 end;
 
 function TProcessorInformation.ProcessorFamilyStr: AnsiString;
 begin
-   if RAWProcessorInformation.ProcessorFamily2<$FF then
-   case RAWProcessorInformation.ProcessorFamily of
+   if RAWProcessorInformation^.ProcessorFamily2<$FF then
+   case RAWProcessorInformation^.ProcessorFamily of
       1 : Result:='Other';
       2 : Result:='Unknown';
       3 : Result:='8086';
@@ -3600,7 +3614,7 @@ begin
      result:='Unknown';
    end
    else
-   case RAWProcessorInformation.ProcessorFamily2 of
+   case RAWProcessorInformation^.ProcessorFamily2 of
       256..259,
       262..279,
       282..299,
@@ -3627,12 +3641,12 @@ end;
 
 function TProcessorInformation.ProcessorManufacturerStr: AnsiString;
 begin
-  Result:= GetSMBiosString(@RAWProcessorInformation^, RAWProcessorInformation.Header.Length, RAWProcessorInformation.ProcessorManufacturer);
+  Result:= GetSMBiosString(@RAWProcessorInformation^, RAWProcessorInformation^.Header.Length, RAWProcessorInformation^.ProcessorManufacturer);
 end;
 
 function TProcessorInformation.ProcessorTypeStr: AnsiString;
 begin
-   case RAWProcessorInformation.ProcessorType of
+   case RAWProcessorInformation^.ProcessorType of
       $01 : Result:='Other';
       $02 : Result:='Unknown';
       $03 : Result:='Central Processor';
@@ -3646,7 +3660,7 @@ end;
 
 function TProcessorInformation.ProcessorUpgradeStr: AnsiString;
 begin
-  case RAWProcessorInformation.ProcessorUpgrade of
+  case RAWProcessorInformation^.ProcessorUpgrade of
     $01 : Result:='Other';
     $02 : Result:='Unknown';
     $03 : Result:='Daughter Board';
@@ -3696,24 +3710,24 @@ end;
 
 function TProcessorInformation.ProcessorVersionStr: AnsiString;
 begin
-  Result:= GetSMBiosString(@RAWProcessorInformation^, RAWProcessorInformation.Header.Length, RAWProcessorInformation.ProcessorVersion);
+  Result:= GetSMBiosString(@RAWProcessorInformation^, RAWProcessorInformation^.Header.Length, RAWProcessorInformation^.ProcessorVersion);
 end;
 
 function TProcessorInformation.SerialNumberStr: AnsiString;
 begin
-  Result:= GetSMBiosString(@RAWProcessorInformation^, RAWProcessorInformation.Header.Length, RAWProcessorInformation.SerialNumber);
+  Result:= GetSMBiosString(@RAWProcessorInformation^, RAWProcessorInformation^.Header.Length, RAWProcessorInformation^.SerialNumber);
 end;
 
 function TProcessorInformation.SocketDesignationStr: AnsiString;
 begin
-  Result:= GetSMBiosString(@RAWProcessorInformation^, RAWProcessorInformation.Header.Length, RAWProcessorInformation.SocketDesignation);
+  Result:= GetSMBiosString(@RAWProcessorInformation^, RAWProcessorInformation^.Header.Length, RAWProcessorInformation^.SocketDesignation);
 end;
 
 { TCacheInformation }
 
 function TCacheInformation.AssociativityStr: AnsiString;
 begin
-  case RAWCacheInformation.Associativity of
+  case RAWCacheInformation^.Associativity of
     $01 : Result:='Other';
     $02 : Result:='Unknown';
     $03 : Result:='Direct Mapped';
@@ -3739,16 +3753,16 @@ var
 begin
    Result:=[];
    for i := 0 to 6 do
-    if GetBit(RAWCacheInformation.CurrentSRAMType, i) then
+    if GetBit(RAWCacheInformation^.CurrentSRAMType, i) then
        Include(Result,  TCacheSRAMType(i));
 end;
 
 function TCacheInformation.GetErrorCorrectionType: TErrorCorrectionType;
 begin
-  if RAWCacheInformation.ErrorCorrectionType>6 then
+  if RAWCacheInformation^.ErrorCorrectionType>6 then
    Result:=ECUnknown
   else
-   Result:=TErrorCorrectionType(RAWCacheInformation.ErrorCorrectionType);
+   Result:=TErrorCorrectionType(RAWCacheInformation^.ErrorCorrectionType);
 end;
 
 function TCacheInformation.GetInstalledCacheSize: Integer;
@@ -3756,10 +3770,10 @@ var
   Granularity : DWORD;
 begin
    Granularity:=1;
-   if GetBit(RAWCacheInformation.InstalledSize, 15) then
+   if GetBit(RAWCacheInformation^.InstalledSize, 15) then
      Granularity:=64;
 
-  Result:=Granularity*EnableBit(RAWCacheInformation.InstalledSize, 15, false);
+  Result:=Granularity*EnableBit(RAWCacheInformation^.InstalledSize, 15, false);
 end;
 
 function TCacheInformation.GetMaximumCacheSize: Integer;
@@ -3767,10 +3781,10 @@ var
   Granularity : DWORD;
 begin
    Granularity:=1;
-   if GetBit(RAWCacheInformation.MaximumCacheSize, 15) then
+   if GetBit(RAWCacheInformation^.MaximumCacheSize, 15) then
      Granularity:=64;
 
-  Result:=Granularity*EnableBit(RAWCacheInformation.MaximumCacheSize, 15, false);
+  Result:=Granularity*EnableBit(RAWCacheInformation^.MaximumCacheSize, 15, false);
 end;
 
 function TCacheInformation.GetSupportedSRAMType: TCacheSRAMTypes;
@@ -3779,28 +3793,28 @@ var
 begin
    Result:=[];
    for i := 0 to 6 do
-    if GetBit(RAWCacheInformation.SupportedSRAMType, i) then
+    if GetBit(RAWCacheInformation^.SupportedSRAMType, i) then
        Include(Result,  TCacheSRAMType(i));
 end;
 
 function TCacheInformation.GetSystemCacheType: TSystemCacheType;
 begin
-  if RAWCacheInformation.SystemCacheType>5 then
+  if RAWCacheInformation^.SystemCacheType>5 then
    Result:=SCUnknown
   else
-   Result:=TSystemCacheType(RAWCacheInformation.SystemCacheType);
+   Result:=TSystemCacheType(RAWCacheInformation^.SystemCacheType);
 end;
 
 function TCacheInformation.SocketDesignationStr: AnsiString;
 begin
-  Result:= GetSMBiosString(@RAWCacheInformation^, RAWCacheInformation.Header.Length, RAWCacheInformation.SocketDesignation);
+  Result:= GetSMBiosString(@RAWCacheInformation^, RAWCacheInformation^.Header.Length, RAWCacheInformation^.SocketDesignation);
 end;
 
 { TPortConnectorInformation }
 
 function TPortConnectorInformation.ExternalReferenceDesignatorStr: AnsiString;
 begin
-  Result:= GetSMBiosString(@RAWPortConnectorInformation^, RAWPortConnectorInformation.Header.Length, RAWPortConnectorInformation.ExternalReferenceDesignator);
+  Result:= GetSMBiosString(@RAWPortConnectorInformation^, RAWPortConnectorInformation^.Header.Length, RAWPortConnectorInformation^.ExternalReferenceDesignator);
 end;
 
 function TPortConnectorInformation.GetConnectorType(Connector: Byte): AnsiString;
@@ -3854,12 +3868,12 @@ end;
 
 function TPortConnectorInformation.InternalReferenceDesignatorStr: AnsiString;
 begin
-  Result:= GetSMBiosString(@RAWPortConnectorInformation^, RAWPortConnectorInformation.Header.Length, RAWPortConnectorInformation.InternalReferenceDesignator);
+  Result:= GetSMBiosString(@RAWPortConnectorInformation^, RAWPortConnectorInformation^.Header.Length, RAWPortConnectorInformation^.InternalReferenceDesignator);
 end;
 
 function TPortConnectorInformation.PortTypeStr: AnsiString;
 begin
-  case RAWPortConnectorInformation.PortType of
+  case RAWPortConnectorInformation^.PortType of
     $00 :Result:='None';
     $01 :Result:='Parallel Port XT/AT Compatible';
     $02 :Result:='Parallel Port PS/2';
@@ -3906,7 +3920,7 @@ end;
 
 function TSystemSlotInformation.GetCurrentUsage: AnsiString;
 begin
-  case RAWSystemSlotInformation.CurrentUsage of
+  case RAWSystemSlotInformation^.CurrentUsage of
     $01 :Result:='Other';
     $02 :Result:='Unknown';
     $03 :Result:='Available';
@@ -3918,7 +3932,7 @@ end;
 
 function TSystemSlotInformation.GetSlotDataBusWidth: AnsiString;
 begin
-  case RAWSystemSlotInformation.SlotDataBusWidth of
+  case RAWSystemSlotInformation^.SlotDataBusWidth of
     $01 :Result:='Other';
     $02 :Result:='Unknown';
     $03 :Result:='8 bit';
@@ -3940,7 +3954,7 @@ end;
 
 function TSystemSlotInformation.GetSlotLength: AnsiString;
 begin
-  case RAWSystemSlotInformation.SlotLength of
+  case RAWSystemSlotInformation^.SlotLength of
     $01 :Result:='Other';
     $02 :Result:='Unknown';
     $03 :Result:='Short Length';
@@ -3952,7 +3966,7 @@ end;
 
 function TSystemSlotInformation.GetSlotType: AnsiString;
 begin
-  case RAWSystemSlotInformation.SlotType of
+  case RAWSystemSlotInformation^.SlotType of
     $01 :Result:='Other';
     $02 :Result:='Unknown';
     $03 :Result:='ISA';
@@ -4002,87 +4016,87 @@ end;
 
 function TSystemSlotInformation.SlotDesignationStr: AnsiString;
 begin
-  Result:= GetSMBiosString(@RAWSystemSlotInformation^, RAWSystemSlotInformation.Header.Length, RAWSystemSlotInformation.SlotDesignation);
+  Result:= GetSMBiosString(@RAWSystemSlotInformation^, RAWSystemSlotInformation^.Header.Length, RAWSystemSlotInformation^.SlotDesignation);
 end;
 
 { TBIOSLanguageInformation }
 
 function TBIOSLanguageInformation.GetCurrentLanguageStr: AnsiString;
 begin
-  Result:= GetSMBiosString(@RAWBIOSLanguageInformation^, RAWBIOSLanguageInformation.Header.Length, RAWBIOSLanguageInformation.CurrentLanguage);
+  Result:= GetSMBiosString(@RAWBIOSLanguageInformation^, RAWBIOSLanguageInformation^.Header.Length, RAWBIOSLanguageInformation^.CurrentLanguage);
 end;
 
 function TBIOSLanguageInformation.GetLanguageString(index: Integer): AnsiString;
 begin
-  Result:= GetSMBiosString(@RAWBIOSLanguageInformation^, RAWBIOSLanguageInformation.Header.Length, index);
+  Result:= GetSMBiosString(@RAWBIOSLanguageInformation^, RAWBIOSLanguageInformation^.Header.Length, index);
 end;
 
 { TBiosInformation }
 
 function TBiosInformation.ReleaseDateStr: AnsiString;
 begin
-  Result:= GetSMBiosString(@RAWBiosInformation^, RAWBiosInformation.Header.Length, RAWBiosInformation.ReleaseDate);
+  Result:= GetSMBiosString(@RAWBiosInformation^, RAWBiosInformation^.Header.Length, RAWBiosInformation^.ReleaseDate);
 end;
 
 function TBiosInformation.VendorStr: AnsiString;
 begin
-  Result:= GetSMBiosString(@RAWBiosInformation^, RAWBiosInformation.Header.Length, RAWBiosInformation.Vendor);
+  Result:= GetSMBiosString(@RAWBiosInformation^, RAWBiosInformation^.Header.Length, RAWBiosInformation^.Vendor);
 end;
 
 function TBiosInformation.VersionStr: AnsiString;
 begin
-  Result:= GetSMBiosString(@RAWBiosInformation^, RAWBiosInformation.Header.Length, RAWBiosInformation.Version);
+  Result:= GetSMBiosString(@RAWBiosInformation^, RAWBiosInformation^.Header.Length, RAWBiosInformation^.Version);
 end;
 
 { TSystemInformation }
 
 function TSystemInformation.FamilyStr: AnsiString;
 begin
-  Result:= GetSMBiosString(@RAWSystemInformation^, RAWSystemInformation.Header.Length, RAWSystemInformation.Family);
+  Result:= GetSMBiosString(@RAWSystemInformation^, RAWSystemInformation^.Header.Length, RAWSystemInformation^.Family);
 end;
 
 function TSystemInformation.ManufacturerStr: AnsiString;
 begin
-  Result:= GetSMBiosString(@RAWSystemInformation^, RAWSystemInformation.Header.Length, RAWSystemInformation.Manufacturer);
+  Result:= GetSMBiosString(@RAWSystemInformation^, RAWSystemInformation^.Header.Length, RAWSystemInformation^.Manufacturer);
 end;
 
 function TSystemInformation.ProductNameStr: AnsiString;
 begin
-  Result:= GetSMBiosString(@RAWSystemInformation^, RAWSystemInformation.Header.Length, RAWSystemInformation.ProductName);
+  Result:= GetSMBiosString(@RAWSystemInformation^, RAWSystemInformation^.Header.Length, RAWSystemInformation^.ProductName);
 end;
 
 function TSystemInformation.SerialNumberStr: AnsiString;
 begin
-  Result:= GetSMBiosString(@RAWSystemInformation^, RAWSystemInformation.Header.Length, RAWSystemInformation.SerialNumber);
+  Result:= GetSMBiosString(@RAWSystemInformation^, RAWSystemInformation^.Header.Length, RAWSystemInformation^.SerialNumber);
 end;
 
 function TSystemInformation.SKUNumberStr: AnsiString;
 begin
-  Result:= GetSMBiosString(@RAWSystemInformation^, RAWSystemInformation.Header.Length, RAWSystemInformation.SKUNumber);
+  Result:= GetSMBiosString(@RAWSystemInformation^, RAWSystemInformation^.Header.Length, RAWSystemInformation^.SKUNumber);
 end;
 
 function TSystemInformation.VersionStr: AnsiString;
 begin
-  Result:= GetSMBiosString(@RAWSystemInformation^, RAWSystemInformation.Header.Length, RAWSystemInformation.Version);
+  Result:= GetSMBiosString(@RAWSystemInformation^, RAWSystemInformation^.Header.Length, RAWSystemInformation^.Version);
 end;
 
 { TOEMStringsInformation }
 
 function TOEMStringsInformation.GetOEMString(index: Integer): AnsiString;
 begin
-  Result:= GetSMBiosString(@RAWOEMStringsInformation^, RAWOEMStringsInformation.Header.Length, index);
+  Result:= GetSMBiosString(@RAWOEMStringsInformation^, RAWOEMStringsInformation^.Header.Length, index);
 end;
 
 { TBaseBoardInformation }
 
 function TBaseBoardInformation.AssetTagStr: AnsiString;
 begin
-  Result:= GetSMBiosString(@RAWBaseBoardInformation^, RAWBaseBoardInformation.Header.Length, RAWBaseBoardInformation.AssetTag);
+  Result:= GetSMBiosString(@RAWBaseBoardInformation^, RAWBaseBoardInformation^.Header.Length, RAWBaseBoardInformation^.AssetTag);
 end;
 
 function TBaseBoardInformation.BoardTypeStr: AnsiString;
 begin
-   case RAWBaseBoardInformation.BoardType of
+   case RAWBaseBoardInformation^.BoardType of
     $01 : result:='Unknown';
     $02 : result:='Other';
     $03 : result:='Server Blade';
@@ -4103,41 +4117,41 @@ end;
 
 function TBaseBoardInformation.LocationinChassisStr: AnsiString;
 begin
-  Result:= GetSMBiosString(@RAWBaseBoardInformation^, RAWBaseBoardInformation.Header.Length, RAWBaseBoardInformation.LocationinChassis);
+  Result:= GetSMBiosString(@RAWBaseBoardInformation^, RAWBaseBoardInformation^.Header.Length, RAWBaseBoardInformation^.LocationinChassis);
 end;
 
 function TBaseBoardInformation.ManufacturerStr: AnsiString;
 begin
-  Result:= GetSMBiosString(@RAWBaseBoardInformation^, RAWBaseBoardInformation.Header.Length, RAWBaseBoardInformation.Manufacturer);
+  Result:= GetSMBiosString(@RAWBaseBoardInformation^, RAWBaseBoardInformation^.Header.Length, RAWBaseBoardInformation^.Manufacturer);
 end;
 
 function TBaseBoardInformation.ProductStr: AnsiString;
 begin
-  Result:= GetSMBiosString(@RAWBaseBoardInformation^, RAWBaseBoardInformation.Header.Length, RAWBaseBoardInformation.Product);
+  Result:= GetSMBiosString(@RAWBaseBoardInformation^, RAWBaseBoardInformation^.Header.Length, RAWBaseBoardInformation^.Product);
 end;
 
 function TBaseBoardInformation.SerialNumberStr: AnsiString;
 begin
-  Result:= GetSMBiosString(@RAWBaseBoardInformation^, RAWBaseBoardInformation.Header.Length, RAWBaseBoardInformation.SerialNumber);
+  Result:= GetSMBiosString(@RAWBaseBoardInformation^, RAWBaseBoardInformation^.Header.Length, RAWBaseBoardInformation^.SerialNumber);
 end;
 
 function TBaseBoardInformation.VersionStr: AnsiString;
 begin
-  Result:= GetSMBiosString(@RAWBaseBoardInformation^, RAWBaseBoardInformation.Header.Length, RAWBaseBoardInformation.Version);
+  Result:= GetSMBiosString(@RAWBaseBoardInformation^, RAWBaseBoardInformation^.Header.Length, RAWBaseBoardInformation^.Version);
 end;
 
 { TSystemConfInformation }
 
 function TSystemConfInformation.GetConfString(index: Integer): AnsiString;
 begin
-  Result:= GetSMBiosString(@RAWSystemConfInformation^, RAWSystemConfInformation.Header.Length,index);
+  Result:= GetSMBiosString(@RAWSystemConfInformation^, RAWSystemConfInformation^.Header.Length,index);
 end;
 
 { TPhysicalMemoryArrayInformation }
 
 function TPhysicalMemoryArrayInformation.GetErrorCorrectionStr: AnsiString;
 begin
-  case RAWPhysicalMemoryArrayInformation.MemoryErrorCorrection of
+  case RAWPhysicalMemoryArrayInformation^.MemoryErrorCorrection of
     $01 :Result:='Other';
     $02 :Result:='Unknown';
     $03 :Result:='None';
@@ -4152,7 +4166,7 @@ end;
 
 function TPhysicalMemoryArrayInformation.GetLocationStr: AnsiString;
 begin
-  case RAWPhysicalMemoryArrayInformation.Location of
+  case RAWPhysicalMemoryArrayInformation^.Location of
     $01 :Result:='Other';
     $02 :Result:='Unknown';
     $03 :Result:='System board or motherboard';
@@ -4165,7 +4179,7 @@ end;
 
 function TPhysicalMemoryArrayInformation.GetUseStr: AnsiString;
 begin
-  case RAWPhysicalMemoryArrayInformation.Use of
+  case RAWPhysicalMemoryArrayInformation^.Use of
     $01 :Result:='Other';
     $02 :Result:='Unknown';
     $03 :Result:='System memory';
@@ -4182,22 +4196,22 @@ end;
 
 function TMemoryDeviceInformation.AssetTagStr: AnsiString;
 begin
-  Result:= GetSMBiosString(@RAWMemoryDeviceInfo^, RAWMemoryDeviceInfo.Header.Length, RAWMemoryDeviceInfo.AssetTag);
+  Result:= GetSMBiosString(@RAWMemoryDeviceInfo^, RAWMemoryDeviceInfo^.Header.Length, RAWMemoryDeviceInfo^.AssetTag);
 end;
 
 function TMemoryDeviceInformation.GetBankLocatorStr: AnsiString;
 begin
-  Result:= GetSMBiosString(@RAWMemoryDeviceInfo^, RAWMemoryDeviceInfo.Header.Length, RAWMemoryDeviceInfo.BankLocator);
+  Result:= GetSMBiosString(@RAWMemoryDeviceInfo^, RAWMemoryDeviceInfo^.Header.Length, RAWMemoryDeviceInfo^.BankLocator);
 end;
 
 function TMemoryDeviceInformation.GetDeviceLocatorStr: AnsiString;
 begin
-  Result:= GetSMBiosString(@RAWMemoryDeviceInfo^, RAWMemoryDeviceInfo.Header.Length, RAWMemoryDeviceInfo.DeviceLocator);
+  Result:= GetSMBiosString(@RAWMemoryDeviceInfo^, RAWMemoryDeviceInfo^.Header.Length, RAWMemoryDeviceInfo^.DeviceLocator);
 end;
 
 function TMemoryDeviceInformation.GetFormFactor: AnsiString;
 begin
-  case RAWMemoryDeviceInfo.FormFactor of
+  case RAWMemoryDeviceInfo^.FormFactor of
     $01 : Result:='Other';
     $02 : Result:='Unknown';
     $03 : Result:='SIMM';
@@ -4220,7 +4234,7 @@ end;
 
 function TMemoryDeviceInformation.GetMemoryTypeStr: AnsiString;
 begin
-  case RAWMemoryDeviceInfo.MemoryType of
+  case RAWMemoryDeviceInfo^.MemoryType of
     $01 : Result:='Other';
     $02 : Result:='Unknown';
     $03 : Result:='DRAM';
@@ -4251,33 +4265,33 @@ end;
 
 function TMemoryDeviceInformation.GetSize: DWORD;
 begin
-  if RAWMemoryDeviceInfo.Size=0 then
+  if RAWMemoryDeviceInfo^.Size=0 then
     Result:=0
   else
-  if RAWMemoryDeviceInfo.Size=$7FFF then
-   Result:=RAWMemoryDeviceInfo.ExtendedSize
+  if RAWMemoryDeviceInfo^.Size=$7FFF then
+   Result:=RAWMemoryDeviceInfo^.ExtendedSize
   else
   begin
-    if GetBit(RAWMemoryDeviceInfo.Size, 15) then
-     Result:=RAWMemoryDeviceInfo.Size div 1024
+    if GetBit(RAWMemoryDeviceInfo^.Size, 15) then
+     Result:=RAWMemoryDeviceInfo^.Size div 1024
     else
-     Result:=RAWMemoryDeviceInfo.Size;
+     Result:=RAWMemoryDeviceInfo^.Size;
   end;
 end;
 
 function TMemoryDeviceInformation.ManufacturerStr: AnsiString;
 begin
-  Result:= GetSMBiosString(@RAWMemoryDeviceInfo^, RAWMemoryDeviceInfo.Header.Length, RAWMemoryDeviceInfo.Manufacturer);
+  Result:= GetSMBiosString(@RAWMemoryDeviceInfo^, RAWMemoryDeviceInfo^.Header.Length, RAWMemoryDeviceInfo^.Manufacturer);
 end;
 
 function TMemoryDeviceInformation.PartNumberStr: AnsiString;
 begin
-  Result:= GetSMBiosString(@RAWMemoryDeviceInfo^, RAWMemoryDeviceInfo.Header.Length, RAWMemoryDeviceInfo.PartNumber);
+  Result:= GetSMBiosString(@RAWMemoryDeviceInfo^, RAWMemoryDeviceInfo^.Header.Length, RAWMemoryDeviceInfo^.PartNumber);
 end;
 
 function TMemoryDeviceInformation.SerialNumberStr: AnsiString;
 begin
-  Result:= GetSMBiosString(@RAWMemoryDeviceInfo^, RAWMemoryDeviceInfo.Header.Length, RAWMemoryDeviceInfo.SerialNumber);
+  Result:= GetSMBiosString(@RAWMemoryDeviceInfo^, RAWMemoryDeviceInfo^.Header.Length, RAWMemoryDeviceInfo^.SerialNumber);
 end;
 
 {$IFDEF USEWMI}
