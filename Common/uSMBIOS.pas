@@ -2626,36 +2626,36 @@ type
     property SMBiosTablesList : {$IF CompilerVersion < 20}ArrSMBiosTableEntry {$ELSE}TArray<TSMBiosTableEntry> {$IFEND} read FSMBiosTablesList;
 
     property BiosInfo: TBiosInformation read FBiosInfo;
-    property SysInfo: TSystemInformation read FSysInfo Write FSysInfo;
+    property SysInfo: TSystemInformation read FSysInfo;
 
-    property BaseBoardInfo: {$IF CompilerVersion < 20}ArrBaseBoardInfo {$ELSE}TArray<TBaseBoardInformation> {$IFEND} read FBaseBoardInfo write FBaseBoardInfo;
+    property BaseBoardInfo: {$IF CompilerVersion < 20}ArrBaseBoardInfo {$ELSE}TArray<TBaseBoardInformation> {$IFEND} read FBaseBoardInfo;
     property HasBaseBoardInfo : Boolean read GetHasBaseBoardInfo;
 
-    property EnclosureInfo: {$IF CompilerVersion < 20}ArrEnclosureInfo {$ELSE}TArray<TEnclosureInformation> {$IFEND} read FEnclosureInfo write FEnclosureInfo;
+    property EnclosureInfo: {$IF CompilerVersion < 20}ArrEnclosureInfo {$ELSE}TArray<TEnclosureInformation> {$IFEND} read FEnclosureInfo;
     property HasEnclosureInfo : Boolean read GetHasEnclosureInfo;
 
-    property CacheInfo: {$IF CompilerVersion < 20}ArrCacheInfo {$ELSE}TArray<TCacheInformation> {$IFEND} read FCacheInfo write FCacheInfo;
+    property CacheInfo: {$IF CompilerVersion < 20}ArrCacheInfo {$ELSE}TArray<TCacheInformation> {$IFEND} read FCacheInfo;
     property HasCacheInfo : Boolean read GetHasCacheInfo;
 
-    property ProcessorInfo: {$IF CompilerVersion < 20}ArrProcessorInfo {$ELSE}TArray<TProcessorInformation> {$IFEND} read FProcessorInfo write FProcessorInfo;
+    property ProcessorInfo: {$IF CompilerVersion < 20}ArrProcessorInfo {$ELSE}TArray<TProcessorInformation> {$IFEND} read FProcessorInfo;
     property HasProcessorInfo : Boolean read GetHasProcessorInfo;
 
-    property PortConnectorInfo: {$IF CompilerVersion < 20}ArrPortConnectorInfo {$ELSE} TArray<TPortConnectorInformation> {$IFEND} read FPortConnectorInfo write FPortConnectorInfo;
+    property PortConnectorInfo: {$IF CompilerVersion < 20}ArrPortConnectorInfo {$ELSE} TArray<TPortConnectorInformation> {$IFEND} read FPortConnectorInfo;
     property HasPortConnectorInfo : Boolean read GetHasPortConnectorInfo;
 
-    property SystemSlotInfo: {$IF CompilerVersion < 20}ArrSystemSlotInfo {$ELSE} TArray<TSystemSlotInformation> {$IFEND} read FSystemSlotInfo write FSystemSlotInfo;
+    property SystemSlotInfo: {$IF CompilerVersion < 20}ArrSystemSlotInfo {$ELSE} TArray<TSystemSlotInformation> {$IFEND} read FSystemSlotInfo;
     property HasSystemSlotInfo : Boolean read GetHasSystemSlotInfo;
 
-    property OEMStringsInfo: {$IF CompilerVersion < 20}ArrOEMStringsInfo {$ELSE} TArray<TOEMStringsInformation> {$IFEND} read FOEMStringsInfo write FOEMStringsInfo;
+    property OEMStringsInfo: {$IF CompilerVersion < 20}ArrOEMStringsInfo {$ELSE} TArray<TOEMStringsInformation> {$IFEND} read FOEMStringsInfo;
     property HasOEMStringsInfo : Boolean read GetHasOEMStringsInfo;
 
-    property BIOSLanguageInfo: {$IF CompilerVersion < 20}ArrBIOSLanguageInfo {$ELSE} TArray<TBIOSLanguageInformation> {$IFEND} read FBIOSLanguageInfo write FBIOSLanguageInfo;
+    property BIOSLanguageInfo: {$IF CompilerVersion < 20}ArrBIOSLanguageInfo {$ELSE} TArray<TBIOSLanguageInformation> {$IFEND} read FBIOSLanguageInfo;
     property HasBIOSLanguageInfo : Boolean read GetHasBIOSLanguageInfo;
 
-    property SystemConfInfo: {$IF CompilerVersion < 20}ArrSystemConfInfo {$ELSE} TArray<TSystemConfInformation> {$IFEND} read FSystemConfInfo write FSystemConfInfo;
+    property SystemConfInfo: {$IF CompilerVersion < 20}ArrSystemConfInfo {$ELSE} TArray<TSystemConfInformation> {$IFEND} read FSystemConfInfo;
     property HasSystemConfInfo : Boolean read GetHasSystemConfInfo;
 
-    property PhysicalMemoryArrayInfo : {$IF CompilerVersion < 20} ArrSystemConfInfo {$ELSE} TArray<TPhysicalMemoryArrayInformation> {$IFEND} read FPhysicalMemoryArrayInfo write FPhysicalMemoryArrayInfo;
+    property PhysicalMemoryArrayInfo : {$IF CompilerVersion < 20} ArrSystemConfInfo {$ELSE} TArray<TPhysicalMemoryArrayInformation> {$IFEND} read FPhysicalMemoryArrayInfo;
     property HasPhysicalMemoryArrayInfo : Boolean read GetHasPhysicalMemoryArrayInfo;
 
     property MemoryDeviceInformation: {$IF CompilerVersion < 20} ArrMemoryDeviceInfo {$ELSE} TArray<TMemoryDeviceInformation> {$IFEND} read FMemoryDeviceInformation;
@@ -2686,8 +2686,7 @@ begin
   Result := AValue or (1 shl Bit);
 end;
 
-function EnableBit(const AValue: DWORD; const Bit: Byte;
-  const Enable: Boolean): DWORD;
+function EnableBit(const AValue: DWORD; const Bit: Byte; const Enable: Boolean): DWORD;
 begin
   Result := (AValue or (1 shl Bit)) xor (DWord(not Enable) shl Bit);
 end;
@@ -4006,7 +4005,6 @@ begin
   Result:= GetSMBiosString(@RAWSystemSlotInformation^, RAWSystemSlotInformation.Header.Length, RAWSystemSlotInformation.SlotDesignation);
 end;
 
-
 { TBIOSLanguageInformation }
 
 function TBIOSLanguageInformation.GetCurrentLanguageStr: AnsiString;
@@ -4103,7 +4101,6 @@ begin
    end;
 end;
 
-
 function TBaseBoardInformation.LocationinChassisStr: AnsiString;
 begin
   Result:= GetSMBiosString(@RAWBaseBoardInformation^, RAWBaseBoardInformation.Header.Length, RAWBaseBoardInformation.LocationinChassis);
@@ -4182,7 +4179,6 @@ begin
 end;
 
 { TMemoryDeviceInformation }
-
 
 function TMemoryDeviceInformation.AssetTagStr: AnsiString;
 begin
@@ -4269,8 +4265,6 @@ begin
   end;
 end;
 
-
-
 function TMemoryDeviceInformation.ManufacturerStr: AnsiString;
 begin
   Result:= GetSMBiosString(@RAWMemoryDeviceInfo^, RAWMemoryDeviceInfo.Header.Length, RAWMemoryDeviceInfo.Manufacturer);
@@ -4291,15 +4285,9 @@ initialization
   CoInitialize(nil);
 {$ENDIF}
 
-
 {$IFDEF USEWMI}
 finalization
   CoUninitialize;
 {$ENDIF}
-
-
-
-
-
 
 end.
