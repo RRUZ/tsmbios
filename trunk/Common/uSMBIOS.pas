@@ -2127,6 +2127,356 @@ type
     function GetCurrentLanguageStr : AnsiString;
   end;
 
+  {$REGION 'Documentation'}
+  ///	<summary>
+  ///	  This structure describes a collection of memory devices that operate
+  ///	  together to form a memory address space.
+  ///	</summary>
+  {$ENDREGION}
+  TPhysicalMemoryArrayInfo=packed record
+    Header: TSmBiosTableHeader;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The physical location of the Memory Array, whether on the system
+    ///	  board or an add-in board.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
+    {$ENDREGION}
+    Location : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The function for which the array is used.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
+    {$ENDREGION}
+    Use : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The primary hardware error correction or detection method supported
+    ///	  by this memory array.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
+    {$ENDREGION}
+    MemoryErrorCorrection : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The maximum memory capacity, in kilobytes, for this array. If the
+    ///	  capacity is not represented in this field, then this field contains
+    ///	  8000 0000h and the Extended Maximum Capacity field should be used.
+    ///	  Values 2 TB (8000 0000h) or greater must be represented in the
+    ///	  Extended Maximum Capacity field.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
+    {$ENDREGION}
+    MaximumCapacity : DWORD;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The handle, or instance number, associated with any error that was
+    ///	  previously detected for the array. If the system does not provide the
+    ///	  error information structure, the field contains FFFEh; otherwise, the
+    ///	  field contains either FFFFh (if no error was detected) or the handle
+    ///	  of the errorinformation structure.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
+    {$ENDREGION}
+    MemoryErrorInformationHandle : Word;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The number of slots or sockets available for Memory Devices in this
+    ///	  array. This value represents the number of Memory Device structures
+    ///	  that comprise this Memory Array. Each Memory Device has a reference
+    ///	  to the “owning” Memory Array.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
+    {$ENDREGION}
+    NumberofMemoryDevices : Word;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The maximum memory capacity, in bytes, for this array. This field is
+    ///	  only valid when the Maximum Capacity field contains 8000 0000h. When
+    ///	  Maximum Capacity contains a value that is not 8000 0000h, Extended
+    ///	  Maximum Capacity must contain zeros.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.7+
+    ///	</remarks>
+    {$ENDREGION}
+    ExtendedMaximumCapacity : Int64;//QWORD
+  end;
+
+  TPhysicalMemoryArrayInformation=class
+  public
+    RAWPhysicalMemoryArrayInformation : ^TPhysicalMemoryArrayInfo;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the description of the Location field.
+    ///	</summary>
+    {$ENDREGION}
+    function GetLocationStr : AnsiString;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the description of the Use  field.
+    ///	</summary>
+    {$ENDREGION}
+    function GetUseStr : AnsiString;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the description of the MemoryErrorCorrection field.
+    ///	</summary>
+    {$ENDREGION}
+    function GetErrorCorrectionStr : AnsiString;
+  end;
+
+
+  TMemoryDeviceInfo   = packed record
+    Header: TSmBiosTableHeader;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The handle, or instance number, associated with the Physical Memory
+    ///	  Array to which this device belongs
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
+    {$ENDREGION}
+    PhysicalMemoryArrayHandle : Word;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The handle, or instance number, associated with any error that was
+    ///	  previously detected for the device. if the system does not provide
+    ///	  the error information structure, the field contains FFFEh; otherwise,
+    ///	  the field contains either FFFFh (if no error was detected) or the
+    ///	  handle of the errorinformation structure.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
+    {$ENDREGION}
+    MemoryErrorInformationHandle : Word;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The total width, in bits, of this memory device, including any check
+    ///	  or error-correction bits. If there are no error-correction bits, this
+    ///	  value should be equal to Data Width. If the width is unknown, the
+    ///	  field is set to FFFFh.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
+    {$ENDREGION}
+    TotalWidth : Word;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The data width, in bits, of this memory device. A Data Width of 0 and
+    ///	  a Total Width of 8 indicates that the device is being used solely to
+    ///	  provide 8 errorcorrection bits. If the width is unknown, the field is
+    ///	  set to FFFFh.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
+    {$ENDREGION}
+    DataWidth      : Word;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  <para>
+    ///	    The size of the memory device. If the value is 0, no memory device
+    ///	    is installed in the socket; if the size is unknown, the field value
+    ///	    is FFFFh. If the size is 32 GB-1 MB or greater, the field value is
+    ///	    7FFFh and the actual size is stored in the Extended Size field.
+    ///	  </para>
+    ///	  <para>
+    ///	    The granularity in which the value is specified depends on the
+    ///	    setting of the most-significant bit (bit 15). If the bit is 0, the
+    ///	    value is specified in megabyte units; if the bit is 1, the value is
+    ///	    specified in kilobyte units. For example, the value 8100h
+    ///	    identifies a 256 KB memory device and
+    ///	  </para>
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
+    {$ENDREGION}
+    Size        : Word;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The implementation form factor for this memory device.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
+    {$ENDREGION}
+    FormFactor   : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  <para>
+    ///	    Identifies when the Memory Device is one of a set of Memory Devices
+    ///	    that must be populated with all devices of the same type and size,
+    ///	    and the set to which this device belongs. A value of 0 indicates
+    ///	    that the device is not part of a set; a value of FFh indicates that
+    ///	    the attribute is unknown.
+    ///	  </para>
+    ///	  <para>
+    ///
+    ///	    <b>NOTE: A Device Set number must be unique within the context of the Memory Array containing this Memory Device.</b>
+    ///	  </para>
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
+    {$ENDREGION}
+    DeviceSet    : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The string number of the string that identifies the
+    ///	  physically-labeled socket or board position where the memory device
+    ///	  is located EXAMPLE: “SIMM 3”
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
+    {$ENDREGION}
+    DeviceLocator : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The string number of the string that identifies the physically
+    ///	  labeled bank where the memory device is located, EXAMPLE: “Bank 0” or
+    ///	  “A”
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
+    {$ENDREGION}
+    BankLocator  : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The type of memory used in this device
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
+    {$ENDREGION}
+    MemoryType   : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Additional detail on the memory device type;
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
+    {$ENDREGION}
+    TypeDetail : Word;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Identifies the maximum capable speed of the device, in megahertz
+    ///	  (MHz). If the value is 0, the speed is unknown. NOTE: n MHz = (1000 /
+    ///	  n) nanoseconds (ns)
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.3+
+    ///	</remarks>
+    {$ENDREGION}
+    Speed : Word;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  String number for the manufacturer of this memory device
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.3+
+    ///	</remarks>
+    {$ENDREGION}
+    Manufacturer : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  String number for the serial number of this memory device. This value
+    ///	  is set by the manufacturer and normally is not changeable.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.3+
+    ///	</remarks>
+    {$ENDREGION}
+    SerialNumber : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  String number for the asset tag of this memory device
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.3+
+    ///	</remarks>
+    {$ENDREGION}
+    AssetTag : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  String number for the part number of this memory device. This value
+    ///	  is set by the manufacturer and normally is not changeable.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.3+
+    ///	</remarks>
+    {$ENDREGION}
+    PartNumber : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  <para>
+    ///	    Bits 7-4: reserved
+    ///	  </para>
+    ///	  <para>
+    ///	    Bits 3-0: rank
+    ///	  </para>
+    ///	  <para>
+    ///	       Value=0 for unknown rank information
+    ///	  </para>
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.6+
+    ///	</remarks>
+    {$ENDREGION}
+    Attributes : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The extended size of the memory device (complements the Size field at
+    ///	  offset 0Ch)
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.7+
+    ///	</remarks>
+    {$ENDREGION}
+    ExtendedSize : DWORD;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  <para>
+    ///	    Identifies the configured clock speed to the memory device, in
+    ///	    megahertz (MHz). If the value is 0, the speed is unknown.
+    ///	  </para>
+    ///	  <para>
+    ///	    <b>NOTE: n MHz = (1000 / n) nanoseconds (ns)</b>
+    ///	  </para>
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.7+
+    ///	</remarks>
+    {$ENDREGION}
+    ConfiguredMemoryClockSpeed : DWORD;
+  end;
+
+  TMemoryDeviceInformation=class
+  public
+    RAWMemoryDeviceInfo : ^TMemoryDeviceInfo;
+    PhysicalMemoryArray : TPhysicalMemoryArrayInformation;
+    function GetSize : DWORD;
+  end;
 
   TBatteryInfo = packed record
     Header: TSmBiosTableHeader;
@@ -2150,22 +2500,6 @@ type
   end;
 
 
-
-  //Incomplete
-  TMemoryDevice   = packed record
-    Header: TSmBiosTableHeader;
-    PhysicalMemoryArrayHandle : Word;
-    MemoryErrorInformationHandle : Word;
-    TotalWidth : Word;
-    DataWidth      : Word;
-    Size        : Word;
-    FormFactor   : Byte;
-    DeviceSet    : Byte;
-    DeviceLocator : Byte;
-    BankLocator  : Byte;
-    MemoryType   : Byte;
-  end;
-
   TSMBiosTableEntry = record
     Header: TSmBiosTableHeader;
     Index : Integer;
@@ -2182,6 +2516,8 @@ type
   ArrOEMStringsInfo   = Array of TOEMStringsInformation;
   ArrBIOSLanguageInfo = Array of TBIOSLanguageInformation;
   ArrSystemConfInfo   = Array of TSystemConfInformation;
+  ArrPhysicalMemoryArrayInfo   = Array of TPhysicalMemoryArrayInformation;
+  ArrMemoryDeviceInfo   = Array of TMemoryDeviceInformation;
   {$IFEND}
 
   TSMBios = class
@@ -2200,6 +2536,8 @@ type
     FOEMStringsInfo: {$IF CompilerVersion < 20}ArrOEMStringsInfo; {$ELSE}TArray<TOEMStringsInformation>;{$IFEND}
     FBIOSLanguageInfo: {$IF CompilerVersion < 20}ArrBIOSLanguageInfo; {$ELSE}TArray<TBIOSLanguageInformation>;{$IFEND}
     FSystemConfInfo: {$IF CompilerVersion < 20}ArrSystemConfInfo; {$ELSE}TArray<TSystemConfInformation>;{$IFEND}
+    FPhysicalMemoryArrayInfo: {$IF CompilerVersion < 20}ArrPhysicalMemoryArrayInfo; {$ELSE}TArray<TPhysicalMemoryArrayInformation>;{$IFEND}
+    FMemoryDeviceInformation : {$IF CompilerVersion < 20}ArrMemoryDeviceInfo; {$ELSE}TArray<TMemoryDeviceInformation>;{$IFEND}
     {$IFDEF USEWMI}
     procedure LoadSMBIOSWMI;
     {$ELSE}
@@ -2218,6 +2556,8 @@ type
     function GetHasOEMStringsInfo: Boolean;
     function GetHasBIOSLanguageInfo: Boolean;
     function GetHasSystemConfInfo : Boolean;
+    function GetHasPhysicalMemoryArrayInfo: Boolean;
+    function GetHasMemoryDeviceInfo: Boolean;
   public
     constructor Create;
     destructor Destroy; override;
@@ -2262,6 +2602,12 @@ type
 
     property SystemConfInfo: {$IF CompilerVersion < 20}ArrSystemConfInfo {$ELSE} TArray<TSystemConfInformation> {$IFEND} read FSystemConfInfo write FSystemConfInfo;
     property HasSystemConfInfo : Boolean read GetHasSystemConfInfo;
+
+    property PhysicalMemoryArrayInfo : {$IF CompilerVersion < 20} ArrSystemConfInfo {$ELSE} TArray<TPhysicalMemoryArrayInformation> {$IFEND} read FPhysicalMemoryArrayInfo write FPhysicalMemoryArrayInfo;
+    property HasPhysicalMemoryArrayInfo : Boolean read GetHasPhysicalMemoryArrayInfo;
+
+    property MemoryDeviceInformation: {$IF CompilerVersion < 20} ArrMemoryDeviceInfo {$ELSE} TArray<TMemoryDeviceInformation> {$IFEND} read FMemoryDeviceInformation;
+    property HasMemoryDeviceInfo : Boolean read GetHasMemoryDeviceInfo;
   end;
 
 implementation
@@ -2346,6 +2692,9 @@ begin
   for i:=0 to Length(FSystemConfInfo)-1 do
    FSystemConfInfo[i].Free;
 
+  for i:=0 to Length(FPhysicalMemoryArrayInfo)-1 do
+   FPhysicalMemoryArrayInfo[i].Free;
+
   SetLength(FSMBiosTablesList, 0);
   SetLength(FBaseBoardInfo, 0);
   SetLength(FEnclosureInfo, 0);
@@ -2375,9 +2724,19 @@ begin
   Result:=Length(FEnclosureInfo)>0;
 end;
 
+function TSMBios.GetHasMemoryDeviceInfo: Boolean;
+begin
+  Result:=Length(FMemoryDeviceInformation)>0;
+end;
+
 function TSMBios.GetHasOEMStringsInfo: Boolean;
 begin
   Result:=Length(FOEMStringsInfo)>0;
+end;
+
+function TSMBios.GetHasPhysicalMemoryArrayInfo: Boolean;
+begin
+  Result:=Length(FPhysicalMemoryArrayInfo)>0;
 end;
 
 function TSMBios.GetHasPortConnectorInfo: Boolean;
@@ -2658,6 +3017,7 @@ procedure TSMBios.ReadSMBiosTables;
 var
  LIndex, i :  Integer;
  LCacheInfo : TCacheInformation;
+ LArrMemory : TPhysicalMemoryArrayInformation;
 begin
 
   LIndex := GetSMBiosTableNextIndex(BIOSInformation, 0);
@@ -2731,12 +3091,6 @@ begin
     begin
       FProcessorInfo[i]:=TProcessorInformation.Create;
       FProcessorInfo[i].RAWProcessorInformation:=@RawSMBIOSData.SMBIOSTableData[LIndex];
-
-      {
-      ZeroMemory(@FProcessorInfo[i].L1Chache, SizeOf(FProcessorInfo[i].L1Chache));
-      ZeroMemory(@FProcessorInfo[i].L2Chache, SizeOf(FProcessorInfo[i].L2Chache));
-      ZeroMemory(@FProcessorInfo[i].L3Chache, SizeOf(FProcessorInfo[i].L3Chache));
-      }
 
       if FProcessorInfo[i].RAWProcessorInformation.L1CacheHandle>0 then
         for LCacheInfo in FCacheInfo do
@@ -2816,6 +3170,41 @@ begin
     begin
       FSystemConfInfo[i]:=TSystemConfInformation.Create;
       FSystemConfInfo[i].RAWSystemConfInformation:=@RawSMBIOSData.SMBIOSTableData[LIndex];
+      Inc(i);
+    end;
+  until (LIndex=-1);
+
+  SetLength(FPhysicalMemoryArrayInfo, GetSMBiosTableEntries(PhysicalMemoryArray));
+  i:=0;
+  LIndex:=0;
+  repeat
+    LIndex := GetSMBiosTableNextIndex(PhysicalMemoryArray, LIndex);
+    if LIndex >= 0 then
+    begin
+      FPhysicalMemoryArrayInfo[i]:=TPhysicalMemoryArrayInformation.Create;
+      FPhysicalMemoryArrayInfo[i].RAWPhysicalMemoryArrayInformation:=@RawSMBIOSData.SMBIOSTableData[LIndex];
+      Inc(i);
+    end;
+  until (LIndex=-1);
+
+  SetLength(FMemoryDeviceInformation, GetSMBiosTableEntries(MemoryDevice));
+  i:=0;
+  LIndex:=0;
+  repeat
+    LIndex := GetSMBiosTableNextIndex(MemoryDevice, LIndex);
+    if LIndex >= 0 then
+    begin
+      FMemoryDeviceInformation[i]:=TMemoryDeviceInformation.Create;
+      FMemoryDeviceInformation[i].RAWMemoryDeviceInfo:=@RawSMBIOSData.SMBIOSTableData[LIndex];
+
+      if FMemoryDeviceInformation[i].RAWMemoryDeviceInfo.PhysicalMemoryArrayHandle>0 then
+        for LArrMemory in FPhysicalMemoryArrayInfo do
+          if LArrMemory.RAWPhysicalMemoryArrayInformation.Header.Handle=FMemoryDeviceInformation[i].RAWMemoryDeviceInfo.PhysicalMemoryArrayHandle then
+          begin
+            FMemoryDeviceInformation[i].PhysicalMemoryArray:=LArrMemory;
+            Break;
+          end;
+
       Inc(i);
     end;
   until (LIndex=-1);
@@ -3693,8 +4082,86 @@ end;
 function TSystemConfInformation.GetConfString(index: Integer): AnsiString;
 begin
   Result:= GetSMBiosString(@RAWSystemConfInformation^, RAWSystemConfInformation.Header.Length,index);
-
 end;
+
+{ TPhysicalMemoryArrayInformation }
+
+function TPhysicalMemoryArrayInformation.GetErrorCorrectionStr: AnsiString;
+begin
+  case RAWPhysicalMemoryArrayInformation.MemoryErrorCorrection of
+    $01 :Result:='Other';
+    $02 :Result:='Unknown';
+    $03 :Result:='None';
+    $04 :Result:='Parity';
+    $05 :Result:='Single-bit ECC';
+    $06 :Result:='Multi-bit ECC';
+    $07 :Result:='CRC'
+    else
+    Result:='Unknown';
+  end;
+end;
+
+function TPhysicalMemoryArrayInformation.GetLocationStr: AnsiString;
+begin
+  case RAWPhysicalMemoryArrayInformation.Location of
+    $01 :Result:='Other';
+    $02 :Result:='Unknown';
+    $03 :Result:='System board or motherboard';
+    $04 :Result:='ISA add-on card';
+    $05 :Result:='EISA add-on card'
+    else
+    Result:='Unknown';
+  end;
+end;
+
+function TPhysicalMemoryArrayInformation.GetUseStr: AnsiString;
+begin
+  case RAWPhysicalMemoryArrayInformation.Use of
+    $01 :Result:='Other';
+    $02 :Result:='Unknown';
+    $03 :Result:='System memory';
+    $04 :Result:='Video memory';
+    $05 :Result:='Flash memory';
+    $06 :Result:='Non-volatile RAM';
+    $07 :Result:='Cache memory'
+    else
+    Result:='Unknown';
+  end;
+end;
+
+{ TMemoryDeviceInformation }
+{
+  The size of the memory device. If the value is 0, no
+  memory device is installed in the socket; if the size
+  is unknown, the field value is FFFFh. If the size is
+  32 GB-1 MB or greater, the field value is 7FFFh and
+  the actual size is stored in the Extended Size field.
+  The granularity in which the value is specified
+  depends on the setting of the most-significant bit (bit
+  15). If the bit is 0, the value is specified in megabyte
+  units; if the bit is 1, the value is specified in kilobyte
+  units. For example, the value 8100h identifies a
+  256 KB memory device and 0100h identifies a
+  256 MB memory device.
+}
+
+function TMemoryDeviceInformation.GetSize: DWORD;
+begin
+  if RAWMemoryDeviceInfo.Size=0 then
+    Result:=0
+  else
+  if RAWMemoryDeviceInfo.Size=$7FFF then
+   Result:=RAWMemoryDeviceInfo.ExtendedSize
+  else
+  begin
+    if GetBit(RAWMemoryDeviceInfo.Size, 15) then
+     Result:=RAWMemoryDeviceInfo.Size div 1024
+    else
+     Result:=RAWMemoryDeviceInfo.Size;
+  end;
+end;
+
+
 
 {$IFDEF USEWMI}
 initialization
@@ -3706,5 +4173,10 @@ initialization
 finalization
   CoUninitialize;
 {$ENDIF}
+
+
+
+
+
 
 end.
