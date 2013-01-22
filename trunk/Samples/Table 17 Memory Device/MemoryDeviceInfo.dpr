@@ -22,9 +22,18 @@ begin
       if SMBios.HasPhysicalMemoryArrayInfo then
       for LMemoryDevice in SMBios.MemoryDeviceInformation do
       begin
-        WriteLn(Format('Total Width %d bits',[LMemoryDevice.RAWMemoryDeviceInfo.TotalWidth]));
-        WriteLn(Format('Data Width  %d bits',[LMemoryDevice.RAWMemoryDeviceInfo.DataWidth]));
-        WriteLn(Format('Size        %d Mbytes',[LMemoryDevice.GetSize]));
+        WriteLn(Format('Total Width    %d bits',[LMemoryDevice.RAWMemoryDeviceInfo.TotalWidth]));
+        WriteLn(Format('Data Width     %d bits',[LMemoryDevice.RAWMemoryDeviceInfo.DataWidth]));
+        WriteLn(Format('Size           %d Mbytes',[LMemoryDevice.GetSize]));
+        WriteLn(Format('Form Factor    %s',[LMemoryDevice.GetFormFactor]));
+        WriteLn(Format('Device Locator %s',[LMemoryDevice.GetDeviceLocatorStr]));
+        WriteLn(Format('Bank Locator   %s',[LMemoryDevice.GetBankLocatorStr]));
+        WriteLn(Format('Memory Type    %s',[LMemoryDevice.GetMemoryTypeStr]));
+        WriteLn(Format('Speed          %d MHz',[LMemoryDevice.RAWMemoryDeviceInfo.Speed]));
+        WriteLn(Format('Manufacturer   %s',[LMemoryDevice.ManufacturerStr]));
+        WriteLn(Format('Serial Number  %s',[LMemoryDevice.SerialNumberStr]));
+        WriteLn(Format('Asset Tag      %s',[LMemoryDevice.AssetTagStr]));
+        WriteLn(Format('Part Number    %s',[LMemoryDevice.PartNumberStr]));
 
         WriteLn;
 
