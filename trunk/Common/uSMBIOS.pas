@@ -2536,25 +2536,262 @@ type
     function  PartNumberStr: AnsiString;
   end;
 
+  {$REGION 'Documentation'}
+  ///	<summary>
+  ///	  This structure describes the attributes of the portable battery or
+  ///	  batteries for the system. The structure contains the static attributes
+  ///	  for the group. Each structure describes a single battery pack’s
+  ///	  attributes.
+  ///	</summary>
+  {$ENDREGION}
   TBatteryInfo = packed record
     Header: TSmBiosTableHeader;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The number of the string that identifies the location of the battery
+    ///	  EXAMPLE: “in the back, on the left-hand side”
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
+    {$ENDREGION}
     Location : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The number of the string that names the company that manufactured the
+    ///	  battery
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
+    {$ENDREGION}
     Manufacturer : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The number of the string that identifies the date on which the
+    ///	  battery was manufactured. Version 2.2+ implementations that use a
+    ///	  Smart Battery set this field to 0 (no string) to indicate that the
+    ///	  SBDS Manufacture Date field contains the information.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
+    {$ENDREGION}
     ManufacturerDate  : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The number of the string that contains the serial number for the
+    ///	  battery. Version 2.2+ implementations that use a Smart Battery set
+    ///	  this field to 0 (no string) to indicate that the SBDS Serial Number
+    ///	  field contains the information.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
+    {$ENDREGION}
     SerialNumber : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  <para>
+    ///	    The number of the string that names the battery device
+    ///	  </para>
+    ///	  <para>
+    ///	    EXAMPLE: “DR-36”
+    ///	  </para>
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
+    {$ENDREGION}
     DeviceName : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Identifies the battery chemistry; Version 2.2+ implementations that
+    ///	  use a Smart Battery set this field to 02h (Unknown) to indicate that
+    ///	  the SBDS Device Chemistry field contains the information.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
+    {$ENDREGION}
     DeviceChemistry : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The design capacity of the battery in mWatthours. If the value is
+    ///	  unknown, the field contains 0. For version 2.2+ implementations, this
+    ///	  value is multiplied by the Design Capacity Multiplier to produce the
+    ///	  actual value.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
+    {$ENDREGION}
     DesignCapacity : Word;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The design voltage of the battery in mVolts. If the value is unknown,
+    ///	  the field contains 0.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
+    {$ENDREGION}
     DesignVoltage : Word;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The number of the string that contains the Smart Battery Data
+    ///	  Specification version number supported by this battery. If the
+    ///	  battery does not support the function, no string is supplied.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
+    {$ENDREGION}
     SBDSVersionNumber : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The maximum error (as a percentage in the range 0 to 100) in the
+    ///	  Watt-hour data reported by the battery, indicating an upper bound on
+    ///	  how much additional energy the battery might have above the energy it
+    ///	  reports having. If the value is unknown, the field contains FFh.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
+    {$ENDREGION}
     MaximumErrorInBatteryData : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The 16-bit value that identifies the battery’s serial number. This
+    ///	  value, when combined with the Manufacturer, Device Name, and
+    ///	  Manufacture Date uniquely identifies the battery. The Serial Number
+    ///	  field must be set to 0 (no string) for this field to be valid.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.2+
+    ///	</remarks>
+    {$ENDREGION}
     SBDSSerialNumber : Word;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  <para>
+    ///	    The date the cell pack was manufactured, in packed format:
+    ///	  </para>
+    ///	  <para>
+    ///	    Bits 15:9 Year, biased by 1980, in the range 0 to 127
+    ///	  </para>
+    ///	  <para>
+    ///	    Bits 8:5 Month, in the range 1 to 12
+    ///	  </para>
+    ///	  <para>
+    ///	    Bits 4:0 Date, in the range 1 to 31
+    ///	  </para>
+    ///	  <para>
+    ///	    EXAMPLE: 01 February 2000 would be identified as 0010 1000 0100
+    ///	    0001b (0x2841)
+    ///	  </para>
+    ///	  <para>
+    ///	    The Manufacture Date field must be set to 0 (no string) for this
+    ///	    field to be valid.
+    ///	  </para>
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.2+
+    ///	</remarks>
+    {$ENDREGION}
     SBDSManufacturerDate : Word;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The number of the string that identifies the battery chemistry (for
+    ///	  example, “PbAc”). The Device Chemistry field must be set to 02h
+    ///	  (Unknown) for this field to be valid.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.2+
+    ///	</remarks>
+    {$ENDREGION}
     SBDSDeviceChemistry : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The multiplication factor of the Design Capacity value, which assures
+    ///	  that the mWatt hours value does not overflow for SBDS
+    ///	  implementations. The multiplier default is 1, SBDS implementations
+    ///	  use the value 10 to correspond to the data as returned from the SBDS
+    ///	  Function 18h.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.2+
+    ///	</remarks>
+    {$ENDREGION}
     DesignCapacityMultiplier : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Contains OEM- or BIOS vendor-specific information
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.2+
+    ///	</remarks>
+    {$ENDREGION}
     OEM_Specific: DWORD;
-    //helper fields and methods, not part of the SMBIOS spec.
-    LocalIndex : Word;
+  end;
+
+  TBatteryInformation=class
+  public
+    RAWBatteryInfo : ^TBatteryInfo;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the Location field.
+    ///	</summary>
+    {$ENDREGION}
+    function GetLocationStr : AnsiString;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the Manufacturer field.
+    ///	</summary>
+    {$ENDREGION}
+    function GetManufacturerStr : AnsiString;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the ManufacturerDate field.
+    ///	</summary>
+    {$ENDREGION}
+    function GetManufacturerDateStr : AnsiString;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the SerialNumber field.
+    ///	</summary>
+    {$ENDREGION}
+    function GetSerialNumberStr : AnsiString;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the DeviceName field.
+    ///	</summary>
+    {$ENDREGION}
+    function GetDeviceNameStr : AnsiString;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the description of the DeviceChemistry field.
+    ///	</summary>
+    {$ENDREGION}
+    function GetDeviceChemistry : AnsiString;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the SBDSVersionNumber field.
+    ///	</summary>
+    {$ENDREGION}
+    function GetSBDSVersionNumberStr : AnsiString;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the SBDSManufactureDate field.
+    ///	</summary>
+    {$ENDREGION}
+    function GetSBDSManufactureDateStr : AnsiString;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the SBDSDeviceChemistry field.
+    ///	</summary>
+    {$ENDREGION}
+    function GetSBDSDeviceChemistryStr : AnsiString;
   end;
 
 
@@ -2576,6 +2813,7 @@ type
   ArrSystemConfInfo   = Array of TSystemConfInformation;
   ArrPhysicalMemoryArrayInfo   = Array of TPhysicalMemoryArrayInformation;
   ArrMemoryDeviceInfo   = Array of TMemoryDeviceInformation;
+  ArrBatteryInfo        = Array of TBatteryInformation;
   {$ENDIF}
 
   TSMBios = class
@@ -2596,6 +2834,7 @@ type
     FSystemConfInfo: {$IFDEF NOGENERICS}ArrSystemConfInfo; {$ELSE}TArray<TSystemConfInformation>;{$ENDIF}
     FPhysicalMemoryArrayInfo: {$IFDEF NOGENERICS}ArrPhysicalMemoryArrayInfo; {$ELSE}TArray<TPhysicalMemoryArrayInformation>;{$ENDIF}
     FMemoryDeviceInformation : {$IFDEF NOGENERICS}ArrMemoryDeviceInfo; {$ELSE}TArray<TMemoryDeviceInformation>;{$ENDIF}
+    FBatteryInformation : {$IFDEF NOGENERICS}ArrBatteryInfo; {$ELSE}TArray<TBatteryInformation>;{$ENDIF}
     {$IFDEF USEWMI}
     procedure LoadSMBIOSWMI;
     {$ELSE}
@@ -2616,6 +2855,7 @@ type
     function GetHasSystemConfInfo : Boolean;
     function GetHasPhysicalMemoryArrayInfo: Boolean;
     function GetHasMemoryDeviceInfo: Boolean;
+    function GetHasBatteryInfo: Boolean;
   public
     constructor Create;
     destructor Destroy; override;
@@ -2666,6 +2906,9 @@ type
 
     property MemoryDeviceInformation: {$IFDEF NOGENERICS} ArrMemoryDeviceInfo {$ELSE} TArray<TMemoryDeviceInformation> {$ENDIF} read FMemoryDeviceInformation;
     property HasMemoryDeviceInfo : Boolean read GetHasMemoryDeviceInfo;
+
+    property BatteryInformation: {$IFDEF NOGENERICS} ArrBatteryInfo {$ELSE} TArray<TBatteryInformation> {$ENDIF} read FBatteryInformation;
+    property HasBatteryInfo : Boolean read GetHasBatteryInfo;
   end;
 
 implementation
@@ -2764,6 +3007,11 @@ end;
 function TSMBios.GetHasBaseBoardInfo: Boolean;
 begin
   Result:=Length(FBaseBoardInfo)>0;
+end;
+
+function TSMBios.GetHasBatteryInfo: Boolean;
+begin
+  Result:=Length(FBatteryInformation)>0;
 end;
 
 function TSMBios.GetHasBIOSLanguageInfo: Boolean;
@@ -3273,6 +3521,19 @@ begin
     end;
   until (LIndex=-1);
 
+
+  SetLength(FBatteryInformation, GetSMBiosTableEntries(PortableBattery));
+  i:=0;
+  LIndex:=0;
+  repeat
+    LIndex := GetSMBiosTableNextIndex(PortableBattery, LIndex);
+    if LIndex >= 0 then
+    begin
+      FBatteryInformation[i]:=TBatteryInformation.Create;
+      FBatteryInformation[i].RAWBatteryInfo:=@RawSMBIOSData.SMBIOSTableData^[LIndex];
+      Inc(i);
+    end;
+  until (LIndex=-1);
 end;
 
 
@@ -4294,6 +4555,64 @@ begin
   Result:= GetSMBiosString(@RAWMemoryDeviceInfo^, RAWMemoryDeviceInfo^.Header.Length, RAWMemoryDeviceInfo^.SerialNumber);
 end;
 
+{ TBatteryInformation }
+
+function TBatteryInformation.GetDeviceChemistry: AnsiString;
+begin
+  case RAWBatteryInfo^.DeviceChemistry of
+    $01 : Result:='Other';
+    $02 : Result:='Unknown';
+    $03 : Result:='Lead Acid';
+    $04 : Result:='Nickel Cadmium';
+    $05 : Result:='Nickel metal hydride';
+    $06 : Result:='Lithium-ion';
+    $07 : Result:='Zinc air';
+    $08 : Result:='Lithium Polymer'
+    else
+    Result:='Unknown';
+  end;
+end;
+
+function TBatteryInformation.GetDeviceNameStr: AnsiString;
+begin
+  Result:= GetSMBiosString(@RAWBatteryInfo^, RAWBatteryInfo^.Header.Length, RAWBatteryInfo^.DeviceName);
+end;
+
+function TBatteryInformation.GetLocationStr: AnsiString;
+begin
+  Result:= GetSMBiosString(@RAWBatteryInfo^, RAWBatteryInfo^.Header.Length, RAWBatteryInfo^.Location);
+end;
+
+function TBatteryInformation.GetManufacturerDateStr: AnsiString;
+begin
+  Result:= GetSMBiosString(@RAWBatteryInfo^, RAWBatteryInfo^.Header.Length, RAWBatteryInfo^.ManufacturerDate);
+end;
+
+function TBatteryInformation.GetManufacturerStr: AnsiString;
+begin
+  Result:= GetSMBiosString(@RAWBatteryInfo^, RAWBatteryInfo^.Header.Length, RAWBatteryInfo^.Manufacturer);
+end;
+
+function TBatteryInformation.GetSBDSDeviceChemistryStr: AnsiString;
+begin
+  Result:= GetSMBiosString(@RAWBatteryInfo^, RAWBatteryInfo^.Header.Length, RAWBatteryInfo^.SBDSDeviceChemistry);
+end;
+
+function TBatteryInformation.GetSBDSManufactureDateStr: AnsiString;
+begin
+  Result:= GetSMBiosString(@RAWBatteryInfo^, RAWBatteryInfo^.Header.Length, RAWBatteryInfo^.SBDSManufacturerDate);
+end;
+
+function TBatteryInformation.GetSBDSVersionNumberStr: AnsiString;
+begin
+  Result:= GetSMBiosString(@RAWBatteryInfo^, RAWBatteryInfo^.Header.Length, RAWBatteryInfo^.SBDSVersionNumber);
+end;
+
+function TBatteryInformation.GetSerialNumberStr: AnsiString;
+begin
+  Result:= GetSMBiosString(@RAWBatteryInfo^, RAWBatteryInfo^.Header.Length, RAWBatteryInfo^.SerialNumber);
+end;
+
 {$IFDEF USEWMI}
 initialization
   CoInitialize(nil);
@@ -4303,5 +4622,7 @@ initialization
 finalization
   CoUninitialize;
 {$ENDIF}
+
+
 
 end.

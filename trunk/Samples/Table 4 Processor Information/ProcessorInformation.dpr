@@ -26,7 +26,7 @@ begin
 end;
 
 
-function SetToString(Info: PTypeInfo; const SetParam; Brackets: Boolean): AnsiString;
+function SetToString(Info: PTypeInfo; const SetParam; Brackets: Boolean): String;
 var
   S: TIntegerSet;
   TypeInfo: PTypeInfo;
