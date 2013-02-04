@@ -2333,10 +2333,151 @@ type
   TMemoryArrayMappedAddressInformation =  class
   public
     RAWMemoryArrayMappedAddressInfo : ^TMemoryArrayMappedAddress;
-
-
   end;
 
+  {$REGION 'Documentation'}
+  ///	<summary>
+  ///	  This structure maps memory address space usually to a device-level
+  ///	  granularity
+  ///	</summary>
+  {$ENDREGION}
+  TMemoryDeviceMappedAddress=packed record
+    Header: TSmBiosTableHeader;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The physical address, in kilobytes, of a range of memory mapped to
+    ///	  the referenced Memory Device. When the field value is FFFF FFFFh the
+    ///	  actual address is stored in the Extended Starting Address field. When
+    ///	  this field contains a valid address, Ending Address must also contain
+    ///	  a valid address. When this field contains FFFF FFFFh, Ending Address
+    ///	  must also contain FFFF FFFFh.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
+    {$ENDREGION}
+    StartingAddress :  DWORD;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The physical ending address of the last kilobyte of a range of
+    ///	  addresses mapped to the referenced Memory Device. When the field
+    ///	  value is FFFF FFFFh the actual address is stored in the Extended
+    ///	  Ending Address field. When this field contains a valid address,
+    ///	  Starting Address must also contain a valid address.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
+    {$ENDREGION}
+    EndingAddress   :  DWORD;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The handle, or instance number, associated with the Memory Device
+    ///	  structure to which this address range is mapped. Multiple address
+    ///	  ranges can be mapped to a single Memory Device.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
+    {$ENDREGION}
+    MemoryDeviceHandle : Word;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The handle, or instance number, associated with the Memory Array
+    ///	  Mapped Address structure to which this device address range is
+    ///	  mapped. Multiple address ranges can be mapped to a single Memory
+    ///	  Array Mapped Address.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
+    {$ENDREGION}
+    MemoryArrayMappedAddressHandle : Word;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Identifies the position of the referenced Memory Device in a row of
+    ///	  the address partition. For example, if two 8-bit devices form a
+    ///	  16-bit row, this field’s value is either 1 or 2. The value 0 is
+    ///	  reserved. If the position is unknown, the field contains FFh.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
+    {$ENDREGION}
+    PartitionRowPosition : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  <para>
+    ///	    The position of the referenced Memory Device in an interleave. The
+    ///	    value 0 indicates noninterleaved, 1 indicates first interleave
+    ///	    position, 2 the second interleave position, and so on. If the
+    ///	    position is unknown, the field contains FFh.
+    ///	  </para>
+    ///	  <para>
+    ///	    EXAMPLES: In a 2:1 interleave, the value 1 indicates the device in
+    ///	    the ”even” position. In a 4:1 interleave, the value 1 indicates the
+    ///	    first of four possible positions.
+    ///	  </para>
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
+    {$ENDREGION}
+    InterleavePosition : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  <para>
+    ///	    The maximum number of consecutive rows from the referenced Memory
+    ///	    Device that are accessed in a single interleaved transfer. If the
+    ///	    device is not part of an interleave, the field contains 0; if the
+    ///	    interleave configuration is unknown, the value is FFh.
+    ///	  </para>
+    ///	  <para>
+    ///	    EXAMPLES: If a device transfers two rows each time it is read, its
+    ///	    Interleaved Data Depth is set to 2. If that device is 2:1
+    ///	    interleaved and in Interleave Position 1, the rows mapped to that
+    ///	    device are 1, 2, 5, 6, 9, 10, etc.
+    ///	  </para>
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
+    {$ENDREGION}
+    InterleavedDataDepth : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The physical address, in bytes, of a range of memory mapped to the
+    ///	  referenced Memory Device. This field is valid when Starting Address
+    ///	  contains the value FFFF FFFFh. If Starting Address contains a value
+    ///	  other than FFFF FFFFh, this field contains zeros. When this field
+    ///	  contains a valid address, Extended Ending Address must also contain a
+    ///	  valid address.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.7+
+    ///	</remarks>
+    {$ENDREGION}
+    ExtendedStartingAddress : Int64;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The physical ending address, in bytes, of the last of a range of
+    ///	  addresses mapped to the referenced Memory Device. This field is valid
+    ///	  when both Starting Address and Ending Address contain the value FFFF
+    ///	  FFFFh. If Ending Address contains a value other than FFFF FFFFh, this
+    ///	  field contains zeros. When this field contains a valid address,
+    ///	  Extended Starting Address must also contain a valid address.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.7+
+    ///	</remarks>
+    {$ENDREGION}
+    ExtendedEndingAddress : Int64;
+  end;
+
+  TMemoryDeviceMappedAddressInformation=class
+  public
+   RAWMemoryDeviceMappedAddressInfo : ^TMemoryDeviceMappedAddress;
+  end;
 
   TMemoryDeviceInfo   = packed record
     Header: TSmBiosTableHeader;
@@ -2908,6 +3049,7 @@ type
   ArrMemoryDeviceInfo   = Array of TMemoryDeviceInformation;
   ArrBatteryInfo        = Array of TBatteryInformation;
   ArrMemoryArrayMappedAddressInfo = Array of TMemoryArrayMappedAddressInformation;
+  ArrMemoryDeviceMappedAddressInfo = Array of TMemoryDeviceMappedAddressInformation;
   {$ENDIF}
 
   TSMBios = class
@@ -2930,6 +3072,7 @@ type
     FMemoryDeviceInformation : {$IFDEF NOGENERICS}ArrMemoryDeviceInfo; {$ELSE}TArray<TMemoryDeviceInformation>;{$ENDIF}
     FBatteryInformation : {$IFDEF NOGENERICS}ArrBatteryInfo; {$ELSE}TArray<TBatteryInformation>;{$ENDIF}
     FMemoryArrayMappedAddressInformation : {$IFDEF NOGENERICS}ArrMemoryArrayMappedAddressInfo; {$ELSE}TArray<TMemoryArrayMappedAddressInformation>;{$ENDIF}
+    FMemoryDeviceMappedAddressInformation : {$IFDEF NOGENERICS}ArrMemoryDeviceMappedAddressInfo; {$ELSE}TArray<TMemoryDeviceMappedAddressInformation>;{$ENDIF}
     {$IFDEF USEWMI}
     procedure LoadSMBIOSWMI;
     {$ELSE}
@@ -2952,6 +3095,7 @@ type
     function GetHasMemoryDeviceInfo: Boolean;
     function GetHasBatteryInfo: Boolean;
     function GetHasMemoryArrayMappedAddressInfo: Boolean;
+    function GetHasMemoryDeviceMappedAddressInfo: Boolean;
   public
     constructor Create;
     destructor Destroy; override;
@@ -3008,6 +3152,9 @@ type
 
     property MemoryArrayMappedAddressInformation : {$IFDEF NOGENERICS} ArrMemoryArrayMappedAddressInfo {$ELSE} TArray<TMemoryArrayMappedAddressInformation> {$ENDIF} read FMemoryArrayMappedAddressInformation;
     property HasMemoryArrayMappedAddressInfo : Boolean read GetHasMemoryArrayMappedAddressInfo;
+
+    property MemoryDeviceMappedAddressInformation : {$IFDEF NOGENERICS} ArrMemoryDeviceMappedAddressInfo {$ELSE} TArray<TMemoryDeviceMappedAddressInformation> {$ENDIF} read FMemoryDeviceMappedAddressInformation;
+    property HasMemoryDeviceMappedAddressInfo : Boolean read GetHasMemoryDeviceMappedAddressInfo;
   end;
 
 implementation
@@ -3136,6 +3283,11 @@ end;
 function TSMBios.GetHasMemoryDeviceInfo: Boolean;
 begin
   Result:=Length(FMemoryDeviceInformation)>0;
+end;
+
+function TSMBios.GetHasMemoryDeviceMappedAddressInfo: Boolean;
+begin
+ Result:=Length(FMemoryDeviceMappedAddressInformation)>0;
 end;
 
 function TSMBios.GetHasOEMStringsInfo: Boolean;
@@ -3649,6 +3801,19 @@ begin
     begin
       FMemoryArrayMappedAddressInformation[i]:=TMemoryArrayMappedAddressInformation.Create;
       FMemoryArrayMappedAddressInformation[i].RAWMemoryArrayMappedAddressInfo:=@RawSMBIOSData.SMBIOSTableData^[LIndex];
+      Inc(i);
+    end;
+  until (LIndex=-1);
+
+  SetLength(FMemoryDeviceMappedAddressInformation, GetSMBiosTableEntries(MemoryDeviceMappedAddress));
+  i:=0;
+  LIndex:=0;
+  repeat
+    LIndex := GetSMBiosTableNextIndex(MemoryDeviceMappedAddress, LIndex);
+    if LIndex >= 0 then
+    begin
+      FMemoryDeviceMappedAddressInformation[i]:=TMemoryDeviceMappedAddressInformation.Create;
+      FMemoryDeviceMappedAddressInformation[i].RAWMemoryDeviceMappedAddressInfo:=@RawSMBIOSData.SMBIOSTableData^[LIndex];
       Inc(i);
     end;
   until (LIndex=-1);
