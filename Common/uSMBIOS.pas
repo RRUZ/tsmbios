@@ -1626,7 +1626,7 @@ type
     ///	    processor socket. It does not necessarily indicate the full
     ///	    capability of the processor. For example, platform hardware may
     ///	    have the capability to limit the number of cores reported by the
-    ///	    processor without BIOS intervention or knowledge. For a dual940
+    ///	    processor without BIOS intervention or knowledge. For a dual
     ///	    processor installed in a platform where the hardware is set to
     ///	    limit it to one core, the BIOS reports a value of 1 in Core Count.
     ///	    For a dual-core processor with multi-core support disabled by BIOS,
@@ -2244,6 +2244,99 @@ type
     function GetErrorCorrectionStr : AnsiString;
   end;
 
+  {$REGION 'Documentation'}
+  ///	<summary>
+  ///	  This structure provides the address mapping for a Physical Memory Array.
+  ///	</summary>
+  {$ENDREGION}
+  TMemoryArrayMappedAddress=packed record
+    Header: TSmBiosTableHeader;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The physical address, in kilobytes, of a range of memory mapped to
+    ///	  the specified Physical Memory Array. When the field value is FFFF
+    ///	  FFFFh, the actual address is stored in the Extended Starting Address
+    ///	  field. When this field contains a valid address, Ending Address must
+    ///	  also contain a valid address. When this field contains FFFF FFFFh,
+    ///	  Ending Address must also contain FFFF FFFFh.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
+    {$ENDREGION}
+    StartingAddress :  DWORD;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The physical ending address of the last kilobyte of a range of
+    ///	  addresses mapped to the specified Physical Memory Array. When the
+    ///	  field value is FFFF FFFFh and the Starting Address field also
+    ///	  contains FFFF FFFFh, the actual address is stored in the Extended
+    ///	  Ending Address field. When this field contains a valid address,
+    ///	  Starting Address must also contain a valid address.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
+    {$ENDREGION}
+    EndingAddress   :  DWORD;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The handle, or instance number, associated with the Physical Memory
+    ///	  Array to which this address range is mapped. Multiple address ranges
+    ///	  can be mapped to a single Physical Memory Array.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
+    {$ENDREGION}
+    MemoryArrayHandle : Word;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Identifies the number of Memory Devices that form a single row of
+    ///	  memory for the address partition defined by this structure
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
+    {$ENDREGION}
+    PartitionWidth : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The physical address, in bytes, of a range of memory mapped to the
+    ///	  specified Physical Memory Array. This field is valid when Starting
+    ///	  Address contains the value FFFF FFFFh. If Starting Address contains a
+    ///	  value other than FFFF FFFFh, this field contains zeros. When this
+    ///	  field contains a valid address, Extended Ending Address must also
+    ///	  contain a valid address.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.7+
+    ///	</remarks>
+    {$ENDREGION}
+    ExtendedStartingAddress : Int64;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The physical ending address, in bytes, of the last of a range of
+    ///	  addresses mapped to the specified Physical Memory Array. This field
+    ///	  is valid when both Starting Address and Ending Address contain the
+    ///	  value FFFF FFFFh. If Ending Address contains a value other than FFFF
+    ///	  FFFFh, this field contains zeros. When this field contains a valid
+    ///	  address, Extended Starting Address must also contain a valid address.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.7+
+    ///	</remarks>
+    {$ENDREGION}
+    ExtendedEndingAddress : Int64;
+  end;
+
+  TMemoryArrayMappedAddressInformation =  class
+  public
+    RAWMemoryArrayMappedAddressInfo : ^TMemoryArrayMappedAddress;
+
+
+  end;
+
 
   TMemoryDeviceInfo   = packed record
     Header: TSmBiosTableHeader;
@@ -2814,6 +2907,7 @@ type
   ArrPhysicalMemoryArrayInfo   = Array of TPhysicalMemoryArrayInformation;
   ArrMemoryDeviceInfo   = Array of TMemoryDeviceInformation;
   ArrBatteryInfo        = Array of TBatteryInformation;
+  ArrMemoryArrayMappedAddressInfo = Array of TMemoryArrayMappedAddressInformation;
   {$ENDIF}
 
   TSMBios = class
@@ -2835,6 +2929,7 @@ type
     FPhysicalMemoryArrayInfo: {$IFDEF NOGENERICS}ArrPhysicalMemoryArrayInfo; {$ELSE}TArray<TPhysicalMemoryArrayInformation>;{$ENDIF}
     FMemoryDeviceInformation : {$IFDEF NOGENERICS}ArrMemoryDeviceInfo; {$ELSE}TArray<TMemoryDeviceInformation>;{$ENDIF}
     FBatteryInformation : {$IFDEF NOGENERICS}ArrBatteryInfo; {$ELSE}TArray<TBatteryInformation>;{$ENDIF}
+    FMemoryArrayMappedAddressInformation : {$IFDEF NOGENERICS}ArrMemoryArrayMappedAddressInfo; {$ELSE}TArray<TMemoryArrayMappedAddressInformation>;{$ENDIF}
     {$IFDEF USEWMI}
     procedure LoadSMBIOSWMI;
     {$ELSE}
@@ -2856,6 +2951,7 @@ type
     function GetHasPhysicalMemoryArrayInfo: Boolean;
     function GetHasMemoryDeviceInfo: Boolean;
     function GetHasBatteryInfo: Boolean;
+    function GetHasMemoryArrayMappedAddressInfo: Boolean;
   public
     constructor Create;
     destructor Destroy; override;
@@ -2909,6 +3005,9 @@ type
 
     property BatteryInformation: {$IFDEF NOGENERICS} ArrBatteryInfo {$ELSE} TArray<TBatteryInformation> {$ENDIF} read FBatteryInformation;
     property HasBatteryInfo : Boolean read GetHasBatteryInfo;
+
+    property MemoryArrayMappedAddressInformation : {$IFDEF NOGENERICS} ArrMemoryArrayMappedAddressInfo {$ELSE} TArray<TMemoryArrayMappedAddressInformation> {$ENDIF} read FMemoryArrayMappedAddressInformation;
+    property HasMemoryArrayMappedAddressInfo : Boolean read GetHasMemoryArrayMappedAddressInfo;
   end;
 
 implementation
@@ -3027,6 +3126,11 @@ end;
 function TSMBios.GetHasEnclosureInfo: Boolean;
 begin
   Result:=Length(FEnclosureInfo)>0;
+end;
+
+function TSMBios.GetHasMemoryArrayMappedAddressInfo: Boolean;
+begin
+  Result:=Length(FMemoryArrayMappedAddressInformation)>0;
 end;
 
 function TSMBios.GetHasMemoryDeviceInfo: Boolean;
@@ -3531,6 +3635,20 @@ begin
     begin
       FBatteryInformation[i]:=TBatteryInformation.Create;
       FBatteryInformation[i].RAWBatteryInfo:=@RawSMBIOSData.SMBIOSTableData^[LIndex];
+      Inc(i);
+    end;
+  until (LIndex=-1);
+
+
+  SetLength(FMemoryArrayMappedAddressInformation, GetSMBiosTableEntries(MemoryArrayMappedAddress));
+  i:=0;
+  LIndex:=0;
+  repeat
+    LIndex := GetSMBiosTableNextIndex(MemoryArrayMappedAddress, LIndex);
+    if LIndex >= 0 then
+    begin
+      FMemoryArrayMappedAddressInformation[i]:=TMemoryArrayMappedAddressInformation.Create;
+      FMemoryArrayMappedAddressInformation[i].RAWMemoryArrayMappedAddressInfo:=@RawSMBIOSData.SMBIOSTableData^[LIndex];
       Inc(i);
     end;
   until (LIndex=-1);
