@@ -3440,6 +3440,130 @@ type
     function GetStatus : AnsiString;
   end;
 
+  {$REGION 'Documentation'}
+  ///	<summary>
+  ///	  This structure describes the attributes for an electrical current probe
+  ///	  in the system. Each structure describes a single electrical current
+  ///	  probe.
+  ///	</summary>
+  {$ENDREGION}
+  TElectricalCurrentProbeInfo = packed record
+    Header: TSmBiosTableHeader;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The number of the string that contains additional descriptive
+    ///	  information about the probe or its location
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.2+
+    ///	</remarks>
+    {$ENDREGION}
+    Description:Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Defines the probe’s physical location and the status of the current
+    ///	  monitored by this current probe.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.2+
+    ///	</remarks>
+    {$ENDREGION}
+    LocationandStatus : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The maximum current readable by this probe, in milliamps. If the
+    ///	  value is unknown, the field is set to 0x8000.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.2+
+    ///	</remarks>
+    {$ENDREGION}
+    MaximumValue  : Word;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The minimum current readable by this probe, in milliamps. If the
+    ///	  value is unknown, the field is set to 0x8000.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.2+
+    ///	</remarks>
+    {$ENDREGION}
+    MinimumValue  : Word;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The resolution for the probe’s reading, in tenths of milliamps. If
+    ///	  the value is unknown, the field is set to 0x8000.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.2+
+    ///	</remarks>
+    {$ENDREGION}
+    Resolution : Word;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The tolerance for reading from this probe, in plus/minus milliamps.
+    ///	  If the value is unknown, the field is set to 0x8000.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.2+
+    ///	</remarks>
+    {$ENDREGION}
+    Tolerance : Word;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The accuracy for reading from this probe, in plus/minus 1/100th of a
+    ///	  percent. If the value is unknown, the field is set to 0x8000.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.2+
+    ///	</remarks>
+    {$ENDREGION}
+    Accuracy : Word;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Contains OEM- or BIOS vendor-specific information.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.2+
+    ///	</remarks>
+    {$ENDREGION}
+    OEMdefined :  DWORD;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The nominal value for the probe’s reading in milliamps. If the value
+    ///	  is unknown, the field is set to 0x8000. This field is present in the
+    ///	  structure only if the structure’s Length is larger than 14h.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.2+
+    ///	</remarks>
+    {$ENDREGION}
+    NominalValue : Word;
+  end;
+
+  TElectricalCurrentProbeInformation=class
+  public
+    RAWElectricalCurrentProbeInfo : ^TElectricalCurrentProbeInfo;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the Description field.
+    ///	</summary>
+    {$ENDREGION}
+    function GetDescriptionStr : AnsiString;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the Probe Location
+    ///	</summary>
+    {$ENDREGION}
+    function GetLocation : AnsiString;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the probe status
+    ///	</summary>
+    {$ENDREGION}
+    function GetStatus : AnsiString;
+  end;
+
   TSMBiosTableEntry = record
     Header: TSmBiosTableHeader;
     Index : Integer;
@@ -3465,6 +3589,7 @@ type
   ArrVoltageProbeInformation = Array of TVoltageProbeInformation;
   ArrCoolingDeviceInformation = Array of TCoolingDeviceInformation;
   ArrTemperatureProbeInformation = Array of TTemperatureProbeInformation;
+  ArrElectricalCurrentProbeInformation = Array of TElectricalCurrentProbeInformation;
   {$ENDIF}
 
   TSMBios = class
@@ -3492,6 +3617,7 @@ type
     FVoltageProbeInformation : {$IFDEF NOGENERICS}ArrVoltageProbeInformation; {$ELSE}TArray<TVoltageProbeInformation>;{$ENDIF}
     FCoolingDeviceInformation : {$IFDEF NOGENERICS}ArrCoolingDeviceInformation; {$ELSE}TArray<TCoolingDeviceInformation>;{$ENDIF}
     FTemperatureProbeInformation : {$IFDEF NOGENERICS}ArrTemperatureProbeInformation; {$ELSE}TArray<TTemperatureProbeInformation>;{$ENDIF}
+    FElectricalCurrentProbeInformation : {$IFDEF NOGENERICS}ArrElectricalCurrentProbeInformation; {$ELSE}TArray<TElectricalCurrentProbeInformation>;{$ENDIF}
     {$IFDEF USEWMI}
     procedure LoadSMBIOSWMI(const RemoteMachine, UserName, Password : string);
     {$ELSE}
@@ -3520,6 +3646,7 @@ type
     function GetHasVoltageProbeInfo: Boolean;
     function GetHasCoolingDeviceInfo: Boolean;
     function GetHasTemperatureProbeInfo: Boolean;
+    function GetHasElectricalCurrentProbeInfo: Boolean;
 
   public
     constructor Create; overload;
@@ -3605,6 +3732,9 @@ type
 
     property TemperatureProbeInformation:  {$IFDEF NOGENERICS} ArrTemperatureProbeInformation {$ELSE} TArray<TTemperatureProbeInformation> {$ENDIF} read FTemperatureProbeInformation;
     property HasTemperatureProbeInfo : Boolean read GetHasTemperatureProbeInfo;
+
+    property ElectricalCurrentProbeInformation :{$IFDEF NOGENERICS} ArrElectricalCurrentProbeInformation {$ELSE} TArray<TElectricalCurrentProbeInformation> {$ENDIF} read FElectricalCurrentProbeInformation;
+    property HasElectricalCurrentProbeInfo : Boolean read GetHasElectricalCurrentProbeInfo;
   end;
 
 implementation
@@ -3767,6 +3897,11 @@ end;
 function TSMBios.GetHasCoolingDeviceInfo: Boolean;
 begin
   Result:=Length(FCoolingDeviceInformation)>0;
+end;
+
+function TSMBios.GetHasElectricalCurrentProbeInfo: Boolean;
+begin
+  Result:=Length(FElectricalCurrentProbeInformation)>0;
 end;
 
 function TSMBios.GetHasEnclosureInfo: Boolean;
@@ -4410,6 +4545,19 @@ begin
     begin
       FTemperatureProbeInformation[i]:=TTemperatureProbeInformation.Create;
       FTemperatureProbeInformation[i].RAWTemperatureProbeInfo:=@RawSMBIOSData.SMBIOSTableData^[LIndex];
+      Inc(i);
+    end;
+  until (LIndex=-1);
+
+  SetLength(FElectricalCurrentProbeInformation, GetSMBiosTableEntries(ElectricalCurrentProbe));
+  i:=0;
+  LIndex:=0;
+  repeat
+    LIndex := GetSMBiosTableNextIndex(ElectricalCurrentProbe, LIndex);
+    if LIndex >= 0 then
+    begin
+      FElectricalCurrentProbeInformation[i]:=TElectricalCurrentProbeInformation.Create;
+      FElectricalCurrentProbeInformation[i].RAWElectricalCurrentProbeInfo:=@RawSMBIOSData.SMBIOSTableData^[LIndex];
       Inc(i);
     end;
   until (LIndex=-1);
@@ -5761,13 +5909,82 @@ begin
    Result:='Non-recoverable';
 end;
 
+ { TElectricalCurrentProbeInformation }
+function TElectricalCurrentProbeInformation.GetDescriptionStr: AnsiString;
+begin
+  Result:= GetSMBiosString(@RAWElectricalCurrentProbeInfo^, RAWElectricalCurrentProbeInfo^.Header.Length, RAWElectricalCurrentProbeInfo^.Description);
+
+end;
+
+function TElectricalCurrentProbeInformation.GetLocation: AnsiString;
+var
+ BitStr : string;
+begin
+  Result:='Unknown';
+  BitStr:= ByteToBinStr(RAWElectricalCurrentProbeInfo^.LocationandStatus);
+  BitStr:=Copy(BitStr,4,8);
+  if BitStr='00001' then
+   Result:='Other'
+  else
+  if BitStr='00010' then
+   Result:='Unknown'
+  else
+  if BitStr='00011' then
+   Result:='Processor'
+  else
+  if BitStr='00100' then
+   Result:='Disk'
+  else
+  if BitStr='00101' then
+   Result:='Peripheral Bay'
+  else
+  if BitStr='00110' then
+   Result:='System Management Module'
+  else
+  if BitStr='00111' then
+   Result:='Motherboard'
+  else
+  if BitStr='01000' then
+   Result:='Memory Module'
+  else
+  if BitStr='01001' then
+   Result:='Processor Module'
+  else
+  if BitStr='01010' then
+   Result:='Power Unit'
+  else
+  if BitStr='01011' then
+   Result:='Add-in Card';
+end;
+
+
+function TElectricalCurrentProbeInformation.GetStatus: AnsiString;
+var
+ BitStr : string;
+begin
+  Result:='Unknown';
+  BitStr:= ByteToBinStr(RAWElectricalCurrentProbeInfo^.LocationandStatus);
+  BitStr:=Copy(BitStr,1,3);
+  if BitStr='001' then
+   Result:='Other'
+  else
+  if BitStr='010' then
+   Result:='Unknown'
+  else
+  if BitStr='011' then
+   Result:='OK'
+  else
+  if BitStr='100' then
+   Result:='Non-critical'
+  else
+  if BitStr='101' then
+   Result:='Critical'
+  else
+  if BitStr='110' then
+   Result:='Non-recoverable';
+end;
+
 {$IFDEF USEWMI}
-
-
-
-
-
-
 initialization
   CoInitialize(nil);
 {$ENDIF}
