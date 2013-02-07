@@ -2,8 +2,6 @@ program MemoryDeviceInfo;
 
 {$APPTYPE CONSOLE}
 
-{$R *.res}
-
 uses
   Classes,
   SysUtils,

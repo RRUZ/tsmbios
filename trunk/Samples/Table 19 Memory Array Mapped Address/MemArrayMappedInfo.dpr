@@ -2,8 +2,6 @@ program MemArrayMappedInfo;
 
 {$APPTYPE CONSOLE}
 
-{$R *.res}
-
 uses
   Classes,
   SysUtils,

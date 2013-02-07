@@ -4266,11 +4266,11 @@ var
  LArrMemory : TPhysicalMemoryArrayInformation;
 begin
 
-  LIndex := GetSMBiosTableNextIndex(BIOSInformation, 0);
+  LIndex := GetSMBiosTableNextIndex(BIOSInformation, -1);
   if LIndex >= 0 then
     FBiosInfo.RAWBiosInformation:=@RawSMBIOSData.SMBIOSTableData^[LIndex];
 
-  LIndex := GetSMBiosTableNextIndex(SystemInformation, 0);
+  LIndex := GetSMBiosTableNextIndex(SystemInformation, -1);
   if LIndex >= 0 then
     FSysInfo.RAWSystemInformation:=@RawSMBIOSData.SMBIOSTableData^[LIndex];
 
@@ -5913,7 +5913,6 @@ end;
 function TElectricalCurrentProbeInformation.GetDescriptionStr: AnsiString;
 begin
   Result:= GetSMBiosString(@RAWElectricalCurrentProbeInfo^, RAWElectricalCurrentProbeInfo^.Header.Length, RAWElectricalCurrentProbeInfo^.Description);
-
 end;
 
 function TElectricalCurrentProbeInformation.GetLocation: AnsiString;
@@ -5957,7 +5956,6 @@ begin
    Result:='Add-in Card';
 end;
 
-
 function TElectricalCurrentProbeInformation.GetStatus: AnsiString;
 var
  BitStr : string;
@@ -5993,7 +5991,6 @@ initialization
 finalization
   CoUninitialize;
 {$ENDIF}
-
 
 
 

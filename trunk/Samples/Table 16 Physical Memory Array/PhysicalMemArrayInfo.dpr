@@ -2,8 +2,6 @@ program PhysicalMemArrayInfo;
 
 {$APPTYPE CONSOLE}
 
-{$R *.res}
-
 uses
   Classes,
   SysUtils,
