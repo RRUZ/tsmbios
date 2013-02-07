@@ -36,6 +36,9 @@ begin
           WriteLn(Format('Temperature Probe Handle %.4x',[LCoolingDevice.RAWCoolingDeviceInfo.TemperatureProbeHandle]));
 
         WriteLn(Format('Device Type and Status   %s',[ByteToBinStr(LCoolingDevice.RAWCoolingDeviceInfo.DeviceTypeandStatus)]));
+        WriteLn(Format('Type                     %s',[LCoolingDevice.GetDeviceType]));
+        WriteLn(Format('Status                   %s',[LCoolingDevice.GetStatus]));
+
         WriteLn(Format('Cooling Unit Group       %d',[LCoolingDevice.RAWCoolingDeviceInfo.CoolingUnitGroup]));
         WriteLn(Format('OEM Specific             %.8x',[LCoolingDevice.RAWCoolingDeviceInfo.OEMdefined]));
         if LCoolingDevice.RAWCoolingDeviceInfo.NominalSpeed=$8000 then
