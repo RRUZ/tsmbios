@@ -3203,6 +3203,102 @@ type
     function GetDescriptionStr : AnsiString;
   end;
 
+
+  {$REGION 'Documentation'}
+  ///	<summary>
+  ///	  This structure describes the attributes for a cooling device in the
+  ///	  system. Each structure describes a single cooling device.
+  ///	</summary>
+  {$ENDREGION}
+  TCoolingDeviceInfo = packed record
+    Header: TSmBiosTableHeader;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The handle, or instance number, of the temperature probe monitoring
+    ///	  this cooling device. A value of 0xFFFF indicates that no probe is
+    ///	  provided.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.2+
+    ///	</remarks>
+    {$ENDREGION}
+    TemperatureProbeHandle : Word;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Identifies the cooling device type and the status of this cooling
+    ///	  device;
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.2+
+    ///	</remarks>
+    {$ENDREGION}
+    DeviceTypeandStatus : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  <para>
+    ///	    Identifies the cooling unit group to which this cooling device is
+    ///	    associated. Having multiple cooling devices in the same cooling
+    ///	    unit implies a redundant configuration.
+    ///	  </para>
+    ///	  <para>
+    ///	    The value is 00h if the cooling device is not a member of a
+    ///	    redundant cooling unit. Non-zero values imply redundancy and that
+    ///	    at least one other cooling device will be enumerated with the same
+    ///	    value.
+    ///	  </para>
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.2+
+    ///	</remarks>
+    {$ENDREGION}
+    CoolingUnitGroup : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Contains OEM- or BIOS vendor-specific information.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.2+
+    ///	</remarks>
+    {$ENDREGION}
+    OEMdefined :  DWORD;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The nominal value for the cooling device’s rotational speed, in
+    ///	  revolutions-per-minute (rpm). If the value is unknown or the cooling
+    ///	  device is nonrotating, the field is set to 0x8000. This field is
+    ///	  present in the structure only if the structure’s Length is larger
+    ///	  than 0Ch.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.2+
+    ///	</remarks>
+    {$ENDREGION}
+    NominalSpeed : Word;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The number of the string that contains additional descriptive
+    ///	  information about the cooling device or its location This field is
+    ///	  present in the structure only if the structure’s Length is 0Fh or
+    ///	  larger.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.7+
+    ///	</remarks>
+    {$ENDREGION}
+    Description:Byte;
+  end;
+
+  TCoolingDeviceInformation=class
+  public
+    RAWCoolingDeviceInfo : ^TCoolingDeviceInfo;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the Description field.
+    ///	</summary>
+    {$ENDREGION}
+    function GetDescriptionStr : AnsiString;
+  end;
+
   TSMBiosTableEntry = record
     Header: TSmBiosTableHeader;
     Index : Integer;
@@ -3226,6 +3322,7 @@ type
   ArrMemoryDeviceMappedAddressInfo = Array of TMemoryDeviceMappedAddressInformation;
   ArrBuiltInPointingDeviceInformation = Array of TBuiltInPointingDeviceInformation;
   ArrVoltageProbeInformation = Array of TVoltageProbeInformation;
+  ArrCoolingDeviceInformation = Array of TCoolingDeviceInformation;
   {$ENDIF}
 
   TSMBios = class
@@ -3251,6 +3348,7 @@ type
     FMemoryDeviceMappedAddressInformation : {$IFDEF NOGENERICS}ArrMemoryDeviceMappedAddressInfo; {$ELSE}TArray<TMemoryDeviceMappedAddressInformation>;{$ENDIF}
     FBuiltInPointingDeviceInformation     : {$IFDEF NOGENERICS}ArrBuiltInPointingDeviceInformation; {$ELSE}TArray<TBuiltInPointingDeviceInformation>;{$ENDIF}
     FVoltageProbeInformation : {$IFDEF NOGENERICS}ArrVoltageProbeInformation; {$ELSE}TArray<TVoltageProbeInformation>;{$ENDIF}
+    FCoolingDeviceInformation : {$IFDEF NOGENERICS}ArrCoolingDeviceInformation; {$ELSE}TArray<TCoolingDeviceInformation>;{$ENDIF}
     {$IFDEF USEWMI}
     procedure LoadSMBIOSWMI(const RemoteMachine, UserName, Password : string);
     {$ELSE}
@@ -3277,6 +3375,7 @@ type
     function GetHasMemoryDeviceMappedAddressInfo: Boolean;
     function GetHasBuiltInPointingDeviceInfo: Boolean;
     function GetHasVoltageProbeInfo: Boolean;
+    function GetHasCoolingDeviceInfo: Boolean;
 
   public
     constructor Create; overload;
@@ -3357,7 +3456,8 @@ type
     property VoltageProbeInformation:  {$IFDEF NOGENERICS} ArrVoltageProbeInformation {$ELSE} TArray<TVoltageProbeInformation> {$ENDIF} read FVoltageProbeInformation;
     property HasVoltageProbeInfo : Boolean read GetHasVoltageProbeInfo;
 
-
+    property CoolingDeviceInformation:  {$IFDEF NOGENERICS} ArrCoolingDeviceInformation {$ELSE} TArray<TCoolingDeviceInformation> {$ENDIF} read FCoolingDeviceInformation;
+    property HasCoolingDeviceInfo : Boolean read GetHasCoolingDeviceInfo;
   end;
 
 implementation
@@ -3504,6 +3604,11 @@ end;
 function TSMBios.GetHasCacheInfo: Boolean;
 begin
   Result:=Length(FCacheInfo)>0;
+end;
+
+function TSMBios.GetHasCoolingDeviceInfo: Boolean;
+begin
+  Result:=Length(FCoolingDeviceInformation)>0;
 end;
 
 function TSMBios.GetHasEnclosureInfo: Boolean;
@@ -4116,6 +4221,19 @@ begin
     begin
       FVoltageProbeInformation[i]:=TVoltageProbeInformation.Create;
       FVoltageProbeInformation[i].RAWVoltageProbeInfo:=@RawSMBIOSData.SMBIOSTableData^[LIndex];
+      Inc(i);
+    end;
+  until (LIndex=-1);
+
+  SetLength(FCoolingDeviceInformation, GetSMBiosTableEntries(CoolingDevice));
+  i:=0;
+  LIndex:=0;
+  repeat
+    LIndex := GetSMBiosTableNextIndex(CoolingDevice, LIndex);
+    if LIndex >= 0 then
+    begin
+      FCoolingDeviceInformation[i]:=TCoolingDeviceInformation.Create;
+      FCoolingDeviceInformation[i].RAWCoolingDeviceInfo:=@RawSMBIOSData.SMBIOSTableData^[LIndex];
       Inc(i);
     end;
   until (LIndex=-1);
@@ -5242,10 +5360,18 @@ end;
 function TVoltageProbeInformation.GetDescriptionStr: AnsiString;
 begin
   Result:= GetSMBiosString(@RAWVoltageProbeInfo^, RAWVoltageProbeInfo^.Header.Length, RAWVoltageProbeInfo^.Description);
+end;
 
+{ TCoolingDeviceInformation }
+
+function TCoolingDeviceInformation.GetDescriptionStr: AnsiString;
+begin
+  Result:= GetSMBiosString(@RAWCoolingDeviceInfo^, RAWCoolingDeviceInfo^.Header.Length, RAWCoolingDeviceInfo^.Description);
 end;
 
 {$IFDEF USEWMI}
+
+
 initialization
   CoInitialize(nil);
 {$ENDIF}
