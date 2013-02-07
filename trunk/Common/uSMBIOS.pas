@@ -2771,6 +2771,68 @@ type
 
   {$REGION 'Documentation'}
   ///	<summary>
+  ///	  <para>
+  ///	    This structure describes the attributes of the built-in pointing
+  ///	    device for the system.
+  ///	  </para>
+  ///	  <para>
+  ///	    Note : The presence of this structure does not imply that the
+  ///	    built-in pointing device is active for the system’s use.
+  ///	  </para>
+  ///	</summary>
+  {$ENDREGION}
+  TBuiltInPointingDevice = packed record
+    Header: TSmBiosTableHeader;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The type of pointing device
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
+    {$ENDREGION}
+    _Type : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The interface type for the pointing device;
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
+    {$ENDREGION}
+    _Interface : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The number of buttons on the pointing device. If the device has three
+    ///	  buttons, the field value is 03h.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.1+
+    ///	</remarks>
+    {$ENDREGION}
+    NumberofButtons : Byte;
+  end;
+
+  TBuiltInPointingDeviceInformation=class
+  public
+    RAWBuiltInPointingDeviceInfo : ^TBuiltInPointingDevice;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the description of the Type field.
+    ///	</summary>
+    {$ENDREGION}
+    function GetType : string;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the description of the Interface field.
+    ///	</summary>
+    {$ENDREGION}
+    function GetInterface : string;
+  end;
+
+
+  {$REGION 'Documentation'}
+  ///	<summary>
   ///	  This structure describes the attributes of the portable battery or
   ///	  batteries for the system. The structure contains the static attributes
   ///	  for the group. Each structure describes a single battery pack’s
@@ -3049,6 +3111,7 @@ type
   ArrBatteryInfo        = Array of TBatteryInformation;
   ArrMemoryArrayMappedAddressInfo = Array of TMemoryArrayMappedAddressInformation;
   ArrMemoryDeviceMappedAddressInfo = Array of TMemoryDeviceMappedAddressInformation;
+  ArrBuiltInPointingDeviceInformation = Array of TBuiltInPointingDeviceInformation;
   {$ENDIF}
 
   TSMBios = class
@@ -3072,6 +3135,7 @@ type
     FBatteryInformation : {$IFDEF NOGENERICS}ArrBatteryInfo; {$ELSE}TArray<TBatteryInformation>;{$ENDIF}
     FMemoryArrayMappedAddressInformation : {$IFDEF NOGENERICS}ArrMemoryArrayMappedAddressInfo; {$ELSE}TArray<TMemoryArrayMappedAddressInformation>;{$ENDIF}
     FMemoryDeviceMappedAddressInformation : {$IFDEF NOGENERICS}ArrMemoryDeviceMappedAddressInfo; {$ELSE}TArray<TMemoryDeviceMappedAddressInformation>;{$ENDIF}
+    FBuiltInPointingDeviceInformation     : {$IFDEF NOGENERICS}ArrBuiltInPointingDeviceInformation; {$ELSE}TArray<TBuiltInPointingDeviceInformation>;{$ENDIF}
     {$IFDEF USEWMI}
     procedure LoadSMBIOSWMI;
     {$ELSE}
@@ -3096,6 +3160,7 @@ type
     function GetHasBatteryInfo: Boolean;
     function GetHasMemoryArrayMappedAddressInfo: Boolean;
     function GetHasMemoryDeviceMappedAddressInfo: Boolean;
+    function GetHasBuiltInPointingDeviceInfo: Boolean;
 
   public
     constructor Create; overload;
@@ -3166,6 +3231,10 @@ type
 
     property MemoryDeviceMappedAddressInformation : {$IFDEF NOGENERICS} ArrMemoryDeviceMappedAddressInfo {$ELSE} TArray<TMemoryDeviceMappedAddressInformation> {$ENDIF} read FMemoryDeviceMappedAddressInformation;
     property HasMemoryDeviceMappedAddressInfo : Boolean read GetHasMemoryDeviceMappedAddressInfo;
+
+    property BuiltInPointingDeviceInformation :  {$IFDEF NOGENERICS} ArrBuiltInPointingDeviceInformation {$ELSE} TArray<TBuiltInPointingDeviceInformation> {$ENDIF} read FBuiltInPointingDeviceInformation;
+    property HasBuiltInPointingDeviceInfo : Boolean read GetHasBuiltInPointingDeviceInfo;
+
   end;
 
 implementation
@@ -3291,6 +3360,11 @@ end;
 function TSMBios.GetHasBIOSLanguageInfo: Boolean;
 begin
   Result:=Length(FBIOSLanguageInfo)>0;
+end;
+
+function TSMBios.GetHasBuiltInPointingDeviceInfo: Boolean;
+begin
+  Result:=Length(FBuiltInPointingDeviceInformation)>0;
 end;
 
 function TSMBios.GetHasCacheInfo: Boolean;
@@ -3873,6 +3947,19 @@ begin
     begin
       FMemoryDeviceMappedAddressInformation[i]:=TMemoryDeviceMappedAddressInformation.Create;
       FMemoryDeviceMappedAddressInformation[i].RAWMemoryDeviceMappedAddressInfo:=@RawSMBIOSData.SMBIOSTableData^[LIndex];
+      Inc(i);
+    end;
+  until (LIndex=-1);
+
+  SetLength(FBuiltInPointingDeviceInformation, GetSMBiosTableEntries(BuiltinPointingDevice));
+  i:=0;
+  LIndex:=0;
+  repeat
+    LIndex := GetSMBiosTableNextIndex(BuiltinPointingDevice, LIndex);
+    if LIndex >= 0 then
+    begin
+      FBuiltInPointingDeviceInformation[i]:=TBuiltInPointingDeviceInformation.Create;
+      FBuiltInPointingDeviceInformation[i].RAWBuiltInPointingDeviceInfo:=@RawSMBIOSData.SMBIOSTableData^[LIndex];
       Inc(i);
     end;
   until (LIndex=-1);
@@ -4955,6 +5042,44 @@ begin
   Result:= GetSMBiosString(@RAWBatteryInfo^, RAWBatteryInfo^.Header.Length, RAWBatteryInfo^.SerialNumber);
 end;
 
+{ TBuiltInPointingDeviceInformation }
+
+function TBuiltInPointingDeviceInformation.GetInterface: string;
+begin
+  case RAWBuiltInPointingDeviceInfo^._Interface of
+    $01 : Result:='Other';
+    $02 : Result:='Unknown';
+    $03 : Result:='Serial';
+    $04 : Result:='PS/2';
+    $05 : Result:='Infrared';
+    $06 : Result:='HP-HIL';
+    $07 : Result:='Bus mouse';
+    $08 : Result:='ADB (Apple Desktop Bus)';
+    $A0 : Result:='Bus mouse DB-9';
+    $A1 : Result:='Bus mouse micro-DIN';
+    $A2 : Result:='USB'
+    else
+    Result:='Unknown';
+  end;
+end;
+
+function TBuiltInPointingDeviceInformation.GetType: string;
+begin
+  case RAWBuiltInPointingDeviceInfo^._Type of
+    $01 : Result:='Other';
+    $02 : Result:='Unknown';
+    $03 : Result:='Mouse';
+    $04 : Result:='Track Ball';
+    $05 : Result:='Track Point';
+    $06 : Result:='Glide Point';
+    $07 : Result:='Touch Pad';
+    $08 : Result:='Touch Screen';
+    $09 : Result:='Optical Sensor'
+    else
+    Result:='Unknown';
+  end;
+end;
+
 {$IFDEF USEWMI}
 initialization
   CoInitialize(nil);
@@ -4964,6 +5089,7 @@ initialization
 finalization
   CoUninitialize;
 {$ENDIF}
+
 
 
 
