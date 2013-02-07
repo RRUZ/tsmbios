@@ -12,8 +12,10 @@ Var
   SMBios : TSMBios;
   Entry  : TSMBiosTableEntry;
 begin
-  SMBios:=TSMBios.Create;
+  SMBios:=TSMBios.Create;//('C:\Users\Dexter\Dropbox\SMBIOS.dat');
   try
+    //SMBios.SaveToFile('C:\Users\Dexter\Dropbox\SMBIOS.dat');
+    //SMBios.LoadFromFile('C:\Users\Dexter\Dropbox\SMBIOS.dat');
     Writeln(Format('SMBIOS Version %s',[SMBios.SmbiosVersion]));
     Writeln(Format('%d SMBios tables found',[Length(SMBios.SMBiosTablesList)]));
     Writeln;

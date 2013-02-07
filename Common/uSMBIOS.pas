@@ -40,7 +40,6 @@ type
   // TODO :
   // Add OSX support http://www.opensource.apple.com/source/AppleSMBIOS/AppleSMBIOS-38/SMBIOS.h
   // Add remote support
-  // Add FPC support
   // Add old Delphi versions support
 
 
@@ -3079,6 +3078,7 @@ type
     procedure LoadSMBIOSWinAPI;
     {$ENDIF}
     procedure ReadSMBiosTables;
+    procedure Init;
     function GetSMBiosTablesList:{$IFDEF NOGENERICS}ArrSMBiosTableEntry; {$ELSE} TArray<TSMBiosTableEntry>;{$ENDIF}
     function GetSMBiosTablesCount: Integer;
     function GetHasBaseBoardInfo: Boolean;
@@ -3096,16 +3096,27 @@ type
     function GetHasBatteryInfo: Boolean;
     function GetHasMemoryArrayMappedAddressInfo: Boolean;
     function GetHasMemoryDeviceMappedAddressInfo: Boolean;
-  public
-    constructor Create;
-    destructor Destroy; override;
 
+  public
+    constructor Create; overload;
+    constructor Create(const FileName : string); overload;
+    destructor Destroy; override;
     function SearchSMBiosTable(TableType: TSMBiosTablesTypes): integer;
     function GetSMBiosTableNextIndex(TableType: TSMBiosTablesTypes;Offset:Integer=0): integer;
     function GetSMBiosTableEntries(TableType: TSMBiosTablesTypes): integer;
-
     function GetSMBiosString(Entry, Index: integer): AnsiString;
-
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Save(Dump) the TRawSMBIOSData structure to a file
+    ///	</summary>
+    {$ENDREGION}
+    procedure SaveToFile(const FileName : string);
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Load the TRawSMBIOSData structure from a file
+    ///	</summary>
+    {$ENDREGION}
+    procedure LoadFromFile(const FileName : string);
     property DataString: AnsiString read FDataString;
     property RawSMBIOSData : TRawSMBIOSData read FRawSMBIOSData;
     property SmbiosVersion : string  read GetSmbiosVersion;
@@ -3187,17 +3198,25 @@ begin
 end;
 
 { TSMBios }
-constructor TSMBios.Create;
+
+
+procedure TSMBios.Init;
 begin
-  Inherited;
+  FRawSMBIOSData.SMBIOSTableData:=nil;
   FBiosInfo:=TBiosInformation.Create;
   FSysInfo:=TSystemInformation.Create;
-
 
   FSMBiosTablesList:=nil;
   FBaseBoardInfo:=nil;
   FEnclosureInfo:=nil;
   FProcessorInfo:=nil;
+end;
+
+
+constructor TSMBios.Create;
+begin
+  inherited Create;
+  Init;
   {$IFDEF USEWMI}
   LoadSMBIOSWMI;
   {$ELSE}
@@ -3207,12 +3226,21 @@ begin
   ReadSMBiosTables;
 end;
 
+constructor TSMBios.Create(const FileName: string);
+begin
+  inherited Create;
+  Init;
+  LoadFromFile(FileName);
+  FSMBiosTablesList:=GetSMBiosTablesList;
+  ReadSMBiosTables;
+end;
+
 destructor TSMBios.Destroy;
 var
   i : Integer;
 begin
-  if Assigned(RawSMBIOSData.SMBIOSTableData) and (RawSMBIOSData.Length > 0) then
-    FreeMem(RawSMBIOSData.SMBIOSTableData);
+  if Assigned(FRawSMBIOSData.SMBIOSTableData) and (FRawSMBIOSData.Length > 0) then
+    FreeMem(FRawSMBIOSData.SMBIOSTableData);
 
   FBiosInfo.Free;
   FSysInfo.Free;
@@ -3320,6 +3348,36 @@ begin
   Result:=Length(FSystemSlotInfo)>0;
 end;
 
+procedure TSMBios.SaveToFile(const FileName: string);
+Var
+  LStream :  TFileStream;
+begin
+  LStream:=TFileStream.Create(FileName, fmCreate);
+  try
+    LStream.WriteBuffer(FRawSMBIOSData, SizeOf(FRawSMBIOSData)- SizeOf(FRawSMBIOSData.SMBIOSTableData));
+    LStream.WriteBuffer(RawSMBIOSData.SMBIOSTableData^[0], FRawSMBIOSData.Length);
+  finally
+    LStream.Free;
+  end;
+end;
+
+procedure TSMBios.LoadFromFile(const FileName: string);
+Var
+  LStream :  TFileStream;
+begin
+  LStream:=TFileStream.Create(FileName, fmOpenRead);
+  try
+    LStream.ReadBuffer(FRawSMBIOSData, SizeOf(FRawSMBIOSData)- SizeOf(FRawSMBIOSData.SMBIOSTableData));
+    if Assigned(FRawSMBIOSData.SMBIOSTableData) then
+      FreeMem(FRawSMBIOSData.SMBIOSTableData);
+    GetMem(FRawSMBIOSData.SMBIOSTableData, FRawSMBIOSData.Length);
+    LStream.ReadBuffer(RawSMBIOSData.SMBIOSTableData^[0], FRawSMBIOSData.Length);
+  finally
+    LStream.Free;
+  end;
+end;
+
+
 function TSMBios.SearchSMBiosTable(TableType: TSMBiosTablesTypes): integer;
 Var
   Index  : DWORD;
@@ -3328,7 +3386,7 @@ begin
   Index     := 0;
   Result    := 0;
   repeat
-    Move(RawSMBIOSData.SMBIOSTableData[Index], Header, SizeOf(Header));
+    Move(RawSMBIOSData.SMBIOSTableData^[Index], Header, SizeOf(Header));
 
     if Header.TableType = Byte(Ord(TableType)) then
       break
@@ -3488,6 +3546,7 @@ begin
 end;
 
 {$IFNDEF USEWMI}
+
 procedure TSMBios.LoadSMBIOSWinAPI;
 type
   //http://msdn.microsoft.com/en-us/library/windows/desktop/ms724379%28v=vs.85%29.aspx
