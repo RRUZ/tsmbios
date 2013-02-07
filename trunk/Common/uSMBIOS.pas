@@ -3089,6 +3089,120 @@ type
     function GetSBDSDeviceChemistryStr : AnsiString;
   end;
 
+  {$REGION 'Documentation'}
+  ///	<summary>
+  ///	  This describes the attributes for a voltage probe in the system. Each
+  ///	  structure describes a single voltage probe.
+  ///	</summary>
+  ///	<remarks>
+  ///	  NOTE: This structure type was added in version 2.2 of the SMBIOS
+  ///	  specification.
+  ///	</remarks>
+  {$ENDREGION}
+  TVoltageProbeInfo = packed record
+    Header: TSmBiosTableHeader;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The number of the string that contains additional descriptive
+    ///	  information about the probe or its location
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.2+
+    ///	</remarks>
+    {$ENDREGION}
+    Description:Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Defines the probe’s physical location and status of the voltage
+    ///	  monitored by this voltage probe.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.2+
+    ///	</remarks>
+    {$ENDREGION}
+    LocationandStatus : Byte;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The maximum voltage level readable by this probe, in millivolts. If
+    ///	  the value is unknown, the field is set to 0x8000.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.2+
+    ///	</remarks>
+    {$ENDREGION}
+    MaximumValue  : Word;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The minimum voltage level readable by this probe, in millivolts. If
+    ///	  the value is unknown, the field is set to 0x8000.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.2+
+    ///	</remarks>
+    {$ENDREGION}
+    MinimumValue  : Word;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The resolution for the probe’s reading, in tenths of millivolts. If
+    ///	  the value is unknown, the field is set to 0x8000.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.2+
+    ///	</remarks>
+    {$ENDREGION}
+    Resolution : Word;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The tolerance for reading from this probe, in plus/minus millivolts.
+    ///	  If the value is unknown, the field is set to 0x8000.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.2+
+    ///	</remarks>
+    {$ENDREGION}
+    Tolerance : Word;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The accuracy for reading from this probe, in plus/minus 1/100th of a
+    ///	  percent. If the value is unknown, the field is set to 0x8000.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.2+
+    ///	</remarks>
+    {$ENDREGION}
+    Accuracy : Word;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Contains OEM- or BIOS vendor-specific information.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.2+
+    ///	</remarks>
+    {$ENDREGION}
+    OEMdefined :  DWORD;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  The nominal value for the probe’s reading in millivolts. If the value
+    ///	  is unknown, the field is set to 0x8000. This field is present in the
+    ///	  structure only if the structure’s Length is larger than 14h.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.2+
+    ///	</remarks>
+    {$ENDREGION}
+    NominalValue : Word;
+  end;
+
+  TVoltageProbeInformation=class
+  public
+    RAWVoltageProbeInfo : ^TVoltageProbeInfo;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the Description field.
+    ///	</summary>
+    {$ENDREGION}
+    function GetDescriptionStr : AnsiString;
+  end;
 
   TSMBiosTableEntry = record
     Header: TSmBiosTableHeader;
@@ -3112,6 +3226,7 @@ type
   ArrMemoryArrayMappedAddressInfo = Array of TMemoryArrayMappedAddressInformation;
   ArrMemoryDeviceMappedAddressInfo = Array of TMemoryDeviceMappedAddressInformation;
   ArrBuiltInPointingDeviceInformation = Array of TBuiltInPointingDeviceInformation;
+  ArrVoltageProbeInformation = Array of TVoltageProbeInformation;
   {$ENDIF}
 
   TSMBios = class
@@ -3136,6 +3251,7 @@ type
     FMemoryArrayMappedAddressInformation : {$IFDEF NOGENERICS}ArrMemoryArrayMappedAddressInfo; {$ELSE}TArray<TMemoryArrayMappedAddressInformation>;{$ENDIF}
     FMemoryDeviceMappedAddressInformation : {$IFDEF NOGENERICS}ArrMemoryDeviceMappedAddressInfo; {$ELSE}TArray<TMemoryDeviceMappedAddressInformation>;{$ENDIF}
     FBuiltInPointingDeviceInformation     : {$IFDEF NOGENERICS}ArrBuiltInPointingDeviceInformation; {$ELSE}TArray<TBuiltInPointingDeviceInformation>;{$ENDIF}
+    FVoltageProbeInformation : {$IFDEF NOGENERICS}ArrVoltageProbeInformation; {$ELSE}TArray<TVoltageProbeInformation>;{$ENDIF}
     {$IFDEF USEWMI}
     procedure LoadSMBIOSWMI;
     {$ELSE}
@@ -3161,6 +3277,7 @@ type
     function GetHasMemoryArrayMappedAddressInfo: Boolean;
     function GetHasMemoryDeviceMappedAddressInfo: Boolean;
     function GetHasBuiltInPointingDeviceInfo: Boolean;
+    function GetHasVoltageProbeInfo: Boolean;
 
   public
     constructor Create; overload;
@@ -3234,6 +3351,10 @@ type
 
     property BuiltInPointingDeviceInformation :  {$IFDEF NOGENERICS} ArrBuiltInPointingDeviceInformation {$ELSE} TArray<TBuiltInPointingDeviceInformation> {$ENDIF} read FBuiltInPointingDeviceInformation;
     property HasBuiltInPointingDeviceInfo : Boolean read GetHasBuiltInPointingDeviceInfo;
+
+    property VoltageProbeInformation:  {$IFDEF NOGENERICS} ArrVoltageProbeInformation {$ELSE} TArray<TVoltageProbeInformation> {$ENDIF} read FVoltageProbeInformation;
+    property HasVoltageProbeInfo : Boolean read GetHasVoltageProbeInfo;
+
 
   end;
 
@@ -3420,6 +3541,11 @@ end;
 function TSMBios.GetHasSystemSlotInfo: Boolean;
 begin
   Result:=Length(FSystemSlotInfo)>0;
+end;
+
+function TSMBios.GetHasVoltageProbeInfo: Boolean;
+begin
+  Result:=Length(FVoltageProbeInformation)>0;
 end;
 
 procedure TSMBios.SaveToFile(const FileName: string);
@@ -3960,6 +4086,19 @@ begin
     begin
       FBuiltInPointingDeviceInformation[i]:=TBuiltInPointingDeviceInformation.Create;
       FBuiltInPointingDeviceInformation[i].RAWBuiltInPointingDeviceInfo:=@RawSMBIOSData.SMBIOSTableData^[LIndex];
+      Inc(i);
+    end;
+  until (LIndex=-1);
+
+  SetLength(FVoltageProbeInformation, GetSMBiosTableEntries(VoltageProbe));
+  i:=0;
+  LIndex:=0;
+  repeat
+    LIndex := GetSMBiosTableNextIndex(VoltageProbe, LIndex);
+    if LIndex >= 0 then
+    begin
+      FVoltageProbeInformation[i]:=TVoltageProbeInformation.Create;
+      FVoltageProbeInformation[i].RAWVoltageProbeInfo:=@RawSMBIOSData.SMBIOSTableData^[LIndex];
       Inc(i);
     end;
   until (LIndex=-1);
@@ -5080,6 +5219,15 @@ begin
   end;
 end;
 
+
+{ TVoltageProbeInformation }
+
+function TVoltageProbeInformation.GetDescriptionStr: AnsiString;
+begin
+  Result:= GetSMBiosString(@RAWVoltageProbeInfo^, RAWVoltageProbeInfo^.Header.Length, RAWVoltageProbeInfo^.Description);
+
+end;
+
 {$IFDEF USEWMI}
 initialization
   CoInitialize(nil);
@@ -5089,6 +5237,7 @@ initialization
 finalization
   CoUninitialize;
 {$ENDIF}
+
 
 
 
