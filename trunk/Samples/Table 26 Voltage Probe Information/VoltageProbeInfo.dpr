@@ -34,6 +34,8 @@ begin
       begin
         WriteLn(Format('Description    %s',[LVoltageProbeInfo.GetDescriptionStr]));
         WriteLn(Format('Location and Status %s',[ByteToBinStr(LVoltageProbeInfo.RAWVoltageProbeInfo.LocationandStatus)]));
+        WriteLn(Format('Location       %s',[LVoltageProbeInfo.GetLocation]));
+        WriteLn(Format('Status         %s',[LVoltageProbeInfo.GetStatus]));
 
         if LVoltageProbeInfo.RAWVoltageProbeInfo.MaximumValue=$8000 then
           WriteLn(Format('Maximum Value  %s',['Unknown']))
