@@ -2,8 +2,6 @@ program ElectricalProbeInfo;
 
 {$APPTYPE CONSOLE}
 
-{$R *.res}
-
 uses
   Classes,
   SysUtils,

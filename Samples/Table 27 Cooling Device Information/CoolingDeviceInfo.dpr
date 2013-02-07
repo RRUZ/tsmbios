@@ -2,8 +2,6 @@ program CoolingDeviceInfo;
 
 {$APPTYPE CONSOLE}
 
-{$R *.res}
-
 uses
   Classes,
   SysUtils,

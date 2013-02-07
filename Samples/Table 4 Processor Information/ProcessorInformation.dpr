@@ -2,8 +2,6 @@ program ProcessorInformation;
 
 {$APPTYPE CONSOLE}
 
-{$R *.res}
-
 uses
   Classes,
   SysUtils,
