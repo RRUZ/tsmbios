@@ -34,12 +34,11 @@ uses
   {$IFNDEF NOGENERICS}Generics.Collections,{$ENDIF}
   Classes;
 
-{.$DEFINE USEWMI}
+{$DEFINE USEWMI}
 
 type
   // TODO :
   // Add OSX support http://www.opensource.apple.com/source/AppleSMBIOS/AppleSMBIOS-38/SMBIOS.h
-  // Add remote support
   // Add old Delphi versions support
 
 
@@ -1360,7 +1359,7 @@ type
   {$REGION 'Documentation'}
   ///	<summary>
   ///	  <para>
-  ///	    The information in this structure (see Table 20) defines the
+  ///	    The information in this structure defines the
   ///	    attributes of a single processor; a separate structure instance is
   ///	    provided for each system processor socket/slot. For example, a system
   ///	    with an IntelDX2™ processor would have a single structure instance
@@ -3253,7 +3252,7 @@ type
     FBuiltInPointingDeviceInformation     : {$IFDEF NOGENERICS}ArrBuiltInPointingDeviceInformation; {$ELSE}TArray<TBuiltInPointingDeviceInformation>;{$ENDIF}
     FVoltageProbeInformation : {$IFDEF NOGENERICS}ArrVoltageProbeInformation; {$ELSE}TArray<TVoltageProbeInformation>;{$ENDIF}
     {$IFDEF USEWMI}
-    procedure LoadSMBIOSWMI;
+    procedure LoadSMBIOSWMI(const RemoteMachine, UserName, Password : string);
     {$ELSE}
     procedure LoadSMBIOSWinAPI;
     {$ENDIF}
@@ -3282,6 +3281,9 @@ type
   public
     constructor Create; overload;
     constructor Create(const FileName : string); overload;
+    {$IFDEF USEWMI}
+    constructor Create(const RemoteMachine, UserName, Password : string); overload;
+    {$ENDIF}
     destructor Destroy; override;
     function SearchSMBiosTable(TableType: TSMBiosTablesTypes): integer;
     function GetSMBiosTableNextIndex(TableType: TSMBiosTablesTypes;Offset:Integer=0): integer;
@@ -3408,7 +3410,7 @@ begin
   inherited Create;
   Init;
   {$IFDEF USEWMI}
-  LoadSMBIOSWMI;
+  LoadSMBIOSWMI('','','');
   {$ELSE}
   LoadSMBIOSWinAPI;
   {$ENDIF}
@@ -3424,6 +3426,17 @@ begin
   FSMBiosTablesList:=GetSMBiosTablesList;
   ReadSMBiosTables;
 end;
+
+{$IFDEF USEWMI}
+constructor TSMBios.Create(const RemoteMachine, UserName, Password: string);
+begin
+  inherited Create;
+  Init;
+  LoadSMBIOSWMI(RemoteMachine, UserName, Password);
+  FSMBiosTablesList:=GetSMBiosTablesList;
+  ReadSMBiosTables;
+end;
+{$ENDIF}
 
 destructor TSMBios.Destroy;
 var
@@ -3792,7 +3805,7 @@ end;
 {$ENDIF}
 
 {$IFDEF USEWMI}
-procedure TSMBios.LoadSMBIOSWMI;
+procedure TSMBios.LoadSMBIOSWMI(const RemoteMachine, UserName, Password : string);
 const
   wbemFlagForwardOnly = $00000020;
 var
@@ -3808,7 +3821,11 @@ var
 begin;
   ZeroMemory(@RawSMBIOSData, SizeOf(RawSMBIOSData));
   FSWbemLocator := CreateOleObject('WbemScripting.SWbemLocator');
-  FWMIService := FSWbemLocator.ConnectServer('localhost', 'root\WMI', '', '');
+  if (RemoteMachine='') then
+  FWMIService := FSWbemLocator.ConnectServer('localhost', 'root\WMI', '', '')
+  else
+  FWMIService := FSWbemLocator.ConnectServer(RemoteMachine, 'root\WMI', UserName, Password);
+
   FWbemObjectSet := FWMIService.ExecQuery('SELECT * FROM MSSmBios_RawSMBiosTables', 'WQL', wbemFlagForwardOnly);
   oEnum := IUnknown(FWbemObjectSet._NewEnum) as IEnumvariant;
   if {$IFDEF FPC} oEnum.Next(1, FWbemObject, nil){$ELSE}oEnum.Next(1, FWbemObject, iValue){$ENDIF} = 0 then
