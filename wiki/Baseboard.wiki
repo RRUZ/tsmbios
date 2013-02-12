@@ -5,7 +5,7 @@
 the information in this structure defines attributes of a system baseboard (for example, a motherboard, planar, server blade, or other standard system module).
 
 
-= Details =
+= Sample Code=
 {{{
 {$APPTYPE CONSOLE}
 
