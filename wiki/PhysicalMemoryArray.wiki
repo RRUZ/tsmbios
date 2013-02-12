@@ -1,6 +1,6 @@
 #summary Physical Memory Array (Type 16)
 
-= Descrption =
+= Description =
 This structure describes a collection of memory devices that operate together to form a memory address space.
 
 
