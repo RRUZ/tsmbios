@@ -26,7 +26,6 @@ begin
       if SMBios.HasEnclosureInfo then
       for LEnclosure in SMBios.EnclosureInfo do
       begin
-        //WriteLn('Manufacter    '+SMBios.GetSMBiosString(EI.LocalIndex + EI.Header.Length, EI.Manufacturer));
         WriteLn('Manufacter         '+LEnclosure.ManufacturerStr);
         WriteLn('Version            '+LEnclosure.VersionStr);
         WriteLn('Serial Number      '+LEnclosure.SerialNumberStr);
