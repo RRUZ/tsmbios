@@ -1,4 +1,4 @@
-#BIOS Information (Type 0)
+#summary BIOS Information (Type 0)
 
 Shows the BIOS Information 
 
