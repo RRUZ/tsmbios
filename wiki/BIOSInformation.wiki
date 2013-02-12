@@ -1,7 +1,9 @@
 #summary BIOS Information (Type 0)
 
+=Description=
 Shows the BIOS Information 
 
+=Sample Code=
 {{{
 {$APPTYPE CONSOLE}
 
