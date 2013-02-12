@@ -1,0 +1,56 @@
+#summary System Enclosure or Chassis (Type 3)
+
+= Description =
+The information in this structure defines attributes of the system’s mechanical enclosure(s). For example, if a system included a separate enclosure for its peripheral devices, two  structures would be returned: one for the main system enclosure and the second for the peripheral device
+enclosure. The additions to this structure in version 2.1 of the SMBIOS specification support the population of the CIM_Chassis class.
+
+
+= Sample Code=
+
+{{{
+{$APPTYPE CONSOLE}
+
+uses
+  Classes,
+  SysUtils,
+  uSMBIOS in '..\..\Common\uSMBIOS.pas';
+
+procedure GetEnclosureInfo;
+Var
+  SMBios : TSMBios;
+  LEnclosure  : TEnclosureInformation;
+begin
+  SMBios:=TSMBios.Create;
+  try
+      WriteLn('Enclosure Information');
+      if SMBios.HasEnclosureInfo then
+      for LEnclosure in SMBios.EnclosureInfo do
+      begin
+        //WriteLn('Manufacter    '+SMBios.GetSMBiosString(EI.LocalIndex + EI.Header.Length, EI.Manufacturer));
+        WriteLn('Manufacter         '+LEnclosure.ManufacturerStr);
+        WriteLn('Version            '+LEnclosure.VersionStr);
+        WriteLn('Serial Number      '+LEnclosure.SerialNumberStr);
+        WriteLn('Asset Tag Number   '+LEnclosure.AssetTagNumberStr);
+        WriteLn('Type               '+LEnclosure.TypeStr);
+        WriteLn('Power Supply State '+LEnclosure.PowerSupplyStateStr);
+        WriteLn('BootUp State       '+LEnclosure.BootUpStateStr);
+        WriteLn;
+      end
+      else
+      Writeln('No Enclosure Info was found');
+  finally
+   SMBios.Free;
+  end;
+end;
+
+
+begin
+ try
+   GetEnclosureInfo;
+ except
+    on E:Exception do
+        Writeln(E.Classname, ':', E.Message);
+ end;
+ Writeln('Press Enter to exit');
+ Readln;
+}}}
