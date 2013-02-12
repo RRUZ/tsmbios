@@ -1,4 +1,4 @@
-# System Information (Type 1)
+#summary System Information (Type 1)
 
 = Description =
 
