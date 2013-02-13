@@ -45,7 +45,7 @@ begin
     Result := '[' + Result + ']';
 end;
 
-procedure GetEnclosureInfo;
+procedure GetPtrocessorInfo;
 Var
   SMBios             : TSMBios;
   LProcessorInfo     : TProcessorInformation;
@@ -54,7 +54,7 @@ begin
   SMBios:=TSMBios.Create;
   try
       WriteLn('Processor Information');
-      if SMBios.HasEnclosureInfo then
+      if SMBios.HasProcessorInfo then
       for LProcessorInfo in SMBios.ProcessorInfo do
       begin
         WriteLn('Manufacter         '+LProcessorInfo.ProcessorManufacturerStr);
@@ -151,7 +151,7 @@ end;
 
 begin
  try
-   GetEnclosureInfo;
+   GetPtrocessorInfo;
  except
     on E:Exception do
         Writeln(E.Classname, ':', E.Message);

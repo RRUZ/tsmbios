@@ -3649,9 +3649,26 @@ type
     function GetHasElectricalCurrentProbeInfo: Boolean;
 
   public
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Default constructor, used for populate the TSMBIOS class  using the
+    ///	  current mode selected (WMI or WinApi)
+    ///	</summary>
+    {$ENDREGION}
     constructor Create; overload;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Use this constructor to load the SMBIOS data from a previously saved
+    ///	  file.  
+    ///	</summary>
+    {$ENDREGION}
     constructor Create(const FileName : string); overload;
     {$IFDEF USEWMI}
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Use this constructor to read the SMBIOS from a remote machine.
+    ///	</summary>
+    {$ENDREGION}
     constructor Create(const RemoteMachine, UserName, Password : string); overload;
     {$ENDIF}
     destructor Destroy; override;
