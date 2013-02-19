@@ -3076,10 +3076,10 @@ type
     function GetSBDSVersionNumberStr : AnsiString;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  Get the string representation of the SBDSManufactureDate field.
+    ///	  Get the string representation of the SBDSManufacturerDate field.
     ///	</summary>
     {$ENDREGION}
-    function GetSBDSManufactureDateStr : AnsiString;
+    function GetSBDSManufacturerDate : TDateTime;
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  Get the string representation of the SBDSDeviceChemistry field.
@@ -3774,8 +3774,8 @@ uses
 {$ENDIF}
 {$ENDIF}
 
+{$IFDEF UNIX}
 type
-  PSmBiosEntryPoint = ^TSmBiosEntryPoint;
   TSmBiosEntryPoint = packed record
     AnchorString            : array [0..3] of AnsiChar;
     EntryPointChecksum      : Byte;
@@ -3792,6 +3792,7 @@ type
     NumberSMBIOSStructures  : Word;
     SMBIOSBCDRevision       : Byte;
   end;
+{$ENDIF}
 
 function GetBit(const AValue: DWORD; const Bit: Byte): Boolean;
 begin
@@ -3813,6 +3814,21 @@ begin
   Result := (AValue or (1 shl Bit)) xor (DWord(not Enable) shl Bit);
 end;
 
+function GetBitsValue(const AValue: DWORD; const BitI, BitF: Byte): DWORD;
+var
+ i,j : Byte;
+begin
+ Result:=0;
+  j:=0;
+  for i := BitF to BitI do
+  begin
+    if GetBit(AValue, i) then
+       Result:=Result+ (1 shl j);
+    inc(j);
+  end;
+end;
+
+
 function ByteToBinStr(AValue:Byte):string;
 const
   Bits : array[1..8] of byte = (128,64,32,16,8,4,2,1);
@@ -3821,6 +3837,17 @@ begin
   Result:='00000000';
   if (AValue<>0) then
   for i:=1 to 8 do
+    if (AValue and Bits[i])<>0 then Result[i]:='1';
+end;
+
+function WordToBinStr(AValue:Word):string;
+const
+  Bits : array[1..16] of Word = (32768,16384,8192,4096,2048,1024,512,256,128,64,32,16,8,4,2,1);
+  var i: integer;
+begin
+  Result:='0000000000000000';
+  if (AValue<>0) then
+  for i:=1 to 16 do
     if (AValue and Bits[i])<>0 then Result[i]:='1';
 end;
 
@@ -4058,6 +4085,7 @@ begin
   Index     := 0;
   Result    := 0;
   repeat
+
     Move(RawSMBIOSData.SMBIOSTableData^[Index], Header, SizeOf(Header));
 
     if Header.TableType = Byte(Ord(TableType)) then
@@ -4346,7 +4374,7 @@ var
   FWbemObjectSet: OLEVariant;
   FWbemObject: {$IFDEF FPC}Variant {$ELSE} OLEVariant{$ENDIF};
   oEnum: IEnumvariant;
-  iValue: LongWord;
+  {$IFNDEF FPC}iValue: LongWord;{$ENDIF}
   vArray: variant;
   Value: integer;
   i: integer;
@@ -5756,9 +5784,40 @@ begin
   Result:= GetSMBiosString(@RAWBatteryInfo^, RAWBatteryInfo^.Header.Length, RAWBatteryInfo^.SBDSDeviceChemistry);
 end;
 
-function TBatteryInformation.GetSBDSManufactureDateStr: AnsiString;
+    ///	<summary>
+    ///	  <para>
+    ///	    The date the cell pack was manufactured, in packed format:
+    ///	  </para>
+    ///	  <para>
+    ///	    Bits 15:9 Year, biased by 1980, in the range 0 to 127
+    ///	  </para>
+    ///	  <para>
+    ///	    Bits 8:5 Month, in the range 1 to 12
+    ///	  </para>
+    ///	  <para>
+    ///	    Bits 4:0 Date, in the range 1 to 31
+    ///	  </para>
+    ///	  <para>
+    ///	    EXAMPLE: 01 February 2000 would be identified as 0010 1000 0100
+    ///	    0001b (0x2841)
+    ///	  </para>
+    ///	  <para>
+    ///	    The Manufacture Date field must be set to 0 (no string) for this
+    ///	    field to be valid.
+    ///	  </para>
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.2+
+    ///	</remarks>
+function TBatteryInformation.GetSBDSManufacturerDate: TDateTime;
+var
+  Year, Month, Day : Word;
 begin
-  Result:= GetSMBiosString(@RAWBatteryInfo^, RAWBatteryInfo^.Header.Length, RAWBatteryInfo^.SBDSManufacturerDate);
+   //Writeln(WordToBinStr(RAWBatteryInfo^.SBDSManufacturerDate));
+   Year:=  1980+GetBitsValue(RAWBatteryInfo^.SBDSManufacturerDate, 15, 9);
+   Month:=  GetBitsValue(RAWBatteryInfo^.SBDSManufacturerDate, 8, 5);
+   Day:=  GetBitsValue(RAWBatteryInfo^.SBDSManufacturerDate, 4, 0);
+   Result:=EncodeDate(Year, Month, Day);
 end;
 
 function TBatteryInformation.GetSBDSVersionNumberStr: AnsiString;
