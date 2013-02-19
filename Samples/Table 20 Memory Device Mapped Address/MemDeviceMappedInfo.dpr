@@ -16,7 +16,7 @@ begin
   try
       WriteLn('Memory Device Mapped Address Information');
       WriteLn('----------------------------------------');
-      if SMBios.HasMemoryArrayMappedAddressInfo then
+      if SMBios.HasMemoryDeviceMappedAddressInfo then
       for LMemDevMappedAddress in SMBios.MemoryDeviceMappedAddressInformation do
       begin
         WriteLn(Format('Starting Address      %.8x',[LMemDevMappedAddress.RAWMemoryDeviceMappedAddressInfo.StartingAddress]));

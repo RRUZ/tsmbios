@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="9"/>
+    <BuildModes Active="Default"/>
+    <Units Count="2">
+      <Unit0>
+        <Filename Value="BatteryInfo.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="BatteryInfo"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="0"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="23"/>
+        <CursorPos X="103" Y="35"/>
+        <UsageCount Value="22"/>
+        <Loaded Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="..\..\Common\uSMBIOS.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uSMBIOS"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="4180"/>
+        <CursorPos X="45" Y="4191"/>
+        <UsageCount Value="22"/>
+      </Unit1>
+    </Units>
+    <General>
+      <ActiveWindowIndexAtStart Value="0"/>
+    </General>
+    <JumpHistory Count="14" HistoryIndex="13">
+      <Position1>
+        <Filename Value="BatteryInfo.lpr"/>
+        <Caret Line="37" Column="90" TopLine="18"/>
+      </Position1>
+      <Position2>
+        <Filename Value="BatteryInfo.lpr"/>
+        <Caret Line="40" Column="38" TopLine="32"/>
+      </Position2>
+      <Position3>
+        <Filename Value="BatteryInfo.lpr"/>
+        <Caret Line="40" Column="38" TopLine="32"/>
+      </Position3>
+      <Position4>
+        <Filename Value="BatteryInfo.lpr"/>
+        <Caret Line="35" Column="109" TopLine="32"/>
+      </Position4>
+      <Position5>
+        <Filename Value="BatteryInfo.lpr"/>
+        <Caret Line="31" Column="88" TopLine="23"/>
+      </Position5>
+      <Position6>
+        <Filename Value="BatteryInfo.lpr"/>
+        <Caret Line="36" Column="72" TopLine="23"/>
+      </Position6>
+      <Position7>
+        <Filename Value="BatteryInfo.lpr"/>
+        <Caret Line="35" Column="19" TopLine="1"/>
+      </Position7>
+      <Position8>
+        <Filename Value="BatteryInfo.lpr"/>
+        <Caret Line="40" Column="95" TopLine="23"/>
+      </Position8>
+      <Position9>
+        <Filename Value="BatteryInfo.lpr"/>
+        <Caret Line="13" Column="34" TopLine="1"/>
+      </Position9>
+      <Position10>
+        <Filename Value="BatteryInfo.lpr"/>
+        <Caret Line="36" Column="84" TopLine="23"/>
+      </Position10>
+      <Position11>
+        <Filename Value="BatteryInfo.lpr"/>
+        <Caret Line="35" Column="84" TopLine="23"/>
+      </Position11>
+      <Position12>
+        <Filename Value="BatteryInfo.lpr"/>
+        <Caret Line="57" Column="1" TopLine="32"/>
+      </Position12>
+      <Position13>
+        <Filename Value="BatteryInfo.lpr"/>
+        <Caret Line="35" Column="106" TopLine="23"/>
+      </Position13>
+      <Position14>
+        <Filename Value="BatteryInfo.lpr"/>
+        <Caret Line="42" Column="66" TopLine="23"/>
+      </Position14>
+    </JumpHistory>
+  </ProjectSession>
+</CONFIG>
