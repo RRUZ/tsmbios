@@ -1,11 +1,13 @@
 program CoolingDeviceInfo;
 
-{$APPTYPE CONSOLE}
+{$mode objfpc}{$H+}
 
 uses
-  Classes,
-  SysUtils,
-  uSMBIOS in '..\..\Common\uSMBIOS.pas';
+  {$IFDEF UNIX}{$IFDEF UseCThreads}
+  cthreads,
+  {$ENDIF}{$ENDIF}
+  Classes, SysUtils, uSMBIOS
+  { you can add units after this };
 
 function ByteToBinStr(AValue:Byte):string;
 const
@@ -30,19 +32,19 @@ begin
       if SMBios.HasCoolingDeviceInfo then
       for LCoolingDevice in SMBios.CoolingDeviceInformation do
       begin
-        if LCoolingDevice.RAWCoolingDeviceInfo.TemperatureProbeHandle<>$FFFF then
-          WriteLn(Format('Temperature Probe Handle %.4x',[LCoolingDevice.RAWCoolingDeviceInfo.TemperatureProbeHandle]));
+        if LCoolingDevice.RAWCoolingDeviceInfo^.TemperatureProbeHandle<>$FFFF then
+          WriteLn(Format('Temperature Probe Handle %.4x',[LCoolingDevice.RAWCoolingDeviceInfo^.TemperatureProbeHandle]));
 
-        WriteLn(Format('Device Type and Status   %s',[ByteToBinStr(LCoolingDevice.RAWCoolingDeviceInfo.DeviceTypeandStatus)]));
+        WriteLn(Format('Device Type and Status   %s',[ByteToBinStr(LCoolingDevice.RAWCoolingDeviceInfo^.DeviceTypeandStatus)]));
         WriteLn(Format('Type                     %s',[LCoolingDevice.GetDeviceType]));
         WriteLn(Format('Status                   %s',[LCoolingDevice.GetStatus]));
 
-        WriteLn(Format('Cooling Unit Group       %d',[LCoolingDevice.RAWCoolingDeviceInfo.CoolingUnitGroup]));
-        WriteLn(Format('OEM Specific             %.8x',[LCoolingDevice.RAWCoolingDeviceInfo.OEMdefined]));
-        if LCoolingDevice.RAWCoolingDeviceInfo.NominalSpeed=$8000 then
+        WriteLn(Format('Cooling Unit Group       %d',[LCoolingDevice.RAWCoolingDeviceInfo^.CoolingUnitGroup]));
+        WriteLn(Format('OEM Specific             %.8x',[LCoolingDevice.RAWCoolingDeviceInfo^.OEMdefined]));
+        if LCoolingDevice.RAWCoolingDeviceInfo^.NominalSpeed=$8000 then
           WriteLn(Format('Nominal Speed            %s',['Unknown']))
         else
-          WriteLn(Format('Nominal Speed            %d rpm',[LCoolingDevice.RAWCoolingDeviceInfo.NominalSpeed]));
+          WriteLn(Format('Nominal Speed            %d rpm',[LCoolingDevice.RAWCoolingDeviceInfo^.NominalSpeed]));
         if SMBios.SmbiosVersion>='2.7' then
         WriteLn(Format('Description    %s',[LCoolingDevice.GetDescriptionStr]));
 

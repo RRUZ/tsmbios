@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="9"/>
+    <BuildModes Active="Default"/>
+    <Units Count="2">
+      <Unit0>
+        <Filename Value="ElectricalProbeInfo.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ElectricalProbeInfo"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="0"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="44"/>
+        <CursorPos X="109" Y="64"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="..\..\Common\uSMBIOS.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uSMBIOS"/>
+        <UsageCount Value="20"/>
+      </Unit1>
+    </Units>
+    <General>
+      <ActiveWindowIndexAtStart Value="0"/>
+    </General>
+    <JumpHistory Count="2" HistoryIndex="1">
+      <Position1>
+        <Filename Value="ElectricalProbeInfo.lpr"/>
+        <Caret Line="43" Column="80" TopLine="39"/>
+      </Position1>
+      <Position2>
+        <Filename Value="ElectricalProbeInfo.lpr"/>
+        <Caret Line="2" Column="1" TopLine="1"/>
+      </Position2>
+    </JumpHistory>
+  </ProjectSession>
+</CONFIG>

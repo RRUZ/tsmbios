@@ -5784,31 +5784,6 @@ begin
   Result:= GetSMBiosString(@RAWBatteryInfo^, RAWBatteryInfo^.Header.Length, RAWBatteryInfo^.SBDSDeviceChemistry);
 end;
 
-    ///	<summary>
-    ///	  <para>
-    ///	    The date the cell pack was manufactured, in packed format:
-    ///	  </para>
-    ///	  <para>
-    ///	    Bits 15:9 Year, biased by 1980, in the range 0 to 127
-    ///	  </para>
-    ///	  <para>
-    ///	    Bits 8:5 Month, in the range 1 to 12
-    ///	  </para>
-    ///	  <para>
-    ///	    Bits 4:0 Date, in the range 1 to 31
-    ///	  </para>
-    ///	  <para>
-    ///	    EXAMPLE: 01 February 2000 would be identified as 0010 1000 0100
-    ///	    0001b (0x2841)
-    ///	  </para>
-    ///	  <para>
-    ///	    The Manufacture Date field must be set to 0 (no string) for this
-    ///	    field to be valid.
-    ///	  </para>
-    ///	</summary>
-    ///	<remarks>
-    ///	  2.2+
-    ///	</remarks>
 function TBatteryInformation.GetSBDSManufacturerDate: TDateTime;
 var
   Year, Month, Day : Word;
