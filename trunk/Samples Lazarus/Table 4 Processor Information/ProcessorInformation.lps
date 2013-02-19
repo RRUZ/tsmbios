@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="9"/>
+    <BuildModes Active="Default"/>
+    <Units Count="3">
+      <Unit0>
+        <Filename Value="ProcessorInformation.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ProcessorInformation"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="0"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="113"/>
+        <CursorPos X="102" Y="130"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="..\..\Common\uSMBIOS.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uSMBIOS"/>
+        <UsageCount Value="20"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="C:\lazarus\fpc\2.6.0\source\rtl\objpas\typinfo.pp"/>
+        <UnitName Value="typinfo"/>
+        <EditorIndex Value="1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="127"/>
+        <CursorPos X="22" Y="140"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit2>
+    </Units>
+    <General>
+      <ActiveWindowIndexAtStart Value="0"/>
+    </General>
+    <JumpHistory Count="7" HistoryIndex="6">
+      <Position1>
+        <Filename Value="ProcessorInformation.lpr"/>
+        <Caret Line="9" Column="20" TopLine="1"/>
+      </Position1>
+      <Position2>
+        <Filename Value="ProcessorInformation.lpr"/>
+        <Caret Line="8" Column="33" TopLine="1"/>
+      </Position2>
+      <Position3>
+        <Filename Value="ProcessorInformation.lpr"/>
+        <Caret Line="9" Column="21" TopLine="1"/>
+      </Position3>
+      <Position4>
+        <Filename Value="ProcessorInformation.lpr"/>
+        <Caret Line="37" Column="42" TopLine="24"/>
+      </Position4>
+      <Position5>
+        <Filename Value="ProcessorInformation.lpr"/>
+        <Caret Line="72" Column="93" TopLine="54"/>
+      </Position5>
+      <Position6>
+        <Filename Value="ProcessorInformation.lpr"/>
+        <Caret Line="84" Column="101" TopLine="69"/>
+      </Position6>
+      <Position7>
+        <Filename Value="ProcessorInformation.lpr"/>
+        <Caret Line="94" Column="102" TopLine="80"/>
+      </Position7>
+    </JumpHistory>
+  </ProjectSession>
+</CONFIG>

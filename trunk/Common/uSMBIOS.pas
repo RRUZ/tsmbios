@@ -39,7 +39,7 @@ uses
 
 type
   // TODO :
-  // Add OSX support http://www.opensource.apple.com/source/AppleSMBIOS/AppleSMBIOS-38/SMBIOS.h
+  // Add OSX support
   // Add old Delphi versions support
 
   PRawSMBIOSData = ^TRawSMBIOSData;
