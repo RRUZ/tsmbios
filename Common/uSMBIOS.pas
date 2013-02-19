@@ -30,8 +30,9 @@ interface
 
 uses
   SysUtils,
-  Windows,
+  {$IFDEF MSWINDOWS}Windows,{$ENDIF}
   {$IFNDEF NOGENERICS}Generics.Collections,{$ENDIF}
+  {$IFDEF UNIX}BaseUnix,{$ENDIF}
   Classes;
 
 {$DEFINE USEWMI}
@@ -40,7 +41,6 @@ type
   // TODO :
   // Add OSX support http://www.opensource.apple.com/source/AppleSMBIOS/AppleSMBIOS-38/SMBIOS.h
   // Add old Delphi versions support
-
 
   PRawSMBIOSData = ^TRawSMBIOSData;
   TRawSMBIOSData = record
@@ -393,7 +393,7 @@ type
     Header: TSmBiosTableHeader;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  String number of the BIOS Vendor’s Name.
+    ///	  String number of the BIOS Vendors Name.
     ///	</summary>
     ///	<remarks>
     ///	  2.0+
@@ -547,7 +547,7 @@ type
   ///	<summary>
   ///	  The information in this structure defines attributes of the overall
   ///	  system and is intended to be associated with the Component ID group of
-  ///	  the system’s MIF. An SMBIOS implementation is associated with a single
+  ///	  the systems MIF. An SMBIOS implementation is associated with a single
   ///	  system instance and contains one and only one System Information (Type
   ///	  1) structure.
   ///	</summary>
@@ -866,7 +866,7 @@ type
 
   {$REGION 'Documentation'}
   ///	<summary>
-  ///	  The information in this structure defines attributes of the system’s
+  ///	  The information in this structure defines attributes of the systems
   ///	  mechanical enclosure(s). For example, if a system included a separate
   ///	  enclosure for its peripheral devices, two structures would be returned:
   ///	  one for the main system enclosure and the second for the peripheral
@@ -931,7 +931,7 @@ type
     BootUpState: Byte;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  Identifies the state of the enclosure’s power supply (or supplies)
+    ///	  Identifies the state of the enclosures power supply (or supplies)
     ///	  when last booted.
     ///	</summary>
     ///	<remarks>
@@ -941,7 +941,7 @@ type
     PowerSupplyState: Byte;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  Identifies the enclosure’s thermal state when last booted.
+    ///	  Identifies the enclosures thermal state when last booted.
     ///	</summary>
     ///	<remarks>
     ///	  2.1+
@@ -950,7 +950,7 @@ type
     ThermalState: Byte;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  Identifies the enclosure’s physical security status when last booted.
+    ///	  Identifies the enclosures physical security status when last booted.
     ///	</summary>
     ///	<remarks>
     ///	  2.1+
@@ -1138,7 +1138,7 @@ type
     Header: TSmBiosTableHeader;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  String Number for Reference Designation EXAMPLE: “CACHE1”, 0
+    ///	  String Number for Reference Designation EXAMPLE: CACHE1, 0
     ///	</summary>
     ///	<remarks>
     ///	  2.0+
@@ -1210,7 +1210,7 @@ type
     ///	    </item>
     ///	  </list>
     ///	  <para>
-    ///	    Bits 2:0 Cache Level – 1 through 8 (For example, an L1 cache would
+    ///	    Bits 2:0 Cache Level  1 through 8 (For example, an L1 cache would
     ///	    use value 000b and an L3
     ///	  </para>
     ///	</summary>
@@ -1229,10 +1229,10 @@ type
     ///	  </para>
     ///	  <list type="bullet">
     ///	    <item>
-    ///	      0 – 1K granularity
+    ///	      0  1K granularity
     ///	    </item>
     ///	    <item>
-    ///	      1 – 64K granularity
+    ///	      1  64K granularity
     ///	    </item>
     ///	  </list>
     ///	  <para>
@@ -1362,14 +1362,14 @@ type
   ///	    The information in this structure defines the
   ///	    attributes of a single processor; a separate structure instance is
   ///	    provided for each system processor socket/slot. For example, a system
-  ///	    with an IntelDX2™ processor would have a single structure instance
-  ///	    while a system with an IntelSX2™ processor would have a structure to
+  ///	    with an IntelDX2 processor would have a single structure instance
+  ///	    while a system with an IntelSX2 processor would have a structure to
   ///	    describe the main CPU and a second structure to describe the 80487
   ///	    co892 processor.
   ///	  </para>
   ///	  <para>
   ///
-  ///	    <b>NOTE: One structure is provided for each processor instance in a system. For example, a system that supports up to two processors includes two Processor Information structures — even if only one processor is currently installed. Software that interprets the SMBIOS information can count the Processor Information structures to determine the maximum possible configuration of the system.</b>
+  ///	    <b>NOTE: One structure is provided for each processor instance in a system. For example, a system that supports up to two processors includes two Processor Information structures  even if only one processor is currently installed. Software that interprets the SMBIOS information can count the Processor Information structures to determine the maximum possible configuration of the system.</b>
   ///	  </para>
   ///	</summary>
   {$ENDREGION}
@@ -1377,7 +1377,7 @@ type
     Header: TSmBiosTableHeader;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  String number for Reference Designation EXAMPLE: ‘J202’,0
+    ///	  String number for Reference Designation EXAMPLE: J202,0
     ///	</summary>
     ///	<remarks>
     ///	  2.0+
@@ -1412,8 +1412,8 @@ type
     ///	  </para>
     ///	  <para>
     ///	    The Processor ID field contains processor-specific information that
-    ///	    describes the processor’s features. x86-Class CPUs For x86 class
-    ///	    CPUs, the field’s format depends on the processor’s support of the
+    ///	    describes the processors features. x86-Class CPUs For x86 class
+    ///	    CPUs, the fields format depends on the processors support of the
     ///	    CPUID instruction. If the instruction is supported, the Processor
     ///	    ID field contains two DWORD-formatted values. The first (offsets
     ///	    08h-0Bh) is the EAX value returned by a CPUID instruction with
@@ -1498,7 +1498,7 @@ type
     ///	    Bit 7 Reserved, must be zero
     ///	  </para>
     ///	  <para>
-    ///	    Bit 6 CPU Socket Populated 1 – CPU Socket Populated 0 – CPU Socket
+    ///	    Bit 6 CPU Socket Populated 1  CPU Socket Populated 0  CPU Socket
     ///	    Unpopulated
     ///	  </para>
     ///	  <para>
@@ -1509,25 +1509,25 @@ type
     ///	  </para>
     ///	  <list type="bullet">
     ///	    <item>
-    ///	      0h – Unknown
+    ///	      0h  Unknown
     ///	    </item>
     ///	    <item>
-    ///	      1h – CPU Enabled
+    ///	      1h  CPU Enabled
     ///	    </item>
     ///	    <item>
-    ///	      2h – CPU Disabled by User through BIOS Setup
+    ///	      2h  CPU Disabled by User through BIOS Setup
     ///	    </item>
     ///	    <item>
-    ///	      3h – CPU Disabled By BIOS (POST Error)
+    ///	      3h  CPU Disabled By BIOS (POST Error)
     ///	    </item>
     ///	    <item>
-    ///	      4h – CPU is Idle, waiting to be enabled.
+    ///	      4h  CPU is Idle, waiting to be enabled.
     ///	    </item>
     ///	    <item>
-    ///	      5-6h – Reserved
+    ///	      5-6h  Reserved
     ///	    </item>
     ///	    <item>
-    ///	      7h – Other
+    ///	      7h  Other
     ///	    </item>
     ///	  </list>
     ///	</summary>
@@ -1770,7 +1770,7 @@ type
   ///	<summary>
   ///	  The information in this structure defines the attributes of a system
   ///	  port connector (for example, parallel, serial, keyboard, or mouse
-  ///	  ports). The port’s type and connector information are provided. One
+  ///	  ports). The ports type and connector information are provided. One
   ///	  structure is present for each port provided by the system.
   ///	</summary>
   {$ENDREGION}
@@ -1779,7 +1779,7 @@ type
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  String number for Internal Reference Designator, that is, internal to
-    ///	  the system enclosure EXAMPLE: ‘J101’, 0
+    ///	  the system enclosure EXAMPLE: J101, 0
     ///	</summary>
     ///	<remarks>
     ///	  +2.0
@@ -1802,7 +1802,7 @@ type
     ///	    the system enclosure
     ///	  </para>
     ///	  <para>
-    ///	    EXAMPLE: ‘COM A’, 0
+    ///	    EXAMPLE: COM A, 0
     ///	  </para>
     ///	</summary>
     ///	<remarks>
@@ -1884,7 +1884,7 @@ type
     Header: TSmBiosTableHeader;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  String number for reference designation EXAMPLE: ‘PCI-1’,0
+    ///	  String number for reference designation EXAMPLE: PCI-1,0
     ///	</summary>
     ///	<remarks>
     ///	  2.0+
@@ -1955,10 +1955,10 @@ type
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  <para>
-    ///	    Bits 7:3 – device number
+    ///	    Bits 7:3  device number
     ///	  </para>
     ///	  <para>
-    ///	    Bits 2:0 – function number
+    ///	    Bits 2:0  function number
     ///	  </para>
     ///	</summary>
     ///	<remarks>
@@ -2035,7 +2035,7 @@ type
   {$REGION 'Documentation'}
   ///	<summary>
   ///	  This structure contains information required to configure the
-  ///	  baseboard’s Jumpers and Switches.
+  ///	  baseboards Jumpers and Switches.
   ///	</summary>
   {$ENDREGION}
   TSystemConfInfo = packed record
@@ -2198,7 +2198,7 @@ type
     ///	  The number of slots or sockets available for Memory Devices in this
     ///	  array. This value represents the number of Memory Device structures
     ///	  that comprise this Memory Array. Each Memory Device has a reference
-    ///	  to the “owning” Memory Array.
+    ///	  to the owning Memory Array.
     ///	</summary>
     ///	<remarks>
     ///	  2.1+
@@ -2395,7 +2395,7 @@ type
     ///	<summary>
     ///	  Identifies the position of the referenced Memory Device in a row of
     ///	  the address partition. For example, if two 8-bit devices form a
-    ///	  16-bit row, this field’s value is either 1 or 2. The value 0 is
+    ///	  16-bit row, this fields value is either 1 or 2. The value 0 is
     ///	  reserved. If the position is unknown, the field contains FFh.
     ///	</summary>
     ///	<remarks>
@@ -2413,7 +2413,7 @@ type
     ///	  </para>
     ///	  <para>
     ///	    EXAMPLES: In a 2:1 interleave, the value 1 indicates the device in
-    ///	    the ”even” position. In a 4:1 interleave, the value 1 indicates the
+    ///	    the even position. In a 4:1 interleave, the value 1 indicates the
     ///	    first of four possible positions.
     ///	  </para>
     ///	</summary>
@@ -2579,7 +2579,7 @@ type
     ///	<summary>
     ///	  The string number of the string that identifies the
     ///	  physically-labeled socket or board position where the memory device
-    ///	  is located EXAMPLE: “SIMM 3”
+    ///	  is located EXAMPLE: SIMM 3
     ///	</summary>
     ///	<remarks>
     ///	  2.1+
@@ -2589,8 +2589,8 @@ type
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  The string number of the string that identifies the physically
-    ///	  labeled bank where the memory device is located, EXAMPLE: “Bank 0” or
-    ///	  “A”
+    ///	  labeled bank where the memory device is located, EXAMPLE: Bank 0 or
+    ///	  A
     ///	</summary>
     ///	<remarks>
     ///	  2.1+
@@ -2776,7 +2776,7 @@ type
   ///	  </para>
   ///	  <para>
   ///	    Note : The presence of this structure does not imply that the
-  ///	    built-in pointing device is active for the system’s use.
+  ///	    built-in pointing device is active for the systems use.
   ///	  </para>
   ///	</summary>
   {$ENDREGION}
@@ -2834,7 +2834,7 @@ type
   ///	<summary>
   ///	  This structure describes the attributes of the portable battery or
   ///	  batteries for the system. The structure contains the static attributes
-  ///	  for the group. Each structure describes a single battery pack’s
+  ///	  for the group. Each structure describes a single battery packs
   ///	  attributes.
   ///	</summary>
   {$ENDREGION}
@@ -2843,7 +2843,7 @@ type
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  The number of the string that identifies the location of the battery
-    ///	  EXAMPLE: “in the back, on the left-hand side”
+    ///	  EXAMPLE: in the back, on the left-hand side
     ///	</summary>
     ///	<remarks>
     ///	  2.1+
@@ -2890,7 +2890,7 @@ type
     ///	    The number of the string that names the battery device
     ///	  </para>
     ///	  <para>
-    ///	    EXAMPLE: “DR-36”
+    ///	    EXAMPLE: DR-36
     ///	  </para>
     ///	</summary>
     ///	<remarks>
@@ -2956,7 +2956,7 @@ type
     MaximumErrorInBatteryData : Byte;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  The 16-bit value that identifies the battery’s serial number. This
+    ///	  The 16-bit value that identifies the batterys serial number. This
     ///	  value, when combined with the Manufacturer, Device Name, and
     ///	  Manufacture Date uniquely identifies the battery. The Serial Number
     ///	  field must be set to 0 (no string) for this field to be valid.
@@ -2997,7 +2997,7 @@ type
     {$REGION 'Documentation'}
     ///	<summary>
     ///	  The number of the string that identifies the battery chemistry (for
-    ///	  example, “PbAc”). The Device Chemistry field must be set to 02h
+    ///	  example, PbAc). The Device Chemistry field must be set to 02h
     ///	  (Unknown) for this field to be valid.
     ///	</summary>
     ///	<remarks>
@@ -3112,7 +3112,7 @@ type
     Description:Byte;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  Defines the probe’s physical location and status of the voltage
+    ///	  Defines the probes physical location and status of the voltage
     ///	  monitored by this voltage probe.
     ///	</summary>
     ///	<remarks>
@@ -3142,7 +3142,7 @@ type
     MinimumValue  : Word;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  The resolution for the probe’s reading, in tenths of millivolts. If
+    ///	  The resolution for the probes reading, in tenths of millivolts. If
     ///	  the value is unknown, the field is set to 0x8000.
     ///	</summary>
     ///	<remarks>
@@ -3181,9 +3181,9 @@ type
     OEMdefined :  DWORD;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  The nominal value for the probe’s reading in millivolts. If the value
+    ///	  The nominal value for the probes reading in millivolts. If the value
     ///	  is unknown, the field is set to 0x8000. This field is present in the
-    ///	  structure only if the structure’s Length is larger than 14h.
+    ///	  structure only if the structures Length is larger than 14h.
     ///	</summary>
     ///	<remarks>
     ///	  2.2+
@@ -3275,10 +3275,10 @@ type
     OEMdefined :  DWORD;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  The nominal value for the cooling device’s rotational speed, in
+    ///	  The nominal value for the cooling devices rotational speed, in
     ///	  revolutions-per-minute (rpm). If the value is unknown or the cooling
     ///	  device is nonrotating, the field is set to 0x8000. This field is
-    ///	  present in the structure only if the structure’s Length is larger
+    ///	  present in the structure only if the structures Length is larger
     ///	  than 0Ch.
     ///	</summary>
     ///	<remarks>
@@ -3290,7 +3290,7 @@ type
     ///	<summary>
     ///	  The number of the string that contains additional descriptive
     ///	  information about the cooling device or its location This field is
-    ///	  present in the structure only if the structure’s Length is 0Fh or
+    ///	  present in the structure only if the structures Length is 0Fh or
     ///	  larger.
     ///	</summary>
     ///	<remarks>
@@ -3337,7 +3337,7 @@ type
     Description:Byte;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  Defines the probe’s physical location and the status of the
+    ///	  Defines the probes physical location and the status of the
     ///	  temperature monitored by this temperature probe.
     ///	</summary>
     ///	<remarks>
@@ -3367,7 +3367,7 @@ type
     MinimumValue  : Word;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  The resolution for the probe’s reading, in 1/1000th degrees C. If the
+    ///	  The resolution for the probes reading, in 1/1000th degrees C. If the
     ///	  value is unknown, the field is set to 0x8000.
     ///	</summary>
     ///	<remarks>
@@ -3406,9 +3406,9 @@ type
     OEMdefined :  DWORD;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  The nominal value for the probe’s reading in 1/10th degrees C. If the
+    ///	  The nominal value for the probes reading in 1/10th degrees C. If the
     ///	  value is unknown, the field is set to 0x8000. This field is present
-    ///	  in the structure only if the structure’s Length is larger than 14h.
+    ///	  in the structure only if the structures Length is larger than 14h.
     ///	</summary>
     ///	<remarks>
     ///	  2.2+
@@ -3461,7 +3461,7 @@ type
     Description:Byte;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  Defines the probe’s physical location and the status of the current
+    ///	  Defines the probes physical location and the status of the current
     ///	  monitored by this current probe.
     ///	</summary>
     ///	<remarks>
@@ -3491,7 +3491,7 @@ type
     MinimumValue  : Word;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  The resolution for the probe’s reading, in tenths of milliamps. If
+    ///	  The resolution for the probes reading, in tenths of milliamps. If
     ///	  the value is unknown, the field is set to 0x8000.
     ///	</summary>
     ///	<remarks>
@@ -3530,9 +3530,9 @@ type
     OEMdefined :  DWORD;
     {$REGION 'Documentation'}
     ///	<summary>
-    ///	  The nominal value for the probe’s reading in milliamps. If the value
+    ///	  The nominal value for the probes reading in milliamps. If the value
     ///	  is unknown, the field is set to 0x8000. This field is present in the
-    ///	  structure only if the structure’s Length is larger than 14h.
+    ///	  structure only if the structures Length is larger than 14h.
     ///	</summary>
     ///	<remarks>
     ///	  2.2+
@@ -3618,11 +3618,17 @@ type
     FCoolingDeviceInformation : {$IFDEF NOGENERICS}ArrCoolingDeviceInformation; {$ELSE}TArray<TCoolingDeviceInformation>;{$ENDIF}
     FTemperatureProbeInformation : {$IFDEF NOGENERICS}ArrTemperatureProbeInformation; {$ELSE}TArray<TTemperatureProbeInformation>;{$ENDIF}
     FElectricalCurrentProbeInformation : {$IFDEF NOGENERICS}ArrElectricalCurrentProbeInformation; {$ELSE}TArray<TElectricalCurrentProbeInformation>;{$ENDIF}
+    {$IFDEF MSWINDOWS}
     {$IFDEF USEWMI}
     procedure LoadSMBIOSWMI(const RemoteMachine, UserName, Password : string);
     {$ELSE}
     procedure LoadSMBIOSWinAPI;
     {$ENDIF}
+    {$ENDIF MSWINDOWS}
+    {$IFDEF UNIX}
+    procedure LoadSMBIOSLinux;
+    {$ENDIF}
+
     procedure ReadSMBiosTables;
     procedure Init;
     function GetSMBiosTablesList:{$IFDEF NOGENERICS}ArrSMBiosTableEntry; {$ELSE} TArray<TSMBiosTableEntry>;{$ENDIF}
@@ -3663,6 +3669,7 @@ type
     ///	</summary>
     {$ENDREGION}
     constructor Create(const FileName : string); overload;
+    {$IFDEF MSWINDOWS}
     {$IFDEF USEWMI}
     {$REGION 'Documentation'}
     ///	<summary>
@@ -3671,6 +3678,8 @@ type
     {$ENDREGION}
     constructor Create(const RemoteMachine, UserName, Password : string); overload;
     {$ENDIF}
+    {$ENDIF MSWINDOWS}
+
     destructor Destroy; override;
     function SearchSMBiosTable(TableType: TSMBiosTablesTypes): integer;
     function GetSMBiosTableNextIndex(TableType: TSMBiosTablesTypes;Offset:Integer=0): integer;
@@ -3757,11 +3766,32 @@ type
 implementation
 
 {$IFDEF USEWMI}
+{$IFDEF MSWINDOWS}
 uses
   ComObj,
   ActiveX,
   Variants;
 {$ENDIF}
+{$ENDIF}
+
+type
+  PSmBiosEntryPoint = ^TSmBiosEntryPoint;
+  TSmBiosEntryPoint = packed record
+    AnchorString            : array [0..3] of AnsiChar;
+    EntryPointChecksum      : Byte;
+    EntryPointLength        : Byte;
+    SMBIOSMajorVersion      : Byte;
+    SMBIOSMinorVersion      : Byte;
+    MaximumStructureSize    : Word;
+    EntryPointRevision      : Byte;
+    FormattedArea           : array [0..4] of Byte;
+    IntermediateAnchorString: array [0..4] of AnsiChar;
+    IntermediateChecksum    : Byte;
+    StructureTableLength    : Word;
+    StructureTableAddress   : Dword;
+    NumberSMBIOSStructures  : Word;
+    SMBIOSBCDRevision       : Byte;
+  end;
 
 function GetBit(const AValue: DWORD; const Bit: Byte): Boolean;
 begin
@@ -3814,11 +3844,17 @@ constructor TSMBios.Create;
 begin
   inherited Create;
   Init;
+  {$IFDEF MSWINDOWS}
   {$IFDEF USEWMI}
   LoadSMBIOSWMI('','','');
   {$ELSE}
   LoadSMBIOSWinAPI;
   {$ENDIF}
+  {$ENDIF MSWINDOWS}
+  {$IFDEF UNIX}
+  LoadSMBIOSLinux;
+  {$ENDIF}
+
   FSMBiosTablesList:=GetSMBiosTablesList;
   ReadSMBiosTables;
 end;
@@ -3832,6 +3868,7 @@ begin
   ReadSMBiosTables;
 end;
 
+{$IFDEF MSWINDOWS}
 {$IFDEF USEWMI}
 constructor TSMBios.Create(const RemoteMachine, UserName, Password: string);
 begin
@@ -3842,6 +3879,7 @@ begin
   ReadSMBiosTables;
 end;
 {$ENDIF}
+{$ENDIF MSWINDOWS}
 
 destructor TSMBios.Destroy;
 var
@@ -4016,6 +4054,7 @@ Var
   Index  : DWORD;
   Header : TSmBiosTableHeader;
 begin
+
   Index     := 0;
   Result    := 0;
   repeat
@@ -4178,18 +4217,91 @@ begin
    Result := Format('%d.%d',[RawSMBIOSData.SMBIOSMajorVersion, RawSMBIOSData.SMBIOSMinorVersion]);
 end;
 
-{$IFNDEF USEWMI}
+{$IFDEF UNIX}
+procedure TSMBios.LoadSMBIOSLinux;
+const
+  DumpSize    = Cardinal($000FFFFF - $000C0000 + 1);
+var
+  Mem: Integer;
+  Map: Pointer;
+  MStream : TMemoryStream;
+  MagicNumber : DWORD;
+  BytesRead : Integer;
+  SMBIOSEntryPoint: TSmBiosEntryPoint;
+  CheckSum : Byte;
+  i : integer;
+  Offset : Integer;
+begin
+  Mem := fpOpen('/dev/mem', O_RDONLY, 0);
+  if Mem<=0 then
+   RaiseLastOsError
+  else
+  if Mem > 0 then
+  try
+    Map := FpMmap(nil, DumpSize, PROT_READ, MAP_SHARED, Mem, $000C0000);
+    if Map <> MAP_FAILED then
+    try
+      MStream:=TMemoryStream.Create;
+      try
+        MStream.Write(Map^, DumpSize);
+        MStream.Position:=0;
+        FillChar(SMBIOSEntryPoint, SizeOf(SMBIOSEntryPoint), #0);
+        repeat
+          BytesRead:= MStream.Read(MagicNumber, SizeOf(MagicNumber));
+          if (BytesRead>0) and (MagicNumber= $5F4D535F) then
+          begin
+            MStream.Position:=MStream.Position-SizeOf(MagicNumber);
+            BytesRead:=MStream.Read(SMBIOSEntryPoint, SizeOf(SMBIOSEntryPoint));
+            if (BytesRead>0) and (SMBIOSEntryPoint.IntermediateAnchorString = '_DMI_')  then
+            begin
+                CheckSum := 0;
+                for i := 0 to SMBIOSEntryPoint.EntryPointLength - 1 do
+                  CheckSum := CheckSum + PByteArray(@SMBIOSEntryPoint)^[i];
+                if CheckSum <> 0 then
+                  Continue;
+                Offset:=SMBIOSEntryPoint.StructureTableAddress - $000C0000;
+                if  (Offset>=0) and (Offset<MStream.Size) then
+                begin
+                  MStream.Position:=Offset;
+                  FRawSMBIOSData.Length             :=SMBIOSEntryPoint.StructureTableLength;
+                  GetMem(FRawSMBIOSData.SMBIOSTableData, FRawSMBIOSData.Length);
+                  FRawSMBIOSData.DmiRevision:= SMBIOSEntryPoint.EntryPointRevision;
+                  FRawSMBIOSData.SMBIOSMajorVersion :=SMBIOSEntryPoint.SMBIOSMajorVersion;
+                  FRawSMBIOSData.SMBIOSMinorVersion :=SMBIOSEntryPoint.SMBIOSMinorVersion;
+                  MStream.Read(FRawSMBIOSData.SMBIOSTableData^, FRawSMBIOSData.Length);
+                  exit;
+                end;
+            end;
+            MStream.Position:=MStream.Position+12;
+          end
+          else
+          MStream.Position:=MStream.Position+12;
+        until BytesRead=0;
+      finally
+        MStream.Free;
+      end;
 
+    finally
+      Fpmunmap(Map, DumpSize);
+    end;
+  finally
+    fpClose(Mem);
+  end;
+end;
+{$ENDIF}
+
+{$IFDEF MSWINDOWS}
+{$IFNDEF USEWMI}
 procedure TSMBios.LoadSMBIOSWinAPI;
 type
-  //http://msdn.microsoft.com/en-us/library/windows/desktop/ms724379%28v=vs.85%29.aspx
+  //http://msdn.microsoft.com/en-us/library/MSWINDOWS/desktop/ms724379%28v=vs.85%29.aspx
   TFNGetSystemFirmwareTable = function(FirmwareTableProviderSignature: DWORD;
     FirmwareTableID: DWORD; out pFirmwareTableBuffer; BufferSize: DWORD): UINT; stdcall;
 const
   FirmwareTableProviderSignature = $52534D42;  // 'RSMB'
 var
   GetSystemFirmwareTable: TFNGetSystemFirmwareTable;
-  hModule: Windows.HMODULE;
+  hModule: MSWINDOWS.HMODULE;
   BufferSize: UINT;
   Buffer : PByteArray;
 begin
@@ -4276,6 +4388,8 @@ begin;
   end;
 end;
 {$ENDIF}
+{$ENDIF MSWINDOWS}
+
 procedure TSMBios.ReadSMBiosTables;
 var
  LIndex, i :  Integer;
@@ -4694,9 +4808,9 @@ begin
   else
   begin
    {
-   Bit 0 – 5V
-   Bit 1 – 3.3V
-   Bit 2 – 2.9V
+   Bit 0  5V
+   Bit 1  3.3V
+   Bit 2  2.9V
    }
    if GetBit(_Voltaje, 0) then
     Result:=5
@@ -4722,8 +4836,8 @@ begin
       2 : Result:='Unknown';
       3 : Result:='8086';
       4 : Result:='80286';
-      5 : Result:='Intel386™ processor';
-      6 : Result:='Intel486™ processor';
+      5 : Result:='Intel386 processor';
+      6 : Result:='Intel486 processor';
       7 : Result:='8087';
       8 : Result:='80287';
       9 : Result:='80387';
@@ -4731,21 +4845,21 @@ begin
       11 : Result:='Intel® Pentium® processor';
       12 : Result:='Pentium® Pro processor';
       13 : Result:='Pentium® II processor';
-      14 : Result:='Pentium® processor with MMX™ technology';
+      14 : Result:='Pentium® processor with MMX technology';
       15 : Result:='Intel® Celeron® processor';
-      16 : Result:='Pentium® II Xeon™ processor';
+      16 : Result:='Pentium® II Xeon processor';
       17 : Result:='Pentium® III processor';
       18 : Result:='M1 Family';
       19 : Result:='M2 Family';
       20 : Result:='Intel® Celeron® M processor';
       21 : Result:='Intel® Pentium® 4 HT processor';
       22..23 : Result:='Available for assignment';
-      24 : Result:='AMD Duron™ Processor Family';
+      24 : Result:='AMD Duron Processor Family';
       25 : Result:='K5 Family';
       26 : Result:='K6 Family';
       27 : Result:='K6-2';
       28 : Result:='K6-3';
-      29 : Result:='AMD Athlon™ Processor Family';
+      29 : Result:='AMD Athlon Processor Family';
       30 : Result:='AMD29000 Family';
       31 : Result:='K6-2+';
       32 : Result:='Power PC Family';
@@ -4756,10 +4870,10 @@ begin
       37 : Result:='Power PC 620';
       38 : Result:='Power PC x704';
       39 : Result:='Power PC 750';
-      40 : Result:='Intel® Core™ Duo processor';
-      41 : Result:='Intel® Core™ Duo mobile processor';
-      42 : Result:='Intel® Core™ Solo mobile processor';
-      43 : Result:='Intel® Atom™ processor';
+      40 : Result:='Intel® Core Duo processor';
+      41 : Result:='Intel® Core Duo mobile processor';
+      42 : Result:='Intel® Core Solo mobile processor';
+      43 : Result:='Intel® Atom processor';
       44..47 : Result:='Available for assignment';
       48 : Result:='Alpha Family';
       49 : Result:='Alpha 21064';
@@ -4769,13 +4883,13 @@ begin
       53 : Result:='Alpha 21164a';
       54 : Result:='Alpha 21264';
       55 : Result:='Alpha 21364';
-      56 : Result:='AMD Turion™ II Ultra Dual-Core Mobile';
-      57 : Result:='AMD Turion™ II Dual-Core Mobile M Processor';
-      58 : Result:='AMD Athlon™ II Dual-Core M Processor';
-      59 : Result:='AMD Opteron™ 6100 Series Processor';
-      60 : Result:='AMD Opteron™ 4100 Series Processor';
-      61 : Result:='AMD Opteron™ 6200 Series Processor';
-      62 : Result:='AMD Opteron™ 4200 Series Processor';
+      56 : Result:='AMD Turion II Ultra Dual-Core Mobile';
+      57 : Result:='AMD Turion II Dual-Core Mobile M Processor';
+      58 : Result:='AMD Athlon II Dual-Core M Processor';
+      59 : Result:='AMD Opteron 6100 Series Processor';
+      60 : Result:='AMD Opteron 4100 Series Processor';
+      61 : Result:='AMD Opteron 6200 Series Processor';
+      62 : Result:='AMD Opteron 4200 Series Processor';
       63 : Result:='Available for assignment';
       64 : Result:='MIPS Family';
       65 : Result:='MIPS R4000';
@@ -4807,26 +4921,26 @@ begin
       102..111 : Result:='Available for assignment';
       112 : Result:='Hobbit Family';
       113..119 : Result:='Available for assignment';
-      120 : Result:='Crusoe™ TM5000 Family';
-      121 : Result:='Crusoe™ TM3000 Family';
-      122 : Result:='Efficeon™ TM8000 Family';
+      120 : Result:='Crusoe TM5000 Family';
+      121 : Result:='Crusoe TM3000 Family';
+      122 : Result:='Efficeon TM8000 Family';
       123..127 : Result:='Available for assignment';
       128 : Result:='Weitek';
       129 : Result:='Available for assignment';
-      130 : Result:='Itanium™ processor';
-      131 : Result:='AMD Athlon™ 64 Processor Family';
-      132 : Result:='AMD Opteron™ Processor Family';
-      133 : Result:='AMD Sempron™ Processor Family';
-      134 : Result:='AMD Turion™ 64 Mobile Technology';
-      135 : Result:='Dual-Core AMD Opteron™ Processor';
-      136 : Result:='AMD Athlon™ 64 X2 Dual-Core Processor';
-      137 : Result:='AMD Turion™ 64 X2 Mobile Technology';
-      138 : Result:='Quad-Core AMD Opteron™ Processor';
-      139 : Result:='Third-Generation AMD Opteron™';
-      140 : Result:='AMD Phenom™ FX Quad-Core Processor';
-      141 : Result:='AMD Phenom™ X4 Quad-Core Processor';
-      142 : Result:='AMD Phenom™ X2 Dual-Core Processor';
-      143 : Result:='AMD Athlon™ X2 Dual-Core Processor';
+      130 : Result:='Itanium processor';
+      131 : Result:='AMD Athlon 64 Processor Family';
+      132 : Result:='AMD Opteron Processor Family';
+      133 : Result:='AMD Sempron Processor Family';
+      134 : Result:='AMD Turion 64 Mobile Technology';
+      135 : Result:='Dual-Core AMD Opteron Processor';
+      136 : Result:='AMD Athlon 64 X2 Dual-Core Processor';
+      137 : Result:='AMD Turion 64 X2 Mobile Technology';
+      138 : Result:='Quad-Core AMD Opteron Processor';
+      139 : Result:='Third-Generation AMD Opteron';
+      140 : Result:='AMD Phenom FX Quad-Core Processor';
+      141 : Result:='AMD Phenom X4 Quad-Core Processor';
+      142 : Result:='AMD Phenom X2 Dual-Core Processor';
+      143 : Result:='AMD Athlon X2 Dual-Core Processor';
       144 : Result:='PA-RISC Family';
       145 : Result:='PA-RISC 8500';
       146 : Result:='PA-RISC 8000';
@@ -4851,46 +4965,46 @@ begin
       173 : Result:='Quad-Core Intel® Xeon® processor';
       174 : Result:='Quad-Core Intel® Xeon® processor';
       175 : Result:='Multi-Core Intel® Xeon® processor';
-      176 : Result:='Pentium® III Xeon™ processor';
+      176 : Result:='Pentium® III Xeon processor';
       177 : Result:='Pentium® III Processor with Intel';
       178 : Result:='Pentium® 4 Processor';
       179 : Result:='Intel® Xeon® processor';
       180 : Result:='AS400 Family';
-      181 : Result:='Intel® Xeon™ processor MP';
-      182 : Result:='AMD Athlon™ XP Processor Family';
-      183 : Result:='AMD Athlon™ MP Processor Family';
+      181 : Result:='Intel® Xeon processor MP';
+      182 : Result:='AMD Athlon XP Processor Family';
+      183 : Result:='AMD Athlon MP Processor Family';
       184 : Result:='Intel® Itanium® 2 processor';
       185 : Result:='Intel® Pentium® M processor';
       186 : Result:='Intel® Celeron® D processor';
       187 : Result:='Intel® Pentium® D processor';
       188 : Result:='Intel® Pentium® Processor Extreme';
-      189 : Result:='Intel® Core™ Solo Processor';
+      189 : Result:='Intel® Core Solo Processor';
       190 : Result:='Reserved';
-      191 : Result:='Intel® Core™ 2 Duo Processor';
-      192 : Result:='Intel® Core™ 2 Solo processor';
-      193 : Result:='Intel® Core™ 2 Extreme processor';
-      194 : Result:='Intel® Core™ 2 Quad processor';
-      195 : Result:='Intel® Core™ 2 Extreme mobile';
-      196 : Result:='Intel® Core™ 2 Duo mobile processor';
-      197 : Result:='Intel® Core™ 2 Solo mobile processor';
-      198 : Result:='Intel® Core™ i7 processor';
+      191 : Result:='Intel® Core 2 Duo Processor';
+      192 : Result:='Intel® Core 2 Solo processor';
+      193 : Result:='Intel® Core 2 Extreme processor';
+      194 : Result:='Intel® Core 2 Quad processor';
+      195 : Result:='Intel® Core 2 Extreme mobile';
+      196 : Result:='Intel® Core 2 Duo mobile processor';
+      197 : Result:='Intel® Core 2 Solo mobile processor';
+      198 : Result:='Intel® Core i7 processor';
       199 : Result:='Dual-Core Intel® Celeron® processor';
       200 : Result:='IBM390 Family';
       201 : Result:='G4';
       202 : Result:='G5';
       203 : Result:='ESA/390 G6';
       204 : Result:='z/Architectur base';
-      205 : Result:='Intel® Core™ i5 processor';
-      206 : Result:='Intel® Core™ i3 processor';
+      205 : Result:='Intel® Core i5 processor';
+      206 : Result:='Intel® Core i3 processor';
       207..209 : Result:='Available for assignment';
-      210 : Result:='VIA C7™-M Processor Family';
-      211 : Result:='VIA C7™-D Processor Family';
-      212 : Result:='VIA C7™ Processor Family';
-      213 : Result:='VIA Eden™ Processor Family';
+      210 : Result:='VIA C7-M Processor Family';
+      211 : Result:='VIA C7-D Processor Family';
+      212 : Result:='VIA C7 Processor Family';
+      213 : Result:='VIA Eden Processor Family';
       214 : Result:='Multi-Core Intel® Xeon® processor';
       215 : Result:='Dual-Core Intel® Xeon® processor 3xxx Series';
       216 : Result:='Quad-Core Intel® Xeon® processor 3xxx Series';
-      217 : Result:='VIA Nano™ Processor Family';
+      217 : Result:='VIA Nano Processor Family';
       218 : Result:='Dual-Core Intel® Xeon® processor 5xxx Series';
       219 : Result:='Quad-Core Intel® Xeon® processor 5xxx Series';
       220 : Result:='Available for assignment';
@@ -4899,16 +5013,16 @@ begin
       223 : Result:='Multi-Core Intel® Xeon® processor 7xxx Series';
       224 : Result:='Multi-Core Intel® Xeon® processor 3400 Series';
       225..229 : Result:='Available for assignment';
-      230 : Result:='Embedded AMD Opteron™ Quad-Core Processor Family';
-      231 : Result:='AMD Phenom™ Triple-Core Processor Family';
-      232 : Result:='AMD Turion™ Ultra Dual-Core Mobile Processor Family';
-      233 : Result:='AMD Turion™ Dual-Core Mobile Processor Family';
-      234 : Result:='AMD Athlon™ Dual-Core Processor Family';
-      235 : Result:='AMD Sempron™ SI Processor Family';
-      236 : Result:='AMD Phenom™ II Processor Family';
-      237 : Result:='AMD Athlon™ II Processor Family';
-      238 : Result:='Six-Core AMD Opteron™ Processor Family';
-      239 : Result:='AMD Sempron™ M Processor Family';
+      230 : Result:='Embedded AMD Opteron Quad-Core Processor Family';
+      231 : Result:='AMD Phenom Triple-Core Processor Family';
+      232 : Result:='AMD Turion Ultra Dual-Core Mobile Processor Family';
+      233 : Result:='AMD Turion Dual-Core Mobile Processor Family';
+      234 : Result:='AMD Athlon Dual-Core Processor Family';
+      235 : Result:='AMD Sempron SI Processor Family';
+      236 : Result:='AMD Phenom II Processor Family';
+      237 : Result:='AMD Athlon II Processor Family';
+      238 : Result:='Six-Core AMD Opteron Processor Family';
+      239 : Result:='AMD Sempron M Processor Family';
       240..249 : Result:='Available for assignment';
       250 : Result:='i860';
       251 : Result:='i960';
@@ -5165,7 +5279,7 @@ begin
     $A2 : Result:='PC-H98';
     $A3 : Result:='PC-98Note';
     $A4 : Result:='PC-98Full';
-    $FF : Result:='Other – Use Reference Designator Strings to supply information'
+    $FF : Result:='Other  Use Reference Designator Strings to supply information'
     else
     Result:='Unknown';
   end;
@@ -5285,7 +5399,7 @@ begin
     $0B :Result:='Proprietary Memory Card Slot';
     $0C :Result:='I/O Riser Card Slot';
     $0D :Result:='NuBus';
-    $0E :Result:='PCI – 66MHz Capable';
+    $0E :Result:='PCI  66MHz Capable';
     $0F :Result:='AGP';
     $10 :Result:='AGP 2X';
     $11 :Result:='AGP 4X';
@@ -5999,16 +6113,19 @@ begin
    Result:='Non-recoverable';
 end;
 
+{$IFDEF MSWINDOWS}
 {$IFDEF USEWMI}
 initialization
   CoInitialize(nil);
 {$ENDIF}
+{$ENDIF MSWINDOWS}
 
+{$IFDEF MSWINDOWS}
 {$IFDEF USEWMI}
 finalization
   CoUninitialize;
 {$ENDIF}
-
+{$ENDIF MSWINDOWS}
 
 
 
