@@ -1,11 +1,13 @@
 program PortConnectorInfo;
 
-{$APPTYPE CONSOLE}
+{$mode objfpc}{$H+}
 
 uses
-  Classes,
-  SysUtils,
-  uSMBIOS in '..\..\Common\uSMBIOS.pas';
+  {$IFDEF UNIX}{$IFDEF UseCThreads}
+  cthreads,
+  {$ENDIF}{$ENDIF}
+  Classes, SysUtils, uSMBIOS
+  { you can add units after this };
 
 procedure GetPortConnectorInfo;
 Var
@@ -20,9 +22,9 @@ begin
       for LPort in SMBios.PortConnectorInfo do
       begin
         WriteLn('Internal Reference Designator '+LPort.InternalReferenceDesignatorStr);
-        WriteLn('Internal Connector Type       '+LPort.GetConnectorType(LPort.RAWPortConnectorInformation.InternalConnectorType));
+        WriteLn('Internal Connector Type       '+LPort.GetConnectorType(LPort.RAWPortConnectorInformation^.InternalConnectorType));
         WriteLn('External Reference Designator '+LPort.ExternalReferenceDesignatorStr);
-        WriteLn('External Connector Type       '+LPort.GetConnectorType(LPort.RAWPortConnectorInformation.ExternalConnectorType));
+        WriteLn('External Connector Type       '+LPort.GetConnectorType(LPort.RAWPortConnectorInformation^.ExternalConnectorType));
         WriteLn('Port Type                     '+LPort.PortTypeStr);
         WriteLn;
       end
