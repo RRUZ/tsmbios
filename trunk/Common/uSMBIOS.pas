@@ -33,6 +33,9 @@ uses
   {$IFDEF MSWINDOWS}Windows,{$ENDIF}
   {$IFNDEF NOGENERICS}Generics.Collections,{$ENDIF}
   {$IFDEF UNIX}BaseUnix,{$ENDIF}
+  {$IFDEF MACOS}
+  System.Types,
+  {$ENDIF MACOS}
   Classes;
 
 {$DEFINE USEWMI}
@@ -3628,6 +3631,9 @@ type
     {$IFDEF UNIX}
     procedure LoadSMBIOSLinux;
     {$ENDIF}
+    {$IFDEF MACOS}
+    procedure LoadSMBIOS_OSX;
+    {$ENDIF MACOS}
 
     procedure ReadSMBiosTables;
     procedure Init;
@@ -3871,6 +3877,7 @@ constructor TSMBios.Create;
 begin
   inherited Create;
   Init;
+
   {$IFDEF MSWINDOWS}
   {$IFDEF USEWMI}
   LoadSMBIOSWMI('','','');
@@ -3878,9 +3885,14 @@ begin
   LoadSMBIOSWinAPI;
   {$ENDIF}
   {$ENDIF MSWINDOWS}
+
   {$IFDEF UNIX}
   LoadSMBIOSLinux;
   {$ENDIF}
+
+  {$IFDEF MACOS}
+  LoadSMBIOS_OSX;
+  {$ENDIF MACOS}
 
   FSMBiosTablesList:=GetSMBiosTablesList;
   ReadSMBiosTables;
@@ -4245,6 +4257,14 @@ begin
    Result := Format('%d.%d',[RawSMBIOSData.SMBIOSMajorVersion, RawSMBIOSData.SMBIOSMinorVersion]);
 end;
 
+{$IFDEF MACOS}
+procedure TSMBios.LoadSMBIOS_OSX;
+begin
+
+end;
+{$ENDIF MACOS}
+
+
 {$IFDEF UNIX}
 procedure TSMBios.LoadSMBIOSLinux;
 const
@@ -4329,7 +4349,7 @@ const
   FirmwareTableProviderSignature = $52534D42;  // 'RSMB'
 var
   GetSystemFirmwareTable: TFNGetSystemFirmwareTable;
-  hModule: MSWINDOWS.HMODULE;
+  hModule: Windows.HMODULE;
   BufferSize: UINT;
   Buffer : PByteArray;
 begin
