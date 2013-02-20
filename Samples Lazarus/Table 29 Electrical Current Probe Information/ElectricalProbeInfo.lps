@@ -9,7 +9,6 @@
         <Filename Value="ElectricalProbeInfo.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="ElectricalProbeInfo"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
         <TopLine Value="44"/>
@@ -21,21 +20,139 @@
         <Filename Value="..\..\Common\uSMBIOS.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uSMBIOS"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="4221"/>
+        <CursorPos X="25" Y="4236"/>
         <UsageCount Value="20"/>
+        <Loaded Value="True"/>
       </Unit1>
     </Units>
     <General>
       <ActiveWindowIndexAtStart Value="0"/>
     </General>
-    <JumpHistory Count="2" HistoryIndex="1">
+    <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="ElectricalProbeInfo.lpr"/>
-        <Caret Line="43" Column="80" TopLine="39"/>
+        <Filename Value="..\..\Common\uSMBIOS.pas"/>
+        <Caret Line="4101" Column="55" TopLine="4088"/>
       </Position1>
       <Position2>
-        <Filename Value="ElectricalProbeInfo.lpr"/>
-        <Caret Line="2" Column="1" TopLine="1"/>
+        <Filename Value="..\..\Common\uSMBIOS.pas"/>
+        <Caret Line="3815" Column="20" TopLine="3801"/>
       </Position2>
+      <Position3>
+        <Filename Value="..\..\Common\uSMBIOS.pas"/>
+        <Caret Line="4101" Column="55" TopLine="4088"/>
+      </Position3>
+      <Position4>
+        <Filename Value="..\..\Common\uSMBIOS.pas"/>
+        <Caret Line="4232" Column="55" TopLine="4219"/>
+      </Position4>
+      <Position5>
+        <Filename Value="..\..\Common\uSMBIOS.pas"/>
+        <Caret Line="4101" Column="55" TopLine="4087"/>
+      </Position5>
+      <Position6>
+        <Filename Value="..\..\Common\uSMBIOS.pas"/>
+        <Caret Line="4100" Column="1" TopLine="4087"/>
+      </Position6>
+      <Position7>
+        <Filename Value="..\..\Common\uSMBIOS.pas"/>
+        <Caret Line="4231" Column="55" TopLine="4218"/>
+      </Position7>
+      <Position8>
+        <Filename Value="..\..\Common\uSMBIOS.pas"/>
+        <Caret Line="3815" Column="44" TopLine="3801"/>
+      </Position8>
+      <Position9>
+        <Filename Value="..\..\Common\uSMBIOS.pas"/>
+        <Caret Line="3827" Column="12" TopLine="3802"/>
+      </Position9>
+      <Position10>
+        <Filename Value="..\..\Common\uSMBIOS.pas"/>
+        <Caret Line="3815" Column="32" TopLine="3802"/>
+      </Position10>
+      <Position11>
+        <Filename Value="..\..\Common\uSMBIOS.pas"/>
+        <Caret Line="3820" Column="21" TopLine="3807"/>
+      </Position11>
+      <Position12>
+        <Filename Value="..\..\Common\uSMBIOS.pas"/>
+        <Caret Line="3832" Column="22" TopLine="3819"/>
+      </Position12>
+      <Position13>
+        <Filename Value="..\..\Common\uSMBIOS.pas"/>
+        <Caret Line="3820" Column="33" TopLine="3806"/>
+      </Position13>
+      <Position14>
+        <Filename Value="..\..\Common\uSMBIOS.pas"/>
+        <Caret Line="4100" Column="55" TopLine="4087"/>
+      </Position14>
+      <Position15>
+        <Filename Value="..\..\Common\uSMBIOS.pas"/>
+        <Caret Line="3832" Column="22" TopLine="3819"/>
+      </Position15>
+      <Position16>
+        <Filename Value="..\..\Common\uSMBIOS.pas"/>
+        <Caret Line="3830" Column="9" TopLine="3819"/>
+      </Position16>
+      <Position17>
+        <Filename Value="..\..\Common\uSMBIOS.pas"/>
+        <Caret Line="4103" Column="13" TopLine="4087"/>
+      </Position17>
+      <Position18>
+        <Filename Value="..\..\Common\uSMBIOS.pas"/>
+        <Caret Line="4095" Column="40" TopLine="4087"/>
+      </Position18>
+      <Position19>
+        <Filename Value="..\..\Common\uSMBIOS.pas"/>
+        <Caret Line="4201" Column="56" TopLine="4188"/>
+      </Position19>
+      <Position20>
+        <Filename Value="..\..\Common\uSMBIOS.pas"/>
+        <Caret Line="4231" Column="55" TopLine="4218"/>
+      </Position20>
+      <Position21>
+        <Filename Value="..\..\Common\uSMBIOS.pas"/>
+        <Caret Line="4091" Column="43" TopLine="4086"/>
+      </Position21>
+      <Position22>
+        <Filename Value="..\..\Common\uSMBIOS.pas"/>
+        <Caret Line="4201" Column="56" TopLine="4188"/>
+      </Position22>
+      <Position23>
+        <Filename Value="..\..\Common\uSMBIOS.pas"/>
+        <Caret Line="4096" Column="8" TopLine="4086"/>
+      </Position23>
+      <Position24>
+        <Filename Value="..\..\Common\uSMBIOS.pas"/>
+        <Caret Line="368" Column="3" TopLine="367"/>
+      </Position24>
+      <Position25>
+        <Filename Value="..\..\Common\uSMBIOS.pas"/>
+        <Caret Line="4096" Column="36" TopLine="4084"/>
+      </Position25>
+      <Position26>
+        <Filename Value="..\..\Common\uSMBIOS.pas"/>
+        <Caret Line="4207" Column="42" TopLine="4188"/>
+      </Position26>
+      <Position27>
+        <Filename Value="..\..\Common\uSMBIOS.pas"/>
+        <Caret Line="4201" Column="56" TopLine="4188"/>
+      </Position27>
+      <Position28>
+        <Filename Value="..\..\Common\uSMBIOS.pas"/>
+        <Caret Line="4231" Column="55" TopLine="4218"/>
+      </Position28>
+      <Position29>
+        <Filename Value="..\..\Common\uSMBIOS.pas"/>
+        <Caret Line="4100" Column="30" TopLine="4091"/>
+      </Position29>
+      <Position30>
+        <Filename Value="..\..\Common\uSMBIOS.pas"/>
+        <Caret Line="4202" Column="29" TopLine="4189"/>
+      </Position30>
     </JumpHistory>
   </ProjectSession>
 </CONFIG>
