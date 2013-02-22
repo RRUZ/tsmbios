@@ -4097,9 +4097,9 @@ begin
   Index     := 0;
   Result    := 0;
   repeat
-    {$IFDEF FPC}{$HINTS OFF}
+    {$IFDEF FPC}{$HINTS OFF}{$ENDIF}
     Move(RawSMBIOSData.SMBIOSTableData^[Index], Header, SizeOf(Header));
-    {$HINTS ON}{$ENDIF}
+    {$IFDEF FPC}{$HINTS ON}{$ENDIF}
     if Header.TableType = Byte(Ord(TableType)) then
       break
     else
@@ -4199,9 +4199,9 @@ begin
   Result    := 0;
   Index     := 0;
   repeat
-    {$IFDEF FPC}{$HINTS OFF}
+    {$IFDEF FPC}{$HINTS OFF}{$ENDIF}
     Move(FRawSMBIOSData.SMBIOSTableData^[Index], Header, SizeOf(Header));
-    {$HINTS ON}{$ENDIF}
+    {$IFDEF FPC}{$HINTS ON}{$ENDIF}
     Inc(Result);
 
     if Header.TableType=Byte(Ord(EndofTable)) then break;
@@ -4231,9 +4231,9 @@ begin
   I:=0;
   Index     := 0;
   repeat
-    {$IFDEF FPC}{$HINTS OFF}
+    {$IFDEF FPC}{$HINTS OFF}{$ENDIF}
     Move(RawSMBIOSData.SMBIOSTableData^[Index], Header, SizeOf(Header));
-    {$HINTS ON}{$ENDIF}
+    {$IFDEF FPC}{$HINTS ON}{$ENDIF}
     Entry.Header:=Header;
     Entry.Index:=Index;
     Move(Entry, Result[I], SizeOf(Entry));
