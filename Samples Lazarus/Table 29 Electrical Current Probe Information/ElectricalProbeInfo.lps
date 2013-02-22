@@ -9,6 +9,7 @@
         <Filename Value="ElectricalProbeInfo.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="ElectricalProbeInfo"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
         <TopLine Value="44"/>
@@ -20,10 +21,9 @@
         <Filename Value="..\..\Common\uSMBIOS.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uSMBIOS"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="4221"/>
+        <TopLine Value="4161"/>
         <CursorPos X="25" Y="4236"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
