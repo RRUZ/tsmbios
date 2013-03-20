@@ -36,7 +36,6 @@ begin
     WriteLn(Format('Embedded Controller Firmware Minor Releasee %d',[LBIOS.RAWBiosInformation.EmbeddedControllerFirmwareMinorRelease]));
     WriteLn;
 
-
     if SMBios.HasOEMStringsInfo then
     begin
      Writeln('OEM Strings');

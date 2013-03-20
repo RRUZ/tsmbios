@@ -4421,8 +4421,8 @@ begin;
     FRawSMBIOSData.SMBIOSMajorVersion :=FWbemObject.SmbiosMajorVersion;
     FRawSMBIOSData.SMBIOSMinorVersion :=FWbemObject.SmbiosMinorVersion;
 
-    if SmbiosVersion<'2.4' then
-     raise Exception.Create(Format('Sorry, SMBIOS Version not supported %s',[SmbiosVersion]));
+    //if SmbiosVersion<'2.4' then
+     //raise Exception.Create(Format('Sorry, SMBIOS Version not supported %s',[SmbiosVersion]));
 
     vArray := FWbemObject.SMBiosData;
 
