@@ -4065,7 +4065,7 @@ begin
   LStream:=TFileStream.Create(FileName, fmCreate);
   try
     LStream.WriteBuffer(FRawSMBIOSData, SizeOf(FRawSMBIOSData)- SizeOf(FRawSMBIOSData.SMBIOSTableData));
-    LStream.WriteBuffer(RawSMBIOSData.SMBIOSTableData^[0], FRawSMBIOSData.Length);
+    LStream.WriteBuffer(FRawSMBIOSData.SMBIOSTableData^[0], FRawSMBIOSData.Length);
   finally
     LStream.Free;
   end;
@@ -4081,7 +4081,7 @@ begin
     if Assigned(FRawSMBIOSData.SMBIOSTableData) then
       FreeMem(FRawSMBIOSData.SMBIOSTableData);
     GetMem(FRawSMBIOSData.SMBIOSTableData, FRawSMBIOSData.Length);
-    LStream.ReadBuffer(RawSMBIOSData.SMBIOSTableData^[0], FRawSMBIOSData.Length);
+    LStream.ReadBuffer(FRawSMBIOSData.SMBIOSTableData^[0], FRawSMBIOSData.Length);
   finally
     LStream.Free;
   end;
@@ -4098,7 +4098,7 @@ begin
   Result    := 0;
   repeat
     {$IFDEF FPC}{$HINTS OFF}{$ENDIF}
-    Move(RawSMBIOSData.SMBIOSTableData^[Index], Header, SizeOf(Header));
+    Move(FRawSMBIOSData.SMBIOSTableData^[Index], Header, SizeOf(Header));
     {$IFDEF FPC}{$HINTS ON}{$ENDIF}
     if Header.TableType = Byte(Ord(TableType)) then
       break
@@ -4232,7 +4232,7 @@ begin
   Index     := 0;
   repeat
     {$IFDEF FPC}{$HINTS OFF}{$ENDIF}
-    Move(RawSMBIOSData.SMBIOSTableData^[Index], Header, SizeOf(Header));
+    Move(FRawSMBIOSData.SMBIOSTableData^[Index], Header, SizeOf(Header));
     {$IFDEF FPC}{$HINTS ON}{$ENDIF}
     Entry.Header:=Header;
     Entry.Index:=Index;
@@ -4357,7 +4357,7 @@ var
   BufferSize: UINT;
   Buffer : PByteArray;
 begin
-  ZeroMemory(@RawSMBIOSData, SizeOf(RawSMBIOSData));
+  ZeroMemory(@FRawSMBIOSData, SizeOf(FRawSMBIOSData));
   hModule := GetModuleHandle(kernel32);
   {$IFDEF FPC}
   GetSystemFirmwareTable := TFNGetSystemFirmwareTable(GetProcAddress(hModule, 'GetSystemFirmwareTable'));
@@ -4403,7 +4403,7 @@ var
   Value: integer;
   i: integer;
 begin;
-  ZeroMemory(@RawSMBIOSData, SizeOf(RawSMBIOSData));
+  ZeroMemory(@FRawSMBIOSData, SizeOf(FRawSMBIOSData));
   FSWbemLocator := CreateOleObject('WbemScripting.SWbemLocator');
   if (RemoteMachine='') then
   FWMIService := FSWbemLocator.ConnectServer('localhost', 'root\WMI', '', '')
