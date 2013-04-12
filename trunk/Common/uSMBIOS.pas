@@ -2709,6 +2709,36 @@ type
     ///	</remarks>
     {$ENDREGION}
     ConfiguredMemoryClockSpeed : DWORD;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Minimum operating voltage for this device, in millivolts If the value
+    ///	  is 0, the voltage is unknown.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.8+
+    ///	</remarks>
+    {$ENDREGION}
+    MinimumVoltage  : Word;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Maximum operating voltage for this device, in millivolts If the value
+    ///	  is 0, the voltage is unknown.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.8+
+    ///	</remarks>
+    {$ENDREGION}
+    MaximumVoltage  : Word;
+    {$REGION 'Documentation'}
+    ///	<summary>
+    ///	  Configured voltage for this device, in millivolts If the value is 0,
+    ///	  the voltage is unknown.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.8+
+    ///	</remarks>
+    {$ENDREGION}
+    ConfiguredVoltage: Word;
   end;
 
   TMemoryDeviceInformation=class
@@ -4951,7 +4981,7 @@ begin
       69 : Result:='MIPS R10000';
       70 : Result:='AMD C-Series Processor';
       71 : Result:='AMD E-Series Processor';
-      72 : Result:='AMD S-Series Processor';
+      72 : Result:='AMD A-Series Processor';
       73 : Result:='AMD G-Series Processor';
       74..79 : Result:='Available for assignment';
       80 : Result:='SPARC Family';
