@@ -1,4 +1,4 @@
-﻿program ProcessorInformation;
+program ProcessorInformation;
 
 {$APPTYPE CONSOLE}
 
@@ -42,13 +42,15 @@ Var
   SMBios             : TSMBios;
   LProcessorInfo     : TProcessorInformation;
   LSRAMTypes         : TCacheSRAMTypes;
+  i: integer;
 begin
   SMBios:=TSMBios.Create;
   try
       WriteLn('Processor Information');
       if SMBios.HasProcessorInfo then
-      for LProcessorInfo in SMBios.ProcessorInfo do
+      for i:=Low(SMBios.ProcessorInfo) to High(SMBios.ProcessorInfo) do
       begin
+        LProcessorInfo:=SMBios.ProcessorInfo[i];
         WriteLn('Manufacter         '+LProcessorInfo.ProcessorManufacturerStr);
         WriteLn('Socket Designation '+LProcessorInfo.SocketDesignationStr);
         WriteLn('Type               '+LProcessorInfo.ProcessorTypeStr);
