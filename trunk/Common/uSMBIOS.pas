@@ -3835,6 +3835,13 @@ type
     ///	</summary>
     { $ENDREGION}
     procedure LoadFromFile(const FileName : string);
+
+    { $REGION 'Documentation'}
+    ///	<summary>
+    ///	  Find and load the SMBIOS Data from a file
+    ///	</summary>
+    { $ENDREGION}
+    procedure FindAndLoadFromFile(const FileName : string);
     property DataString: AnsiString read FDataString;
     property RawSMBIOSData : TRawSMBIOSData read FRawSMBIOSData;
     property SmbiosVersion : string  read GetSmbiosVersion;
@@ -3914,7 +3921,7 @@ uses
 {$ENDIF}
 {$ENDIF}
 
-{$IFDEF UNIX}
+
 type
   TSmBiosEntryPoint = packed record
     AnchorString            : array [0..3] of AnsiChar;
@@ -3932,7 +3939,6 @@ type
     NumberSMBIOSStructures  : Word;
     SMBIOSBCDRevision       : Byte;
   end;
-{$ENDIF}
 
 function GetBit(const AValue: DWORD; const Bit: Byte): Boolean;
 begin
@@ -4095,6 +4101,65 @@ begin
   SetLength(FCacheInfo, 0);
   SetLength(FPortConnectorInfo, 0);
   Inherited;
+end;
+
+procedure TSMBios.FindAndLoadFromFile(const FileName: string);
+var
+  FileStream : TFileStream;
+  MagicNumber : DWORD;
+  BytesRead : Integer;
+  SMBIOSEntryPoint: TSmBiosEntryPoint;
+  CheckSum : Byte;
+  i : integer;
+  Offset : Integer;
+begin
+    Offset:=-1;
+    FileStream:=TFileStream.Create(FileName, fmOpenRead);
+    try
+      FileStream.Position:=0;
+      FillChar(SMBIOSEntryPoint, SizeOf(SMBIOSEntryPoint), #0);
+      repeat
+        BytesRead:= FileStream.Read(MagicNumber, SizeOf(MagicNumber));
+        if (BytesRead>0) and (MagicNumber= $5F4D535F) then
+        begin
+          FileStream.Position:=FileStream.Position-SizeOf(MagicNumber);
+          BytesRead:=FileStream.Read(SMBIOSEntryPoint, SizeOf(SMBIOSEntryPoint));
+          if (BytesRead>0) and (SMBIOSEntryPoint.IntermediateAnchorString = '_DMI_')  then
+          begin
+              CheckSum := 0;
+              for i := 0 to SMBIOSEntryPoint.EntryPointLength - 1 do
+                CheckSum := CheckSum + PByteArray(@SMBIOSEntryPoint)^[i];
+
+              if CheckSum <> 0 then
+                Continue;
+
+              Offset:=FileStream.Position;//SMBIOSEntryPoint.StructureTableAddress {- $000C0000};
+              if  (Offset>=0) and (Offset<FileStream.Size) then
+              begin
+                FileStream.Position:=Offset;
+                FRawSMBIOSData.Length             :=SMBIOSEntryPoint.StructureTableLength;
+                GetMem(FRawSMBIOSData.SMBIOSTableData, FRawSMBIOSData.Length);
+                FRawSMBIOSData.DmiRevision:= SMBIOSEntryPoint.EntryPointRevision;
+                FRawSMBIOSData.SMBIOSMajorVersion :=SMBIOSEntryPoint.SMBIOSMajorVersion;
+                FRawSMBIOSData.SMBIOSMinorVersion :=SMBIOSEntryPoint.SMBIOSMinorVersion;
+                FileStream.Read(FRawSMBIOSData.SMBIOSTableData^, FRawSMBIOSData.Length);
+                break;
+              end;
+          end;
+          FileStream.Position:=FileStream.Position+12;
+        end
+        else
+        FileStream.Position:=FileStream.Position+12;
+      until BytesRead=0;
+    finally
+        FileStream.Free;
+    end;
+
+  if Offset=-1 then
+   raise Exception.Create(Format('SMBIOS information not found in file %s',[FileName]));
+
+  FSMBiosTablesList:=GetSMBiosTablesList;
+  ReadSMBiosTables;
 end;
 
 function TSMBios.GetHasBaseBoardInfo: Boolean;
@@ -4305,7 +4370,7 @@ end;
 function TSMBios.GetSMBiosTableEntries(TableType: TSMBiosTablesTypes): integer;
 Var
  Entry : TSMBiosTableEntry;
- i: integer;
+ {$IFDEF OLDDELPHI}i: integer;{$ENDIF}
 begin
  Result:=0;
 
@@ -4326,7 +4391,7 @@ end;
 function TSMBios.GetSMBiosTableNextIndex(TableType: TSMBiosTablesTypes;Offset:Integer=0): integer;
 Var
  Entry : TSMBiosTableEntry;
- i: integer;
+ {$IFDEF OLDDELPHI}i: integer;{$ENDIF}
 begin
  Result:=-1;
 
@@ -4422,9 +4487,60 @@ end;
 
 {$IFDEF MACOS}
 procedure TSMBios.LoadSMBIOS_OSX;
+const
+  sleepimage  = '/private/var/vm/sleepimage';
+var
+  FileStream : TFileStream;
+  MagicNumber : DWORD;
+  BytesRead : Integer;
+  SMBIOSEntryPoint: TSmBiosEntryPoint;
+  CheckSum : Byte;
+  i : integer;
+  Offset : Integer;
 begin
+    if not FileExists(sleepimage) then
+      raise Exception.Create(Format('The %s file  doesn''t  exist. run "sudo pmset hibernatemode 1" to enable',[sleepimage]));
 
+    FileStream:=TFileStream.Create(sleepimage, fmOpenRead);
+    try
+      FileStream.Position:=0;
+      FillChar(SMBIOSEntryPoint, SizeOf(SMBIOSEntryPoint), #0);
+      repeat
+        BytesRead:= FileStream.Read(MagicNumber, SizeOf(MagicNumber));
+        if (BytesRead>0) and (MagicNumber= $5F4D535F) then
+        begin
+          FileStream.Position:=FileStream.Position-SizeOf(MagicNumber);
+          BytesRead:=FileStream.Read(SMBIOSEntryPoint, SizeOf(SMBIOSEntryPoint));
+          if (BytesRead>0) and (SMBIOSEntryPoint.IntermediateAnchorString = '_DMI_')  then
+          begin
+              CheckSum := 0;
+              for i := 0 to SMBIOSEntryPoint.EntryPointLength - 1 do
+                CheckSum := CheckSum + PByteArray(@SMBIOSEntryPoint)^[i];
+              if CheckSum <> 0 then
+                Continue;
+              Offset:=SMBIOSEntryPoint.StructureTableAddress - $000C0000;
+              if  (Offset>=0) and (Offset<FileStream.Size) then
+              begin
+                FileStream.Position:=Offset;
+                FRawSMBIOSData.Length             :=SMBIOSEntryPoint.StructureTableLength;
+                GetMem(FRawSMBIOSData.SMBIOSTableData, FRawSMBIOSData.Length);
+                FRawSMBIOSData.DmiRevision:= SMBIOSEntryPoint.EntryPointRevision;
+                FRawSMBIOSData.SMBIOSMajorVersion :=SMBIOSEntryPoint.SMBIOSMajorVersion;
+                FRawSMBIOSData.SMBIOSMinorVersion :=SMBIOSEntryPoint.SMBIOSMinorVersion;
+                FileStream.Read(FRawSMBIOSData.SMBIOSTableData^, FRawSMBIOSData.Length);
+                exit;
+              end;
+          end;
+          FileStream.Position:=FileStream.Position+12;
+        end
+        else
+        FileStream.Position:=FileStream.Position+12;
+      until BytesRead=0;
+    finally
+        FileStream.Free;
+    end;
 end;
+
 {$ENDIF MACOS}
 
 
