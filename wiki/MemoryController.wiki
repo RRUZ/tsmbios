@@ -1,0 +1,7 @@
+#summary Memory Controller Information (Type 5)
+
+= Description =
+The information in this structure defines the attributes of the system’s memory controller(s) and the supported attributes of any memory-modules present in the sockets controlled by this controller.
+= Sample Code =
+
+http://code.google.com/p/tsmbios/source/browse/trunk/Samples/Table%2029%20Electrical%20Current%20Probe%20Information/MemoryControllerInfo.dpr
