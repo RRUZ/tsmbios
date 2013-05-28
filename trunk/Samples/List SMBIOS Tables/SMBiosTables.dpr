@@ -16,7 +16,7 @@ begin
   try
     //SMBios.SaveToFile('C:\Users\Dexter\Dropbox\SMBIOS.dat');
     //SMBios.LoadFromFile('C:\Users\Dexter\Dropbox\SMBIOS.dat');
-    //SMBios.FindAndLoadFromFile('C:\Users\Dexter\Desktop\RAD Studio Projects\2010\SMBIOS Delphi\Docs\DELL_system_dumps\dimension_4400\SMBIOS.dat');
+    //SMBios.FindAndLoadFromFile('C:\Users\Dexter\Desktop\RAD Studio Projects\2010\SMBIOS Delphi\Docs\DELL_system_dumps\PE0400\SMBIOS.dat');
     Writeln(Format('SMBIOS Version %s',[SMBios.SmbiosVersion]));
     Writeln(Format('%d SMBios tables found',[Length(SMBios.SMBiosTablesList)]));
     Writeln;
@@ -27,7 +27,6 @@ begin
    SMBios.Free;
   end;
 end;
-
 
 begin
  try
