@@ -7,18 +7,7 @@ uses
   SysUtils,
   uSMBIOS in '..\..\Common\uSMBIOS.pas';
 
-function ByteToBinStr(AValue:Byte):string;
-const
-  Bits : array[1..8] of byte = (128,64,32,16,8,4,2,1);
-  var i: integer;
-begin
-  Result:='00000000';
-  if (AValue<>0) then
-  for i:=1 to 8 do
-    if (AValue and Bits[i])<>0 then Result[i]:='1';
-end;
-
-procedure GetSystemSlotInfo;
+procedure GetOnBoardSystemInfo;
 Var
   SMBios : TSMBios;
   LOnBoardSystem  : TOnBoardSystemInformation;
@@ -46,7 +35,7 @@ end;
 
 begin
  try
-    GetSystemSlotInfo;
+    GetOnBoardSystemInfo;
  except
     on E:Exception do
         Writeln(E.Classname, ':', E.Message);
