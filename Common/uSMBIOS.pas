@@ -1171,6 +1171,172 @@ type
     function  PowerSupplyStateStr : AnsiString;
   end;
 
+  { $REGION 'Documentation'}
+  ///	<summary>
+  ///	  The information in this structure defines the attributes of the
+  ///	  system’s memory controller(s) and the supported attributes of any
+  ///	  memory-modules present in the sockets controlled by this controller.
+  ///	</summary>
+  { $ENDREGION}
+  TMemoryControllerInfo = packed record
+    Header: TSmBiosTableHeader;
+    { $REGION 'Documentation'}
+    ///	<summary>
+    ///	  ENUM
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
+    { $ENDREGION}
+    ErrorDetectingMethod: Byte;
+
+    { $REGION 'Documentation'}
+    ///	<summary>
+    ///	  Bit Field
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
+    { $ENDREGION}
+    ErrorCorrectingCapability: Byte;
+
+    { $REGION 'Documentation'}
+    ///	<summary>
+    ///	  ENUM
+    ///	</summary>
+    ///	<remarks>
+    ///	  +2.0
+    ///	</remarks>
+    { $ENDREGION}
+    SupportedInterleave: Byte;
+    { $REGION 'Documentation'}
+    ///	<summary>
+    ///	  ENUM
+    ///	</summary>
+    ///	<remarks>
+    ///	  +2.0
+    ///	</remarks>
+    { $ENDREGION}
+    CurrentInterleave: Byte;
+
+    { $REGION 'Documentation'}
+    ///	<summary>
+    ///	  Size of the largest memory module supported (per slot), specified as
+    ///	  n, where 2**n is the maximum size in MB The maximum amount of memory
+    ///	  supported by this controller is that value times the number of slots,
+    ///	  as specified in offset 0Eh of this structure.
+    ///	</summary>
+    ///	<remarks>
+    ///	  +2.0
+    ///	</remarks>
+    { $ENDREGION}
+    MaximumMemoryModuleSize : Byte;
+
+    { $REGION 'Documentation'}
+    ///	<summary>
+    ///	  Bit Field
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
+    { $ENDREGION}
+    SupportedSpeeds :  Word;
+    { $REGION 'Documentation'}
+    ///	<summary>
+    ///	  Bit Field
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
+    { $ENDREGION}
+    SupportedMemoryTypes :  Word;
+
+    { $REGION 'Documentation'}
+    ///	<summary>
+    ///	  <para>
+    ///	    Describes the required voltages for each of the memory module
+    ///	    sockets controlled by this controller:
+    ///	  </para>
+    ///	  <para>
+    ///	    Bits 7:3 Reserved, must be zero
+    ///	  </para>
+    ///	  <para>
+    ///	    Bit 2     2.9V
+    ///	  </para>
+    ///	  <para>
+    ///	    Bit 1     3.3V
+    ///	  </para>
+    ///	  <para>
+    ///	    Bit 0     5V
+    ///	  </para>
+    ///	  <para>
+    ///	    NOTE: Setting of multiple bits indicates that the sockets are
+    ///	    configurable.
+    ///	  </para>
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
+    { $ENDREGION}
+    MemoryModuleVoltage  : Byte;
+
+    { $REGION 'Documentation'}
+    ///	<summary>
+    ///	  Defines how many of the Memory Module Information blocks are
+    ///	  controlled by this controller
+    ///	</summary>
+    ///	<remarks>
+    ///	  +2.0
+    ///	</remarks>
+    { $ENDREGION}
+    NumberofAssociatedMemorySlots  : Byte;
+
+    { $REGION 'Documentation'}
+    ///	<summary>
+    ///	  Lists memory information structure handles controlled by this
+    ///	  controller
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
+    { $ENDREGION}
+    MemoryModuleConfigurationHandles  : Word;
+
+    { $REGION 'Documentation'}
+    ///	<summary>
+    ///	  Identifies the error-correcting capabilities that were enabled when
+    ///	  the structure was built
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
+    { $ENDREGION}
+    EnabledErrorCorrectingCapabilities : Byte;
+  end;
+
+  TMemoryControllerInformation=class
+  public
+    RAWMemoryControllerInformation : ^TMemoryControllerInfo;
+    { $REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the Error Detecting Method field
+    ///	</summary>
+    { $ENDREGION}
+    function GetErrorDetectingMethodDescr: string;
+    { $REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the Supported Interleave field
+    ///	</summary>
+    { $ENDREGION}
+    function GetSupportedInterleaveDescr: string;
+    { $REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the Current Interleave field
+    ///	</summary>
+    { $ENDREGION}
+    function GetCurrentInterleaveDescr: string;
+  end;
+
    TCacheSRAMType =
    (
     SROther,
@@ -2109,8 +2275,6 @@ type
   end;
 
   { $REGION 'Documentation'}
-
-  {$REGION 'Documentation'}
   ///	<summary>
   ///	  The information in this structure defines the attributes of devices
   ///	  that are onboard (soldered onto) a system element, usually the
@@ -2118,7 +2282,6 @@ type
   ///	  some level of control over the enabling of the associated device for
   ///	  use by the system.
   ///	</summary>
-  {$ENDREGION}
   { $ENDREGION}
   TOnBoardSystemInfo=packed record
     Header: TSmBiosTableHeader;
@@ -3768,6 +3931,7 @@ type
   ArrTemperatureProbeInformation = Array of TTemperatureProbeInformation;
   ArrElectricalCurrentProbeInformation = Array of TElectricalCurrentProbeInformation;
   ArrOnBoardSystemInformation= Array of TOnBoardSystemInformation;
+  ArrMemoryControllerInformation= Array of TMemoryControllerInformation;
   {$ENDIF}
 
   TSMBios = class
@@ -3796,7 +3960,8 @@ type
     FCoolingDeviceInformation : {$IFDEF NOGENERICS}ArrCoolingDeviceInformation; {$ELSE}TArray<TCoolingDeviceInformation>;{$ENDIF}
     FTemperatureProbeInformation : {$IFDEF NOGENERICS}ArrTemperatureProbeInformation; {$ELSE}TArray<TTemperatureProbeInformation>;{$ENDIF}
     FElectricalCurrentProbeInformation : {$IFDEF NOGENERICS}ArrElectricalCurrentProbeInformation; {$ELSE}TArray<TElectricalCurrentProbeInformation>;{$ENDIF}
-    FOnBoardSystemInfo: {$IFDEF NOGENERICS}ArrOnBoardSystemInformation; {$ELSE} TArray<TOnBoardSystemInformation>;{$ENDIF}
+    FOnBoardSystemInfo: {$IFDEF NOGENERICS}ArrOnBoardSystemInformation; {$ELSE} TArray<TOnBoardSystemInformation>; {$ENDIF}
+    FMemoryControllerInfo: {$IFDEF NOGENERICS}ArrMemoryControllerInformation;{$ELSE} TArray<TMemoryControllerInformation>; {$ENDIF}
     {$IFDEF MSWINDOWS}
     {$IFDEF USEWMI}
     procedure LoadSMBIOSWMI(const RemoteMachine, UserName, Password : string);
@@ -3836,6 +4001,7 @@ type
     function GetHasTemperatureProbeInfo: Boolean;
     function GetHasElectricalCurrentProbeInfo: Boolean;
     function GetHasOnBoardSystemInfo: Boolean;
+    function GetHasMemoryControllerInfo: Boolean;
 
   public
     { $REGION 'Documentation'}
@@ -3906,6 +4072,9 @@ type
 
     property ProcessorInfo: {$IFDEF NOGENERICS}ArrProcessorInfo {$ELSE}TArray<TProcessorInformation> {$ENDIF} read FProcessorInfo;
     property HasProcessorInfo : Boolean read GetHasProcessorInfo;
+
+    property MemoryControllerInfo: {$IFDEF NOGENERICS}ArrMemoryController {$ELSE} TArray<TMemoryControllerInformation> {$ENDIF} read FMemoryControllerInfo;
+    property HasMemoryControllerInfo : Boolean read GetHasMemoryControllerInfo;
 
     property PortConnectorInfo: {$IFDEF NOGENERICS}ArrPortConnectorInfo {$ELSE} TArray<TPortConnectorInformation> {$ENDIF} read FPortConnectorInfo;
     property HasPortConnectorInfo : Boolean read GetHasPortConnectorInfo;
@@ -4184,6 +4353,10 @@ begin
 
   for i:=0 to Length(FBaseBoardInfo)-1 do
    FBaseBoardInfo[i].Free;
+
+
+  for i:=0 to Length(FMemoryControllerInfo)-1 do
+   FMemoryControllerInfo[i].Free;
 end;
 
 destructor TSMBios.Destroy;
@@ -4305,6 +4478,11 @@ end;
 function TSMBios.GetHasMemoryArrayMappedAddressInfo: Boolean;
 begin
   Result:=Length(FMemoryArrayMappedAddressInformation)>0;
+end;
+
+function TSMBios.GetHasMemoryControllerInfo: Boolean;
+begin
+  Result:=Length(FMemoryControllerInfo)>0;
 end;
 
 function TSMBios.GetHasMemoryDeviceInfo: Boolean;
@@ -5161,6 +5339,19 @@ begin
     begin
       FOnBoardSystemInfo[i]:=TOnBoardSystemInformation.Create;
       FOnBoardSystemInfo[i].RAWOnBoardSystemInfo:=@RawSMBIOSData.SMBIOSTableData^[LIndex];
+      Inc(i);
+    end;
+  until (LIndex=-1);
+
+  SetLength(FMemoryControllerInfo, GetSMBiosTableEntries(MemoryControllerInformation));
+  i:=0;
+  LIndex:=0;
+  repeat
+    LIndex := GetSMBiosTableNextIndex(MemoryControllerInformation, LIndex);
+    if LIndex >= 0 then
+    begin
+      FMemoryControllerInfo[i]:=TMemoryControllerInformation.Create;
+      FMemoryControllerInfo[i].RAWMemoryControllerInformation:=@RawSMBIOSData.SMBIOSTableData^[LIndex];
       Inc(i);
     end;
   until (LIndex=-1);
@@ -6625,6 +6816,54 @@ begin
   end;
 
 
+end;
+
+{ TMemoryControllerInformation }
+
+function TMemoryControllerInformation.GetCurrentInterleaveDescr: string;
+begin
+  case RAWMemoryControllerInformation^.CurrentInterleave of
+    $01 : Result:='Other';
+    $02 : Result:='Unknown';
+    $03 : Result:='One-Way Interleave';
+    $04 : Result:='Two-Way Interleave';
+    $05 : Result:='Four-Way Interleave';
+    $06 : Result:='Eight-Way Interleave';
+    $07 : Result:='Sixteen-Way Interleave'
+    else
+    Result:='Unknown';
+  end;
+end;
+
+function TMemoryControllerInformation.GetSupportedInterleaveDescr: string;
+begin
+  case RAWMemoryControllerInformation^.SupportedInterleave of
+    $01 : Result:='Other';
+    $02 : Result:='Unknown';
+    $03 : Result:='One-Way Interleave';
+    $04 : Result:='Two-Way Interleave';
+    $05 : Result:='Four-Way Interleave';
+    $06 : Result:='Eight-Way Interleave';
+    $07 : Result:='Sixteen-Way Interleave'
+    else
+    Result:='Unknown';
+  end;
+end;
+
+function TMemoryControllerInformation.GetErrorDetectingMethodDescr: string;
+begin
+  case RAWMemoryControllerInformation^.ErrorDetectingMethod of
+    $01 : Result:='Other';
+    $02 : Result:='Unknown';
+    $03 : Result:='None';
+    $04 : Result:='8-bit Parity';
+    $05 : Result:='32-bit ECC';
+    $06 : Result:='64-bit ECC';
+    $07 : Result:='128-bit ECC';
+    $08 : Result:='CRC'
+    else
+    Result:='Unknown';
+  end;
 end;
 
 {$IFDEF MSWINDOWS}
