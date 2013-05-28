@@ -3810,7 +3810,7 @@ type
     {$IFDEF MACOS}
     procedure LoadSMBIOS_OSX;
     {$ENDIF MACOS}
-
+    procedure ClearSMBiosTables;
     procedure ReadSMBiosTables;
     procedure Init;
     function GetSMBiosTablesList:{$IFDEF NOGENERICS}ArrSMBiosTableEntry; {$ELSE} TArray<TSMBiosTableEntry>;{$ENDIF}
@@ -4051,8 +4051,6 @@ end;
 procedure TSMBios.Init;
 begin
   FRawSMBIOSData.SMBIOSTableData:=nil;
-  FBiosInfo:=TBiosInformation.Create;
-  FSysInfo:=TSystemInformation.Create;
 
   FSMBiosTablesList:=nil;
   FBaseBoardInfo:=nil;
@@ -4097,6 +4095,8 @@ end;
 
 {$IFDEF MSWINDOWS}
 {$IFDEF USEWMI}
+
+
 constructor TSMBios.Create(const RemoteMachine, UserName, Password: string);
 begin
   inherited Create;
@@ -4108,15 +4108,22 @@ end;
 {$ENDIF}
 {$ENDIF MSWINDOWS}
 
-destructor TSMBios.Destroy;
+
+procedure TSMBios.ClearSMBiosTables;
 var
   i : Integer;
 begin
-  if Assigned(FRawSMBIOSData.SMBIOSTableData) and (FRawSMBIOSData.Length > 0) then
-    FreeMem(FRawSMBIOSData.SMBIOSTableData);
+  if FBiosInfo<>nil then
+  begin
+    FBiosInfo.Free;
+    FBiosInfo:=nil;
+  end;
 
-  FBiosInfo.Free;
-  FSysInfo.Free;
+  if FSysInfo<>nil then
+  begin
+    FSysInfo.Free;
+    FSysInfo:=nil;
+  end;
 
   for i:=0 to Length(FOEMStringsInfo)-1 do
    FOEMStringsInfo[i].Free;
@@ -4142,12 +4149,53 @@ begin
   for i:=0 to Length(FPhysicalMemoryArrayInfo)-1 do
    FPhysicalMemoryArrayInfo[i].Free;
 
-  SetLength(FSMBiosTablesList, 0);
-  SetLength(FBaseBoardInfo, 0);
-  SetLength(FEnclosureInfo, 0);
-  SetLength(FProcessorInfo, 0);
-  SetLength(FCacheInfo, 0);
-  SetLength(FPortConnectorInfo, 0);
+  for i:=0 to Length(FOnBoardSystemInfo)-1 do
+   FOnBoardSystemInfo[i].Free;
+
+  for i:=0 to Length(FElectricalCurrentProbeInformation)-1 do
+   FElectricalCurrentProbeInformation[i].Free;
+
+  for i:=0 to Length(FTemperatureProbeInformation)-1 do
+   FTemperatureProbeInformation[i].Free;
+
+  for i:=0 to Length(FCoolingDeviceInformation)-1 do
+   FCoolingDeviceInformation[i].Free;
+
+  for i:=0 to Length(FVoltageProbeInformation)-1 do
+   FVoltageProbeInformation[i].Free;
+
+  for i:=0 to Length(FBuiltInPointingDeviceInformation)-1 do
+   FBuiltInPointingDeviceInformation[i].Free;
+
+  for i:=0 to Length(FMemoryDeviceInformation)-1 do
+   FMemoryDeviceInformation[i].Free;
+
+  for i:=0 to Length(FMemoryArrayMappedAddressInformation)-1 do
+   FMemoryArrayMappedAddressInformation[i].Free;
+
+  for i:=0 to Length(FMemoryDeviceMappedAddressInformation)-1 do
+   FMemoryDeviceMappedAddressInformation[i].Free;
+
+  for i:=0 to Length(FBatteryInformation)-1 do
+   FBatteryInformation[i].Free;
+
+  for i:=0 to Length(FBIOSLanguageInfo)-1 do
+   FBIOSLanguageInfo[i].Free;
+
+  for i:=0 to Length(FBaseBoardInfo)-1 do
+   FBaseBoardInfo[i].Free;
+end;
+
+destructor TSMBios.Destroy;
+begin
+  ClearSMBiosTables;
+
+  if Assigned(FRawSMBIOSData.SMBIOSTableData) and (FRawSMBIOSData.Length > 0) then
+  begin
+    FreeMem(FRawSMBIOSData.SMBIOSTableData);
+    FRawSMBIOSData.SMBIOSTableData:=nil;
+  end;
+
   Inherited;
 end;
 
@@ -4185,6 +4233,10 @@ begin
               if  (Offset>=0) and (Offset<FileStream.Size) then
               begin
                 FileStream.Position:=Offset;
+
+                if Assigned(FRawSMBIOSData.SMBIOSTableData) then
+                  FreeMem(FRawSMBIOSData.SMBIOSTableData);
+
                 FRawSMBIOSData.Length             :=SMBIOSEntryPoint.StructureTableLength;
                 GetMem(FRawSMBIOSData.SMBIOSTableData, FRawSMBIOSData.Length);
                 FRawSMBIOSData.DmiRevision:= SMBIOSEntryPoint.EntryPointRevision;
@@ -4576,6 +4628,10 @@ begin
               begin
                 FileStream.Position:=Offset;
                 FRawSMBIOSData.Length             :=SMBIOSEntryPoint.StructureTableLength;
+
+                if Assigned(FRawSMBIOSData.SMBIOSTableData) then
+                  FreeMem(FRawSMBIOSData.SMBIOSTableData);
+
                 GetMem(FRawSMBIOSData.SMBIOSTableData, FRawSMBIOSData.Length);
                 FRawSMBIOSData.DmiRevision:= SMBIOSEntryPoint.EntryPointRevision;
                 FRawSMBIOSData.SMBIOSMajorVersion :=SMBIOSEntryPoint.SMBIOSMajorVersion;
@@ -4644,6 +4700,8 @@ begin
                 begin
                   MStream.Position:=Offset;
                   FRawSMBIOSData.Length             :=SMBIOSEntryPoint.StructureTableLength;
+                  if Assigned(FRawSMBIOSData.SMBIOSTableData) then
+                    FreeMem(FRawSMBIOSData.SMBIOSTableData);
                   GetMem(FRawSMBIOSData.SMBIOSTableData, FRawSMBIOSData.Length);
                   FRawSMBIOSData.DmiRevision:= SMBIOSEntryPoint.EntryPointRevision;
                   FRawSMBIOSData.SMBIOSMajorVersion :=SMBIOSEntryPoint.SMBIOSMajorVersion;
@@ -4697,6 +4755,9 @@ begin
      BufferSize:=GetSystemFirmwareTable(FirmwareTableProviderSignature, 0, nil^, BufferSize);
      if BufferSize>0 then
      begin
+       if Assigned(FRawSMBIOSData.SMBIOSTableData) then
+         FreeMem(FRawSMBIOSData.SMBIOSTableData);
+
        GetMem(FRawSMBIOSData.SMBIOSTableData, BufferSize-8);
        GetMem(Buffer, BufferSize);
        try
@@ -4742,6 +4803,9 @@ begin;
   if {$IFDEF FPC} oEnum.Next(1, FWbemObject, nil){$ELSE}oEnum.Next(1, FWbemObject, iValue){$ENDIF} = 0 then
   begin
     //FSize := FWbemObject.Size;
+    if Assigned(FRawSMBIOSData.SMBIOSTableData) then
+      FreeMem(FRawSMBIOSData.SMBIOSTableData);
+
     FRawSMBIOSData.Length             :=FWbemObject.Size;
     GetMem(FRawSMBIOSData.SMBIOSTableData, FRawSMBIOSData.Length);
     FRawSMBIOSData.DmiRevision:= FWbemObject.DmiRevision;
@@ -4775,6 +4839,10 @@ var
  LCacheInfo   : TCacheInformation;
  LArrMemory   : TPhysicalMemoryArrayInformation;
 begin
+  ClearSMBiosTables;
+
+  FBiosInfo:=TBiosInformation.Create;
+  FSysInfo:=TSystemInformation.Create;
 
   LIndex := GetSMBiosTableNextIndex(BIOSInformation, -1);
   if LIndex >= 0 then

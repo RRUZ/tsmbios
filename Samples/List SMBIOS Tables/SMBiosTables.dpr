@@ -30,6 +30,7 @@ end;
 
 begin
  try
+    ReportMemoryLeaksOnShutdown:=True;
     ListSMBiosTables;
  except
     on E:Exception do
