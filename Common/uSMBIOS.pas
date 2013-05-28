@@ -2108,6 +2108,47 @@ type
     function GetSlotLength : AnsiString;
   end;
 
+  { $REGION 'Documentation'}
+
+  {$REGION 'Documentation'}
+  ///	<summary>
+  ///	  The information in this structure defines the attributes of devices
+  ///	  that are onboard (soldered onto) a system element, usually the
+  ///	  baseboard. In general, an entry in this table implies that the BIOS has
+  ///	  some level of control over the enabling of the associated device for
+  ///	  use by the system.
+  ///	</summary>
+  {$ENDREGION}
+  { $ENDREGION}
+  TOnBoardSystemInfo=packed record
+    Header: TSmBiosTableHeader;
+    DeviceType : Byte;
+    DescriptionString : Byte;
+  end;
+
+
+  TOnBoardSystemInformation = class
+  public
+    RAWOnBoardSystemInfo : ^TOnBoardSystemInfo;
+    { $REGION 'Documentation'}
+    ///	<summary>
+    ///	  Returns the Device description String
+    ///	</summary>
+    { $ENDREGION}
+    function GetDescription: AnsiString;
+    { $REGION 'Documentation'}
+    ///	<summary>
+    ///	  Returns the Device status
+    ///	</summary>
+    { $ENDREGION}
+    function Enabled: Boolean;
+    { $REGION 'Documentation'}
+    ///	<summary>
+    ///	  Returns the Device type description String
+    ///	</summary>
+    { $ENDREGION}
+    function GetTypeDescription: AnsiString;
+  end;
 
   { $REGION 'Documentation'}
   ///	<summary>
@@ -2125,6 +2166,7 @@ type
     { $ENDREGION}
     Count : Byte;
   end;
+
 
   TOEMStringsInformation = class
   public
@@ -3725,6 +3767,7 @@ type
   ArrCoolingDeviceInformation = Array of TCoolingDeviceInformation;
   ArrTemperatureProbeInformation = Array of TTemperatureProbeInformation;
   ArrElectricalCurrentProbeInformation = Array of TElectricalCurrentProbeInformation;
+  ArrOnBoardSystemInformation= Array of TOnBoardSystemInformation;
   {$ENDIF}
 
   TSMBios = class
@@ -3753,6 +3796,7 @@ type
     FCoolingDeviceInformation : {$IFDEF NOGENERICS}ArrCoolingDeviceInformation; {$ELSE}TArray<TCoolingDeviceInformation>;{$ENDIF}
     FTemperatureProbeInformation : {$IFDEF NOGENERICS}ArrTemperatureProbeInformation; {$ELSE}TArray<TTemperatureProbeInformation>;{$ENDIF}
     FElectricalCurrentProbeInformation : {$IFDEF NOGENERICS}ArrElectricalCurrentProbeInformation; {$ELSE}TArray<TElectricalCurrentProbeInformation>;{$ENDIF}
+    FOnBoardSystemInfo: {$IFDEF NOGENERICS}ArrOnBoardSystemInformation; {$ELSE} TArray<TOnBoardSystemInformation>;{$ENDIF}
     {$IFDEF MSWINDOWS}
     {$IFDEF USEWMI}
     procedure LoadSMBIOSWMI(const RemoteMachine, UserName, Password : string);
@@ -3791,6 +3835,7 @@ type
     function GetHasCoolingDeviceInfo: Boolean;
     function GetHasTemperatureProbeInfo: Boolean;
     function GetHasElectricalCurrentProbeInfo: Boolean;
+    function GetHasOnBoardSystemInfo: Boolean;
 
   public
     { $REGION 'Documentation'}
@@ -3867,6 +3912,9 @@ type
 
     property SystemSlotInfo: {$IFDEF NOGENERICS}ArrSystemSlotInfo {$ELSE} TArray<TSystemSlotInformation> {$ENDIF} read FSystemSlotInfo;
     property HasSystemSlotInfo : Boolean read GetHasSystemSlotInfo;
+
+    property OnBoardSystemInfo: {$IFDEF NOGENERICS}ArrOnBoardSystemInfo {$ELSE} TArray<TOnBoardSystemInformation> {$ENDIF} read FOnBoardSystemInfo;
+    property HasOnBoardSystemInfo : Boolean read GetHasOnBoardSystemInfo;
 
     property OEMStringsInfo: {$IFDEF NOGENERICS}ArrOEMStringsInfo {$ELSE} TArray<TOEMStringsInformation> {$ENDIF} read FOEMStringsInfo;
     property HasOEMStringsInfo : Boolean read GetHasOEMStringsInfo;
@@ -4220,6 +4268,11 @@ end;
 function TSMBios.GetHasOEMStringsInfo: Boolean;
 begin
   Result:=Length(FOEMStringsInfo)>0;
+end;
+
+function TSMBios.GetHasOnBoardSystemInfo: Boolean;
+begin
+  Result:=Length(FOnBoardSystemInfo)>0;
 end;
 
 function TSMBios.GetHasPhysicalMemoryArrayInfo: Boolean;
@@ -5027,6 +5080,19 @@ begin
     begin
       FElectricalCurrentProbeInformation[i]:=TElectricalCurrentProbeInformation.Create;
       FElectricalCurrentProbeInformation[i].RAWElectricalCurrentProbeInfo:=@RawSMBIOSData.SMBIOSTableData^[LIndex];
+      Inc(i);
+    end;
+  until (LIndex=-1);
+
+  SetLength(FOnBoardSystemInfo, GetSMBiosTableEntries(OnBoardDevicesInformation));
+  i:=0;
+  LIndex:=0;
+  repeat
+    LIndex := GetSMBiosTableNextIndex(OnBoardDevicesInformation, LIndex);
+    if LIndex >= 0 then
+    begin
+      FOnBoardSystemInfo[i]:=TOnBoardSystemInformation.Create;
+      FOnBoardSystemInfo[i].RAWOnBoardSystemInfo:=@RawSMBIOSData.SMBIOSTableData^[LIndex];
       Inc(i);
     end;
   until (LIndex=-1);
@@ -6457,8 +6523,45 @@ begin
    Result:='Non-recoverable';
 end;
 
+
+{ TOnBoardSystemInformation }
+function TOnBoardSystemInformation.Enabled: Boolean;
+begin
+ Result:=GetBit(RAWOnBoardSystemInfo^.DeviceType, 7);
+end;
+
+function TOnBoardSystemInformation.GetDescription: AnsiString;
+begin
+  Result:= GetSMBiosString(@RAWOnBoardSystemInfo^, RAWOnBoardSystemInfo^.Header.Length, RAWOnBoardSystemInfo^.DescriptionString);
+end;
+
+function TOnBoardSystemInformation.GetTypeDescription: AnsiString;
+var
+  _type : Integer;
+begin
+  _type:=GetBitsValue(RAWOnBoardSystemInfo^.DeviceType,6,0);
+
+  case _type of
+    $01 : Result:='Other';
+    $02 : Result:='Unknown';
+    $03 : Result:='Video';
+    $04 : Result:='SCSI Controller';
+    $05 : Result:='Ethernet';
+    $06 : Result:='Token Ring';
+    $07 : Result:='Sound';
+    $08 : Result:='PATA Controller';
+    $09 : Result:='SATA Controller';
+    $0A : Result:='SAS Controller'
+    else
+    Result:='Unknown';
+  end;
+
+
+end;
+
 {$IFDEF MSWINDOWS}
 {$IFDEF USEWMI}
+
 initialization
   CoInitialize(nil);
 {$ENDIF}
