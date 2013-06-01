@@ -44,7 +44,7 @@ begin
       for i:=1 to OEMStr.RAWOEMStringsInformation.Count do
        Writeln(OEMStr.GetOEMString(i));
     end;
-
+        
   finally
    SMBios.Free;
   end;
