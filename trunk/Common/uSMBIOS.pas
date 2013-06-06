@@ -1337,6 +1337,131 @@ type
     function GetCurrentInterleaveDescr: string;
   end;
 
+  { $REGION 'Documentation'}
+  ///	<summary>
+  ///	  One Memory Module Information structure is included for each
+  ///	  memory-module socket in the system. The structure describes the speed,
+  ///	  type, size, and error status of each system memory module. The
+  ///	  supported attributes of each module are described by the “owning”
+  ///	  Memory Controller Information structure.
+  ///	</summary>
+  { $ENDREGION}
+  TMemoryModuleInfo = packed record
+    Header: TSmBiosTableHeader;
+
+    { $REGION 'Documentation'}
+    ///	<summary>
+    ///	  String number for reference designation EXAMPLE: ‘J202’,0
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
+    { $ENDREGION}
+    SocketDesignation : Byte;
+
+    { $REGION 'Documentation'}
+    ///	<summary>
+    ///	  <para>
+    ///	    Each nibble indicates a bank (RAS#) connection; 0xF means no
+    ///	    connection.
+    ///	  </para>
+    ///	  <para>
+    ///	    EXAMPLE: If banks 1 &amp; 3 (RAS# 1 &amp; 3) were connected to a
+    ///	    SIMM socket the byte for that socket would be 13h. If only bank 2
+    ///	    (RAS 2) were connected, the byte for that socket would be 2Fh.
+    ///	  </para>
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
+    { $ENDREGION}
+    BankConnections : Byte;
+
+    { $REGION 'Documentation'}
+    ///	<summary>
+    ///	  Speed of the memory module, in ns (for example, 70d for a 70ns
+    ///	  module) If the speed is unknown, the field is set to 0.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
+    { $ENDREGION}
+    CurrentSpeed    : Byte;
+
+    { $REGION 'Documentation'}
+    ///	<summary>
+    ///	  This field describes the physical characteristics of the memory
+    ///	  modules that are supported by (and currently installed in) the system
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
+    { $ENDREGION}
+    CurrentMemoryType : Word;
+
+    { $REGION 'Documentation'}
+    ///	<summary>
+    ///	  The Installed Size fields identify the size of the memory module that
+    ///	  is installed in the socket, as determined by reading and correlating
+    ///	  the module’s presence-detect information. If the system does not
+    ///	  support presence-detect mechanisms, the Installed Size field is set
+    ///	  to 7Dh to indicate that the installed size is not determinable.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
+    { $ENDREGION}
+    InstalledSize : Byte;
+
+    { $REGION 'Documentation'}
+    ///	<summary>
+    ///	  The Enabled Size field identifies the amount of memory currently
+    ///	  enabled for the system’s use from the module. If a module is known to
+    ///	  be installed in a connector, but all memory in the module has been
+    ///	  disabled due to error, the Enabled Size field is set to 7Eh.
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
+    { $ENDREGION}
+    EnabledSize :Byte;
+
+    { $REGION 'Documentation'}
+    ///	<summary>
+    ///	  <para>
+    ///	    Bits 7:3 Reserved, set to 0s
+    ///	  </para>
+    ///	  <para>
+    ///	    Bit 2 If set, the Error Status information should be obtained from
+    ///	    the event log; bits 1 and 0 are reserved.
+    ///	  </para>
+    ///	  <para>
+    ///	    Bit 1 Correctable errors received for the module, if set. This bit
+    ///	    is reset only during a system reset.
+    ///	  </para>
+    ///	  <para>
+    ///	    Bit 0 Uncorrectable errors received for the module, if set. All or
+    ///	    a portion of the module has been disabled. This bit is only reset
+    ///	    on power-on.
+    ///	  </para>
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
+    { $ENDREGION}
+    ErrorStatus : Byte;
+  end;
+
+  TMemoryModuleInformation=class
+    RAWMemoryModuleInformation : ^TMemoryModuleInfo;
+    { $REGION 'Documentation'}
+    ///	<summary>
+    ///	  Get the string representation of the SocketDesignation field
+    ///	</summary>
+    { $ENDREGION}
+    function GetSocketDesignationDescr: string;
+  end;
+
    TCacheSRAMType =
    (
     SROther,
@@ -3925,13 +4050,14 @@ type
   ArrBatteryInfo        = Array of TBatteryInformation;
   ArrMemoryArrayMappedAddressInfo = Array of TMemoryArrayMappedAddressInformation;
   ArrMemoryDeviceMappedAddressInfo = Array of TMemoryDeviceMappedAddressInformation;
-  ArrBuiltInPointingDeviceInformation = Array of TBuiltInPointingDeviceInformation;
-  ArrVoltageProbeInformation = Array of TVoltageProbeInformation;
-  ArrCoolingDeviceInformation = Array of TCoolingDeviceInformation;
-  ArrTemperatureProbeInformation = Array of TTemperatureProbeInformation;
-  ArrElectricalCurrentProbeInformation = Array of TElectricalCurrentProbeInformation;
-  ArrOnBoardSystemInformation= Array of TOnBoardSystemInformation;
-  ArrMemoryControllerInformation= Array of TMemoryControllerInformation;
+  ArrBuiltInPointingDeviceInfo = Array of TBuiltInPointingDeviceInformation;
+  ArrVoltageProbeInfo = Array of TVoltageProbeInformation;
+  ArrCoolingDeviceInfo = Array of TCoolingDeviceInformation;
+  ArrTemperatureProbeInfo = Array of TTemperatureProbeInformation;
+  ArrElectricalCurrentProbeInfo = Array of TElectricalCurrentProbeInformation;
+  ArrOnBoardSystemInfo= Array of TOnBoardSystemInformation;
+  ArrMemoryControllerInfo= Array of TMemoryControllerInformation;
+  ArrMemoryModuleInfo= Array of TMemoryModuleInformation;
   {$ENDIF}
 
   TSMBios = class
@@ -3951,17 +4077,18 @@ type
     FBIOSLanguageInfo: {$IFDEF NOGENERICS}ArrBIOSLanguageInfo; {$ELSE}TArray<TBIOSLanguageInformation>;{$ENDIF}
     FSystemConfInfo: {$IFDEF NOGENERICS}ArrSystemConfInfo; {$ELSE}TArray<TSystemConfInformation>;{$ENDIF}
     FPhysicalMemoryArrayInfo: {$IFDEF NOGENERICS}ArrPhysicalMemoryArrayInfo; {$ELSE}TArray<TPhysicalMemoryArrayInformation>;{$ENDIF}
-    FMemoryDeviceInformation : {$IFDEF NOGENERICS}ArrMemoryDeviceInfo; {$ELSE}TArray<TMemoryDeviceInformation>;{$ENDIF}
+    FMemoryDeviceInfo : {$IFDEF NOGENERICS}ArrMemoryDeviceInfo; {$ELSE}TArray<TMemoryDeviceInformation>;{$ENDIF}
     FBatteryInformation : {$IFDEF NOGENERICS}ArrBatteryInfo; {$ELSE}TArray<TBatteryInformation>;{$ENDIF}
     FMemoryArrayMappedAddressInformation : {$IFDEF NOGENERICS}ArrMemoryArrayMappedAddressInfo; {$ELSE}TArray<TMemoryArrayMappedAddressInformation>;{$ENDIF}
     FMemoryDeviceMappedAddressInformation : {$IFDEF NOGENERICS}ArrMemoryDeviceMappedAddressInfo; {$ELSE}TArray<TMemoryDeviceMappedAddressInformation>;{$ENDIF}
-    FBuiltInPointingDeviceInformation     : {$IFDEF NOGENERICS}ArrBuiltInPointingDeviceInformation; {$ELSE}TArray<TBuiltInPointingDeviceInformation>;{$ENDIF}
-    FVoltageProbeInformation : {$IFDEF NOGENERICS}ArrVoltageProbeInformation; {$ELSE}TArray<TVoltageProbeInformation>;{$ENDIF}
-    FCoolingDeviceInformation : {$IFDEF NOGENERICS}ArrCoolingDeviceInformation; {$ELSE}TArray<TCoolingDeviceInformation>;{$ENDIF}
-    FTemperatureProbeInformation : {$IFDEF NOGENERICS}ArrTemperatureProbeInformation; {$ELSE}TArray<TTemperatureProbeInformation>;{$ENDIF}
-    FElectricalCurrentProbeInformation : {$IFDEF NOGENERICS}ArrElectricalCurrentProbeInformation; {$ELSE}TArray<TElectricalCurrentProbeInformation>;{$ENDIF}
-    FOnBoardSystemInfo: {$IFDEF NOGENERICS}ArrOnBoardSystemInformation; {$ELSE} TArray<TOnBoardSystemInformation>; {$ENDIF}
-    FMemoryControllerInfo: {$IFDEF NOGENERICS}ArrMemoryControllerInformation;{$ELSE} TArray<TMemoryControllerInformation>; {$ENDIF}
+    FBuiltInPointingDeviceInformation     : {$IFDEF NOGENERICS}ArrBuiltInPointingDeviceInfo; {$ELSE}TArray<TBuiltInPointingDeviceInformation>;{$ENDIF}
+    FVoltageProbeInformation : {$IFDEF NOGENERICS}ArrVoltageProbeInfo; {$ELSE}TArray<TVoltageProbeInformation>;{$ENDIF}
+    FCoolingDeviceInformation : {$IFDEF NOGENERICS}ArrCoolingDeviceInfo; {$ELSE}TArray<TCoolingDeviceInformation>;{$ENDIF}
+    FTemperatureProbeInformation : {$IFDEF NOGENERICS}ArrTemperatureProbeInfo; {$ELSE}TArray<TTemperatureProbeInformation>;{$ENDIF}
+    FElectricalCurrentProbeInformation : {$IFDEF NOGENERICS}ArrElectricalCurrentProbeInfo; {$ELSE}TArray<TElectricalCurrentProbeInformation>;{$ENDIF}
+    FOnBoardSystemInfo: {$IFDEF NOGENERICS}ArrOnBoardSystemInfo; {$ELSE} TArray<TOnBoardSystemInformation>; {$ENDIF}
+    FMemoryControllerInfo: {$IFDEF NOGENERICS}ArrMemoryControllerInfo;{$ELSE} TArray<TMemoryControllerInformation>; {$ENDIF}
+    FMemoryModuleInfo: {$IFDEF NOGENERICS}ArrMemoryModuleInfo;{$ELSE} TArray<TMemoryModuleInformation>; {$ENDIF}
     {$IFDEF MSWINDOWS}
     {$IFDEF USEWMI}
     procedure LoadSMBIOSWMI(const RemoteMachine, UserName, Password : string);
@@ -4002,6 +4129,7 @@ type
     function GetHasElectricalCurrentProbeInfo: Boolean;
     function GetHasOnBoardSystemInfo: Boolean;
     function GetHasMemoryControllerInfo: Boolean;
+    function GetHasMemoryModuleInfo : Boolean;
 
   public
     { $REGION 'Documentation'}
@@ -4073,7 +4201,7 @@ type
     property ProcessorInfo: {$IFDEF NOGENERICS}ArrProcessorInfo {$ELSE}TArray<TProcessorInformation> {$ENDIF} read FProcessorInfo;
     property HasProcessorInfo : Boolean read GetHasProcessorInfo;
 
-    property MemoryControllerInfo: {$IFDEF NOGENERICS}ArrMemoryControllerInformation {$ELSE} TArray<TMemoryControllerInformation> {$ENDIF} read FMemoryControllerInfo;
+    property MemoryControllerInfo: {$IFDEF NOGENERICS}ArrMemoryControllerInfo {$ELSE} TArray<TMemoryControllerInformation> {$ENDIF} read FMemoryControllerInfo;
     property HasMemoryControllerInfo : Boolean read GetHasMemoryControllerInfo;
 
     property PortConnectorInfo: {$IFDEF NOGENERICS}ArrPortConnectorInfo {$ELSE} TArray<TPortConnectorInformation> {$ENDIF} read FPortConnectorInfo;
@@ -4082,7 +4210,7 @@ type
     property SystemSlotInfo: {$IFDEF NOGENERICS}ArrSystemSlotInfo {$ELSE} TArray<TSystemSlotInformation> {$ENDIF} read FSystemSlotInfo;
     property HasSystemSlotInfo : Boolean read GetHasSystemSlotInfo;
 
-    property OnBoardSystemInfo: {$IFDEF NOGENERICS}ArrOnBoardSystemInformation {$ELSE} TArray<TOnBoardSystemInformation> {$ENDIF} read FOnBoardSystemInfo;
+    property OnBoardSystemInfo: {$IFDEF NOGENERICS}ArrOnBoardSystemInfo {$ELSE} TArray<TOnBoardSystemInformation> {$ENDIF} read FOnBoardSystemInfo;
     property HasOnBoardSystemInfo : Boolean read GetHasOnBoardSystemInfo;
 
     property OEMStringsInfo: {$IFDEF NOGENERICS}ArrOEMStringsInfo {$ELSE} TArray<TOEMStringsInformation> {$ENDIF} read FOEMStringsInfo;
@@ -4097,8 +4225,11 @@ type
     property PhysicalMemoryArrayInfo : {$IFDEF NOGENERICS} ArrPhysicalMemoryArrayInfo {$ELSE} TArray<TPhysicalMemoryArrayInformation> {$ENDIF} read FPhysicalMemoryArrayInfo;
     property HasPhysicalMemoryArrayInfo : Boolean read GetHasPhysicalMemoryArrayInfo;
 
-    property MemoryDeviceInformation: {$IFDEF NOGENERICS} ArrMemoryDeviceInfo {$ELSE} TArray<TMemoryDeviceInformation> {$ENDIF} read FMemoryDeviceInformation;
+    property MemoryDeviceInfo: {$IFDEF NOGENERICS} ArrMemoryDeviceInfo {$ELSE} TArray<TMemoryDeviceInformation> {$ENDIF} read FMemoryDeviceInfo;
     property HasMemoryDeviceInfo : Boolean read GetHasMemoryDeviceInfo;
+
+    property MemoryModuleInfo: {$IFDEF NOGENERICS} ArrMemoryModuleInfo {$ELSE} TArray<TMemoryModuleInformation> {$ENDIF} read FMemoryModuleInfo;
+    property HasMemoryModuleInfo : Boolean read GetHasMemoryModuleInfo;
 
     property BatteryInformation: {$IFDEF NOGENERICS} ArrBatteryInfo {$ELSE} TArray<TBatteryInformation> {$ENDIF} read FBatteryInformation;
     property HasBatteryInfo : Boolean read GetHasBatteryInfo;
@@ -4109,19 +4240,19 @@ type
     property MemoryDeviceMappedAddressInformation : {$IFDEF NOGENERICS} ArrMemoryDeviceMappedAddressInfo {$ELSE} TArray<TMemoryDeviceMappedAddressInformation> {$ENDIF} read FMemoryDeviceMappedAddressInformation;
     property HasMemoryDeviceMappedAddressInfo : Boolean read GetHasMemoryDeviceMappedAddressInfo;
 
-    property BuiltInPointingDeviceInformation :  {$IFDEF NOGENERICS} ArrBuiltInPointingDeviceInformation {$ELSE} TArray<TBuiltInPointingDeviceInformation> {$ENDIF} read FBuiltInPointingDeviceInformation;
+    property BuiltInPointingDeviceInformation :  {$IFDEF NOGENERICS} ArrBuiltInPointingDeviceInfo {$ELSE} TArray<TBuiltInPointingDeviceInformation> {$ENDIF} read FBuiltInPointingDeviceInformation;
     property HasBuiltInPointingDeviceInfo : Boolean read GetHasBuiltInPointingDeviceInfo;
 
-    property VoltageProbeInformation:  {$IFDEF NOGENERICS} ArrVoltageProbeInformation {$ELSE} TArray<TVoltageProbeInformation> {$ENDIF} read FVoltageProbeInformation;
+    property VoltageProbeInformation:  {$IFDEF NOGENERICS} ArrVoltageProbeInfo {$ELSE} TArray<TVoltageProbeInformation> {$ENDIF} read FVoltageProbeInformation;
     property HasVoltageProbeInfo : Boolean read GetHasVoltageProbeInfo;
 
-    property CoolingDeviceInformation:  {$IFDEF NOGENERICS} ArrCoolingDeviceInformation {$ELSE} TArray<TCoolingDeviceInformation> {$ENDIF} read FCoolingDeviceInformation;
+    property CoolingDeviceInformation:  {$IFDEF NOGENERICS} ArrCoolingDeviceInfo {$ELSE} TArray<TCoolingDeviceInformation> {$ENDIF} read FCoolingDeviceInformation;
     property HasCoolingDeviceInfo : Boolean read GetHasCoolingDeviceInfo;
 
-    property TemperatureProbeInformation:  {$IFDEF NOGENERICS} ArrTemperatureProbeInformation {$ELSE} TArray<TTemperatureProbeInformation> {$ENDIF} read FTemperatureProbeInformation;
+    property TemperatureProbeInformation:  {$IFDEF NOGENERICS} ArrTemperatureProbeInfo {$ELSE} TArray<TTemperatureProbeInformation> {$ENDIF} read FTemperatureProbeInformation;
     property HasTemperatureProbeInfo : Boolean read GetHasTemperatureProbeInfo;
 
-    property ElectricalCurrentProbeInformation :{$IFDEF NOGENERICS} ArrElectricalCurrentProbeInformation {$ELSE} TArray<TElectricalCurrentProbeInformation> {$ENDIF} read FElectricalCurrentProbeInformation;
+    property ElectricalCurrentProbeInformation :{$IFDEF NOGENERICS} ArrElectricalCurrentProbeInfo {$ELSE} TArray<TElectricalCurrentProbeInformation> {$ENDIF} read FElectricalCurrentProbeInformation;
     property HasElectricalCurrentProbeInfo : Boolean read GetHasElectricalCurrentProbeInfo;
   end;
 
@@ -4336,8 +4467,8 @@ begin
   for i:=0 to Length(FBuiltInPointingDeviceInformation)-1 do
    FBuiltInPointingDeviceInformation[i].Free;
 
-  for i:=0 to Length(FMemoryDeviceInformation)-1 do
-   FMemoryDeviceInformation[i].Free;
+  for i:=0 to Length(FMemoryDeviceInfo)-1 do
+   FMemoryDeviceInfo[i].Free;
 
   for i:=0 to Length(FMemoryArrayMappedAddressInformation)-1 do
    FMemoryArrayMappedAddressInformation[i].Free;
@@ -4354,9 +4485,11 @@ begin
   for i:=0 to Length(FBaseBoardInfo)-1 do
    FBaseBoardInfo[i].Free;
 
-
   for i:=0 to Length(FMemoryControllerInfo)-1 do
    FMemoryControllerInfo[i].Free;
+
+  for i:=0 to Length(FMemoryModuleInfo)-1 do
+   FMemoryModuleInfo[i].Free;
 end;
 
 destructor TSMBios.Destroy;
@@ -4485,9 +4618,14 @@ begin
   Result:=Length(FMemoryControllerInfo)>0;
 end;
 
+function TSMBios.GetHasMemoryModuleInfo : Boolean;
+begin
+  Result:=Length(FMemoryModuleInfo)>0;
+end;
+
 function TSMBios.GetHasMemoryDeviceInfo: Boolean;
 begin
-  Result:=Length(FMemoryDeviceInformation)>0;
+  Result:=Length(FMemoryDeviceInfo)>0;
 end;
 
 function TSMBios.GetHasMemoryDeviceMappedAddressInfo: Boolean;
@@ -4964,7 +5102,9 @@ var
   FWbemObjectSet: OLEVariant;
   FWbemObject: {$IFDEF FPC}Variant {$ELSE} OLEVariant{$ENDIF};
   oEnum: IEnumvariant;
-  {$IFNDEF FPC}iValue: LongWord;{$ENDIF}
+  {$IFNDEF FPC}
+  iValue: LongWord;
+  {$ENDIF}
   vArray: variant;
   Value: integer;
   i: integer;
@@ -4989,9 +5129,6 @@ begin;
     FRawSMBIOSData.DmiRevision:= FWbemObject.DmiRevision;
     FRawSMBIOSData.SMBIOSMajorVersion :=FWbemObject.SmbiosMajorVersion;
     FRawSMBIOSData.SMBIOSMinorVersion :=FWbemObject.SmbiosMinorVersion;
-
-    //if SmbiosVersion<'2.4' then
-     //raise Exception.Create(Format('Sorry, SMBIOS Version not supported %s',[SmbiosVersion]));
 
     vArray := FWbemObject.SMBiosData;
 
@@ -5199,23 +5336,23 @@ begin
   until (LIndex=-1);
 
 
-  SetLength(FMemoryDeviceInformation, GetSMBiosTableEntries(MemoryDevice));
+  SetLength(FMemoryDeviceInfo, GetSMBiosTableEntries(MemoryDevice));
   i:=0;
   LIndex:=0;
   repeat
     LIndex := GetSMBiosTableNextIndex(MemoryDevice, LIndex);
     if LIndex >= 0 then
     begin
-      FMemoryDeviceInformation[i]:=TMemoryDeviceInformation.Create;
-      FMemoryDeviceInformation[i].RAWMemoryDeviceInfo:=@RawSMBIOSData.SMBIOSTableData^[LIndex];
+      FMemoryDeviceInfo[i]:=TMemoryDeviceInformation.Create;
+      FMemoryDeviceInfo[i].RAWMemoryDeviceInfo:=@RawSMBIOSData.SMBIOSTableData^[LIndex];
 
-      if FMemoryDeviceInformation[i].RAWMemoryDeviceInfo^.PhysicalMemoryArrayHandle>0 then
+      if FMemoryDeviceInfo[i].RAWMemoryDeviceInfo^.PhysicalMemoryArrayHandle>0 then
         for j:=Low(FPhysicalMemoryArrayInfo) to High(FPhysicalMemoryArrayInfo) do
         begin
           LArrMemory:=FPhysicalMemoryArrayInfo[j];
-          if LArrMemory.RAWPhysicalMemoryArrayInformation^.Header.Handle=FMemoryDeviceInformation[i].RAWMemoryDeviceInfo^.PhysicalMemoryArrayHandle then
+          if LArrMemory.RAWPhysicalMemoryArrayInformation^.Header.Handle=FMemoryDeviceInfo[i].RAWMemoryDeviceInfo^.PhysicalMemoryArrayHandle then
           begin
-            FMemoryDeviceInformation[i].PhysicalMemoryArray:=LArrMemory;
+            FMemoryDeviceInfo[i].PhysicalMemoryArray:=LArrMemory;
             Break;
           end;
         end;
@@ -5223,6 +5360,20 @@ begin
       Inc(i);
     end;
   until (LIndex=-1);
+
+  SetLength(FMemoryModuleInfo, GetSMBiosTableEntries(MemoryModuleInformation));
+  i:=0;
+  LIndex:=0;
+  repeat
+    LIndex := GetSMBiosTableNextIndex(MemoryModuleInformation, LIndex);
+    if LIndex >= 0 then
+    begin
+      FMemoryModuleInfo[i]:=TMemoryModuleInformation.Create;
+      FMemoryModuleInfo[i].RAWMemoryModuleInformation:=@RawSMBIOSData.SMBIOSTableData^[LIndex];
+      Inc(i);
+    end;
+  until (LIndex=-1);
+
 
 
   SetLength(FBatteryInformation, GetSMBiosTableEntries(PortableBattery));
@@ -6864,6 +7015,11 @@ begin
     else
     Result:='Unknown';
   end;
+end;
+
+function TMemoryModuleInformation.GetSocketDesignationDescr: string;
+begin
+  Result:= GetSMBiosString(@RAWMemoryModuleInformation^, RAWMemoryModuleInformation^.Header.Length, RAWMemoryModuleInformation^.SocketDesignation);
 end;
 
 {$IFDEF MSWINDOWS}
