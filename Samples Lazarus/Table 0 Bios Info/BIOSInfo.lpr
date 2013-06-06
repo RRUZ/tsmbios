@@ -6,8 +6,7 @@ uses
   {$IFDEF UNIX}{$IFDEF UseCThreads}
   cthreads,
   {$ENDIF}{$ENDIF}
-  Classes, SysUtils, uSMBIOS
-  { you can add units after this };
+  Classes, SysUtils, uSMBIOS;
 
 procedure GetBIOSInfo;
 Var
