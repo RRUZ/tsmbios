@@ -14,7 +14,7 @@ Var
 begin
   SMBios:=TSMBios.Create;
   try
-      SMBios.FindAndLoadFromFile('C:\Users\Dexter\Desktop\RAD Studio Projects\google-code\SMBIOS Delphi\Docs\DELL_system_dumps\PE2450\SMBIOS.dat');
+      //SMBios.FindAndLoadFromFile('C:\Users\Dexter\Desktop\RAD Studio Projects\google-code\SMBIOS Delphi\Docs\DELL_system_dumps\PE2450\SMBIOS.dat');
       WriteLn('Group Associations Information');
       WriteLn('------------------------------');
       if SMBios.HasGroupAssociationsInfo then
