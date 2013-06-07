@@ -1459,7 +1459,7 @@ type
     ///	  Get the string representation of the SocketDesignation field
     ///	</summary>
     { $ENDREGION}
-    function GetSocketDesignationDescr: string;
+    function GetSocketDesignationDescr: AnsiString;
   end;
 
    TCacheSRAMType =
@@ -2455,6 +2455,56 @@ type
     Count : Byte;
   end;
 
+  { $REGION 'Documentation'}
+  ///	<summary>
+  ///	  The Group Associations structure is provided for OEMs who want to
+  ///	  specify the arrangement or hierarchy of certain components (including
+  ///	  other Group Associations) within the system. For example, you can use
+  ///	  the Group Associations structure to indicate that two CPUs share a
+  ///	  common external cache system.
+  ///	</summary>
+  { $ENDREGION}
+  TGroupAssociationsInfo = packed record
+    Header: TSmBiosTableHeader;
+    { $REGION 'Documentation'}
+    ///	<summary>
+    ///	  String number of string describing the group
+    ///	</summary>
+    ///	<value>
+    ///	  2.0+
+    ///	</value>
+    { $ENDREGION}
+    GroupName   : Byte;
+    { $REGION 'Documentation'}
+    ///	<summary>
+    ///	  Item (Structure) Type of this member
+    ///	</summary>
+    ///	<value>
+    ///	  2.0+
+    ///	</value>
+    { $ENDREGION}
+    ItemType    : Byte;
+    { $REGION 'Documentation'}
+    ///	<summary>
+    ///	  Handle corresponding to this structure
+    ///	</summary>
+    ///	<remarks>
+    ///	  2.0+
+    ///	</remarks>
+    { $ENDREGION}
+    ItemHandle  : Word;
+  end;
+
+  TGroupAssociationsInformation = class
+  public
+    RAWGroupAssociationsInformation : ^TGroupAssociationsInfo;
+    { $REGION 'Documentation'}
+    ///	<summary>
+    ///	  Returns the string representation of the GroupName field 
+    ///	</summary>
+    { $ENDREGION}
+    function GetGroupName : AnsiString;
+  end;
 
   TOEMStringsInformation = class
   public
@@ -4058,6 +4108,7 @@ type
   ArrOnBoardSystemInfo= Array of TOnBoardSystemInformation;
   ArrMemoryControllerInfo= Array of TMemoryControllerInformation;
   ArrMemoryModuleInfo= Array of TMemoryModuleInformation;
+  ArrGroupAssociationsInfo = Array of TGroupAssociationsInformation;
   {$ENDIF}
 
   TSMBios = class
@@ -4089,6 +4140,7 @@ type
     FOnBoardSystemInfo: {$IFDEF NOGENERICS}ArrOnBoardSystemInfo; {$ELSE} TArray<TOnBoardSystemInformation>; {$ENDIF}
     FMemoryControllerInfo: {$IFDEF NOGENERICS}ArrMemoryControllerInfo;{$ELSE} TArray<TMemoryControllerInformation>; {$ENDIF}
     FMemoryModuleInfo: {$IFDEF NOGENERICS}ArrMemoryModuleInfo;{$ELSE} TArray<TMemoryModuleInformation>; {$ENDIF}
+    FGroupAssociationsInformation: {$IFDEF NOGENERICS}ArrGroupAssociationsInfo;{$ELSE} TArray<TGroupAssociationsInformation>; {$ENDIF}
     {$IFDEF MSWINDOWS}
     {$IFDEF USEWMI}
     procedure LoadSMBIOSWMI(const RemoteMachine, UserName, Password : string);
@@ -4130,6 +4182,7 @@ type
     function GetHasOnBoardSystemInfo: Boolean;
     function GetHasMemoryControllerInfo: Boolean;
     function GetHasMemoryModuleInfo : Boolean;
+    function GetHasGroupAssociationsInfo : Boolean;
 
   public
     { $REGION 'Documentation'}
@@ -4254,6 +4307,10 @@ type
 
     property ElectricalCurrentProbeInformation :{$IFDEF NOGENERICS} ArrElectricalCurrentProbeInfo {$ELSE} TArray<TElectricalCurrentProbeInformation> {$ENDIF} read FElectricalCurrentProbeInformation;
     property HasElectricalCurrentProbeInfo : Boolean read GetHasElectricalCurrentProbeInfo;
+
+    property GroupAssociationsInformation :{$IFDEF NOGENERICS} ArrGroupAssociationsInfo {$ELSE} TArray<TGroupAssociationsInformation> {$ENDIF} read FGroupAssociationsInformation;
+    property HasGroupAssociationsInfo : Boolean read GetHasGroupAssociationsInfo;
+
   end;
 
 implementation
@@ -4490,6 +4547,9 @@ begin
 
   for i:=0 to Length(FMemoryModuleInfo)-1 do
    FMemoryModuleInfo[i].Free;
+
+  for i:=0 to Length(FGroupAssociationsInformation)-1 do
+   FGroupAssociationsInformation[i].Free;
 end;
 
 destructor TSMBios.Destroy;
@@ -4621,6 +4681,11 @@ end;
 function TSMBios.GetHasMemoryModuleInfo : Boolean;
 begin
   Result:=Length(FMemoryModuleInfo)>0;
+end;
+
+function TSMBios.GetHasGroupAssociationsInfo : Boolean;
+begin
+  Result:=Length(FGroupAssociationsInformation)>0;
 end;
 
 function TSMBios.GetHasMemoryDeviceInfo: Boolean;
@@ -4804,7 +4869,7 @@ begin
   end;
   {$ELSE}
   for Entry in FSMBiosTablesList do
-    if Entry.Header.TableType=Byte(Ord(TableType))  then
+    if (Entry.Header.TableType<>127) and (Entry.Header.TableType=Byte(Ord(TableType)))  then
       Result:=Result+1;
   {$ENDIF}
 end;
@@ -5374,7 +5439,18 @@ begin
     end;
   until (LIndex=-1);
 
-
+  SetLength(FGroupAssociationsInformation, GetSMBiosTableEntries(GroupAssociations));
+  i:=0;
+  LIndex:=0;
+  repeat
+    LIndex := GetSMBiosTableNextIndex(GroupAssociations, LIndex);
+    if LIndex >= 0 then
+    begin
+      FGroupAssociationsInformation[i]:=TGroupAssociationsInformation.Create;
+      FGroupAssociationsInformation[i].RAWGroupAssociationsInformation:=@RawSMBIOSData.SMBIOSTableData^[LIndex];
+      Inc(i);
+    end;
+  until (LIndex=-1);
 
   SetLength(FBatteryInformation, GetSMBiosTableEntries(PortableBattery));
   i:=0;
@@ -7017,9 +7093,14 @@ begin
   end;
 end;
 
-function TMemoryModuleInformation.GetSocketDesignationDescr: string;
+function TMemoryModuleInformation.GetSocketDesignationDescr: AnsiString;
 begin
   Result:= GetSMBiosString(@RAWMemoryModuleInformation^, RAWMemoryModuleInformation^.Header.Length, RAWMemoryModuleInformation^.SocketDesignation);
+end;
+
+function TGroupAssociationsInformation.GetGroupName : AnsiString;
+begin
+  Result:= GetSMBiosString(@RAWGroupAssociationsInformation^, RAWGroupAssociationsInformation^.Header.Length, RAWGroupAssociationsInformation^.GroupName);
 end;
 
 {$IFDEF MSWINDOWS}
