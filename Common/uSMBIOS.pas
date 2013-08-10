@@ -2016,7 +2016,7 @@ type
     ///	    field is set to 0.
     ///	  </para>
     ///	  <para>
-    ///	    Core Count is the number of cores detected by the BIOS for this
+    ///	    Co Count is the number of cores detected by the BIOS for this
     ///	    processor socket. It does not necessarily indicate the full
     ///	    capability of the processor. For example, platform hardware may
     ///	    have the capability to limit the number of cores reported by the
@@ -5197,7 +5197,7 @@ begin;
 
     vArray := FWbemObject.SMBiosData;
 
-    if (VarType(vArray) and VarArray) <> 0 then
+      {$IFDEF FPC} if VarIsArray(vArray) then {$ENDIF} //if (VarType(vArray) and VarArray) <> 0 then
       for i := VarArrayLowBound(vArray, 1) to VarArrayHighBound(vArray, 1) do
       begin
         Value := vArray[i];
