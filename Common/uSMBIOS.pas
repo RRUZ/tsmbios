@@ -5234,7 +5234,8 @@ begin
 
   SetLength(FOEMStringsInfo, GetSMBiosTableEntries(OEMStrings));
   i:=0;
-  LIndex:=0;
+  LIndex:=-1;
+  if Length(FOEMStringsInfo)>0 then
   repeat
     LIndex := GetSMBiosTableNextIndex(OEMStrings, LIndex);
     if LIndex >= 0 then
@@ -5248,7 +5249,8 @@ begin
 
   SetLength(FBaseBoardInfo, GetSMBiosTableEntries(BaseBoardInformation));
   i:=0;
-  LIndex:=0;
+  LIndex:=-1;
+  if Length(FBaseBoardInfo)>0 then
   repeat
     LIndex := GetSMBiosTableNextIndex(BaseBoardInformation, LIndex);
     if LIndex >= 0 then
@@ -5261,7 +5263,8 @@ begin
 
   SetLength(FEnclosureInfo, GetSMBiosTableEntries(EnclosureInformation));
   i:=0;
-  LIndex:=0;
+  LIndex:=-1;
+  if Length(FEnclosureInfo)>0 then
   repeat
     LIndex := GetSMBiosTableNextIndex(EnclosureInformation, LIndex);
     if LIndex >= 0 then
@@ -5274,7 +5277,8 @@ begin
 
   SetLength(FCacheInfo, GetSMBiosTableEntries(CacheInformation));
   i:=0;
-  LIndex:=0;
+  LIndex:=-1;
+  if Length(FCacheInfo)>0 then
   repeat
     LIndex := GetSMBiosTableNextIndex(CacheInformation, LIndex);
     if LIndex >= 0 then
@@ -5288,7 +5292,8 @@ begin
 
   SetLength(FProcessorInfo, GetSMBiosTableEntries(ProcessorInformation));
   i:=0;
-  LIndex:=0;
+  LIndex:=-1;
+  if Length(FProcessorInfo)>0 then
   repeat
     LIndex := GetSMBiosTableNextIndex(ProcessorInformation, LIndex);
     if LIndex >= 0 then
@@ -5336,7 +5341,8 @@ begin
 
   SetLength(FPortConnectorInfo, GetSMBiosTableEntries(PortConnectorInformation));
   i:=0;
-  LIndex:=0;
+  LIndex:=-1;
+  if Length(FPortConnectorInfo)>0 then
   repeat
     LIndex := GetSMBiosTableNextIndex(PortConnectorInformation, LIndex);
     if LIndex >= 0 then
@@ -5350,6 +5356,7 @@ begin
   SetLength(FSystemSlotInfo, GetSMBiosTableEntries(SystemSlotsInformation));
   i:=0;
   LIndex:=0;
+  if Length(FSystemSlotInfo)>0 then
   repeat
     LIndex := GetSMBiosTableNextIndex(SystemSlotsInformation, LIndex);
     if LIndex >= 0 then
@@ -5362,7 +5369,8 @@ begin
 
   SetLength(FBIOSLanguageInfo, GetSMBiosTableEntries(BIOSLanguageInformation));
   i:=0;
-  LIndex:=0;
+  LIndex:=-1;
+  if Length(FBIOSLanguageInfo)>0 then
   repeat
     LIndex := GetSMBiosTableNextIndex(BIOSLanguageInformation, LIndex);
     if LIndex >= 0 then
@@ -5376,7 +5384,8 @@ begin
 
   SetLength(FSystemConfInfo, GetSMBiosTableEntries(SystemConfigurationOptions));
   i:=0;
-  LIndex:=0;
+  LIndex:=-1;
+  if Length(FSystemConfInfo)>0 then
   repeat
     LIndex := GetSMBiosTableNextIndex(SystemConfigurationOptions, LIndex);
     if LIndex >= 0 then
@@ -5389,7 +5398,8 @@ begin
 
   SetLength(FPhysicalMemoryArrayInfo, GetSMBiosTableEntries(PhysicalMemoryArray));
   i:=0;
-  LIndex:=0;
+  LIndex:=-1;
+  if Length(FPhysicalMemoryArrayInfo)>0 then
   repeat
     LIndex := GetSMBiosTableNextIndex(PhysicalMemoryArray, LIndex);
     if LIndex >= 0 then
@@ -5403,7 +5413,8 @@ begin
 
   SetLength(FMemoryDeviceInfo, GetSMBiosTableEntries(MemoryDevice));
   i:=0;
-  LIndex:=0;
+  LIndex:=-1;
+  if Length(FMemoryDeviceInfo)>0 then
   repeat
     LIndex := GetSMBiosTableNextIndex(MemoryDevice, LIndex);
     if LIndex >= 0 then
@@ -5428,7 +5439,8 @@ begin
 
   SetLength(FMemoryModuleInfo, GetSMBiosTableEntries(MemoryModuleInformation));
   i:=0;
-  LIndex:=0;
+  LIndex:=-1;
+  if Length(FMemoryModuleInfo)>0 then
   repeat
     LIndex := GetSMBiosTableNextIndex(MemoryModuleInformation, LIndex);
     if LIndex >= 0 then
@@ -5441,7 +5453,8 @@ begin
 
   SetLength(FGroupAssociationsInformation, GetSMBiosTableEntries(GroupAssociations));
   i:=0;
-  LIndex:=0;
+  LIndex:=-1;
+  if Length(FGroupAssociationsInformation)>0 then
   repeat
     LIndex := GetSMBiosTableNextIndex(GroupAssociations, LIndex);
     if LIndex >= 0 then
@@ -5454,7 +5467,8 @@ begin
 
   SetLength(FBatteryInformation, GetSMBiosTableEntries(PortableBattery));
   i:=0;
-  LIndex:=0;
+  LIndex:=-1;
+  if Length(FBatteryInformation)>0 then
   repeat
     LIndex := GetSMBiosTableNextIndex(PortableBattery, LIndex);
     if LIndex >= 0 then
@@ -5468,7 +5482,8 @@ begin
 
   SetLength(FMemoryArrayMappedAddressInformation, GetSMBiosTableEntries(MemoryArrayMappedAddress));
   i:=0;
-  LIndex:=0;
+  LIndex:=-1;
+  if Length(FMemoryArrayMappedAddressInformation)>0 then
   repeat
     LIndex := GetSMBiosTableNextIndex(MemoryArrayMappedAddress, LIndex);
     if LIndex >= 0 then
@@ -5481,7 +5496,8 @@ begin
 
   SetLength(FMemoryDeviceMappedAddressInformation, GetSMBiosTableEntries(MemoryDeviceMappedAddress));
   i:=0;
-  LIndex:=0;
+  LIndex:=-1;
+  if Length(FMemoryDeviceMappedAddressInformation)>0 then
   repeat
     LIndex := GetSMBiosTableNextIndex(MemoryDeviceMappedAddress, LIndex);
     if LIndex >= 0 then
@@ -5494,7 +5510,8 @@ begin
 
   SetLength(FBuiltInPointingDeviceInformation, GetSMBiosTableEntries(BuiltinPointingDevice));
   i:=0;
-  LIndex:=0;
+  LIndex:=-1;
+  if Length(FBuiltInPointingDeviceInformation)>0 then
   repeat
     LIndex := GetSMBiosTableNextIndex(BuiltinPointingDevice, LIndex);
     if LIndex >= 0 then
@@ -5507,7 +5524,8 @@ begin
 
   SetLength(FVoltageProbeInformation, GetSMBiosTableEntries(VoltageProbe));
   i:=0;
-  LIndex:=0;
+  LIndex:=-1;
+  if Length(FVoltageProbeInformation)>0 then
   repeat
     LIndex := GetSMBiosTableNextIndex(VoltageProbe, LIndex);
     if LIndex >= 0 then
@@ -5520,7 +5538,8 @@ begin
 
   SetLength(FCoolingDeviceInformation, GetSMBiosTableEntries(CoolingDevice));
   i:=0;
-  LIndex:=0;
+  LIndex:=-1;
+  if Length(FCoolingDeviceInformation)>0 then
   repeat
     LIndex := GetSMBiosTableNextIndex(CoolingDevice, LIndex);
     if LIndex >= 0 then
@@ -5533,7 +5552,8 @@ begin
 
   SetLength(FTemperatureProbeInformation, GetSMBiosTableEntries(TemperatureProbe));
   i:=0;
-  LIndex:=0;
+  LIndex:=-1;
+  if Length(FTemperatureProbeInformation)>0 then
   repeat
     LIndex := GetSMBiosTableNextIndex(TemperatureProbe, LIndex);
     if LIndex >= 0 then
@@ -5546,7 +5566,8 @@ begin
 
   SetLength(FElectricalCurrentProbeInformation, GetSMBiosTableEntries(ElectricalCurrentProbe));
   i:=0;
-  LIndex:=0;
+  LIndex:=-1;
+  if Length(FElectricalCurrentProbeInformation)>0 then
   repeat
     LIndex := GetSMBiosTableNextIndex(ElectricalCurrentProbe, LIndex);
     if LIndex >= 0 then
@@ -5559,7 +5580,8 @@ begin
 
   SetLength(FOnBoardSystemInfo, GetSMBiosTableEntries(OnBoardDevicesInformation));
   i:=0;
-  LIndex:=0;
+  LIndex:=-1;
+  if Length(FOnBoardSystemInfo)>0 then
   repeat
     LIndex := GetSMBiosTableNextIndex(OnBoardDevicesInformation, LIndex);
     if LIndex >= 0 then
@@ -5572,7 +5594,8 @@ begin
 
   SetLength(FMemoryControllerInfo, GetSMBiosTableEntries(MemoryControllerInformation));
   i:=0;
-  LIndex:=0;
+  LIndex:=-1;
+  if Length(FMemoryControllerInfo)>0 then
   repeat
     LIndex := GetSMBiosTableNextIndex(MemoryControllerInformation, LIndex);
     if LIndex >= 0 then
