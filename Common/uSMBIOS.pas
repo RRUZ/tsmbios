@@ -24,6 +24,7 @@ interface
 
 {$IFDEF FPC}
  {$DEFINE NOGENERICS}
+ {$mode objfpc} 
 {$ELSE}
  {$IFDEF VER130}
  {$DEFINE NOGENERICS}
