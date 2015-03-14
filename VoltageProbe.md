@@ -5,4 +5,4 @@ This describes the attributes for a voltage probe in the system. Each structure 
 
 # Sample Code #
 
-http://code.google.com/p/tsmbios/source/browse/trunk/Samples/Table%2026%20Voltage%20Probe%20Information/VoltageProbeInfo.dpr
+https://github.com/RRUZ/tsmbios/blob/master/Samples/Table%2026%20Voltage%20Probe%20Information/VoltageProbeInfo.dpr
