@@ -1,7 +1,7 @@
 Q : What's means the number in the remarks section of the documentation of the source code ?
 
 
-```
+```delphi
    TCacheInfo = packed record
     Header: TSmBiosTableHeader;
     {$REGION 'Documentation'}
