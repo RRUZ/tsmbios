@@ -7,4 +7,4 @@ NOTE: If a system includes memory-device sockets, the SMBIOS implementation incl
 
 # Sample Code #
 
-http://code.google.com/p/tsmbios/source/browse/trunk/Samples/Table%2017%20Memory%20Device/MemoryDeviceInfo.dpr
+https://github.com/RRUZ/tsmbios/blob/master/Samples/Table%2017%20Memory%20Device/MemoryDeviceInfo.dpr
