@@ -6,7 +6,7 @@ system instance and contains one and only one System Information (Type 1) struct
 
 # Sample code #
 
-```
+```delphi
 {$APPTYPE CONSOLE}
 
 uses
