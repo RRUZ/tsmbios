@@ -7,4 +7,4 @@ NOTE: One structure is provided for each processor instance in a system. For exa
 Software that interprets the SMBIOS information can count the Processor Information structures to determine the maximum possible configuration of the system.
 
 # Sample Code #
-http://code.google.com/p/tsmbios/source/browse/trunk/Samples/Table%204%20Processor%20Information/ProcessorInformation.dpr
+https://github.com/RRUZ/tsmbios/blob/master/Samples/Table%204%20Processor%20Information/ProcessorInformation.dpr
