@@ -17,7 +17,7 @@ Some features of this project are
 
 ## SMBIOS Tables supported
 
-* BIOS Information (Type 0)
+* [BIOS Information](https://github.com/RRUZ/tsmbios/blob/wiki/BIOSInformation.md) (Type 0)
 * System Information (Type 1)
 * Baseboard (or Module) Information (Type 2)
 * System Enclosure or Chassis (Type 3)
