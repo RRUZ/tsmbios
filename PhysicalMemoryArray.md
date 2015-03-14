@@ -4,4 +4,4 @@ This structure describes a collection of memory devices that operate together to
 
 # Sample Code #
 
-http://code.google.com/p/tsmbios/source/browse/trunk/Samples/Table%2016%20Physical%20Memory%20Array/PhysicalMemArrayInfo.dpr
+https://github.com/RRUZ/tsmbios/blob/master/Samples/Table%2016%20Physical%20Memory%20Array/PhysicalMemArrayInfo.dpr
