@@ -4,4 +4,4 @@ This structure describes the attributes of the portable battery or batteries for
 
 # Sample Code #
 
-http://code.google.com/p/tsmbios/source/browse/trunk/Samples/Table%2022%20Battery%20Information/BatteryInfo.dpr
+https://github.com/RRUZ/tsmbios/blob/master/Samples/Table%2022%20Battery%20Information/BatteryInfo.dpr
