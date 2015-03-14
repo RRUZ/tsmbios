@@ -3,4 +3,4 @@
 
 # Sample Code #
 
-http://code.google.com/p/tsmbios/source/browse/trunk/Samples/Table%2014%20Group%20Associations/GroupAssociations.dpr
+https://github.com/RRUZ/tsmbios/blob/master/Samples/Table%2014%20Group%20Associations/GroupAssociations.dpr
