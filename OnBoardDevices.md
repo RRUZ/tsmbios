@@ -4,4 +4,4 @@ The information in this structure defines the attributes of devices that are onb
 
 # Sample Code #
 
-http://code.google.com/p/tsmbios/source/browse/trunk/Samples/Table%2010%20Onboard%20System%20Information/OnboardSystemInfo.dpr
+https://github.com/RRUZ/tsmbios/blob/master/Samples/Table%2010%20Onboard%20System%20Information/OnboardSystemInfo.dpr
