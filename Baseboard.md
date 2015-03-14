@@ -4,4 +4,4 @@ the information in this structure defines attributes of a system baseboard (for 
 
 
 # Sample Code #
-http://code.google.com/p/tsmbios/source/browse/trunk/Samples/Table%202%20Base%20Board%20Information/BaseBoardInformation.dpr
+https://github.com/RRUZ/tsmbios/blob/master/Samples/Table%202%20Base%20Board%20Information/BaseBoardInformation.dpr
