@@ -8,4 +8,4 @@ NOTE: A Memory Device Mapped Address structure is provided only if a Memory Devi
 
 # Sample Code #
 
-http://code.google.com/p/tsmbios/source/browse/trunk/Samples/Table%2020%20Memory%20Device%20Mapped%20Address/MemDeviceMappedInfo.dpr
+https://github.com/RRUZ/tsmbios/blob/master/Samples/Table%2020%20Memory%20Device%20Mapped%20Address/MemDeviceMappedInfo.dpr
