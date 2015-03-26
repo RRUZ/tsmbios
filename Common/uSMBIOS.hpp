@@ -1,8 +1,23 @@
-// CodeGear C++Builder
-// Copyright (c) 1995, 2011 by Embarcadero Technologies, Inc.
-// All rights reserved
-
-// (DO NOT EDIT: machine generated header) 'uSMBIOS.pas' rev: 23.00 (Win32)
+//**************************************************************************************************
+//
+// uSMBIOS.hpp
+// C++ header for the TSMBIOS Project https://github.com/RRUZ/tsmbios
+//
+// The contents of this file are subject to the Mozilla Public License Version 1.1 (the "License");
+// you may not use this file except in compliance with the License. You may obtain a copy of the
+// License at http://www.mozilla.org/MPL/
+//
+// Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF
+// ANY KIND, either express or implied. See the License for the specific language governing rights
+// and limitations under the License.
+//
+// The Original Code is uSMBIOS.pas.
+//
+// The Initial Developer of the Original Code is Rodrigo Ruz V.
+// Portions created by Rodrigo Ruz V. are Copyright (C) 2012-2015 Rodrigo Ruz V.
+// All Rights Reserved.
+//
+//**************************************************************************************************
 
 #ifndef UsmbiosHPP
 #define UsmbiosHPP
