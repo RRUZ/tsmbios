@@ -1,6 +1,6 @@
  The [SMBIOS](http://www.dmtf.org/standards/smbios) (System Management BIOS) is a standard developed by the  [DMTF](http://www.dmtf.org/). The information stored in the SMBIOS includes devices manufacturer, model name, serial number, BIOS version, asset tag, processors, ports and device memory installed.
 
-![logo](https://dl.dropboxusercontent.com/u/12733424/github/tsmbios/logo.png)The TSMBIOS project allows access the System Management BIOS (SMBIOS) using the Object Pascal language (Delphi or Free Pascal). 
+![logo](https://github.com/RRUZ/tsmbios/blob/master/images/logo.png)The TSMBIOS project allows access the System Management BIOS (SMBIOS) using the Object Pascal language (Delphi or Free Pascal). 
 
 ## Features
 Some features of this project are
@@ -133,4 +133,4 @@ end.
 ```
 
 ## Help Insight
-![Help Insight](https://dl.dropboxusercontent.com/u/12733424/Blog/tsmbios/HelpIns.png)
+![Help Insight](https://github.com/RRUZ/tsmbios/blob/master/images/preview.png)
