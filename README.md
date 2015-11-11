@@ -134,5 +134,3 @@ end.
 
 ## Help Insight
 ![Help Insight](https://github.com/RRUZ/tsmbios/blob/master/images/preview.png)
-![Help Insight](https://dl.dropboxusercontent.com/u/12733424/Blog/tsmbios/preview.png)
-
