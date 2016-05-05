@@ -5166,9 +5166,11 @@ var
   FSWbemLocator: OLEVariant;
   FWMIService: OLEVariant;
   FWbemObjectSet: OLEVariant;
-  FWbemObject: {$IFDEF FPC}Variant {$ELSE} OLEVariant{$ENDIF};
+  FWbemObject: OLEVariant;
   oEnum: IEnumvariant;
-  {$IFNDEF FPC}
+  {$IFDEF FPC}
+  pCeltFetched: ULONG;
+  {$ELSE}
   iValue: LongWord;
   {$ENDIF}
   vArray: variant;
@@ -5184,7 +5186,7 @@ begin;
 
   FWbemObjectSet := FWMIService.ExecQuery('SELECT * FROM MSSmBios_RawSMBiosTables', 'WQL', wbemFlagForwardOnly);
   oEnum := IUnknown(FWbemObjectSet._NewEnum) as IEnumvariant;
-  if {$IFDEF FPC} oEnum.Next(1, FWbemObject, nil){$ELSE}oEnum.Next(1, FWbemObject, iValue){$ENDIF} = 0 then
+  if {$IFDEF FPC} oEnum.Next(1, FWbemObject, pCeltFetched){$ELSE}oEnum.Next(1, FWbemObject, iValue){$ENDIF} = 0 then
   begin
     //FSize := FWbemObject.Size;
     if Assigned(FRawSMBIOSData.SMBIOSTableData) then
