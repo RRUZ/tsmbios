@@ -1,4 +1,4 @@
-program  GroupAssociations;
+program GroupAssociations;
 
 {$APPTYPE CONSOLE}
 
@@ -8,39 +8,39 @@ uses
   uSMBIOS in '..\..\Common\uSMBIOS.pas';
 
 procedure GetGroupAssociationsInfo;
-Var
-  SMBios : TSMBios;
-  LGroup : TGroupAssociationsInformation;
-begin
-  SMBios:=TSMBios.Create;
-  try
-      //SMBios.FindAndLoadFromFile('C:\Users\Dexter\Desktop\RAD Studio Projects\google-code\SMBIOS Delphi\Docs\DELL_system_dumps\PE2450\SMBIOS.dat');
+  Var
+    SMBios : TSMBios;
+    LGroup : TGroupAssociationsInformation;
+  begin
+    SMBios := TSMBios.Create;
+    try
+      // SMBios.FindAndLoadFromFile('C:\Users\Dexter\Desktop\RAD Studio Projects\google-code\SMBIOS Delphi\Docs\DELL_system_dumps\PE2450\SMBIOS.dat');
       WriteLn('Group Associations Information');
       WriteLn('------------------------------');
-      if SMBios.HasGroupAssociationsInfo then
-      for LGroup in SMBios.GroupAssociationsInformation do
-      begin
-        WriteLn('Group Name    '+LGroup.GetGroupName);
-        WriteLn('Item Type     '+IntToStr(LGroup.RAWGroupAssociationsInformation.ItemType));
-        WriteLn('Item Handle   '+IntToStr(LGroup.RAWGroupAssociationsInformation.ItemHandle));
-        WriteLn;
-      end
+      if SMBios.HasGroupAssociationsInfo
+      then
+        for LGroup in SMBios.GroupAssociationsInformation do
+        begin
+          WriteLn('Group Name    ' + LGroup.GetGroupName);
+          WriteLn('Item Type     ' + IntToStr(LGroup.RAWGroupAssociationsInformation.ItemType));
+          WriteLn('Item Handle   ' + IntToStr(LGroup.RAWGroupAssociationsInformation.ItemHandle));
+          WriteLn;
+        end
       else
-      Writeln('No Group Associations Info was found');
-  finally
-   SMBios.Free;
+        WriteLn('No Group Associations Info was found');
+    finally
+      SMBios.Free;
+    end;
   end;
-end;
-
 
 begin
- try
+  try
     GetGroupAssociationsInfo;
- except
-    on E:Exception do
-        Writeln(E.Classname, ':', E.Message);
- end;
- Writeln('Press Enter to exit');
- Readln;
-end.
+  except
+    on E : Exception do
+      WriteLn(E.Classname, ':', E.Message);
+  end;
+  WriteLn('Press Enter to exit');
+  Readln;
 
+end.

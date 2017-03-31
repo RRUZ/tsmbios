@@ -8,39 +8,42 @@ uses
   uSMBIOS in '..\..\Common\uSMBIOS.pas';
 
 procedure GetPortConnectorInfo;
-Var
-  SMBios : TSMBios;
-  LPort  : TPortConnectorInformation;
-begin
-  SMBios:=TSMBios.Create;
-  try
+  Var
+    SMBios : TSMBios;
+    LPort : TPortConnectorInformation;
+  begin
+    SMBios := TSMBios.Create;
+    try
       WriteLn('Port Connector Information');
       WriteLn('--------------------------');
-      if SMBios.HasPortConnectorInfo then
-      for LPort in SMBios.PortConnectorInfo do
-      begin
-        WriteLn('Internal Reference Designator '+LPort.InternalReferenceDesignatorStr);
-        WriteLn('Internal Connector Type       '+LPort.GetConnectorType(LPort.RAWPortConnectorInformation.InternalConnectorType));
-        WriteLn('External Reference Designator '+LPort.ExternalReferenceDesignatorStr);
-        WriteLn('External Connector Type       '+LPort.GetConnectorType(LPort.RAWPortConnectorInformation.ExternalConnectorType));
-        WriteLn('Port Type                     '+LPort.PortTypeStr);
-        WriteLn;
-      end
+      if SMBios.HasPortConnectorInfo
+      then
+        for LPort in SMBios.PortConnectorInfo do
+        begin
+          WriteLn('Internal Reference Designator ' + LPort.InternalReferenceDesignatorStr);
+          WriteLn('Internal Connector Type       ' + LPort.GetConnectorType
+            (LPort.RAWPortConnectorInformation.InternalConnectorType));
+          WriteLn('External Reference Designator ' + LPort.ExternalReferenceDesignatorStr);
+          WriteLn('External Connector Type       ' + LPort.GetConnectorType
+            (LPort.RAWPortConnectorInformation.ExternalConnectorType));
+          WriteLn('Port Type                     ' + LPort.PortTypeStr);
+          WriteLn;
+        end
       else
-      Writeln('No Port Connector Info was found');
-  finally
-   SMBios.Free;
+        WriteLn('No Port Connector Info was found');
+    finally
+      SMBios.Free;
+    end;
   end;
-end;
-
 
 begin
- try
+  try
     GetPortConnectorInfo;
- except
-    on E:Exception do
-        Writeln(E.Classname, ':', E.Message);
- end;
- Writeln('Press Enter to exit');
- Readln;
+  except
+    on E : Exception do
+      WriteLn(E.Classname, ':', E.Message);
+  end;
+  WriteLn('Press Enter to exit');
+  Readln;
+
 end.
