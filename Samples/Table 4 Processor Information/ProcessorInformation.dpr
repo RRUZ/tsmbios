@@ -8,9 +8,7 @@ uses
   TypInfo,
   uSMBIOS in '..\..\Common\uSMBIOS.pas';
 
-function SetToString(
-  Info : PTypeInfo;
-  const Value) : String;
+function SetToString(Info : PTypeInfo; const Value) : String;
   var
     LTypeInfo : PTypeInfo;
     LIntegerSet : TIntegerSet;

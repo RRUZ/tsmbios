@@ -14,7 +14,7 @@ procedure ListSMBiosTables;
   begin
     SMBios := TSMBios.Create; // ('C:\Users\Dexter\Dropbox\SMBIOS.dat');
     try
-      // SMBios.SaveToFile('C:\Users\Dexter\Dropbox\SMBIOS.dat');
+      // SMBios.SaveToFile('SMBIOS.dat');
       // SMBios.LoadFromFile('C:\Users\Dexter\Dropbox\SMBIOS.dat');
       // SMBios.FindAndLoadFromFile('C:\Delphi\github\tsmbios\Docs\DELL_system_dumps\PE0400\SMBIOS.dat');
       Writeln(Format('SMBIOS Version %s', [SMBios.SmbiosVersion]));

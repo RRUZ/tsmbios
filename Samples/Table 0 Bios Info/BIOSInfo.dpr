@@ -16,6 +16,7 @@ procedure GetBIOSInfo;
   begin
     SMBios := TSMBios.Create;
     try
+      //SMBios.LoadFromFile('/home/rruz/PAServer/scratch-dir/RRUZ-Linux Ubuntu/SMBiosTables/SMBIOS.dat', true);
       LBIOS := SMBios.BIOSInfo;
       WriteLn('Bios Information');
       WriteLn('Vendor        ' + LBIOS.VendorStr);
