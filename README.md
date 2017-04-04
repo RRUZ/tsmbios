@@ -7,12 +7,14 @@ Some features of this project are
 
 * Source Full documented compatible with the help insight feature, available since Delphi 2005.
 * Supports SMBIOS Version from 2.1 to 2.8
-* Supports Delphi 5, 6, 7, 2005, BDS/Turbo 2006 and RAD Studio 2007, 2009, 2010, XE, XE2, XE3, XE4, XE5, XE6, XE7, XE8, 10  Seattle.
+* Supports Delphi 5, 6, 7. 
+* Supports RAD Studio 2005-2010 
+* Supports RAD Studio XE-XE8 
+* Supports RAD Studio 10 Seattle, RAD Studio 10.1 Berlin, RAD Studio 10.2 Tokio
 * Compatible with FPC 2.4.0+
-* Supports Windows, Linux (only using FPC)
-* SMBIOS Data can be obtained using WinAPI (Only Windows), WMI (Only Windows) or loading a saved SMBIOS dump
-* SMBIOS Data can be saved and load to a file
-* SMBIOS Data can be obtained from remote machines
+* Supports Windows, Linux.
+* SMBIOS Data can be saved and/or load to a file.
+* SMBIOS Data can be obtained from remote machines (via WMI).
  
 
 ## SMBIOS Tables supported
