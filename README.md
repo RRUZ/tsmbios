@@ -10,7 +10,7 @@ Some features of this project are
 * Supports Delphi 5, 6, 7. 
 * Supports RAD Studio 2005-2010 
 * Supports RAD Studio XE-XE8 
-* Supports RAD Studio 10 Seattle, RAD Studio 10.1 Berlin, RAD Studio 10.2 Tokio
+* Supports RAD Studio 10 Seattle, RAD Studio 10.1 Berlin, RAD Studio 10.2 Tokyo
 * Compatible with FPC 2.4.0+
 * Supports Windows, Linux.
 * SMBIOS Data can be saved and/or load to a file.
