@@ -136,3 +136,7 @@ end.
 
 ## Help Insight
 ![Help Insight](https://github.com/RRUZ/tsmbios/blob/master/images/preview.png)
+
+
+## Other
+You can install [Delphinus package manager](https://github.com/Memnarch/Delphinus/wiki/Installing-Delphinus) and install TSMBIOS as a package there. (Delphinus-Support)

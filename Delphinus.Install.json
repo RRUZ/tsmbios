@@ -1,0 +1,14 @@
+{
+  "search_pathes": [{
+    "pathes": "Common",
+    "platforms": "Win32;Win64"
+  }],
+  "browsing_pathes": [{
+    "pathes": "Common",
+    "platforms": "Win32;Win64"
+  }],
+  "source_folders": [{
+    "folder": ".",
+    "recursive": true
+  }]
+}
