@@ -1,0 +1,10 @@
+{
+  "id": "{B6E68F06-812B-4CF3-8C81-B9D7219AAAFB}",
+  "name": "TSMBIOS",
+  "picture": "images\\logo.png",
+  "platforms": "Win32;Win64",
+  "package_compiler_min": 13,
+  "package_compiler_max": 32,
+  "compiler_min": 13,
+  "compiler_max": 32
+}
