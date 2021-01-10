@@ -9,8 +9,8 @@ uses
 
 procedure GetEnclosureInfo;
   Var
-    SMBios : TSMBios;
-    LEnclosure : TEnclosureInformation;
+    SMBios: TSMBios;
+    LEnclosure: TEnclosureInformation;
   begin
     SMBios := TSMBios.Create;
     try
@@ -39,7 +39,7 @@ begin
   try
     GetEnclosureInfo;
   except
-    on E : Exception do
+    on E: Exception do
       WriteLn(E.Classname, ':', E.Message);
   end;
   WriteLn('Press Enter to exit');

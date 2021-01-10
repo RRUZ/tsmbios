@@ -9,8 +9,8 @@ uses
 
 procedure GetPointingDeviceInfo;
   Var
-    SMBios : TSMBios;
-    LPointDevice : TBuiltInPointingDeviceInformation;
+    SMBios: TSMBios;
+    LPointDevice: TBuiltInPointingDeviceInformation;
   begin
     SMBios := TSMBios.Create;
     try
@@ -36,7 +36,7 @@ begin
   try
     GetPointingDeviceInfo;
   except
-    on E : Exception do
+    on E: Exception do
       WriteLn(E.Classname, ':', E.Message);
   end;
   WriteLn('Press Enter to exit');

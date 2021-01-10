@@ -9,8 +9,8 @@ uses
 
 procedure GetMemArrayMappedInfo;
   Var
-    SMBios : TSMBios;
-    LMemArrMappedAddress : TMemoryArrayMappedAddressInformation;
+    SMBios: TSMBios;
+    LMemArrMappedAddress: TMemoryArrayMappedAddressInformation;
   begin
     SMBios := TSMBios.Create;
     try
@@ -51,7 +51,7 @@ begin
   try
     GetMemArrayMappedInfo;
   except
-    on E : Exception do
+    on E: Exception do
       WriteLn(E.Classname, ':', E.Message);
   end;
   WriteLn('Press Enter to exit');

@@ -7,11 +7,11 @@ uses
   SysUtils,
   uSMBIOS in '..\..\Common\uSMBIOS.pas';
 
-function ByteToBinStr(AValue : Byte) : string;
+function ByteToBinStr(AValue: Byte): string;
   const
-    Bits : array [1 .. 8] of Byte = (128, 64, 32, 16, 8, 4, 2, 1);
+    Bits: array [1 .. 8] of Byte = (128, 64, 32, 16, 8, 4, 2, 1);
   var
-    i : integer;
+    i: integer;
   begin
     Result := '00000000';
     if (AValue <> 0)
@@ -24,8 +24,8 @@ function ByteToBinStr(AValue : Byte) : string;
 
 procedure GetBaseBoardInfo;
   Var
-    SMBios : TSMBios;
-    LBaseBoard : TBaseBoardInformation;
+    SMBios: TSMBios;
+    LBaseBoard: TBaseBoardInformation;
   begin
     SMBios := TSMBios.Create;
     try
@@ -60,7 +60,7 @@ begin
   try
     GetBaseBoardInfo;
   except
-    on E : Exception do
+    on E: Exception do
       WriteLn(E.Classname, ':', E.Message);
   end;
   WriteLn('Press Enter to exit');

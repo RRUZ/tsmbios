@@ -9,10 +9,10 @@ uses
 
 procedure GetSystemInfo;
   Var
-    SMBios : TSMBios;
-    LSystem : TSystemInformation;
+    SMBios: TSMBios;
+    LSystem: TSystemInformation;
    {$IFNDEF LINUX}
-    UUID : Array [0 .. 31] of AnsiChar;
+    UUID: Array [0 .. 31] of AnsiChar;
    {$ENDIF}
   begin
     SMBios := TSMBios.Create;
@@ -44,7 +44,7 @@ begin
   try
     GetSystemInfo;
   except
-    on E : Exception do
+    on E: Exception do
       WriteLn(E.Classname, ':', E.Message);
   end;
   WriteLn('Press Enter to exit');

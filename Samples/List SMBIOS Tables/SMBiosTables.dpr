@@ -9,8 +9,8 @@ uses
 
 procedure ListSMBiosTables;
   Var
-    SMBios : TSMBios;
-    Entry : TSMBiosTableEntry;
+    SMBios: TSMBios;
+    Entry: TSMBiosTableEntry;
   begin
     SMBios := TSMBios.Create; // ('C:\Users\Dexter\Dropbox\SMBIOS.dat');
     try
@@ -34,7 +34,7 @@ begin
     ReportMemoryLeaksOnShutdown := True;
     ListSMBiosTables;
   except
-    on E : Exception do
+    on E: Exception do
       Writeln(E.Classname, ':', E.Message);
   end;
   Writeln('Press Enter to exit');

@@ -9,8 +9,8 @@ uses
 
 procedure GetPhysicalMemArrayInfo;
   Var
-    SMBios : TSMBios;
-    LPhysicalMemArr : TPhysicalMemoryArrayInformation;
+    SMBios: TSMBios;
+    LPhysicalMemArr: TPhysicalMemoryArrayInformation;
   begin
     SMBios := TSMBios.Create;
     try
@@ -47,7 +47,7 @@ begin
   try
     GetPhysicalMemArrayInfo;
   except
-    on E : Exception do
+    on E: Exception do
       WriteLn(E.Classname, ':', E.Message);
   end;
   WriteLn('Press Enter to exit');

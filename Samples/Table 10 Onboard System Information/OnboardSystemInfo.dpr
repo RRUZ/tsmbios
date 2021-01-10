@@ -9,8 +9,8 @@ uses
 
 procedure GetOnBoardSystemInfo;
   Var
-    SMBios : TSMBios;
-    LOnBoardSystem : TOnBoardSystemInformation;
+    SMBios: TSMBios;
+    LOnBoardSystem: TOnBoardSystemInformation;
   begin
     SMBios := TSMBios.Create;
     try
@@ -37,7 +37,7 @@ begin
   try
     GetOnBoardSystemInfo;
   except
-    on E : Exception do
+    on E: Exception do
       WriteLn(E.Classname, ':', E.Message);
   end;
   WriteLn('Press Enter to exit');

@@ -9,10 +9,10 @@ uses
 
 procedure GetBIOSInfo;
   Var
-    SMBios : TSMBios;
-    LBIOS : TBiosInformation;
-    OEMStr : TOEMStringsInformation;
-    i : Integer;
+    SMBios: TSMBios;
+    LBIOS: TBiosInformation;
+    OEMStr: TOEMStringsInformation;
+    i: Integer;
   begin
     SMBios := TSMBios.Create;
     try
@@ -62,7 +62,7 @@ begin
   try
     GetBIOSInfo;
   except
-    on E : Exception do
+    on E: Exception do
       WriteLn(E.Classname, ':', E.Message);
   end;
   WriteLn;

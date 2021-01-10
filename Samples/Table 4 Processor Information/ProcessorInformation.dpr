@@ -8,13 +8,13 @@ uses
   TypInfo,
   uSMBIOS in '..\..\Common\uSMBIOS.pas';
 
-function SetToString(Info : PTypeInfo; const Value) : String;
+function SetToString(Info: PTypeInfo; const Value): String;
   var
-    LTypeInfo : PTypeInfo;
-    LIntegerSet : TIntegerSet;
-    I : Integer;
+    LTypeInfo: PTypeInfo;
+    LIntegerSet: TIntegerSet;
+    I: Integer;
 
-    function GetOrdValue : Integer;
+    function GetOrdValue: Integer;
       begin
         Result := 0;
         case GetTypeData(Info)^.OrdType of
@@ -44,10 +44,10 @@ function SetToString(Info : PTypeInfo; const Value) : String;
 
 procedure GetProcessorInfo;
   Var
-    SMBios : TSMBios;
-    LProcessorInfo : TProcessorInformation;
-    LSRAMTypes : TCacheSRAMTypes;
-    I : Integer;
+    SMBios: TSMBios;
+    LProcessorInfo: TProcessorInformation;
+    LSRAMTypes: TCacheSRAMTypes;
+    I: Integer;
   begin
     SMBios := TSMBios.Create;
     try
@@ -167,7 +167,7 @@ begin
   try
     GetProcessorInfo;
   except
-    on E : Exception do
+    on E: Exception do
       WriteLn(E.Classname, ':', E.Message);
   end;
   WriteLn('Press Enter to exit');

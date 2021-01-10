@@ -9,9 +9,9 @@ uses
 
 procedure GetBIOSInfo;
   Var
-    SMBios : TSMBios;
-    i : Integer;
-    LSystemConf : TSystemConfInformation;
+    SMBios: TSMBios;
+    i: Integer;
+    LSystemConf: TSystemConfInformation;
   begin
     SMBios := TSMBios.Create;
     try
@@ -35,7 +35,7 @@ begin
   try
     GetBIOSInfo;
   except
-    on E : Exception do
+    on E: Exception do
       Writeln(E.Classname, ':', E.Message);
   end;
   Writeln;

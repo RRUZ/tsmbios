@@ -7,11 +7,11 @@ uses
   SysUtils,
   uSMBIOS in '..\..\Common\uSMBIOS.pas';
 
-function ByteToBinStr(AValue : Byte) : string;
+function ByteToBinStr(AValue: Byte): string;
   const
-    Bits : array [1 .. 8] of Byte = (128, 64, 32, 16, 8, 4, 2, 1);
+    Bits: array [1 .. 8] of Byte = (128, 64, 32, 16, 8, 4, 2, 1);
   var
-    i : integer;
+    i: integer;
   begin
     Result := '00000000';
     if (AValue <> 0)
@@ -22,11 +22,11 @@ function ByteToBinStr(AValue : Byte) : string;
           Result[i] := '1';
   end;
 
-function WordToBinStr(AValue : Word) : string;
+function WordToBinStr(AValue: Word): string;
   const
-    Bits : array [1 .. 16] of Word = (32768, 16384, 8192, 4096, 2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1);
+    Bits: array [1 .. 16] of Word = (32768, 16384, 8192, 4096, 2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1);
   var
-    i : integer;
+    i: integer;
   begin
     Result := '0000000000000000';
     if (AValue <> 0)
@@ -39,8 +39,8 @@ function WordToBinStr(AValue : Word) : string;
 
 procedure GetMemoryControllerInfo;
   Var
-    SMBios : TSMBios;
-    LMemoryController : TMemoryControllerInformation;
+    SMBios: TSMBios;
+    LMemoryController: TMemoryControllerInformation;
   begin
     SMBios := TSMBios.Create;
     try
@@ -90,7 +90,7 @@ begin
   try
     GetMemoryControllerInfo;
   except
-    on E : Exception do
+    on E: Exception do
       WriteLn(E.Classname, ':', E.Message);
   end;
   WriteLn('Press Enter to exit');

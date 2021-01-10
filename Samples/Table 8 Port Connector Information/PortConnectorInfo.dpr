@@ -9,8 +9,8 @@ uses
 
 procedure GetPortConnectorInfo;
   Var
-    SMBios : TSMBios;
-    LPort : TPortConnectorInformation;
+    SMBios: TSMBios;
+    LPort: TPortConnectorInformation;
   begin
     SMBios := TSMBios.Create;
     try
@@ -40,7 +40,7 @@ begin
   try
     GetPortConnectorInfo;
   except
-    on E : Exception do
+    on E: Exception do
       WriteLn(E.Classname, ':', E.Message);
   end;
   WriteLn('Press Enter to exit');

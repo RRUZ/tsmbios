@@ -9,8 +9,8 @@ uses
 
 procedure GetGroupAssociationsInfo;
   Var
-    SMBios : TSMBios;
-    LGroup : TGroupAssociationsInformation;
+    SMBios: TSMBios;
+    LGroup: TGroupAssociationsInformation;
   begin
     SMBios := TSMBios.Create;
     try
@@ -37,7 +37,7 @@ begin
   try
     GetGroupAssociationsInfo;
   except
-    on E : Exception do
+    on E: Exception do
       WriteLn(E.Classname, ':', E.Message);
   end;
   WriteLn('Press Enter to exit');

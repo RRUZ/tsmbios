@@ -14,7 +14,7 @@
 // The Original Code is uSMBIOS.pas.
 //
 // The Initial Developer of the Original Code is Rodrigo Ruz V.
-// Portions created by Rodrigo Ruz V. are Copyright (C) 2012-2017 Rodrigo Ruz V.
+// Portions created by Rodrigo Ruz V. are Copyright (C) 2012-2021 Rodrigo Ruz V.
 // All Rights Reserved.
 //
 // **************************************************************************************************
@@ -86,12 +86,12 @@ type
   PRawSMBIOSData = ^TRawSMBIOSData;
 
   TRawSMBIOSData = record
-    Used20CallingMethod : Byte;
-    SMBIOSMajorVersion : Byte;
-    SMBIOSMinorVersion : Byte;
-    DmiRevision : Byte;
-    Length : DWORD;
-    SMBIOSTableData : PByteArray;
+    Used20CallingMethod: Byte;
+    SMBIOSMajorVersion: Byte;
+    SMBIOSMinorVersion: Byte;
+    DmiRevision: Byte;
+    Length: DWORD;
+    SMBIOSTableData: PByteArray;
   end;
 
   // Reference
@@ -132,7 +132,7 @@ type
     EndofTable);
 
 const
-  SMBiosTablesDescr : array [Byte] of AnsiString = ('BIOS Information', 'System Information', 'BaseBoard Information', 'Enclosure Information',
+  SMBiosTablesDescr: array [Byte] of AnsiString = ('BIOS Information', 'System Information', 'BaseBoard Information', 'Enclosure Information',
     'Processor Information', 'Memory Controller Information', 'Memory Module Information', 'Cache Information', 'Port Connector Information',
     'System Slots Information', 'OnBoard Devices Information', 'OEM Strings', 'System Configuration Options', 'BIOS Language Information', 'Group Associations',
     'System Event Log', 'Physical Memory Array', 'Memory Device', 'Memory Error Information', 'Memory Array Mapped Address', 'Memory Device Mapped Address',
@@ -173,19 +173,19 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    TableType : Byte;
+    TableType: Byte;
     { $REGION 'Documentation' }
     /// <remarks>
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    Length : Byte;
+    Length: Byte;
     { $REGION 'Documentation' }
     /// <remarks>
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    Handle : Word;
+    Handle: Word;
   end;
 
   { $REGION 'Documentation' }
@@ -194,7 +194,7 @@ type
   /// </summary>
   { $ENDREGION }
   TBiosInfo = packed record
-    Header : TSmBiosTableHeader;
+    Header: TSmBiosTableHeader;
     { $REGION 'Documentation' }
     /// <summary>
     /// String number of the BIOS Vendors Name.
@@ -203,7 +203,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    Vendor : Byte;
+    Vendor: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// String number of the BIOS Version. This is a freeform string that may
@@ -213,7 +213,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    Version : Byte;
+    Version: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Segment location of BIOS starting address (for example, 0E800h).
@@ -225,7 +225,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    StartingSegment : Word;
+    StartingSegment: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// String number of the BIOS release date. The date string, if supplied,
@@ -237,7 +237,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    ReleaseDate : Byte;
+    ReleaseDate: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Size (n) where 64K * (n+1) is the size of the physical device
@@ -247,7 +247,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    BiosRomSize : Byte;
+    BiosRomSize: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Defines which functions the BIOS supports: PCI, PCMCIA, Flash, etc.
@@ -256,7 +256,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    Characteristics : Int64;
+    Characteristics: Int64;
     { $REGION 'Documentation' }
     /// <summary>
     /// Optional space reserved for future supported functions. The number of
@@ -269,7 +269,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    ExtensionBytes : array [0 .. 1] of Byte;
+    ExtensionBytes: array [0 .. 1] of Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Identifies the major release of the System BIOS; for example, the
@@ -283,7 +283,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    SystemBIOSMajorRelease : Byte;
+    SystemBIOSMajorRelease: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Identifies the minor release of the System BIOS; for example, the
@@ -293,7 +293,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    SystemBIOSMinorRelease : Byte;
+    SystemBIOSMinorRelease: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Identifies the major release of the embedded controller firmware; for
@@ -308,7 +308,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    EmbeddedControllerFirmwareMajorRelease : Byte;
+    EmbeddedControllerFirmwareMajorRelease: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Identifies the minor release of the embedded controller firmware; for
@@ -320,30 +320,30 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    EmbeddedControllerFirmwareMinorRelease : Byte;
+    EmbeddedControllerFirmwareMinorRelease: Byte;
   end;
 
   TBiosInformation = class
     public
-      RAWBiosInformation : ^TBiosInfo;
+      RAWBiosInformation: ^TBiosInfo;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the Vendor field
       /// </summary>
       { $ENDREGION }
-      function VendorStr : AnsiString;
+      function VendorStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the Version field
       /// </summary>
       { $ENDREGION }
-      function VersionStr : AnsiString;
+      function VersionStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the ReleaseDate field
       /// </summary>
       { $ENDREGION }
-      function ReleaseDateStr : AnsiString;
+      function ReleaseDateStr: AnsiString;
   end;
 
   { $REGION 'Documentation' }
@@ -356,7 +356,7 @@ type
   /// </summary>
   { $ENDREGION }
   TSysInfo = packed record
-    Header : TSmBiosTableHeader;
+    Header: TSmBiosTableHeader;
     { $REGION 'Documentation' }
     /// <summary>
     /// Number of Null terminated string
@@ -365,7 +365,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    Manufacturer : Byte;
+    Manufacturer: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Number of Null terminated string
@@ -374,7 +374,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    ProductName : Byte;
+    ProductName: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Number of Null terminated string
@@ -383,7 +383,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    Version : Byte;
+    Version: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Number of Null terminated string
@@ -392,7 +392,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    SerialNumber : Byte;
+    SerialNumber: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Universal Unique ID number, A UUID is an identifier that is designed
@@ -406,7 +406,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    UUID : array [0 .. 15] of Byte;
+    UUID: array [0 .. 15] of Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Identifies the event that caused the system to power up.
@@ -415,7 +415,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    WakeUpType : Byte;
+    WakeUpType: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Number of Null terminated string This text string is used to identify
@@ -430,7 +430,7 @@ type
     /// 2.4+
     /// </remarks>
     { $ENDREGION }
-    SKUNumber : Byte;
+    SKUNumber: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Number of Null terminated string This text string is used to identify
@@ -445,48 +445,48 @@ type
     /// 2.4+
     /// </remarks>
     { $ENDREGION }
-    Family : Byte;
+    Family: Byte;
   end;
 
   TSystemInformation = class
     public
-      RAWSystemInformation : ^TSysInfo;
+      RAWSystemInformation: ^TSysInfo;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the Manufacturer field
       /// </summary>
       { $ENDREGION }
-      function ManufacturerStr : AnsiString;
+      function ManufacturerStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the ProductName field
       /// </summary>
       { $ENDREGION }
-      function ProductNameStr : AnsiString;
+      function ProductNameStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the Version field
       /// </summary>
       { $ENDREGION }
-      function VersionStr : AnsiString;
+      function VersionStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the SerialNumber field
       /// </summary>
       { $ENDREGION }
-      function SerialNumberStr : AnsiString;
+      function SerialNumberStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the SKUNumber field
       /// </summary>
       { $ENDREGION }
-      function SKUNumberStr : AnsiString;
+      function SKUNumberStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the Family field
       /// </summary>
       { $ENDREGION }
-      function FamilyStr : AnsiString;
+      function FamilyStr: AnsiString;
   end;
 
   { $REGION 'Documentation' }
@@ -504,7 +504,7 @@ type
   /// </summary>
   { $ENDREGION }
   TBaseBoardInfo = packed record
-    Header : TSmBiosTableHeader;
+    Header: TSmBiosTableHeader;
     { $REGION 'Documentation' }
     /// <summary>
     /// Number of Null terminated string
@@ -513,7 +513,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    Manufacturer : Byte;
+    Manufacturer: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Number of Null terminated string
@@ -522,7 +522,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    Product : Byte;
+    Product: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Number of Null terminated string
@@ -531,7 +531,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    Version : Byte;
+    Version: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Number of Null terminated string
@@ -540,7 +540,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    SerialNumber : Byte;
+    SerialNumber: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Number of a null-terminated string
@@ -549,7 +549,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    AssetTag : Byte;
+    AssetTag: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// A collection of flags that identify features of this baseboard.
@@ -558,7 +558,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    FeatureFlags : Byte;
+    FeatureFlags: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// <para>
@@ -585,7 +585,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    LocationinChassis : Byte;
+    LocationinChassis: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// The handle, or instance number, associated with the chassis in which
@@ -595,7 +595,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    ChassisHandle : Word;
+    ChassisHandle: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// Identifies the type of board
@@ -604,7 +604,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    BoardType : Byte;
+    BoardType: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Identifies the number (0 to 255) of Contained Object Handles that
@@ -614,55 +614,55 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    NumberofContainedObjectHandles : Byte;
-    // ContainedObjectHandles :  Array of Word;
+    NumberofContainedObjectHandles: Byte;
+    // ContainedObjectHandles:  Array of Word;
   end;
 
   TBaseBoardInformation = class
     public
-      RAWBaseBoardInformation : ^TBaseBoardInfo;
+      RAWBaseBoardInformation: ^TBaseBoardInfo;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the description of the BoardType field
       /// </summary>
       { $ENDREGION }
-      function BoardTypeStr : AnsiString;
+      function BoardTypeStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the Manufacturer field
       /// </summary>
       { $ENDREGION }
-      function ManufacturerStr : AnsiString;
+      function ManufacturerStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the Product field
       /// </summary>
       { $ENDREGION }
-      function ProductStr : AnsiString;
+      function ProductStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the Version field
       /// </summary>
       { $ENDREGION }
-      function VersionStr : AnsiString;
+      function VersionStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the SerialNumber field
       /// </summary>
       { $ENDREGION }
-      function SerialNumberStr : AnsiString;
+      function SerialNumberStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the AssetTag field
       /// </summary>
       { $ENDREGION }
-      function AssetTagStr : AnsiString;
+      function AssetTagStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the LocationinChassis field
       /// </summary>
       { $ENDREGION }
-      function LocationinChassisStr : AnsiString;
+      function LocationinChassisStr: AnsiString;
   end;
 
   { $REGION 'Documentation' }
@@ -676,7 +676,7 @@ type
   /// </summary>
   { $ENDREGION }
   TEnclosureInfo = packed record
-    Header : TSmBiosTableHeader;
+    Header: TSmBiosTableHeader;
     { $REGION 'Documentation' }
     /// <summary>
     /// Number of Null terminated string
@@ -685,7 +685,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    Manufacturer : Byte;
+    Manufacturer: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Bit 7 Chassis lock is present if 1. Otherwise, either a lock is not
@@ -696,7 +696,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    _Type : Byte;
+    _Type: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Number of Null terminated string
@@ -705,13 +705,13 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    Version : Byte;
+    Version: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Number of Null terminated string
     /// </summary>
     { $ENDREGION }
-    SerialNumber : Byte;
+    SerialNumber: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Number of Null terminated string
@@ -720,7 +720,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    AssetTagNumber : Byte;
+    AssetTagNumber: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Identifies the state of the enclosure when it was last booted.
@@ -729,7 +729,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    BootUpState : Byte;
+    BootUpState: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Identifies the state of the enclosures power supply (or supplies)
@@ -739,7 +739,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    PowerSupplyState : Byte;
+    PowerSupplyState: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Identifies the enclosures thermal state when last booted.
@@ -748,7 +748,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    ThermalState : Byte;
+    ThermalState: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Identifies the enclosures physical security status when last booted.
@@ -757,7 +757,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    SecurityStatus : Byte;
+    SecurityStatus: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Contains OEM- or BIOS vendor-specific information.
@@ -766,7 +766,7 @@ type
     /// 2.3+
     /// </remarks>
     { $ENDREGION }
-    OEM_Defined : DWORD;
+    OEM_Defined: DWORD;
     { $REGION 'Documentation' }
     /// <summary>
     /// The height of the enclosure, in 'U's. A U is a standard unit of
@@ -778,7 +778,7 @@ type
     /// 2.3+
     /// </remarks>
     { $ENDREGION }
-    Height : Byte;
+    Height: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Identifies the number of power cords associated with the enclosure or
@@ -788,7 +788,7 @@ type
     /// 2.3+
     /// </remarks>
     { $ENDREGION }
-    NumberofPowerCords : Byte;
+    NumberofPowerCords: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Identifies the number of Contained Element records that follow, in
@@ -801,7 +801,7 @@ type
     /// 2.3+
     /// </remarks>
     { $ENDREGION }
-    ContainedElementCount : Byte;
+    ContainedElementCount: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Identifies the byte length of each Contained Element record that
@@ -814,57 +814,57 @@ type
     /// 2.3+
     /// </remarks>
     { $ENDREGION }
-    ContainedElementRecordLength : Byte;
+    ContainedElementRecordLength: Byte;
     // TODO Extension to support complex data representation
     // ContainedElements  n * m BYTEs
-    // SKUNumber : Byte;     *******Added in SMBIOS 2.7*********
+    // SKUNumber: Byte;     *******Added in SMBIOS 2.7*********
   end;
 
   TEnclosureInformation = class
     public
-      RAWEnclosureInformation : ^TEnclosureInfo;
+      RAWEnclosureInformation: ^TEnclosureInfo;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the Manufacturer field
       /// </summary>
       { $ENDREGION }
-      function ManufacturerStr : AnsiString;
+      function ManufacturerStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the Version field
       /// </summary>
       { $ENDREGION }
-      function VersionStr : AnsiString;
+      function VersionStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the SerialNumber field
       /// </summary>
       { $ENDREGION }
-      function SerialNumberStr : AnsiString;
+      function SerialNumberStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the AssetTagNumber field
       /// </summary>
       { $ENDREGION }
-      function AssetTagNumberStr : AnsiString;
+      function AssetTagNumberStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the description of the Type field
       /// </summary>
       { $ENDREGION }
-      function TypeStr : AnsiString;
+      function TypeStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the description of the BootUpState field
       /// </summary>
       { $ENDREGION }
-      function BootUpStateStr : AnsiString;
+      function BootUpStateStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the description of the PowerSupplyState field
       /// </summary>
       { $ENDREGION }
-      function PowerSupplyStateStr : AnsiString;
+      function PowerSupplyStateStr: AnsiString;
   end;
 
   { $REGION 'Documentation' }
@@ -875,7 +875,7 @@ type
   /// </summary>
   { $ENDREGION }
   TMemoryControllerInfo = packed record
-    Header : TSmBiosTableHeader;
+    Header: TSmBiosTableHeader;
     { $REGION 'Documentation' }
     /// <summary>
     /// ENUM
@@ -884,7 +884,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    ErrorDetectingMethod : Byte;
+    ErrorDetectingMethod: Byte;
 
     { $REGION 'Documentation' }
     /// <summary>
@@ -894,7 +894,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    ErrorCorrectingCapability : Byte;
+    ErrorCorrectingCapability: Byte;
 
     { $REGION 'Documentation' }
     /// <summary>
@@ -904,7 +904,7 @@ type
     /// +2.0
     /// </remarks>
     { $ENDREGION }
-    SupportedInterleave : Byte;
+    SupportedInterleave: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// ENUM
@@ -913,7 +913,7 @@ type
     /// +2.0
     /// </remarks>
     { $ENDREGION }
-    CurrentInterleave : Byte;
+    CurrentInterleave: Byte;
 
     { $REGION 'Documentation' }
     /// <summary>
@@ -926,7 +926,7 @@ type
     /// +2.0
     /// </remarks>
     { $ENDREGION }
-    MaximumMemoryModuleSize : Byte;
+    MaximumMemoryModuleSize: Byte;
 
     { $REGION 'Documentation' }
     /// <summary>
@@ -936,7 +936,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    SupportedSpeeds : Word;
+    SupportedSpeeds: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// Bit Field
@@ -945,7 +945,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    SupportedMemoryTypes : Word;
+    SupportedMemoryTypes: Word;
 
     { $REGION 'Documentation' }
     /// <summary>
@@ -974,7 +974,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    MemoryModuleVoltage : Byte;
+    MemoryModuleVoltage: Byte;
 
     { $REGION 'Documentation' }
     /// <summary>
@@ -985,7 +985,7 @@ type
     /// +2.0
     /// </remarks>
     { $ENDREGION }
-    NumberofAssociatedMemorySlots : Byte;
+    NumberofAssociatedMemorySlots: Byte;
 
     { $REGION 'Documentation' }
     /// <summary>
@@ -996,7 +996,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    MemoryModuleConfigurationHandles : Word;
+    MemoryModuleConfigurationHandles: Word;
 
     { $REGION 'Documentation' }
     /// <summary>
@@ -1007,30 +1007,30 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    EnabledErrorCorrectingCapabilities : Byte;
+    EnabledErrorCorrectingCapabilities: Byte;
   end;
 
   TMemoryControllerInformation = class
     public
-      RAWMemoryControllerInformation : ^TMemoryControllerInfo;
+      RAWMemoryControllerInformation: ^TMemoryControllerInfo;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the Error Detecting Method field
       /// </summary>
       { $ENDREGION }
-      function GetErrorDetectingMethodDescr : string;
+      function GetErrorDetectingMethodDescr: string;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the Supported Interleave field
       /// </summary>
       { $ENDREGION }
-      function GetSupportedInterleaveDescr : string;
+      function GetSupportedInterleaveDescr: string;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the Current Interleave field
       /// </summary>
       { $ENDREGION }
-      function GetCurrentInterleaveDescr : string;
+      function GetCurrentInterleaveDescr: string;
   end;
 
   { $REGION 'Documentation' }
@@ -1043,7 +1043,7 @@ type
   /// </summary>
   { $ENDREGION }
   TMemoryModuleInfo = packed record
-    Header : TSmBiosTableHeader;
+    Header: TSmBiosTableHeader;
 
     { $REGION 'Documentation' }
     /// <summary>
@@ -1053,7 +1053,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    SocketDesignation : Byte;
+    SocketDesignation: Byte;
 
     { $REGION 'Documentation' }
     /// <summary>
@@ -1071,7 +1071,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    BankConnections : Byte;
+    BankConnections: Byte;
 
     { $REGION 'Documentation' }
     /// <summary>
@@ -1082,7 +1082,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    CurrentSpeed : Byte;
+    CurrentSpeed: Byte;
 
     { $REGION 'Documentation' }
     /// <summary>
@@ -1093,7 +1093,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    CurrentMemoryType : Word;
+    CurrentMemoryType: Word;
 
     { $REGION 'Documentation' }
     /// <summary>
@@ -1107,7 +1107,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    InstalledSize : Byte;
+    InstalledSize: Byte;
 
     { $REGION 'Documentation' }
     /// <summary>
@@ -1120,7 +1120,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    EnabledSize : Byte;
+    EnabledSize: Byte;
 
     { $REGION 'Documentation' }
     /// <summary>
@@ -1145,17 +1145,17 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    ErrorStatus : Byte;
+    ErrorStatus: Byte;
   end;
 
   TMemoryModuleInformation = class
-    RAWMemoryModuleInformation : ^TMemoryModuleInfo;
+    RAWMemoryModuleInformation: ^TMemoryModuleInfo;
     { $REGION 'Documentation' }
     /// <summary>
     /// Get the string representation of the SocketDesignation field
     /// </summary>
     { $ENDREGION }
-    function GetSocketDesignationDescr : AnsiString;
+    function GetSocketDesignationDescr: AnsiString;
   end;
 
   TCacheSRAMType = (SROther, SRUnknown, SRNon_Burst, SRBurst, SRPipelineBurst, SRSynchronous, SRAsynchronous);
@@ -1165,14 +1165,14 @@ type
   TErrorCorrectionType = (ECFiller, ECOther, ECUnknown, ECNone, ECParity, ECSingle_bitECC, ECMulti_bitECC);
 
 Const
-  ErrorCorrectionTypeStr : Array [TErrorCorrectionType] of String = ('Filler', 'Other', 'Unknown', 'None', 'Parity', 'Single bit ECC', 'Multi bit ECC');
+  ErrorCorrectionTypeStr: Array [TErrorCorrectionType] of String = ('Filler', 'Other', 'Unknown', 'None', 'Parity', 'Single bit ECC', 'Multi bit ECC');
 
 type
 
   TSystemCacheType = (SCFiller, SCOther, SCUnknown, SCInstruction, SCData, SCUnified);
 
 Const
-  SystemCacheTypeStr : Array [TSystemCacheType] of String = ('Filler', 'Other', 'Unknown', 'Instruction', 'Data', 'Unified');
+  SystemCacheTypeStr: Array [TSystemCacheType] of String = ('Filler', 'Other', 'Unknown', 'Instruction', 'Data', 'Unified');
 
 type
   { $REGION 'Documentation' }
@@ -1185,7 +1185,7 @@ type
   /// </summary>
   { $ENDREGION }
   TCacheInfo = packed record
-    Header : TSmBiosTableHeader;
+    Header: TSmBiosTableHeader;
     { $REGION 'Documentation' }
     /// <summary>
     /// String Number for Reference Designation EXAMPLE: CACHE1, 0
@@ -1194,7 +1194,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    SocketDesignation : Byte;
+    SocketDesignation: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// <para>
@@ -1268,7 +1268,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    CacheConfiguration : Word;
+    CacheConfiguration: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// <para>
@@ -1301,7 +1301,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    MaximumCacheSize : Word;
+    MaximumCacheSize: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// Same format as Max Cache Size field; set to 0 if no cache is
@@ -1311,19 +1311,19 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    InstalledSize : Word;
+    InstalledSize: Word;
     { $REGION 'Documentation' }
     /// <remarks>
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    SupportedSRAMType : Word;
+    SupportedSRAMType: Word;
     { $REGION 'Documentation' }
     /// <remarks>
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    CurrentSRAMType : Word;
+    CurrentSRAMType: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// The cache module speed, in nanoseconds. The value is 0 if the speed
@@ -1333,7 +1333,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    CacheSpeed : Byte;
+    CacheSpeed: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// The error-correction scheme supported by this cache component
@@ -1342,7 +1342,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    ErrorCorrectionType : Byte;
+    ErrorCorrectionType: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// The logical type of cache
@@ -1351,7 +1351,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    SystemCacheType : Byte;
+    SystemCacheType: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// The associativity of the cache.
@@ -1360,50 +1360,50 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    Associativity : Byte;
+    Associativity: Byte;
   end;
 
   TCacheInformation = class
     public
-      RAWCacheInformation : ^TCacheInfo;
+      RAWCacheInformation: ^TCacheInfo;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the  SocketDesignation field
       /// </summary>
       { $ENDREGION }
-      function SocketDesignationStr : AnsiString;
+      function SocketDesignationStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the calculated value of the MaximumCacheSize field
       /// </summary>
       { $ENDREGION }
-      function GetMaximumCacheSize : Integer;
+      function GetMaximumCacheSize: Integer;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the calculated value of the InstalledSize field
       /// </summary>
       { $ENDREGION }
-      function GetInstalledCacheSize : Integer;
+      function GetInstalledCacheSize: Integer;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the calculated value of the SupportedSRAMType field
       /// </summary>
       { $ENDREGION }
-      function GetSupportedSRAMType : TCacheSRAMTypes;
+      function GetSupportedSRAMType: TCacheSRAMTypes;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the calculated value of the CurrentSRAMType field
       /// </summary>
       { $ENDREGION }
-      function GetCurrentSRAMType : TCacheSRAMTypes;
-      function GetErrorCorrectionType : TErrorCorrectionType;
-      function GetSystemCacheType : TSystemCacheType;
+      function GetCurrentSRAMType: TCacheSRAMTypes;
+      function GetErrorCorrectionType: TErrorCorrectionType;
+      function GetSystemCacheType: TSystemCacheType;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the  Associativity field
       /// </summary>
       { $ENDREGION }
-      function AssociativityStr : AnsiString;
+      function AssociativityStr: AnsiString;
   end;
 
   { $REGION 'Documentation' }
@@ -1424,7 +1424,7 @@ type
   /// </summary>
   { $ENDREGION }
   TProcessorInfo = packed record
-    Header : TSmBiosTableHeader;
+    Header: TSmBiosTableHeader;
     { $REGION 'Documentation' }
     /// <summary>
     /// String number for Reference Designation EXAMPLE: J202,0
@@ -1433,19 +1433,19 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    SocketDesignation : Byte;
+    SocketDesignation: Byte;
     { $REGION 'Documentation' }
     /// <remarks>
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    ProcessorType : Byte;
+    ProcessorType: Byte;
     { $REGION 'Documentation' }
     /// <remarks>
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    ProcessorFamily : Byte;
+    ProcessorFamily: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// String number of Processor Manufacturer
@@ -1454,7 +1454,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    ProcessorManufacturer : Byte;
+    ProcessorManufacturer: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// <para>
@@ -1478,7 +1478,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    ProcessorID : Int64; // QWORD;
+    ProcessorID: Int64; // QWORD;
     { $REGION 'Documentation' }
     /// <summary>
     /// String number describing the Processor
@@ -1487,7 +1487,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    ProcessorVersion : Byte;
+    ProcessorVersion: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Two forms of information can be specified by the SMBIOS in this
@@ -1499,7 +1499,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    Voltaje : Byte;
+    Voltaje: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// External Clock Frequency, in MHz. If the value is unknown, the field
@@ -1509,7 +1509,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    ExternalClock : Word;
+    ExternalClock: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// <para>
@@ -1526,7 +1526,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    MaxSpeed : Word;
+    MaxSpeed: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// <para>
@@ -1541,7 +1541,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    CurrentSpeed : Word;
+    CurrentSpeed: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// <para>
@@ -1585,13 +1585,13 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    Status : Byte;
+    Status: Byte;
     { $REGION 'Documentation' }
     /// <remarks>
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    ProcessorUpgrade : Byte;
+    ProcessorUpgrade: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// The handle of a Cache Information structure that defines the
@@ -1605,7 +1605,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    L1CacheHandle : Word;
+    L1CacheHandle: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// The handle of a Cache Information structure that defines the
@@ -1619,7 +1619,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    L2CacheHandle : Word;
+    L2CacheHandle: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// The handle of a Cache Information structure that defines the
@@ -1633,7 +1633,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    L3CacheHandle : Word;
+    L3CacheHandle: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// String number for the serial number of this processor. This value is
@@ -1643,7 +1643,7 @@ type
     /// 2.3+
     /// </remarks>
     { $ENDREGION }
-    SerialNumber : Byte;
+    SerialNumber: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// String number for the asset tag of this processor.
@@ -1652,7 +1652,7 @@ type
     /// 2.3+
     /// </remarks>
     { $ENDREGION }
-    AssetTag : Byte;
+    AssetTag: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// String number for the part number of this processor. This value is
@@ -1662,7 +1662,7 @@ type
     /// 2.3+
     /// </remarks>
     { $ENDREGION }
-    PartNumber : Byte;
+    PartNumber: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// <para>
@@ -1685,7 +1685,7 @@ type
     /// 2.5+
     /// </remarks>
     { $ENDREGION }
-    CoreCount : Byte;
+    CoreCount: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// <para>
@@ -1704,7 +1704,7 @@ type
     /// 2.5+
     /// </remarks>
     { $ENDREGION }
-    CoreEnabled : Byte;
+    CoreEnabled: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// <para>
@@ -1730,7 +1730,7 @@ type
     /// 2.5+
     /// </remarks>
     { $ENDREGION }
-    ThreadCount : Byte;
+    ThreadCount: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Defines which functions the processor supports.
@@ -1739,81 +1739,81 @@ type
     /// 2.5+
     /// </remarks>
     { $ENDREGION }
-    ProcessorCharacteristics : Word;
+    ProcessorCharacteristics: Word;
     { $REGION 'Documentation' }
     /// <remarks>
     /// 2.6+
     /// </remarks>
     { $ENDREGION }
-    ProcessorFamily2 : Word;
+    ProcessorFamily2: Word;
   end;
 
   TProcessorInformation = class
     public
-      RAWProcessorInformation : ^TProcessorInfo;
-      L1Chache : TCacheInformation;
-      L2Chache : TCacheInformation;
-      L3Chache : TCacheInformation;
+      RAWProcessorInformation: ^TProcessorInfo;
+      L1Chache: TCacheInformation;
+      L2Chache: TCacheInformation;
+      L3Chache: TCacheInformation;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the ProcessorManufacturer field
       /// </summary>
       { $ENDREGION }
-      function ProcessorManufacturerStr : AnsiString;
+      function ProcessorManufacturerStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the SocketDesignation field
       /// </summary>
       { $ENDREGION }
-      function SocketDesignationStr : AnsiString;
+      function SocketDesignationStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the description of the ProcessorType field.
       /// </summary>
       { $ENDREGION }
-      function ProcessorTypeStr : AnsiString;
+      function ProcessorTypeStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the description for the ProcessorFamily and ProcessorFamily2 fields.
       /// </summary>
       { $ENDREGION }
-      function ProcessorFamilyStr : AnsiString;
+      function ProcessorFamilyStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the ProcessorVersion field
       /// </summary>
       { $ENDREGION }
-      function ProcessorVersionStr : AnsiString;
+      function ProcessorVersionStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the  Voltaje of the Processor
       /// </summary>
       { $ENDREGION }
-      function GetProcessorVoltaje : Double;
+      function GetProcessorVoltaje: Double;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the description  of the ProcessorUpgrade field
       /// </summary>
       { $ENDREGION }
-      function ProcessorUpgradeStr : AnsiString;
+      function ProcessorUpgradeStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the SerialNumber field
       /// </summary>
       { $ENDREGION }
-      function SerialNumberStr : AnsiString;
+      function SerialNumberStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the AssetTag field
       /// </summary>
       { $ENDREGION }
-      function AssetTagStr : AnsiString;
+      function AssetTagStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the PartNumber field
       /// </summary>
       { $ENDREGION }
-      function PartNumberStr : AnsiString;
+      function PartNumberStr: AnsiString;
   end;
 
   { $REGION 'Documentation' }
@@ -1825,7 +1825,7 @@ type
   /// </summary>
   { $ENDREGION }
   TPortConnectorInfo = packed record
-    Header : TSmBiosTableHeader;
+    Header: TSmBiosTableHeader;
     { $REGION 'Documentation' }
     /// <summary>
     /// String number for Internal Reference Designator, that is, internal to
@@ -1835,7 +1835,7 @@ type
     /// +2.0
     /// </remarks>
     { $ENDREGION }
-    InternalReferenceDesignator : Byte;
+    InternalReferenceDesignator: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Internal Connector type
@@ -1844,7 +1844,7 @@ type
     /// +2.0
     /// </remarks>
     { $ENDREGION }
-    InternalConnectorType : Byte;
+    InternalConnectorType: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// <para>
@@ -1859,7 +1859,7 @@ type
     /// +2.0
     /// </remarks>
     { $ENDREGION }
-    ExternalReferenceDesignator : Byte;
+    ExternalReferenceDesignator: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// External Connector type.
@@ -1868,7 +1868,7 @@ type
     /// +2.0
     /// </remarks>
     { $ENDREGION }
-    ExternalConnectorType : Byte;
+    ExternalConnectorType: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Describes the function of the port
@@ -1877,12 +1877,12 @@ type
     /// +2.0
     /// </remarks>
     { $ENDREGION }
-    PortType : Byte;
+    PortType: Byte;
   end;
 
   TPortConnectorInformation = class
     public
-      RAWPortConnectorInformation : ^TPortConnectorInfo;
+      RAWPortConnectorInformation: ^TPortConnectorInfo;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the InternalReferenceDesignator
@@ -1892,7 +1892,7 @@ type
       /// +2.0
       /// </remarks>
       { $ENDREGION }
-      function InternalReferenceDesignatorStr : AnsiString;
+      function InternalReferenceDesignatorStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the description of the Connector Type Fields
@@ -1901,7 +1901,7 @@ type
       /// +2.0
       /// </remarks>
       { $ENDREGION }
-      function GetConnectorType(Connector : Byte) : AnsiString;
+      function GetConnectorType(Connector: Byte): AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the ExternalReferenceDesignator
@@ -1911,7 +1911,7 @@ type
       /// +2.0
       /// </remarks>
       { $ENDREGION }
-      function ExternalReferenceDesignatorStr : AnsiString;
+      function ExternalReferenceDesignatorStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the description of the PortType field.
@@ -1920,7 +1920,7 @@ type
       /// +2.0
       /// </remarks>
       { $ENDREGION }
-      function PortTypeStr : AnsiString;
+      function PortTypeStr: AnsiString;
   end;
 
   { $REGION 'Documentation' }
@@ -1930,7 +1930,7 @@ type
   /// </summary>
   { $ENDREGION }
   TSystemSlotInfo = packed record
-    Header : TSmBiosTableHeader;
+    Header: TSmBiosTableHeader;
     { $REGION 'Documentation' }
     /// <summary>
     /// String number for reference designation EXAMPLE: PCI-1,0
@@ -1939,26 +1939,26 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    SlotDesignation : Byte;
+    SlotDesignation: Byte;
     { $REGION 'Documentation' }
     /// <remarks>
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    SlotType : Byte;
+    SlotType: Byte;
     { $REGION 'Documentation' }
     /// <remarks>
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    SlotDataBusWidth : Byte;
+    SlotDataBusWidth: Byte;
     { $REGION 'Documentation' }
     /// <remarks>
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    CurrentUsage : Byte;
-    SlotLength : Byte;
+    CurrentUsage: Byte;
+    SlotLength: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// The Slot ID field of the System Slot structure provides a mechanism
@@ -1969,19 +1969,19 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    SlotID : Word;
+    SlotID: Word;
     { $REGION 'Documentation' }
     /// <remarks>
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    SlotCharacteristics1 : Byte;
+    SlotCharacteristics1: Byte;
     { $REGION 'Documentation' }
     /// <remarks>
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    SlotCharacteristics2 : Byte;
+    SlotCharacteristics2: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// For slots that are not of types PCI, AGP, PCI-X, or PCI-Express that
@@ -1994,13 +1994,13 @@ type
     /// 2.6+
     /// </remarks>
     { $ENDREGION }
-    SegmentGroupNumber : Word;
+    SegmentGroupNumber: Word;
     { $REGION 'Documentation' }
     /// <remarks>
     /// 2.6+
     /// </remarks>
     { $ENDREGION }
-    BusNumber : Byte;
+    BusNumber: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// <para>
@@ -2014,42 +2014,42 @@ type
     /// 2.6+
     /// </remarks>
     { $ENDREGION }
-    DeviceFunctionNumber : Byte;
+    DeviceFunctionNumber: Byte;
   end;
 
   TSystemSlotInformation = class
     public
-      RAWSystemSlotInformation : ^TSystemSlotInfo;
+      RAWSystemSlotInformation: ^TSystemSlotInfo;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the SlotDesignation field.
       /// </summary>
       { $ENDREGION }
-      function SlotDesignationStr : AnsiString;
+      function SlotDesignationStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the description for the SlotType field
       /// </summary>
       { $ENDREGION }
-      function GetSlotType : AnsiString;
+      function GetSlotType: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the description for the SlotDataBusWidth field
       /// </summary>
       { $ENDREGION }
-      function GetSlotDataBusWidth : AnsiString;
+      function GetSlotDataBusWidth: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the description for the CurrentUsage field
       /// </summary>
       { $ENDREGION }
-      function GetCurrentUsage : AnsiString;
+      function GetCurrentUsage: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the description for the SlotLength field
       /// </summary>
       { $ENDREGION }
-      function GetSlotLength : AnsiString;
+      function GetSlotLength: AnsiString;
   end;
 
   { $REGION 'Documentation' }
@@ -2062,32 +2062,32 @@ type
   /// </summary>
   { $ENDREGION }
   TOnBoardSystemInfo = packed record
-    Header : TSmBiosTableHeader;
-    DeviceType : Byte;
-    DescriptionString : Byte;
+    Header: TSmBiosTableHeader;
+    DeviceType: Byte;
+    DescriptionString: Byte;
   end;
 
   TOnBoardSystemInformation = class
     public
-      RAWOnBoardSystemInfo : ^TOnBoardSystemInfo;
+      RAWOnBoardSystemInfo: ^TOnBoardSystemInfo;
       { $REGION 'Documentation' }
       /// <summary>
       /// Returns the Device description String
       /// </summary>
       { $ENDREGION }
-      function GetDescription : AnsiString;
+      function GetDescription: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Returns the Device status
       /// </summary>
       { $ENDREGION }
-      function Enabled : Boolean;
+      function Enabled: Boolean;
       { $REGION 'Documentation' }
       /// <summary>
       /// Returns the Device type description String
       /// </summary>
       { $ENDREGION }
-      function GetTypeDescription : AnsiString;
+      function GetTypeDescription: AnsiString;
   end;
 
   { $REGION 'Documentation' }
@@ -2098,13 +2098,13 @@ type
   /// </summary>
   { $ENDREGION }
   TOEMStringsInfo = packed record
-    Header : TSmBiosTableHeader;
+    Header: TSmBiosTableHeader;
     { $REGION 'Documentation' }
     /// <summary>
     /// Number of strings
     /// </summary>
     { $ENDREGION }
-    Count : Byte;
+    Count: Byte;
   end;
 
   { $REGION 'Documentation' }
@@ -2117,7 +2117,7 @@ type
   /// </summary>
   { $ENDREGION }
   TGroupAssociationsInfo = packed record
-    Header : TSmBiosTableHeader;
+    Header: TSmBiosTableHeader;
     { $REGION 'Documentation' }
     /// <summary>
     /// String number of string describing the group
@@ -2126,7 +2126,7 @@ type
     /// 2.0+
     /// </value>
     { $ENDREGION }
-    GroupName : Byte;
+    GroupName: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Item (Structure) Type of this member
@@ -2135,7 +2135,7 @@ type
     /// 2.0+
     /// </value>
     { $ENDREGION }
-    ItemType : Byte;
+    ItemType: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Handle corresponding to this structure
@@ -2144,29 +2144,29 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    ItemHandle : Word;
+    ItemHandle: Word;
   end;
 
   TGroupAssociationsInformation = class
     public
-      RAWGroupAssociationsInformation : ^TGroupAssociationsInfo;
+      RAWGroupAssociationsInformation: ^TGroupAssociationsInfo;
       { $REGION 'Documentation' }
       /// <summary>
       /// Returns the string representation of the GroupName field
       /// </summary>
       { $ENDREGION }
-      function GetGroupName : AnsiString;
+      function GetGroupName: AnsiString;
   end;
 
   TOEMStringsInformation = class
     public
-      RAWOEMStringsInformation : ^TOEMStringsInfo;
+      RAWOEMStringsInformation: ^TOEMStringsInfo;
       { $REGION 'Documentation' }
       /// <summary>
       /// Returns the OEM String based in the Index
       /// </summary>
       { $ENDREGION }
-      function GetOEMString(index : Integer) : AnsiString;
+      function GetOEMString(index: Integer): AnsiString;
   end;
 
   { $REGION 'Documentation' }
@@ -2176,24 +2176,24 @@ type
   /// </summary>
   { $ENDREGION }
   TSystemConfInfo = packed record
-    Header : TSmBiosTableHeader;
+    Header: TSmBiosTableHeader;
     { $REGION 'Documentation' }
     /// <summary>
     /// Number of strings
     /// </summary>
     { $ENDREGION }
-    Count : Byte;
+    Count: Byte;
   end;
 
   TSystemConfInformation = class
     public
-      RAWSystemConfInformation : ^TSystemConfInfo;
+      RAWSystemConfInformation: ^TSystemConfInfo;
       { $REGION 'Documentation' }
       /// <summary>
       /// Returns the configuration String based in the Index
       /// </summary>
       { $ENDREGION }
-      function GetConfString(index : Integer) : AnsiString;
+      function GetConfString(index: Integer): AnsiString;
   end;
 
   { $REGION 'Documentation' }
@@ -2203,7 +2203,7 @@ type
   /// </summary>
   { $ENDREGION }
   TBIOSLanguageInfo = packed record
-    Header : TSmBiosTableHeader;
+    Header: TSmBiosTableHeader;
     { $REGION 'Documentation' }
     /// <summary>
     /// Number of languages available. Each available language has a
@@ -2214,7 +2214,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    InstallableLanguages : Byte;
+    InstallableLanguages: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// <para>
@@ -2229,7 +2229,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    Flags : Byte;
+    Flags: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Reserved for future use
@@ -2238,7 +2238,7 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    Reserved : array [0 .. 14] of Byte;
+    Reserved: array [0 .. 14] of Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// String number (one-based) of the currently installed language
@@ -2247,24 +2247,24 @@ type
     /// 2.0+
     /// </remarks>
     { $ENDREGION }
-    CurrentLanguage : Byte;
+    CurrentLanguage: Byte;
   end;
 
   TBIOSLanguageInformation = class
     public
-      RAWBIOSLanguageInformation : ^TBIOSLanguageInfo;
+      RAWBIOSLanguageInformation: ^TBIOSLanguageInfo;
       { $REGION 'Documentation' }
       /// <summary>
       /// Returns the Installed language string based in the Index
       /// </summary>
       { $ENDREGION }
-      function GetLanguageString(index : Integer) : AnsiString;
+      function GetLanguageString(index: Integer): AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Returns the current language as a string
       /// </summary>
       { $ENDREGION }
-      function GetCurrentLanguageStr : AnsiString;
+      function GetCurrentLanguageStr: AnsiString;
   end;
 
   { $REGION 'Documentation' }
@@ -2274,7 +2274,7 @@ type
   /// </summary>
   { $ENDREGION }
   TPhysicalMemoryArrayInfo = packed record
-    Header : TSmBiosTableHeader;
+    Header: TSmBiosTableHeader;
     { $REGION 'Documentation' }
     /// <summary>
     /// The physical location of the Memory Array, whether on the system
@@ -2284,7 +2284,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    Location : Byte;
+    Location: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// The function for which the array is used.
@@ -2293,7 +2293,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    Use : Byte;
+    Use: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// The primary hardware error correction or detection method supported
@@ -2303,7 +2303,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    MemoryErrorCorrection : Byte;
+    MemoryErrorCorrection: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// The maximum memory capacity, in kilobytes, for this array. If the
@@ -2316,7 +2316,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    MaximumCapacity : DWORD;
+    MaximumCapacity: DWORD;
     { $REGION 'Documentation' }
     /// <summary>
     /// The handle, or instance number, associated with any error that was
@@ -2329,7 +2329,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    MemoryErrorInformationHandle : Word;
+    MemoryErrorInformationHandle: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// The number of slots or sockets available for Memory Devices in this
@@ -2341,7 +2341,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    NumberofMemoryDevices : Word;
+    NumberofMemoryDevices: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// The maximum memory capacity, in bytes, for this array. This field is
@@ -2353,30 +2353,30 @@ type
     /// 2.7+
     /// </remarks>
     { $ENDREGION }
-    ExtendedMaximumCapacity : Int64; // QWORD
+    ExtendedMaximumCapacity: Int64; // QWORD
   end;
 
   TPhysicalMemoryArrayInformation = class
     public
-      RAWPhysicalMemoryArrayInformation : ^TPhysicalMemoryArrayInfo;
+      RAWPhysicalMemoryArrayInformation: ^TPhysicalMemoryArrayInfo;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the description of the Location field.
       /// </summary>
       { $ENDREGION }
-      function GetLocationStr : AnsiString;
+      function GetLocationStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the description of the Use  field.
       /// </summary>
       { $ENDREGION }
-      function GetUseStr : AnsiString;
+      function GetUseStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the description of the MemoryErrorCorrection field.
       /// </summary>
       { $ENDREGION }
-      function GetErrorCorrectionStr : AnsiString;
+      function GetErrorCorrectionStr: AnsiString;
   end;
 
   { $REGION 'Documentation' }
@@ -2385,7 +2385,7 @@ type
   /// </summary>
   { $ENDREGION }
   TMemoryArrayMappedAddress = packed record
-    Header : TSmBiosTableHeader;
+    Header: TSmBiosTableHeader;
     { $REGION 'Documentation' }
     /// <summary>
     /// The physical address, in kilobytes, of a range of memory mapped to
@@ -2399,7 +2399,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    StartingAddress : DWORD;
+    StartingAddress: DWORD;
     { $REGION 'Documentation' }
     /// <summary>
     /// The physical ending address of the last kilobyte of a range of
@@ -2413,7 +2413,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    EndingAddress : DWORD;
+    EndingAddress: DWORD;
     { $REGION 'Documentation' }
     /// <summary>
     /// The handle, or instance number, associated with the Physical Memory
@@ -2424,7 +2424,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    MemoryArrayHandle : Word;
+    MemoryArrayHandle: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// Identifies the number of Memory Devices that form a single row of
@@ -2434,7 +2434,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    PartitionWidth : Byte;
+    PartitionWidth: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// The physical address, in bytes, of a range of memory mapped to the
@@ -2448,7 +2448,7 @@ type
     /// 2.7+
     /// </remarks>
     { $ENDREGION }
-    ExtendedStartingAddress : Int64;
+    ExtendedStartingAddress: Int64;
     { $REGION 'Documentation' }
     /// <summary>
     /// The physical ending address, in bytes, of the last of a range of
@@ -2462,12 +2462,12 @@ type
     /// 2.7+
     /// </remarks>
     { $ENDREGION }
-    ExtendedEndingAddress : Int64;
+    ExtendedEndingAddress: Int64;
   end;
 
   TMemoryArrayMappedAddressInformation = class
     public
-      RAWMemoryArrayMappedAddressInfo : ^TMemoryArrayMappedAddress;
+      RAWMemoryArrayMappedAddressInfo: ^TMemoryArrayMappedAddress;
   end;
 
   { $REGION 'Documentation' }
@@ -2477,7 +2477,7 @@ type
   /// </summary>
   { $ENDREGION }
   TMemoryDeviceMappedAddress = packed record
-    Header : TSmBiosTableHeader;
+    Header: TSmBiosTableHeader;
     { $REGION 'Documentation' }
     /// <summary>
     /// The physical address, in kilobytes, of a range of memory mapped to
@@ -2491,7 +2491,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    StartingAddress : DWORD;
+    StartingAddress: DWORD;
     { $REGION 'Documentation' }
     /// <summary>
     /// The physical ending address of the last kilobyte of a range of
@@ -2504,7 +2504,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    EndingAddress : DWORD;
+    EndingAddress: DWORD;
     { $REGION 'Documentation' }
     /// <summary>
     /// The handle, or instance number, associated with the Memory Device
@@ -2515,7 +2515,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    MemoryDeviceHandle : Word;
+    MemoryDeviceHandle: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// The handle, or instance number, associated with the Memory Array
@@ -2527,7 +2527,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    MemoryArrayMappedAddressHandle : Word;
+    MemoryArrayMappedAddressHandle: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// Identifies the position of the referenced Memory Device in a row of
@@ -2539,7 +2539,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    PartitionRowPosition : Byte;
+    PartitionRowPosition: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// <para>
@@ -2558,7 +2558,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    InterleavePosition : Byte;
+    InterleavePosition: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// <para>
@@ -2578,7 +2578,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    InterleavedDataDepth : Byte;
+    InterleavedDataDepth: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// The physical address, in bytes, of a range of memory mapped to the
@@ -2592,7 +2592,7 @@ type
     /// 2.7+
     /// </remarks>
     { $ENDREGION }
-    ExtendedStartingAddress : Int64;
+    ExtendedStartingAddress: Int64;
     { $REGION 'Documentation' }
     /// <summary>
     /// The physical ending address, in bytes, of the last of a range of
@@ -2606,16 +2606,16 @@ type
     /// 2.7+
     /// </remarks>
     { $ENDREGION }
-    ExtendedEndingAddress : Int64;
+    ExtendedEndingAddress: Int64;
   end;
 
   TMemoryDeviceMappedAddressInformation = class
     public
-      RAWMemoryDeviceMappedAddressInfo : ^TMemoryDeviceMappedAddress;
+      RAWMemoryDeviceMappedAddressInfo: ^TMemoryDeviceMappedAddress;
   end;
 
   TMemoryDeviceInfo = packed record
-    Header : TSmBiosTableHeader;
+    Header: TSmBiosTableHeader;
     { $REGION 'Documentation' }
     /// <summary>
     /// The handle, or instance number, associated with the Physical Memory
@@ -2625,7 +2625,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    PhysicalMemoryArrayHandle : Word;
+    PhysicalMemoryArrayHandle: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// The handle, or instance number, associated with any error that was
@@ -2638,7 +2638,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    MemoryErrorInformationHandle : Word;
+    MemoryErrorInformationHandle: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// The total width, in bits, of this memory device, including any check
@@ -2650,7 +2650,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    TotalWidth : Word;
+    TotalWidth: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// The data width, in bits, of this memory device. A Data Width of 0 and
@@ -2662,7 +2662,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    DataWidth : Word;
+    DataWidth: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// <para>
@@ -2683,7 +2683,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    Size : Word;
+    Size: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// The implementation form factor for this memory device.
@@ -2692,7 +2692,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    FormFactor : Byte;
+    FormFactor: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// <para>
@@ -2711,7 +2711,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    DeviceSet : Byte;
+    DeviceSet: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// The string number of the string that identifies the
@@ -2722,7 +2722,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    DeviceLocator : Byte;
+    DeviceLocator: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// The string number of the string that identifies the physically
@@ -2733,7 +2733,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    BankLocator : Byte;
+    BankLocator: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// The type of memory used in this device
@@ -2742,7 +2742,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    MemoryType : Byte;
+    MemoryType: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Additional detail on the memory device type;
@@ -2751,7 +2751,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    TypeDetail : Word;
+    TypeDetail: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// Identifies the maximum capable speed of the device, in megahertz
@@ -2762,7 +2762,7 @@ type
     /// 2.3+
     /// </remarks>
     { $ENDREGION }
-    Speed : Word;
+    Speed: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// String number for the manufacturer of this memory device
@@ -2771,7 +2771,7 @@ type
     /// 2.3+
     /// </remarks>
     { $ENDREGION }
-    Manufacturer : Byte;
+    Manufacturer: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// String number for the serial number of this memory device. This value
@@ -2781,7 +2781,7 @@ type
     /// 2.3+
     /// </remarks>
     { $ENDREGION }
-    SerialNumber : Byte;
+    SerialNumber: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// String number for the asset tag of this memory device
@@ -2790,7 +2790,7 @@ type
     /// 2.3+
     /// </remarks>
     { $ENDREGION }
-    AssetTag : Byte;
+    AssetTag: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// String number for the part number of this memory device. This value
@@ -2800,7 +2800,7 @@ type
     /// 2.3+
     /// </remarks>
     { $ENDREGION }
-    PartNumber : Byte;
+    PartNumber: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// <para>
@@ -2817,7 +2817,7 @@ type
     /// 2.6+
     /// </remarks>
     { $ENDREGION }
-    Attributes : Byte;
+    Attributes: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// The extended size of the memory device (complements the Size field at
@@ -2827,7 +2827,7 @@ type
     /// 2.7+
     /// </remarks>
     { $ENDREGION }
-    ExtendedSize : DWORD;
+    ExtendedSize: DWORD;
     { $REGION 'Documentation' }
     /// <summary>
     /// <para>
@@ -2842,7 +2842,7 @@ type
     /// 2.7+
     /// </remarks>
     { $ENDREGION }
-    ConfiguredMemoryClockSpeed : DWORD;
+    ConfiguredMemoryClockSpeed: DWORD;
     { $REGION 'Documentation' }
     /// <summary>
     /// Minimum operating voltage for this device, in millivolts If the value
@@ -2852,7 +2852,7 @@ type
     /// 2.8+
     /// </remarks>
     { $ENDREGION }
-    MinimumVoltage : Word;
+    MinimumVoltage: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// Maximum operating voltage for this device, in millivolts If the value
@@ -2862,7 +2862,7 @@ type
     /// 2.8+
     /// </remarks>
     { $ENDREGION }
-    MaximumVoltage : Word;
+    MaximumVoltage: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// Configured voltage for this device, in millivolts If the value is 0,
@@ -2872,67 +2872,67 @@ type
     /// 2.8+
     /// </remarks>
     { $ENDREGION }
-    ConfiguredVoltage : Word;
+    ConfiguredVoltage: Word;
   end;
 
   TMemoryDeviceInformation = class
     public
-      RAWMemoryDeviceInfo : ^TMemoryDeviceInfo;
-      PhysicalMemoryArray : TPhysicalMemoryArrayInformation;
+      RAWMemoryDeviceInfo: ^TMemoryDeviceInfo;
+      PhysicalMemoryArray: TPhysicalMemoryArrayInformation;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the calculated size in Mb of the memory device
       /// </summary>
       { $ENDREGION }
-      function GetSize : DWORD;
+      function GetSize: DWORD;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the description of the FormFactor field.
       /// </summary>
       { $ENDREGION }
-      function GetFormFactor : AnsiString;
+      function GetFormFactor: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the description of the DeviceLocator field.
       /// </summary>
       { $ENDREGION }
-      function GetDeviceLocatorStr : AnsiString;
+      function GetDeviceLocatorStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the description of the BankLocator field.
       /// </summary>
       { $ENDREGION }
-      function GetBankLocatorStr : AnsiString;
+      function GetBankLocatorStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the description of the MemoryType field.
       /// </summary>
       { $ENDREGION }
-      function GetMemoryTypeStr : AnsiString;
+      function GetMemoryTypeStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the Manufacturer field
       /// </summary>
       { $ENDREGION }
-      function ManufacturerStr : AnsiString;
+      function ManufacturerStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the SerialNumber field
       /// </summary>
       { $ENDREGION }
-      function SerialNumberStr : AnsiString;
+      function SerialNumberStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the AssetTag field
       /// </summary>
       { $ENDREGION }
-      function AssetTagStr : AnsiString;
+      function AssetTagStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the PartNumber field
       /// </summary>
       { $ENDREGION }
-      function PartNumberStr : AnsiString;
+      function PartNumberStr: AnsiString;
   end;
 
   { $REGION 'Documentation' }
@@ -2942,13 +2942,13 @@ type
   /// device for the system.
   /// </para>
   /// <para>
-  /// Note : The presence of this structure does not imply that the
+  /// Note: The presence of this structure does not imply that the
   /// built-in pointing device is active for the systems use.
   /// </para>
   /// </summary>
   { $ENDREGION }
   TBuiltInPointingDevice = packed record
-    Header : TSmBiosTableHeader;
+    Header: TSmBiosTableHeader;
     { $REGION 'Documentation' }
     /// <summary>
     /// The type of pointing device
@@ -2957,7 +2957,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    _Type : Byte;
+    _Type: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// The interface type for the pointing device;
@@ -2966,7 +2966,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    _Interface : Byte;
+    _Interface: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// The number of buttons on the pointing device. If the device has three
@@ -2976,24 +2976,24 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    NumberofButtons : Byte;
+    NumberofButtons: Byte;
   end;
 
   TBuiltInPointingDeviceInformation = class
     public
-      RAWBuiltInPointingDeviceInfo : ^TBuiltInPointingDevice;
+      RAWBuiltInPointingDeviceInfo: ^TBuiltInPointingDevice;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the description of the Type field.
       /// </summary>
       { $ENDREGION }
-      function GetType : string;
+      function GetType: string;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the description of the Interface field.
       /// </summary>
       { $ENDREGION }
-      function GetInterface : string;
+      function GetInterface: string;
   end;
 
   { $REGION 'Documentation' }
@@ -3005,7 +3005,7 @@ type
   /// </summary>
   { $ENDREGION }
   TBatteryInfo = packed record
-    Header : TSmBiosTableHeader;
+    Header: TSmBiosTableHeader;
     { $REGION 'Documentation' }
     /// <summary>
     /// The number of the string that identifies the location of the battery
@@ -3015,7 +3015,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    Location : Byte;
+    Location: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// The number of the string that names the company that manufactured the
@@ -3025,7 +3025,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    Manufacturer : Byte;
+    Manufacturer: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// The number of the string that identifies the date on which the
@@ -3037,7 +3037,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    ManufacturerDate : Byte;
+    ManufacturerDate: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// The number of the string that contains the serial number for the
@@ -3049,7 +3049,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    SerialNumber : Byte;
+    SerialNumber: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// <para>
@@ -3063,7 +3063,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    DeviceName : Byte;
+    DeviceName: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Identifies the battery chemistry; Version 2.2+ implementations that
@@ -3074,7 +3074,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    DeviceChemistry : Byte;
+    DeviceChemistry: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// The design capacity of the battery in mWatthours. If the value is
@@ -3086,7 +3086,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    DesignCapacity : Word;
+    DesignCapacity: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// The design voltage of the battery in mVolts. If the value is unknown,
@@ -3096,7 +3096,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    DesignVoltage : Word;
+    DesignVoltage: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// The number of the string that contains the Smart Battery Data
@@ -3107,7 +3107,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    SBDSVersionNumber : Byte;
+    SBDSVersionNumber: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// The maximum error (as a percentage in the range 0 to 100) in the
@@ -3119,7 +3119,7 @@ type
     /// 2.1+
     /// </remarks>
     { $ENDREGION }
-    MaximumErrorInBatteryData : Byte;
+    MaximumErrorInBatteryData: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// The 16-bit value that identifies the batterys serial number. This
@@ -3131,7 +3131,7 @@ type
     /// 2.2+
     /// </remarks>
     { $ENDREGION }
-    SBDSSerialNumber : Word;
+    SBDSSerialNumber: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// <para>
@@ -3159,7 +3159,7 @@ type
     /// 2.2+
     /// </remarks>
     { $ENDREGION }
-    SBDSManufacturerDate : Word;
+    SBDSManufacturerDate: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// The number of the string that identifies the battery chemistry (for
@@ -3170,7 +3170,7 @@ type
     /// 2.2+
     /// </remarks>
     { $ENDREGION }
-    SBDSDeviceChemistry : Byte;
+    SBDSDeviceChemistry: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// The multiplication factor of the Design Capacity value, which assures
@@ -3183,7 +3183,7 @@ type
     /// 2.2+
     /// </remarks>
     { $ENDREGION }
-    DesignCapacityMultiplier : Byte;
+    DesignCapacityMultiplier: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Contains OEM- or BIOS vendor-specific information
@@ -3192,66 +3192,66 @@ type
     /// 2.2+
     /// </remarks>
     { $ENDREGION }
-    OEM_Specific : DWORD;
+    OEM_Specific: DWORD;
   end;
 
   TBatteryInformation = class
     public
-      RAWBatteryInfo : ^TBatteryInfo;
+      RAWBatteryInfo: ^TBatteryInfo;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the Location field.
       /// </summary>
       { $ENDREGION }
-      function GetLocationStr : AnsiString;
+      function GetLocationStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the Manufacturer field.
       /// </summary>
       { $ENDREGION }
-      function GetManufacturerStr : AnsiString;
+      function GetManufacturerStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the ManufacturerDate field.
       /// </summary>
       { $ENDREGION }
-      function GetManufacturerDateStr : AnsiString;
+      function GetManufacturerDateStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the SerialNumber field.
       /// </summary>
       { $ENDREGION }
-      function GetSerialNumberStr : AnsiString;
+      function GetSerialNumberStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the DeviceName field.
       /// </summary>
       { $ENDREGION }
-      function GetDeviceNameStr : AnsiString;
+      function GetDeviceNameStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the description of the DeviceChemistry field.
       /// </summary>
       { $ENDREGION }
-      function GetDeviceChemistry : AnsiString;
+      function GetDeviceChemistry: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the SBDSVersionNumber field.
       /// </summary>
       { $ENDREGION }
-      function GetSBDSVersionNumberStr : AnsiString;
+      function GetSBDSVersionNumberStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the SBDSManufacturerDate field.
       /// </summary>
       { $ENDREGION }
-      function GetSBDSManufacturerDate : TDateTime;
+      function GetSBDSManufacturerDate: TDateTime;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the SBDSDeviceChemistry field.
       /// </summary>
       { $ENDREGION }
-      function GetSBDSDeviceChemistryStr : AnsiString;
+      function GetSBDSDeviceChemistryStr: AnsiString;
   end;
 
   { $REGION 'Documentation' }
@@ -3265,7 +3265,7 @@ type
   /// </remarks>
   { $ENDREGION }
   TVoltageProbeInfo = packed record
-    Header : TSmBiosTableHeader;
+    Header: TSmBiosTableHeader;
     { $REGION 'Documentation' }
     /// <summary>
     /// The number of the string that contains additional descriptive
@@ -3275,7 +3275,7 @@ type
     /// 2.2+
     /// </remarks>
     { $ENDREGION }
-    Description : Byte;
+    Description: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Defines the probes physical location and status of the voltage
@@ -3285,7 +3285,7 @@ type
     /// 2.2+
     /// </remarks>
     { $ENDREGION }
-    LocationandStatus : Byte;
+    LocationandStatus: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// The maximum voltage level readable by this probe, in millivolts. If
@@ -3295,7 +3295,7 @@ type
     /// 2.2+
     /// </remarks>
     { $ENDREGION }
-    MaximumValue : Word;
+    MaximumValue: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// The minimum voltage level readable by this probe, in millivolts. If
@@ -3305,7 +3305,7 @@ type
     /// 2.2+
     /// </remarks>
     { $ENDREGION }
-    MinimumValue : Word;
+    MinimumValue: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// The resolution for the probes reading, in tenths of millivolts. If
@@ -3315,7 +3315,7 @@ type
     /// 2.2+
     /// </remarks>
     { $ENDREGION }
-    Resolution : Word;
+    Resolution: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// The tolerance for reading from this probe, in plus/minus millivolts.
@@ -3325,7 +3325,7 @@ type
     /// 2.2+
     /// </remarks>
     { $ENDREGION }
-    Tolerance : Word;
+    Tolerance: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// The accuracy for reading from this probe, in plus/minus 1/100th of a
@@ -3335,7 +3335,7 @@ type
     /// 2.2+
     /// </remarks>
     { $ENDREGION }
-    Accuracy : Word;
+    Accuracy: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// Contains OEM- or BIOS vendor-specific information.
@@ -3344,7 +3344,7 @@ type
     /// 2.2+
     /// </remarks>
     { $ENDREGION }
-    OEMdefined : DWORD;
+    OEMdefined: DWORD;
     { $REGION 'Documentation' }
     /// <summary>
     /// The nominal value for the probes reading in millivolts. If the value
@@ -3355,30 +3355,30 @@ type
     /// 2.2+
     /// </remarks>
     { $ENDREGION }
-    NominalValue : Word;
+    NominalValue: Word;
   end;
 
   TVoltageProbeInformation = class
     public
-      RAWVoltageProbeInfo : ^TVoltageProbeInfo;
+      RAWVoltageProbeInfo: ^TVoltageProbeInfo;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the Description field.
       /// </summary>
       { $ENDREGION }
-      function GetDescriptionStr : AnsiString;
+      function GetDescriptionStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the Probe Location
       /// </summary>
       { $ENDREGION }
-      function GetLocation : AnsiString;
+      function GetLocation: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the probe status
       /// </summary>
       { $ENDREGION }
-      function GetStatus : AnsiString;
+      function GetStatus: AnsiString;
   end;
 
   { $REGION 'Documentation' }
@@ -3388,7 +3388,7 @@ type
   /// </summary>
   { $ENDREGION }
   TCoolingDeviceInfo = packed record
-    Header : TSmBiosTableHeader;
+    Header: TSmBiosTableHeader;
     { $REGION 'Documentation' }
     /// <summary>
     /// The handle, or instance number, of the temperature probe monitoring
@@ -3399,7 +3399,7 @@ type
     /// 2.2+
     /// </remarks>
     { $ENDREGION }
-    TemperatureProbeHandle : Word;
+    TemperatureProbeHandle: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// Identifies the cooling device type and the status of this cooling
@@ -3409,7 +3409,7 @@ type
     /// 2.2+
     /// </remarks>
     { $ENDREGION }
-    DeviceTypeandStatus : Byte;
+    DeviceTypeandStatus: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// <para>
@@ -3428,7 +3428,7 @@ type
     /// 2.2+
     /// </remarks>
     { $ENDREGION }
-    CoolingUnitGroup : Byte;
+    CoolingUnitGroup: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Contains OEM- or BIOS vendor-specific information.
@@ -3437,7 +3437,7 @@ type
     /// 2.2+
     /// </remarks>
     { $ENDREGION }
-    OEMdefined : DWORD;
+    OEMdefined: DWORD;
     { $REGION 'Documentation' }
     /// <summary>
     /// The nominal value for the cooling devices rotational speed, in
@@ -3450,7 +3450,7 @@ type
     /// 2.2+
     /// </remarks>
     { $ENDREGION }
-    NominalSpeed : Word;
+    NominalSpeed: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// The number of the string that contains additional descriptive
@@ -3462,34 +3462,34 @@ type
     /// 2.7+
     /// </remarks>
     { $ENDREGION }
-    Description : Byte;
+    Description: Byte;
   end;
 
   TCoolingDeviceInformation = class
     public
-      RAWCoolingDeviceInfo : ^TCoolingDeviceInfo;
+      RAWCoolingDeviceInfo: ^TCoolingDeviceInfo;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the Description field.
       /// </summary>
       { $ENDREGION }
-      function GetDescriptionStr : AnsiString;
+      function GetDescriptionStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the device type
       /// </summary>
       { $ENDREGION }
-      function GetDeviceType : AnsiString;
+      function GetDeviceType: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the device status
       /// </summary>
       { $ENDREGION }
-      function GetStatus : AnsiString;
+      function GetStatus: AnsiString;
   end;
 
   TTemperatureProbeInfo = packed record
-    Header : TSmBiosTableHeader;
+    Header: TSmBiosTableHeader;
     { $REGION 'Documentation' }
     /// <summary>
     /// The number of the string that contains additional descriptive
@@ -3499,7 +3499,7 @@ type
     /// 2.2+
     /// </remarks>
     { $ENDREGION }
-    Description : Byte;
+    Description: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Defines the probes physical location and the status of the
@@ -3509,7 +3509,7 @@ type
     /// 2.2+
     /// </remarks>
     { $ENDREGION }
-    LocationandStatus : Byte;
+    LocationandStatus: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// The maximum temperature readable by this probe, in 1/10th degrees C.
@@ -3519,7 +3519,7 @@ type
     /// 2.2+
     /// </remarks>
     { $ENDREGION }
-    MaximumValue : Word;
+    MaximumValue: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// The minimum temperature readable by this probe, in 1/10th degrees C.
@@ -3529,7 +3529,7 @@ type
     /// 2.2+
     /// </remarks>
     { $ENDREGION }
-    MinimumValue : Word;
+    MinimumValue: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// The resolution for the probes reading, in 1/1000th degrees C. If the
@@ -3539,7 +3539,7 @@ type
     /// 2.2+
     /// </remarks>
     { $ENDREGION }
-    Resolution : Word;
+    Resolution: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// The tolerance for reading from this probe, in plus/minus 1/10th
@@ -3549,7 +3549,7 @@ type
     /// 2.2+
     /// </remarks>
     { $ENDREGION }
-    Tolerance : Word;
+    Tolerance: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// The accuracy for reading from this probe, in plus/minus 1/100th of a
@@ -3559,7 +3559,7 @@ type
     /// 2.2+
     /// </remarks>
     { $ENDREGION }
-    Accuracy : Word;
+    Accuracy: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// Contains OEM- or BIOS vendor-specific information.
@@ -3568,7 +3568,7 @@ type
     /// 2.2+
     /// </remarks>
     { $ENDREGION }
-    OEMdefined : DWORD;
+    OEMdefined: DWORD;
     { $REGION 'Documentation' }
     /// <summary>
     /// The nominal value for the probes reading in 1/10th degrees C. If the
@@ -3579,30 +3579,30 @@ type
     /// 2.2+
     /// </remarks>
     { $ENDREGION }
-    NominalValue : Word;
+    NominalValue: Word;
   end;
 
   TTemperatureProbeInformation = class
     public
-      RAWTemperatureProbeInfo : ^TTemperatureProbeInfo;
+      RAWTemperatureProbeInfo: ^TTemperatureProbeInfo;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the Description field.
       /// </summary>
       { $ENDREGION }
-      function GetDescriptionStr : AnsiString;
+      function GetDescriptionStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the Probe Location
       /// </summary>
       { $ENDREGION }
-      function GetLocation : AnsiString;
+      function GetLocation: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the probe status
       /// </summary>
       { $ENDREGION }
-      function GetStatus : AnsiString;
+      function GetStatus: AnsiString;
   end;
 
   { $REGION 'Documentation' }
@@ -3613,7 +3613,7 @@ type
   /// </summary>
   { $ENDREGION }
   TElectricalCurrentProbeInfo = packed record
-    Header : TSmBiosTableHeader;
+    Header: TSmBiosTableHeader;
     { $REGION 'Documentation' }
     /// <summary>
     /// The number of the string that contains additional descriptive
@@ -3623,7 +3623,7 @@ type
     /// 2.2+
     /// </remarks>
     { $ENDREGION }
-    Description : Byte;
+    Description: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// Defines the probes physical location and the status of the current
@@ -3633,7 +3633,7 @@ type
     /// 2.2+
     /// </remarks>
     { $ENDREGION }
-    LocationandStatus : Byte;
+    LocationandStatus: Byte;
     { $REGION 'Documentation' }
     /// <summary>
     /// The maximum current readable by this probe, in milliamps. If the
@@ -3643,7 +3643,7 @@ type
     /// 2.2+
     /// </remarks>
     { $ENDREGION }
-    MaximumValue : Word;
+    MaximumValue: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// The minimum current readable by this probe, in milliamps. If the
@@ -3653,7 +3653,7 @@ type
     /// 2.2+
     /// </remarks>
     { $ENDREGION }
-    MinimumValue : Word;
+    MinimumValue: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// The resolution for the probes reading, in tenths of milliamps. If
@@ -3663,7 +3663,7 @@ type
     /// 2.2+
     /// </remarks>
     { $ENDREGION }
-    Resolution : Word;
+    Resolution: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// The tolerance for reading from this probe, in plus/minus milliamps.
@@ -3673,7 +3673,7 @@ type
     /// 2.2+
     /// </remarks>
     { $ENDREGION }
-    Tolerance : Word;
+    Tolerance: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// The accuracy for reading from this probe, in plus/minus 1/100th of a
@@ -3683,7 +3683,7 @@ type
     /// 2.2+
     /// </remarks>
     { $ENDREGION }
-    Accuracy : Word;
+    Accuracy: Word;
     { $REGION 'Documentation' }
     /// <summary>
     /// Contains OEM- or BIOS vendor-specific information.
@@ -3692,7 +3692,7 @@ type
     /// 2.2+
     /// </remarks>
     { $ENDREGION }
-    OEMdefined : DWORD;
+    OEMdefined: DWORD;
     { $REGION 'Documentation' }
     /// <summary>
     /// The nominal value for the probes reading in milliamps. If the value
@@ -3703,35 +3703,35 @@ type
     /// 2.2+
     /// </remarks>
     { $ENDREGION }
-    NominalValue : Word;
+    NominalValue: Word;
   end;
 
   TElectricalCurrentProbeInformation = class
     public
-      RAWElectricalCurrentProbeInfo : ^TElectricalCurrentProbeInfo;
+      RAWElectricalCurrentProbeInfo: ^TElectricalCurrentProbeInfo;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the string representation of the Description field.
       /// </summary>
       { $ENDREGION }
-      function GetDescriptionStr : AnsiString;
+      function GetDescriptionStr: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the Probe Location
       /// </summary>
       { $ENDREGION }
-      function GetLocation : AnsiString;
+      function GetLocation: AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Get the probe status
       /// </summary>
       { $ENDREGION }
-      function GetStatus : AnsiString;
+      function GetStatus: AnsiString;
   end;
 
   TSMBiosTableEntry = record
-    Header : TSmBiosTableHeader;
-    index : Integer;
+    Header: TSmBiosTableHeader;
+    index: Integer;
   end;
 
 {$IFDEF NOGENERICS}
@@ -3764,37 +3764,37 @@ type
 
   TSMBios = class
     private
-      FRawSMBIOSData : TRawSMBIOSData;
-      FDataString : AnsiString;
-      FBiosInfo : TBiosInformation;
-      FSysInfo : TSystemInformation;
-      FBaseBoardInfo : {$IFDEF NOGENERICS}ArrBaseBoardInfo; {$ELSE}TArray<TBaseBoardInformation>;{$ENDIF}
-      FEnclosureInfo : {$IFDEF NOGENERICS}ArrEnclosureInfo; {$ELSE}TArray<TEnclosureInformation>;{$ENDIF}
-      FProcessorInfo : {$IFDEF NOGENERICS}ArrProcessorInfo; {$ELSE}TArray<TProcessorInformation>;{$ENDIF}
-      FCacheInfo : {$IFDEF NOGENERICS}ArrCacheInfo; {$ELSE}TArray<TCacheInformation>;{$ENDIF}
-      FPortConnectorInfo : {$IFDEF NOGENERICS}ArrPortConnectorInfo; {$ELSE} TArray<TPortConnectorInformation>; {$ENDIF}
-      FSystemSlotInfo : {$IFDEF NOGENERICS}ArrSystemSlotInfo; {$ELSE} TArray<TSystemSlotInformation>; {$ENDIF}
-      FSMBiosTablesList : {$IFDEF NOGENERICS}ArrSMBiosTableEntry; {$ELSE} TArray<TSMBiosTableEntry>;{$ENDIF}
-      FOEMStringsInfo : {$IFDEF NOGENERICS}ArrOEMStringsInfo; {$ELSE}TArray<TOEMStringsInformation>;{$ENDIF}
-      FBIOSLanguageInfo : {$IFDEF NOGENERICS}ArrBIOSLanguageInfo; {$ELSE}TArray<TBIOSLanguageInformation>;{$ENDIF}
-      FSystemConfInfo : {$IFDEF NOGENERICS}ArrSystemConfInfo; {$ELSE}TArray<TSystemConfInformation>;{$ENDIF}
-      FPhysicalMemoryArrayInfo : {$IFDEF NOGENERICS}ArrPhysicalMemoryArrayInfo; {$ELSE}TArray<TPhysicalMemoryArrayInformation>;{$ENDIF}
-      FMemoryDeviceInfo : {$IFDEF NOGENERICS}ArrMemoryDeviceInfo; {$ELSE}TArray<TMemoryDeviceInformation>;{$ENDIF}
-      FBatteryInformation : {$IFDEF NOGENERICS}ArrBatteryInfo; {$ELSE}TArray<TBatteryInformation>;{$ENDIF}
-      FMemoryArrayMappedAddressInformation : {$IFDEF NOGENERICS}ArrMemoryArrayMappedAddressInfo; {$ELSE}TArray<TMemoryArrayMappedAddressInformation>;{$ENDIF}
-      FMemoryDeviceMappedAddressInformation : {$IFDEF NOGENERICS}ArrMemoryDeviceMappedAddressInfo; {$ELSE}TArray<TMemoryDeviceMappedAddressInformation>;{$ENDIF}
-      FBuiltInPointingDeviceInformation : {$IFDEF NOGENERICS}ArrBuiltInPointingDeviceInfo; {$ELSE}TArray<TBuiltInPointingDeviceInformation>;{$ENDIF}
-      FVoltageProbeInformation : {$IFDEF NOGENERICS}ArrVoltageProbeInfo; {$ELSE}TArray<TVoltageProbeInformation>;{$ENDIF}
-      FCoolingDeviceInformation : {$IFDEF NOGENERICS}ArrCoolingDeviceInfo; {$ELSE}TArray<TCoolingDeviceInformation>;{$ENDIF}
-      FTemperatureProbeInformation : {$IFDEF NOGENERICS}ArrTemperatureProbeInfo; {$ELSE}TArray<TTemperatureProbeInformation>;{$ENDIF}
-      FElectricalCurrentProbeInformation : {$IFDEF NOGENERICS}ArrElectricalCurrentProbeInfo; {$ELSE}TArray<TElectricalCurrentProbeInformation>;{$ENDIF}
-      FOnBoardSystemInfo : {$IFDEF NOGENERICS}ArrOnBoardSystemInfo; {$ELSE} TArray<TOnBoardSystemInformation>; {$ENDIF}
-      FMemoryControllerInfo : {$IFDEF NOGENERICS}ArrMemoryControllerInfo;{$ELSE} TArray<TMemoryControllerInformation>; {$ENDIF}
-      FMemoryModuleInfo : {$IFDEF NOGENERICS}ArrMemoryModuleInfo;{$ELSE} TArray<TMemoryModuleInformation>; {$ENDIF}
-      FGroupAssociationsInformation : {$IFDEF NOGENERICS}ArrGroupAssociationsInfo;{$ELSE} TArray<TGroupAssociationsInformation>; {$ENDIF}
+      FRawSMBIOSData: TRawSMBIOSData;
+      FDataString: AnsiString;
+      FBiosInfo: TBiosInformation;
+      FSysInfo: TSystemInformation;
+      FBaseBoardInfo: {$IFDEF NOGENERICS}ArrBaseBoardInfo; {$ELSE}TArray<TBaseBoardInformation>;{$ENDIF}
+      FEnclosureInfo: {$IFDEF NOGENERICS}ArrEnclosureInfo; {$ELSE}TArray<TEnclosureInformation>;{$ENDIF}
+      FProcessorInfo: {$IFDEF NOGENERICS}ArrProcessorInfo; {$ELSE}TArray<TProcessorInformation>;{$ENDIF}
+      FCacheInfo: {$IFDEF NOGENERICS}ArrCacheInfo; {$ELSE}TArray<TCacheInformation>;{$ENDIF}
+      FPortConnectorInfo: {$IFDEF NOGENERICS}ArrPortConnectorInfo; {$ELSE} TArray<TPortConnectorInformation>; {$ENDIF}
+      FSystemSlotInfo: {$IFDEF NOGENERICS}ArrSystemSlotInfo; {$ELSE} TArray<TSystemSlotInformation>; {$ENDIF}
+      FSMBiosTablesList: {$IFDEF NOGENERICS}ArrSMBiosTableEntry; {$ELSE} TArray<TSMBiosTableEntry>;{$ENDIF}
+      FOEMStringsInfo: {$IFDEF NOGENERICS}ArrOEMStringsInfo; {$ELSE}TArray<TOEMStringsInformation>;{$ENDIF}
+      FBIOSLanguageInfo: {$IFDEF NOGENERICS}ArrBIOSLanguageInfo; {$ELSE}TArray<TBIOSLanguageInformation>;{$ENDIF}
+      FSystemConfInfo: {$IFDEF NOGENERICS}ArrSystemConfInfo; {$ELSE}TArray<TSystemConfInformation>;{$ENDIF}
+      FPhysicalMemoryArrayInfo: {$IFDEF NOGENERICS}ArrPhysicalMemoryArrayInfo; {$ELSE}TArray<TPhysicalMemoryArrayInformation>;{$ENDIF}
+      FMemoryDeviceInfo: {$IFDEF NOGENERICS}ArrMemoryDeviceInfo; {$ELSE}TArray<TMemoryDeviceInformation>;{$ENDIF}
+      FBatteryInformation: {$IFDEF NOGENERICS}ArrBatteryInfo; {$ELSE}TArray<TBatteryInformation>;{$ENDIF}
+      FMemoryArrayMappedAddressInformation: {$IFDEF NOGENERICS}ArrMemoryArrayMappedAddressInfo; {$ELSE}TArray<TMemoryArrayMappedAddressInformation>;{$ENDIF}
+      FMemoryDeviceMappedAddressInformation: {$IFDEF NOGENERICS}ArrMemoryDeviceMappedAddressInfo; {$ELSE}TArray<TMemoryDeviceMappedAddressInformation>;{$ENDIF}
+      FBuiltInPointingDeviceInformation: {$IFDEF NOGENERICS}ArrBuiltInPointingDeviceInfo; {$ELSE}TArray<TBuiltInPointingDeviceInformation>;{$ENDIF}
+      FVoltageProbeInformation: {$IFDEF NOGENERICS}ArrVoltageProbeInfo; {$ELSE}TArray<TVoltageProbeInformation>;{$ENDIF}
+      FCoolingDeviceInformation: {$IFDEF NOGENERICS}ArrCoolingDeviceInfo; {$ELSE}TArray<TCoolingDeviceInformation>;{$ENDIF}
+      FTemperatureProbeInformation: {$IFDEF NOGENERICS}ArrTemperatureProbeInfo; {$ELSE}TArray<TTemperatureProbeInformation>;{$ENDIF}
+      FElectricalCurrentProbeInformation: {$IFDEF NOGENERICS}ArrElectricalCurrentProbeInfo; {$ELSE}TArray<TElectricalCurrentProbeInformation>;{$ENDIF}
+      FOnBoardSystemInfo: {$IFDEF NOGENERICS}ArrOnBoardSystemInfo; {$ELSE} TArray<TOnBoardSystemInformation>; {$ENDIF}
+      FMemoryControllerInfo: {$IFDEF NOGENERICS}ArrMemoryControllerInfo;{$ELSE} TArray<TMemoryControllerInformation>; {$ENDIF}
+      FMemoryModuleInfo: {$IFDEF NOGENERICS}ArrMemoryModuleInfo;{$ELSE} TArray<TMemoryModuleInformation>; {$ENDIF}
+      FGroupAssociationsInformation: {$IFDEF NOGENERICS}ArrGroupAssociationsInfo;{$ELSE} TArray<TGroupAssociationsInformation>; {$ENDIF}
 {$IFDEF MSWINDOWS}
 {$IFDEF USEWMI}
-      procedure LoadSMBIOSWMI(const RemoteMachine, UserName, Password : string);
+      procedure LoadSMBIOSWMI(const RemoteMachine, UserName, Password: string);
 {$ELSE}
       procedure LoadSMBIOSWinAPI;
 {$ENDIF}
@@ -3808,32 +3808,32 @@ type
       procedure ClearSMBiosTables;
       procedure ReadSMBiosTables;
       procedure Init;
-      function GetSMBiosTablesList : {$IFDEF NOGENERICS}ArrSMBiosTableEntry; {$ELSE} TArray<TSMBiosTableEntry>;{$ENDIF}
-      function GetSMBiosTablesCount : Integer;
-      function GetHasBaseBoardInfo : Boolean;
-      function GetHasEnclosureInfo : Boolean;
-      function GetHasProcessorInfo : Boolean;
-      function GetHasCacheInfo : Boolean;
-      function GetHasPortConnectorInfo : Boolean;
-      function GetHasSystemSlotInfo : Boolean;
-      function GetSmbiosVersion : string;
-      function GetHasOEMStringsInfo : Boolean;
-      function GetHasBIOSLanguageInfo : Boolean;
-      function GetHasSystemConfInfo : Boolean;
-      function GetHasPhysicalMemoryArrayInfo : Boolean;
-      function GetHasMemoryDeviceInfo : Boolean;
-      function GetHasBatteryInfo : Boolean;
-      function GetHasMemoryArrayMappedAddressInfo : Boolean;
-      function GetHasMemoryDeviceMappedAddressInfo : Boolean;
-      function GetHasBuiltInPointingDeviceInfo : Boolean;
-      function GetHasVoltageProbeInfo : Boolean;
-      function GetHasCoolingDeviceInfo : Boolean;
-      function GetHasTemperatureProbeInfo : Boolean;
-      function GetHasElectricalCurrentProbeInfo : Boolean;
-      function GetHasOnBoardSystemInfo : Boolean;
-      function GetHasMemoryControllerInfo : Boolean;
-      function GetHasMemoryModuleInfo : Boolean;
-      function GetHasGroupAssociationsInfo : Boolean;
+      function GetSMBiosTablesList: {$IFDEF NOGENERICS}ArrSMBiosTableEntry; {$ELSE} TArray<TSMBiosTableEntry>;{$ENDIF}
+      function GetSMBiosTablesCount: Integer;
+      function GetHasBaseBoardInfo: Boolean;
+      function GetHasEnclosureInfo: Boolean;
+      function GetHasProcessorInfo: Boolean;
+      function GetHasCacheInfo: Boolean;
+      function GetHasPortConnectorInfo: Boolean;
+      function GetHasSystemSlotInfo: Boolean;
+      function GetSmbiosVersion: string;
+      function GetHasOEMStringsInfo: Boolean;
+      function GetHasBIOSLanguageInfo: Boolean;
+      function GetHasSystemConfInfo: Boolean;
+      function GetHasPhysicalMemoryArrayInfo: Boolean;
+      function GetHasMemoryDeviceInfo: Boolean;
+      function GetHasBatteryInfo: Boolean;
+      function GetHasMemoryArrayMappedAddressInfo: Boolean;
+      function GetHasMemoryDeviceMappedAddressInfo: Boolean;
+      function GetHasBuiltInPointingDeviceInfo: Boolean;
+      function GetHasVoltageProbeInfo: Boolean;
+      function GetHasCoolingDeviceInfo: Boolean;
+      function GetHasTemperatureProbeInfo: Boolean;
+      function GetHasElectricalCurrentProbeInfo: Boolean;
+      function GetHasOnBoardSystemInfo: Boolean;
+      function GetHasMemoryControllerInfo: Boolean;
+      function GetHasMemoryModuleInfo: Boolean;
+      function GetHasGroupAssociationsInfo: Boolean;
 
     public
       { $REGION 'Documentation' }
@@ -3842,14 +3842,14 @@ type
       /// current mode selected (WMI or WinApi)
       /// </summary>
       { $ENDREGION }
-      constructor Create(LoadBiosData : Boolean = true); overload;
+      constructor Create(LoadBiosData: Boolean = true); overload;
       { $REGION 'Documentation' }
       /// <summary>
       /// Use this constructor to load the SMBIOS data from a previously saved
       /// file.
       /// </summary>
       { $ENDREGION }
-      constructor Create(const FileName : string); overload;
+      constructor Create(const FileName: string); overload;
 {$IFDEF MSWINDOWS}
 {$IFDEF USEWMI}
       { $REGION 'Documentation' }
@@ -3857,148 +3857,148 @@ type
       /// Use this constructor to read the SMBIOS from a remote machine.
       /// </summary>
       { $ENDREGION }
-      constructor Create(const RemoteMachine, UserName, Password : string); overload;
+      constructor Create(const RemoteMachine, UserName, Password: string); overload;
 {$ENDIF}
 {$ENDIF MSWINDOWS}
       destructor Destroy;override;
-      function SearchSMBiosTable(TableType : TSMBiosTablesTypes) : Integer;
+      function SearchSMBiosTable(TableType: TSMBiosTablesTypes): Integer;
       function GetSMBiosTableNextIndex(
-        TableType : TSMBiosTablesTypes;
-        Offset    : Integer = 0) : Integer;
-      function GetSMBiosTableEntries(TableType : TSMBiosTablesTypes) : Integer;
-      function GetSMBiosString(Entry, index : Integer) : AnsiString;
+        TableType: TSMBiosTablesTypes;
+        Offset  : Integer = 0): Integer;
+      function GetSMBiosTableEntries(TableType: TSMBiosTablesTypes): Integer;
+      function GetSMBiosString(Entry, index: Integer): AnsiString;
       { $REGION 'Documentation' }
       /// <summary>
       /// Save(Dump) the TRawSMBIOSData structure to a file
       /// </summary>
       { $ENDREGION }
-      procedure SaveToFile(const FileName : string);
+      procedure SaveToFile(const FileName: string);
       { $REGION 'Documentation' }
       /// <summary>
       /// Load the TRawSMBIOSData structure from a file
       /// </summary>
       { $ENDREGION }
-      procedure LoadFromFile(const FileName : string; LoadSMBIOSTables : Boolean  = false);
+      procedure LoadFromFile(const FileName: string; LoadSMBIOSTables: Boolean  = false);
 
       { $REGION 'Documentation' }
       /// <summary>
       /// Find and load the SMBIOS Data from a file
       /// </summary>
       { $ENDREGION }
-      procedure FindAndLoadFromFile(const FileName : string);
-      property DataString : AnsiString
+      procedure FindAndLoadFromFile(const FileName: string);
+      property DataString: AnsiString
         read FDataString;
-      property RawSMBIOSData : TRawSMBIOSData
+      property RawSMBIOSData: TRawSMBIOSData
         read FRawSMBIOSData;
-      property SmbiosVersion : string
+      property SmbiosVersion: string
         read GetSmbiosVersion;
-      property SMBiosTablesList : {$IFDEF NOGENERICS}ArrSMBiosTableEntry {$ELSE}TArray<TSMBiosTableEntry> {$ENDIF} read FSMBiosTablesList;
+      property SMBiosTablesList: {$IFDEF NOGENERICS}ArrSMBiosTableEntry {$ELSE}TArray<TSMBiosTableEntry> {$ENDIF} read FSMBiosTablesList;
 
-      property BiosInfo : TBiosInformation
+      property BiosInfo: TBiosInformation
         read FBiosInfo;
-      property SysInfo : TSystemInformation
+      property SysInfo: TSystemInformation
         read FSysInfo;
 
-      property BaseBoardInfo : {$IFDEF NOGENERICS}ArrBaseBoardInfo {$ELSE}TArray<TBaseBoardInformation> {$ENDIF} read FBaseBoardInfo;
-      property HasBaseBoardInfo : Boolean
+      property BaseBoardInfo: {$IFDEF NOGENERICS}ArrBaseBoardInfo {$ELSE}TArray<TBaseBoardInformation> {$ENDIF} read FBaseBoardInfo;
+      property HasBaseBoardInfo: Boolean
         read GetHasBaseBoardInfo;
 
-      property EnclosureInfo : {$IFDEF NOGENERICS}ArrEnclosureInfo {$ELSE}TArray<TEnclosureInformation> {$ENDIF} read FEnclosureInfo;
-      property HasEnclosureInfo : Boolean
+      property EnclosureInfo: {$IFDEF NOGENERICS}ArrEnclosureInfo {$ELSE}TArray<TEnclosureInformation> {$ENDIF} read FEnclosureInfo;
+      property HasEnclosureInfo: Boolean
         read GetHasEnclosureInfo;
 
-      property CacheInfo : {$IFDEF NOGENERICS}ArrCacheInfo {$ELSE}TArray<TCacheInformation> {$ENDIF} read FCacheInfo;
-      property HasCacheInfo : Boolean
+      property CacheInfo: {$IFDEF NOGENERICS}ArrCacheInfo {$ELSE}TArray<TCacheInformation> {$ENDIF} read FCacheInfo;
+      property HasCacheInfo: Boolean
         read GetHasCacheInfo;
 
-      property ProcessorInfo : {$IFDEF NOGENERICS}ArrProcessorInfo {$ELSE}TArray<TProcessorInformation> {$ENDIF} read FProcessorInfo;
-      property HasProcessorInfo : Boolean
+      property ProcessorInfo: {$IFDEF NOGENERICS}ArrProcessorInfo {$ELSE}TArray<TProcessorInformation> {$ENDIF} read FProcessorInfo;
+      property HasProcessorInfo: Boolean
         read GetHasProcessorInfo;
 
-      property MemoryControllerInfo : {$IFDEF NOGENERICS}ArrMemoryControllerInfo {$ELSE} TArray<TMemoryControllerInformation>
+      property MemoryControllerInfo: {$IFDEF NOGENERICS}ArrMemoryControllerInfo {$ELSE} TArray<TMemoryControllerInformation>
 {$ENDIF} read FMemoryControllerInfo;
-      property HasMemoryControllerInfo : Boolean
+      property HasMemoryControllerInfo: Boolean
         read GetHasMemoryControllerInfo;
 
-      property PortConnectorInfo : {$IFDEF NOGENERICS}ArrPortConnectorInfo {$ELSE} TArray<TPortConnectorInformation> {$ENDIF} read FPortConnectorInfo;
-      property HasPortConnectorInfo : Boolean
+      property PortConnectorInfo: {$IFDEF NOGENERICS}ArrPortConnectorInfo {$ELSE} TArray<TPortConnectorInformation> {$ENDIF} read FPortConnectorInfo;
+      property HasPortConnectorInfo: Boolean
         read GetHasPortConnectorInfo;
 
-      property SystemSlotInfo : {$IFDEF NOGENERICS}ArrSystemSlotInfo {$ELSE} TArray<TSystemSlotInformation> {$ENDIF} read FSystemSlotInfo;
-      property HasSystemSlotInfo : Boolean
+      property SystemSlotInfo: {$IFDEF NOGENERICS}ArrSystemSlotInfo {$ELSE} TArray<TSystemSlotInformation> {$ENDIF} read FSystemSlotInfo;
+      property HasSystemSlotInfo: Boolean
         read GetHasSystemSlotInfo;
 
-      property OnBoardSystemInfo : {$IFDEF NOGENERICS}ArrOnBoardSystemInfo {$ELSE} TArray<TOnBoardSystemInformation> {$ENDIF} read FOnBoardSystemInfo;
-      property HasOnBoardSystemInfo : Boolean
+      property OnBoardSystemInfo: {$IFDEF NOGENERICS}ArrOnBoardSystemInfo {$ELSE} TArray<TOnBoardSystemInformation> {$ENDIF} read FOnBoardSystemInfo;
+      property HasOnBoardSystemInfo: Boolean
         read GetHasOnBoardSystemInfo;
 
-      property OEMStringsInfo : {$IFDEF NOGENERICS}ArrOEMStringsInfo {$ELSE} TArray<TOEMStringsInformation> {$ENDIF} read FOEMStringsInfo;
-      property HasOEMStringsInfo : Boolean
+      property OEMStringsInfo: {$IFDEF NOGENERICS}ArrOEMStringsInfo {$ELSE} TArray<TOEMStringsInformation> {$ENDIF} read FOEMStringsInfo;
+      property HasOEMStringsInfo: Boolean
         read GetHasOEMStringsInfo;
 
-      property BIOSLanguageInfo : {$IFDEF NOGENERICS}ArrBIOSLanguageInfo {$ELSE} TArray<TBIOSLanguageInformation> {$ENDIF} read FBIOSLanguageInfo;
-      property HasBIOSLanguageInfo : Boolean
+      property BIOSLanguageInfo: {$IFDEF NOGENERICS}ArrBIOSLanguageInfo {$ELSE} TArray<TBIOSLanguageInformation> {$ENDIF} read FBIOSLanguageInfo;
+      property HasBIOSLanguageInfo: Boolean
         read GetHasBIOSLanguageInfo;
 
-      property SystemConfInfo : {$IFDEF NOGENERICS}ArrSystemConfInfo {$ELSE} TArray<TSystemConfInformation> {$ENDIF} read FSystemConfInfo;
-      property HasSystemConfInfo : Boolean
+      property SystemConfInfo: {$IFDEF NOGENERICS}ArrSystemConfInfo {$ELSE} TArray<TSystemConfInformation> {$ENDIF} read FSystemConfInfo;
+      property HasSystemConfInfo: Boolean
         read GetHasSystemConfInfo;
 
-      property PhysicalMemoryArrayInfo : {$IFDEF NOGENERICS} ArrPhysicalMemoryArrayInfo {$ELSE} TArray<TPhysicalMemoryArrayInformation>
+      property PhysicalMemoryArrayInfo: {$IFDEF NOGENERICS} ArrPhysicalMemoryArrayInfo {$ELSE} TArray<TPhysicalMemoryArrayInformation>
 {$ENDIF} read FPhysicalMemoryArrayInfo;
-      property HasPhysicalMemoryArrayInfo : Boolean
+      property HasPhysicalMemoryArrayInfo: Boolean
         read GetHasPhysicalMemoryArrayInfo;
 
-      property MemoryDeviceInfo : {$IFDEF NOGENERICS} ArrMemoryDeviceInfo {$ELSE} TArray<TMemoryDeviceInformation> {$ENDIF} read FMemoryDeviceInfo;
-      property HasMemoryDeviceInfo : Boolean
+      property MemoryDeviceInfo: {$IFDEF NOGENERICS} ArrMemoryDeviceInfo {$ELSE} TArray<TMemoryDeviceInformation> {$ENDIF} read FMemoryDeviceInfo;
+      property HasMemoryDeviceInfo: Boolean
         read GetHasMemoryDeviceInfo;
 
-      property MemoryModuleInfo : {$IFDEF NOGENERICS} ArrMemoryModuleInfo {$ELSE} TArray<TMemoryModuleInformation> {$ENDIF} read FMemoryModuleInfo;
-      property HasMemoryModuleInfo : Boolean
+      property MemoryModuleInfo: {$IFDEF NOGENERICS} ArrMemoryModuleInfo {$ELSE} TArray<TMemoryModuleInformation> {$ENDIF} read FMemoryModuleInfo;
+      property HasMemoryModuleInfo: Boolean
         read GetHasMemoryModuleInfo;
 
-      property BatteryInformation : {$IFDEF NOGENERICS} ArrBatteryInfo {$ELSE} TArray<TBatteryInformation> {$ENDIF} read FBatteryInformation;
-      property HasBatteryInfo : Boolean
+      property BatteryInformation: {$IFDEF NOGENERICS} ArrBatteryInfo {$ELSE} TArray<TBatteryInformation> {$ENDIF} read FBatteryInformation;
+      property HasBatteryInfo: Boolean
         read GetHasBatteryInfo;
 
-      property MemoryArrayMappedAddressInformation : {$IFDEF NOGENERICS} ArrMemoryArrayMappedAddressInfo {$ELSE} TArray<TMemoryArrayMappedAddressInformation>
+      property MemoryArrayMappedAddressInformation: {$IFDEF NOGENERICS} ArrMemoryArrayMappedAddressInfo {$ELSE} TArray<TMemoryArrayMappedAddressInformation>
 {$ENDIF} read FMemoryArrayMappedAddressInformation;
-      property HasMemoryArrayMappedAddressInfo : Boolean
+      property HasMemoryArrayMappedAddressInfo: Boolean
         read GetHasMemoryArrayMappedAddressInfo;
 
-      property MemoryDeviceMappedAddressInformation : {$IFDEF NOGENERICS} ArrMemoryDeviceMappedAddressInfo {$ELSE} TArray<TMemoryDeviceMappedAddressInformation>
+      property MemoryDeviceMappedAddressInformation: {$IFDEF NOGENERICS} ArrMemoryDeviceMappedAddressInfo {$ELSE} TArray<TMemoryDeviceMappedAddressInformation>
 {$ENDIF} read FMemoryDeviceMappedAddressInformation;
-      property HasMemoryDeviceMappedAddressInfo : Boolean
+      property HasMemoryDeviceMappedAddressInfo: Boolean
         read GetHasMemoryDeviceMappedAddressInfo;
 
-      property BuiltInPointingDeviceInformation : {$IFDEF NOGENERICS} ArrBuiltInPointingDeviceInfo {$ELSE} TArray<TBuiltInPointingDeviceInformation>
+      property BuiltInPointingDeviceInformation: {$IFDEF NOGENERICS} ArrBuiltInPointingDeviceInfo {$ELSE} TArray<TBuiltInPointingDeviceInformation>
 {$ENDIF} read FBuiltInPointingDeviceInformation;
-      property HasBuiltInPointingDeviceInfo : Boolean
+      property HasBuiltInPointingDeviceInfo: Boolean
         read GetHasBuiltInPointingDeviceInfo;
 
-      property VoltageProbeInformation : {$IFDEF NOGENERICS} ArrVoltageProbeInfo {$ELSE} TArray<TVoltageProbeInformation>
+      property VoltageProbeInformation: {$IFDEF NOGENERICS} ArrVoltageProbeInfo {$ELSE} TArray<TVoltageProbeInformation>
 {$ENDIF} read FVoltageProbeInformation;
-      property HasVoltageProbeInfo : Boolean
+      property HasVoltageProbeInfo: Boolean
         read GetHasVoltageProbeInfo;
 
-      property CoolingDeviceInformation : {$IFDEF NOGENERICS} ArrCoolingDeviceInfo {$ELSE} TArray<TCoolingDeviceInformation>
+      property CoolingDeviceInformation: {$IFDEF NOGENERICS} ArrCoolingDeviceInfo {$ELSE} TArray<TCoolingDeviceInformation>
 {$ENDIF} read FCoolingDeviceInformation;
-      property HasCoolingDeviceInfo : Boolean
+      property HasCoolingDeviceInfo: Boolean
         read GetHasCoolingDeviceInfo;
 
-      property TemperatureProbeInformation : {$IFDEF NOGENERICS} ArrTemperatureProbeInfo {$ELSE} TArray<TTemperatureProbeInformation>
+      property TemperatureProbeInformation: {$IFDEF NOGENERICS} ArrTemperatureProbeInfo {$ELSE} TArray<TTemperatureProbeInformation>
 {$ENDIF} read FTemperatureProbeInformation;
-      property HasTemperatureProbeInfo : Boolean
+      property HasTemperatureProbeInfo: Boolean
         read GetHasTemperatureProbeInfo;
 
-      property ElectricalCurrentProbeInformation : {$IFDEF NOGENERICS} ArrElectricalCurrentProbeInfo {$ELSE} TArray<TElectricalCurrentProbeInformation>
+      property ElectricalCurrentProbeInformation: {$IFDEF NOGENERICS} ArrElectricalCurrentProbeInfo {$ELSE} TArray<TElectricalCurrentProbeInformation>
 {$ENDIF} read FElectricalCurrentProbeInformation;
-      property HasElectricalCurrentProbeInfo : Boolean
+      property HasElectricalCurrentProbeInfo: Boolean
         read GetHasElectricalCurrentProbeInfo;
 
-      property GroupAssociationsInformation : {$IFDEF NOGENERICS} ArrGroupAssociationsInfo {$ELSE} TArray<TGroupAssociationsInformation>
+      property GroupAssociationsInformation: {$IFDEF NOGENERICS} ArrGroupAssociationsInfo {$ELSE} TArray<TGroupAssociationsInformation>
 {$ENDIF} read FGroupAssociationsInformation;
-      property HasGroupAssociationsInfo : Boolean
+      property HasGroupAssociationsInfo: Boolean
         read GetHasGroupAssociationsInfo;
 
   end;
@@ -4018,20 +4018,20 @@ uses ComObj,
 
 type
   TSmBiosEntryPoint = packed record
-    AnchorString : array [0 .. 3] of Byte; // AnsiChar
-    EntryPointChecksum : Byte;
-    EntryPointLength : Byte;
-    SMBIOSMajorVersion : Byte;
-    SMBIOSMinorVersion : Byte;
-    MaximumStructureSize : Word;
-    EntryPointRevision : Byte;
-    FormattedArea : array [0 .. 4] of Byte;
-    IntermediateAnchorString : array [0 .. 4] of Byte; // AnsiChar
-    IntermediateChecksum : Byte;
-    StructureTableLength : Word;
-    StructureTableAddress : DWORD;
-    NumberSMBIOSStructures : Word;
-    SMBIOSBCDRevision : Byte;
+    AnchorString: array [0 .. 3] of Byte; // AnsiChar
+    EntryPointChecksum: Byte;
+    EntryPointLength: Byte;
+    SMBIOSMajorVersion: Byte;
+    SMBIOSMinorVersion: Byte;
+    MaximumStructureSize: Word;
+    EntryPointRevision: Byte;
+    FormattedArea: array [0 .. 4] of Byte;
+    IntermediateAnchorString: array [0 .. 4] of Byte; // AnsiChar
+    IntermediateChecksum: Byte;
+    StructureTableLength: Word;
+    StructureTableAddress: DWORD;
+    NumberSMBIOSStructures: Word;
+    SMBIOSBCDRevision: Byte;
   end;
 
 const
@@ -4039,29 +4039,29 @@ const
   // '_DMI_'
   SMBIOS_INTERMEDIATE_ANCHOR_STRING_VALUE = [$5F, $44, $4D, $49, $5F];
 
-function GetBit(const AValue : DWORD; const Bit : Byte) : Boolean;
+function GetBit(const AValue: DWORD; const Bit: Byte): Boolean;
 begin
   Result := (AValue and (1 shl Bit)) <> 0;
 end;
 
-function ClearBit(const AValue : DWORD; const Bit : Byte) : DWORD;
+function ClearBit(const AValue: DWORD; const Bit: Byte): DWORD;
 begin
   Result := AValue and not (1 shl Bit);
 end;
 
-function SetBit(const AValue : DWORD; const Bit : Byte) : DWORD;
+function SetBit(const AValue: DWORD; const Bit: Byte): DWORD;
 begin
   Result := AValue or (DWORD(1) shl DWORD(Bit));
 end;
 
-function EnableBit(const AValue : DWORD; const Bit : Byte; const Enable : Boolean) : DWORD;
+function EnableBit(const AValue: DWORD; const Bit: Byte; const Enable: Boolean): DWORD;
 begin
   Result := (AValue or (DWORD(1) shl Bit)) xor (DWORD(not Enable) shl Bit);
 end;
 
-function GetBitsValue(const AValue : DWORD; const BitI, BitF : Byte) : DWORD;
+function GetBitsValue(const AValue: DWORD; const BitI, BitF: Byte): DWORD;
 var
-  i, j : Byte;
+  i, j: Byte;
 begin
   Result := 0;
   j := 0;
@@ -4073,11 +4073,11 @@ begin
   end;
 end;
 
-function ByteToBinStr(AValue : Byte) : string;
+function ByteToBinStr(AValue: Byte): string;
 const
-  Bits : array [1 .. 8] of Byte = (128, 64, 32, 16, 8, 4, 2, 1);
+  Bits: array [1 .. 8] of Byte = (128, 64, 32, 16, 8, 4, 2, 1);
 var
-  i : Integer;
+  i: Integer;
 begin
   Result := '00000000';
   if (AValue <> 0) then
@@ -4086,11 +4086,11 @@ begin
         Result[i] := '1';
 end;
 
-function WordToBinStr(AValue : Word) : string;
+function WordToBinStr(AValue: Word): string;
 const
-  Bits : array [1 .. 16] of Word = (32768, 16384, 8192, 4096, 2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1);
+  Bits: array [1 .. 16] of Word = (32768, 16384, 8192, 4096, 2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1);
 var
-  i : Integer;
+  i: Integer;
 begin
   Result := '0000000000000000';
   if (AValue <> 0) then
@@ -4100,15 +4100,15 @@ begin
 end;
 
 
-function BytePosEx(const APattern, ABuffer : array of Byte; Offset : Integer = 0) : Integer;
+function BytePosEx(const APattern, ABuffer: array of Byte; Offset: Integer = 0): Integer;
 type
   TByteArray = array of byte;
 var
-  LMax{$IFNDEF CPUX64}, i, j, MaxBuffer {$ENDIF} : Integer;
-  Found : Boolean;
-  LPatternAddr : PByte;
-  LStart : Byte;
-  {$IFDEF CPUX64}i, j, MaxBuffer : NativeUInt; {$ENDIF}
+  LMax{$IFNDEF CPUX64}, i, j, MaxBuffer {$ENDIF}: Integer;
+  Found: Boolean;
+  LPatternAddr: PByte;
+  LStart: Byte;
+  {$IFDEF CPUX64}i, j, MaxBuffer: NativeUInt; {$ENDIF}
 begin
   LMax := High(ABuffer) - High(APattern);
   if (Offset <= LMax) and (High(APattern) >= 0) and (Offset >= 0) then
@@ -4154,7 +4154,7 @@ begin
   FProcessorInfo := nil;
 end;
 
-constructor TSMBios.Create(LoadBiosData : Boolean = true);
+constructor TSMBios.Create(LoadBiosData: Boolean = true);
 begin
   inherited Create;
   Init;
@@ -4178,7 +4178,7 @@ begin
   end;
 end;
 
-constructor TSMBios.Create(const FileName : string);
+constructor TSMBios.Create(const FileName: string);
 begin
   inherited Create;
   Init;
@@ -4190,7 +4190,7 @@ end;
 {$IFDEF MSWINDOWS}
 {$IFDEF USEWMI}
 
-constructor TSMBios.Create(const RemoteMachine, UserName, Password : string);
+constructor TSMBios.Create(const RemoteMachine, UserName, Password: string);
 begin
   inherited Create;
   Init;
@@ -4203,7 +4203,7 @@ end;
 
 procedure TSMBios.ClearSMBiosTables;
 var
-  i : Integer;
+  i: Integer;
 begin
   if FBiosInfo <> nil then
   begin
@@ -4300,15 +4300,15 @@ begin
   Inherited;
 end;
 
-procedure TSMBios.FindAndLoadFromFile(const FileName : string);
+procedure TSMBios.FindAndLoadFromFile(const FileName: string);
 var
-  FileStream : TFileStream;
-  MagicNumber : DWORD;
-  BytesRead : Integer;
-  SMBIOSEntryPoint : TSmBiosEntryPoint;
-  CheckSum : Byte;
-  i : Integer;
-  Offset : Integer;
+  FileStream: TFileStream;
+  MagicNumber: DWORD;
+  BytesRead: Integer;
+  SMBIOSEntryPoint: TSmBiosEntryPoint;
+  CheckSum: Byte;
+  i: Integer;
+  Offset: Integer;
 begin
   Offset := - 1;
   FileStream := TFileStream.Create(FileName, fmOpenRead);
@@ -4364,124 +4364,124 @@ begin
   ReadSMBiosTables;
 end;
 
-function TSMBios.GetHasBaseBoardInfo : Boolean;
+function TSMBios.GetHasBaseBoardInfo: Boolean;
 begin
   Result := Length(FBaseBoardInfo) > 0;
 end;
 
-function TSMBios.GetHasBatteryInfo : Boolean;
+function TSMBios.GetHasBatteryInfo: Boolean;
 begin
   Result := Length(FBatteryInformation) > 0;
 end;
 
-function TSMBios.GetHasBIOSLanguageInfo : Boolean;
+function TSMBios.GetHasBIOSLanguageInfo: Boolean;
 begin
   Result := Length(FBIOSLanguageInfo) > 0;
 end;
 
-function TSMBios.GetHasBuiltInPointingDeviceInfo : Boolean;
+function TSMBios.GetHasBuiltInPointingDeviceInfo: Boolean;
 begin
   Result := Length(FBuiltInPointingDeviceInformation) > 0;
 end;
 
-function TSMBios.GetHasCacheInfo : Boolean;
+function TSMBios.GetHasCacheInfo: Boolean;
 begin
   Result := Length(FCacheInfo) > 0;
 end;
 
-function TSMBios.GetHasCoolingDeviceInfo : Boolean;
+function TSMBios.GetHasCoolingDeviceInfo: Boolean;
 begin
   Result := Length(FCoolingDeviceInformation) > 0;
 end;
 
-function TSMBios.GetHasElectricalCurrentProbeInfo : Boolean;
+function TSMBios.GetHasElectricalCurrentProbeInfo: Boolean;
 begin
   Result := Length(FElectricalCurrentProbeInformation) > 0;
 end;
 
-function TSMBios.GetHasEnclosureInfo : Boolean;
+function TSMBios.GetHasEnclosureInfo: Boolean;
 begin
   Result := Length(FEnclosureInfo) > 0;
 end;
 
-function TSMBios.GetHasMemoryArrayMappedAddressInfo : Boolean;
+function TSMBios.GetHasMemoryArrayMappedAddressInfo: Boolean;
 begin
   Result := Length(FMemoryArrayMappedAddressInformation) > 0;
 end;
 
-function TSMBios.GetHasMemoryControllerInfo : Boolean;
+function TSMBios.GetHasMemoryControllerInfo: Boolean;
 begin
   Result := Length(FMemoryControllerInfo) > 0;
 end;
 
-function TSMBios.GetHasMemoryModuleInfo : Boolean;
+function TSMBios.GetHasMemoryModuleInfo: Boolean;
 begin
   Result := Length(FMemoryModuleInfo) > 0;
 end;
 
-function TSMBios.GetHasGroupAssociationsInfo : Boolean;
+function TSMBios.GetHasGroupAssociationsInfo: Boolean;
 begin
   Result := Length(FGroupAssociationsInformation) > 0;
 end;
 
-function TSMBios.GetHasMemoryDeviceInfo : Boolean;
+function TSMBios.GetHasMemoryDeviceInfo: Boolean;
 begin
   Result := Length(FMemoryDeviceInfo) > 0;
 end;
 
-function TSMBios.GetHasMemoryDeviceMappedAddressInfo : Boolean;
+function TSMBios.GetHasMemoryDeviceMappedAddressInfo: Boolean;
 begin
   Result := Length(FMemoryDeviceMappedAddressInformation) > 0;
 end;
 
-function TSMBios.GetHasOEMStringsInfo : Boolean;
+function TSMBios.GetHasOEMStringsInfo: Boolean;
 begin
   Result := Length(FOEMStringsInfo) > 0;
 end;
 
-function TSMBios.GetHasOnBoardSystemInfo : Boolean;
+function TSMBios.GetHasOnBoardSystemInfo: Boolean;
 begin
   Result := Length(FOnBoardSystemInfo) > 0;
 end;
 
-function TSMBios.GetHasPhysicalMemoryArrayInfo : Boolean;
+function TSMBios.GetHasPhysicalMemoryArrayInfo: Boolean;
 begin
   Result := Length(FPhysicalMemoryArrayInfo) > 0;
 end;
 
-function TSMBios.GetHasPortConnectorInfo : Boolean;
+function TSMBios.GetHasPortConnectorInfo: Boolean;
 begin
   Result := Length(FPortConnectorInfo) > 0;
 end;
 
-function TSMBios.GetHasProcessorInfo : Boolean;
+function TSMBios.GetHasProcessorInfo: Boolean;
 begin
   Result := Length(FProcessorInfo) > 0;
 end;
 
-function TSMBios.GetHasSystemConfInfo : Boolean;
+function TSMBios.GetHasSystemConfInfo: Boolean;
 begin
   Result := Length(FSystemConfInfo) > 0;
 end;
 
-function TSMBios.GetHasSystemSlotInfo : Boolean;
+function TSMBios.GetHasSystemSlotInfo: Boolean;
 begin
   Result := Length(FSystemSlotInfo) > 0;
 end;
 
-function TSMBios.GetHasTemperatureProbeInfo : Boolean;
+function TSMBios.GetHasTemperatureProbeInfo: Boolean;
 begin
   Result := Length(FTemperatureProbeInformation) > 0;
 end;
 
-function TSMBios.GetHasVoltageProbeInfo : Boolean;
+function TSMBios.GetHasVoltageProbeInfo: Boolean;
 begin
   Result := Length(FVoltageProbeInformation) > 0;
 end;
 
-procedure TSMBios.SaveToFile(const FileName : string);
+procedure TSMBios.SaveToFile(const FileName: string);
 Var
-  LStream : TFileStream;
+  LStream: TFileStream;
 begin
   LStream := TFileStream.Create(FileName, fmCreate);
   try
@@ -4492,9 +4492,9 @@ begin
   end;
 end;
 
-procedure TSMBios.LoadFromFile(const FileName : string; LoadSMBIOSTables : Boolean  = false);
+procedure TSMBios.LoadFromFile(const FileName: string; LoadSMBIOSTables: Boolean  = false);
 Var
-  LStream : TFileStream;
+  LStream: TFileStream;
 begin
   LStream :=  TFileStream.Create(FileName, fmOpenRead);
   try
@@ -4515,10 +4515,10 @@ begin
   end;
 end;
 
-function TSMBios.SearchSMBiosTable(TableType : TSMBiosTablesTypes) : Integer;
+function TSMBios.SearchSMBiosTable(TableType: TSMBiosTablesTypes): Integer;
 Var
-  index : DWORD;
-  Header : TSmBiosTableHeader;
+  index: DWORD;
+  Header: TSmBiosTableHeader;
 begin
   Index := 0;
   Result := 0;
@@ -4554,11 +4554,11 @@ begin
     Result := Index;
 end;
 
-function GetSMBiosString(FBuffer : PByteArray;  Entry, index : Integer) : AnsiString;
+function GetSMBiosString(FBuffer: PByteArray;  Entry, index: Integer): AnsiString;
  {$IFDEF LINUX}
  var
-   i : Integer;
-   p : PByte;
+   i: Integer;
+   p: PByte;
  begin
    Result := '';
    p := PByte(@FBuffer^[Entry]);
@@ -4581,8 +4581,8 @@ function GetSMBiosString(FBuffer : PByteArray;  Entry, index : Integer) : AnsiSt
  end;
  {$ELSE}
   var
-    i : Integer;
-    p : PAnsiChar;
+    i: Integer;
+    p: PAnsiChar;
   begin
     Result := '';
     for i := 1 to Index do
@@ -4599,15 +4599,15 @@ function GetSMBiosString(FBuffer : PByteArray;  Entry, index : Integer) : AnsiSt
   end;
  {$ENDIF}
 
-function TSMBios.GetSMBiosString(Entry, index : Integer) : AnsiString;
+function TSMBios.GetSMBiosString(Entry, index: Integer): AnsiString;
 begin
   Result := uSMBIOS.GetSMBiosString(@RawSMBIOSData.SMBIOSTableData^, Entry, Index);
 end;
 
-function TSMBios.GetSMBiosTableEntries(TableType : TSMBiosTablesTypes) : Integer;
+function TSMBios.GetSMBiosTableEntries(TableType: TSMBiosTablesTypes): Integer;
 Var
-  Entry : TSMBiosTableEntry;
-{$IFDEF OLDDELPHI}i : Integer;{$ENDIF}
+  Entry: TSMBiosTableEntry;
+{$IFDEF OLDDELPHI}i: Integer;{$ENDIF}
 begin
   Result := 0;
 
@@ -4626,11 +4626,11 @@ begin
 end;
 
 function TSMBios.GetSMBiosTableNextIndex(
-  TableType : TSMBiosTablesTypes;
-  Offset    : Integer = 0) : Integer;
+  TableType: TSMBiosTablesTypes;
+  Offset  : Integer = 0): Integer;
 Var
-  Entry : TSMBiosTableEntry;
-{$IFDEF OLDDELPHI}i : Integer;{$ENDIF}
+  Entry: TSMBiosTableEntry;
+{$IFDEF OLDDELPHI}i: Integer;{$ENDIF}
 begin
   Result := - 1;
 
@@ -4654,10 +4654,10 @@ begin
 {$ENDIF}
 end;
 
-function TSMBios.GetSMBiosTablesCount : Integer;
+function TSMBios.GetSMBiosTablesCount: Integer;
 Var
-  index : DWORD;
-  Header : TSmBiosTableHeader;
+  index: DWORD;
+  Header: TSmBiosTableHeader;
 begin
   Result := 0;
   Index := 0;
@@ -4684,12 +4684,12 @@ begin
   until (Index > FRawSMBIOSData.Length);
 end;
 
-function TSMBios.GetSMBiosTablesList : {$IFDEF NOGENERICS}ArrSMBiosTableEntry; {$ELSE} TArray<TSMBiosTableEntry>;{$ENDIF}
+function TSMBios.GetSMBiosTablesList: {$IFDEF NOGENERICS}ArrSMBiosTableEntry; {$ELSE} TArray<TSMBiosTableEntry>;{$ENDIF}
 
 Var
-  i, index : DWORD;
-  Header : TSmBiosTableHeader;
-  Entry : TSMBiosTableEntry;
+  i, index: DWORD;
+  Header: TSmBiosTableHeader;
+  Entry: TSMBiosTableEntry;
 begin
   i := GetSMBiosTablesCount();
   SetLength(Result, i);
@@ -4721,7 +4721,7 @@ begin
   until (Index > RawSMBIOSData.Length);
 end;
 
-function TSMBios.GetSmbiosVersion : string;
+function TSMBios.GetSmbiosVersion: string;
 begin
   Result := Format('%d.%d', [RawSMBIOSData.SMBIOSMajorVersion, RawSMBIOSData.SMBIOSMinorVersion]);
 end;
@@ -4732,13 +4732,13 @@ procedure TSMBios.LoadSMBIOS_OSX;
 const
   sleepimage = '/private/var/vm/sleepimage';
 var
-  FileStream : TFileStream;
-  MagicNumber : DWORD;
-  BytesRead : Integer;
-  SMBIOSEntryPoint : TSmBiosEntryPoint;
-  CheckSum : Byte;
-  i : Integer;
-  Offset : Integer;
+  FileStream: TFileStream;
+  MagicNumber: DWORD;
+  BytesRead: Integer;
+  SMBIOSEntryPoint: TSmBiosEntryPoint;
+  CheckSum: Byte;
+  i: Integer;
+  Offset: Integer;
 begin
   if not FileExists(sleepimage) then
     raise Exception.Create(Format('The %s file  doesn''t  exist. run "sudo pmset hibernatemode 1" to enable', [sleepimage]));
@@ -4805,7 +4805,7 @@ end;
     function munmap(Addr: Pointer; Len: NativeUInt): Integer; cdecl;  external libc name _PU + 'munmap';
 
 
-    function DoLoadSMBIOSData(AStream : TStream) : Boolean;
+    function DoLoadSMBIOSData(AStream: TStream): Boolean;
     const
       PROT_READ     =  $01;
       PROT_WRITE    =  $02;
@@ -4818,8 +4818,8 @@ end;
       MAP_TYPE      =  $0F;
       MAP_FIXED     = $10;
     var
-      Mem : THandle;
-      Map : Pointer;
+      Mem: THandle;
+      Map: Pointer;
     begin
       Result := false;
       Mem := FileOpen('/dev/mem', fmOpenRead);
@@ -4842,10 +4842,10 @@ end;
     end;
 
 {$ELSE}
-  function DoLoadSMBIOSData(AStream : TStream) : Boolean;
+  function DoLoadSMBIOSData(AStream: TStream): Boolean;
   var
-    Mem : THandle;
-    Map : Pointer;
+    Mem: THandle;
+    Map: Pointer;
   begin
     Result := false;
     Mem := fpOpen('/dev/mem', O_RDONLY, 0);
@@ -4870,13 +4870,13 @@ end;
 
 procedure TSMBios.LoadSMBIOSLinux;
 var
-  MStream : TMemoryStream;
-  MagicNumber : DWORD;
-  BytesRead : Integer;
-  SMBIOSEntryPoint : TSmBiosEntryPoint;
-  CheckSum : Byte;
-  i : Integer;
-  Offset : Integer;
+  MStream: TMemoryStream;
+  MagicNumber: DWORD;
+  BytesRead: Integer;
+  SMBIOSEntryPoint: TSmBiosEntryPoint;
+  CheckSum: Byte;
+  i: Integer;
+  Offset: Integer;
 begin
   MStream := TMemoryStream.Create;
   try
@@ -4930,17 +4930,17 @@ procedure TSMBios.LoadSMBIOSWinAPI;
 type
   // http://msdn.microsoft.com/en-us/library/MSWINDOWS/desktop/ms724379%28v=vs.85%29.aspx
   TFNGetSystemFirmwareTable = function(
-    FirmwareTableProviderSignature : DWORD;
-    FirmwareTableID                : DWORD;
+    FirmwareTableProviderSignature: DWORD;
+    FirmwareTableID              : DWORD;
     out pFirmwareTableBuffer;
-    BufferSize : DWORD) : UINT;stdcall;
+    BufferSize: DWORD): UINT;stdcall;
 const
   FirmwareTableProviderSignature = $52534D42; // 'RSMB'
 var
-  GetSystemFirmwareTable : TFNGetSystemFirmwareTable;
-  hModule : Windows.hModule;
-  BufferSize : UINT;
-  Buffer : PByteArray;
+  GetSystemFirmwareTable: TFNGetSystemFirmwareTable;
+  hModule: Windows.hModule;
+  BufferSize: UINT;
+  Buffer: PByteArray;
 begin
   ZeroMemory(@FRawSMBIOSData, SizeOf(FRawSMBIOSData));
   hModule := GetModuleHandle(kernel32);
@@ -4976,23 +4976,23 @@ end;
 {$ENDIF}
 {$IFDEF USEWMI}
 
-procedure TSMBios.LoadSMBIOSWMI(const RemoteMachine, UserName, Password : string);
+procedure TSMBios.LoadSMBIOSWMI(const RemoteMachine, UserName, Password: string);
 const
   wbemFlagForwardOnly = $00000020;
 var
-  FSWbemLocator : OLEVariant;
-  FWMIService : OLEVariant;
-  FWbemObjectSet : OLEVariant;
-  FWbemObject : OLEVariant;
-  oEnum : IEnumvariant;
+  FSWbemLocator: OLEVariant;
+  FWMIService: OLEVariant;
+  FWbemObjectSet: OLEVariant;
+  FWbemObject: OLEVariant;
+  oEnum: IEnumvariant;
 {$IFDEF FPC}
-  pCeltFetched : ULONG;
+  pCeltFetched: ULONG;
 {$ELSE}
-  iValue : LongWord;
+  iValue: LongWord;
 {$ENDIF}
-  vArray : variant;
-  Value : Integer;
-  i : Integer;
+  vArray: variant;
+  Value: Integer;
+  i: Integer;
 begin;
   ZeroMemory(@FRawSMBIOSData, SizeOf(FRawSMBIOSData));
   FSWbemLocator := CreateOleObject('WbemScripting.SWbemLocator');
@@ -5035,9 +5035,9 @@ end;
 
 procedure TSMBios.ReadSMBiosTables;
 var
-  LIndex, i, j : Integer;
-  LCacheInfo : TCacheInformation;
-  LArrMemory : TPhysicalMemoryArrayInformation;
+  LIndex, i, j: Integer;
+  LCacheInfo: TCacheInformation;
+  LArrMemory: TPhysicalMemoryArrayInformation;
 begin
   ClearSMBiosTables;
 
@@ -5423,12 +5423,12 @@ end;
 
 { TEnclosureInformation }
 
-function TEnclosureInformation.AssetTagNumberStr : AnsiString;
+function TEnclosureInformation.AssetTagNumberStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWEnclosureInformation^, RAWEnclosureInformation^.Header.Length, RAWEnclosureInformation^.AssetTagNumber);
 end;
 
-function TEnclosureInformation.BootUpStateStr : AnsiString;
+function TEnclosureInformation.BootUpStateStr: AnsiString;
 begin
   case RAWEnclosureInformation^.BootUpState of
     $01 :
@@ -5448,12 +5448,12 @@ begin
   end;
 end;
 
-function TEnclosureInformation.ManufacturerStr : AnsiString;
+function TEnclosureInformation.ManufacturerStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWEnclosureInformation^, RAWEnclosureInformation^.Header.Length, RAWEnclosureInformation^.Manufacturer);
 end;
 
-function TEnclosureInformation.PowerSupplyStateStr : AnsiString;
+function TEnclosureInformation.PowerSupplyStateStr: AnsiString;
 begin
   case RAWEnclosureInformation^.PowerSupplyState of
     $01 :
@@ -5473,14 +5473,14 @@ begin
   end;
 end;
 
-function TEnclosureInformation.SerialNumberStr : AnsiString;
+function TEnclosureInformation.SerialNumberStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWEnclosureInformation^, RAWEnclosureInformation^.Header.Length, RAWEnclosureInformation^.SerialNumber);
 end;
 
-function TEnclosureInformation.TypeStr : AnsiString;
+function TEnclosureInformation.TypeStr: AnsiString;
 var
-  _Type : Byte;
+  _Type: Byte;
 begin
   _Type := RAWEnclosureInformation^._Type;
   if GetBit(_Type, 7) then
@@ -5550,21 +5550,21 @@ begin
   end;
 end;
 
-function TEnclosureInformation.VersionStr : AnsiString;
+function TEnclosureInformation.VersionStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWEnclosureInformation^, RAWEnclosureInformation^.Header.Length, RAWEnclosureInformation^.Version);
 end;
 
 { TProcessorInformation }
 
-function TProcessorInformation.AssetTagStr : AnsiString;
+function TProcessorInformation.AssetTagStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWProcessorInformation^, RAWProcessorInformation^.Header.Length, RAWProcessorInformation^.AssetTag);
 end;
 
-function TProcessorInformation.GetProcessorVoltaje : Double;
+function TProcessorInformation.GetProcessorVoltaje: Double;
 var
-  _Voltaje : Byte;
+  _Voltaje: Byte;
 begin
   Result := 0;
   _Voltaje := RAWProcessorInformation^.Voltaje;
@@ -5589,12 +5589,12 @@ begin
   end;
 end;
 
-function TProcessorInformation.PartNumberStr : AnsiString;
+function TProcessorInformation.PartNumberStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWProcessorInformation^, RAWProcessorInformation^.Header.Length, RAWProcessorInformation^.PartNumber);
 end;
 
-function TProcessorInformation.ProcessorFamilyStr : AnsiString;
+function TProcessorInformation.ProcessorFamilyStr: AnsiString;
 begin
   if RAWProcessorInformation^.ProcessorFamily2 < $FF then
     case RAWProcessorInformation^.ProcessorFamily of
@@ -6028,12 +6028,12 @@ begin
     end;
 end;
 
-function TProcessorInformation.ProcessorManufacturerStr : AnsiString;
+function TProcessorInformation.ProcessorManufacturerStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWProcessorInformation^, RAWProcessorInformation^.Header.Length, RAWProcessorInformation^.ProcessorManufacturer);
 end;
 
-function TProcessorInformation.ProcessorTypeStr : AnsiString;
+function TProcessorInformation.ProcessorTypeStr: AnsiString;
 begin
   case RAWProcessorInformation^.ProcessorType of
     $01 :
@@ -6053,7 +6053,7 @@ begin
   end;
 end;
 
-function TProcessorInformation.ProcessorUpgradeStr : AnsiString;
+function TProcessorInformation.ProcessorUpgradeStr: AnsiString;
 begin
   case RAWProcessorInformation^.ProcessorUpgrade of
     $01 :
@@ -6145,24 +6145,24 @@ begin
   end;
 end;
 
-function TProcessorInformation.ProcessorVersionStr : AnsiString;
+function TProcessorInformation.ProcessorVersionStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWProcessorInformation^, RAWProcessorInformation^.Header.Length, RAWProcessorInformation^.ProcessorVersion);
 end;
 
-function TProcessorInformation.SerialNumberStr : AnsiString;
+function TProcessorInformation.SerialNumberStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWProcessorInformation^, RAWProcessorInformation^.Header.Length, RAWProcessorInformation^.SerialNumber);
 end;
 
-function TProcessorInformation.SocketDesignationStr : AnsiString;
+function TProcessorInformation.SocketDesignationStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWProcessorInformation^, RAWProcessorInformation^.Header.Length, RAWProcessorInformation^.SocketDesignation);
 end;
 
 { TCacheInformation }
 
-function TCacheInformation.AssociativityStr : AnsiString;
+function TCacheInformation.AssociativityStr: AnsiString;
 begin
   case RAWCacheInformation^.Associativity of
     $01 :
@@ -6198,9 +6198,9 @@ begin
   end;
 end;
 
-function TCacheInformation.GetCurrentSRAMType : TCacheSRAMTypes;
+function TCacheInformation.GetCurrentSRAMType: TCacheSRAMTypes;
 var
-  i : Integer;
+  i: Integer;
 begin
   Result := [];
   for i := 0 to 6 do
@@ -6208,7 +6208,7 @@ begin
       Include(Result, TCacheSRAMType(i));
 end;
 
-function TCacheInformation.GetErrorCorrectionType : TErrorCorrectionType;
+function TCacheInformation.GetErrorCorrectionType: TErrorCorrectionType;
 begin
   if RAWCacheInformation^.ErrorCorrectionType > 6 then
     Result := ECUnknown
@@ -6216,9 +6216,9 @@ begin
     Result := TErrorCorrectionType(RAWCacheInformation^.ErrorCorrectionType);
 end;
 
-function TCacheInformation.GetInstalledCacheSize : Integer;
+function TCacheInformation.GetInstalledCacheSize: Integer;
 var
-  Granularity : DWORD;
+  Granularity: DWORD;
 begin
   Granularity := 1;
   if GetBit(RAWCacheInformation^.InstalledSize, 15) then
@@ -6227,9 +6227,9 @@ begin
   Result := Granularity * EnableBit(RAWCacheInformation^.InstalledSize, 15, false);
 end;
 
-function TCacheInformation.GetMaximumCacheSize : Integer;
+function TCacheInformation.GetMaximumCacheSize: Integer;
 var
-  Granularity : DWORD;
+  Granularity: DWORD;
 begin
   Granularity := 1;
   if GetBit(RAWCacheInformation^.MaximumCacheSize, 15) then
@@ -6238,9 +6238,9 @@ begin
   Result := Granularity * EnableBit(RAWCacheInformation^.MaximumCacheSize, 15, false);
 end;
 
-function TCacheInformation.GetSupportedSRAMType : TCacheSRAMTypes;
+function TCacheInformation.GetSupportedSRAMType: TCacheSRAMTypes;
 var
-  i : Integer;
+  i: Integer;
 begin
   Result := [];
   for i := 0 to 6 do
@@ -6248,7 +6248,7 @@ begin
       Include(Result, TCacheSRAMType(i));
 end;
 
-function TCacheInformation.GetSystemCacheType : TSystemCacheType;
+function TCacheInformation.GetSystemCacheType: TSystemCacheType;
 begin
   if RAWCacheInformation^.SystemCacheType > 5 then
     Result := SCUnknown
@@ -6256,20 +6256,20 @@ begin
     Result := TSystemCacheType(RAWCacheInformation^.SystemCacheType);
 end;
 
-function TCacheInformation.SocketDesignationStr : AnsiString;
+function TCacheInformation.SocketDesignationStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWCacheInformation^, RAWCacheInformation^.Header.Length, RAWCacheInformation^.SocketDesignation);
 end;
 
 { TPortConnectorInformation }
 
-function TPortConnectorInformation.ExternalReferenceDesignatorStr : AnsiString;
+function TPortConnectorInformation.ExternalReferenceDesignatorStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWPortConnectorInformation^, RAWPortConnectorInformation^.Header.Length,
     RAWPortConnectorInformation^.ExternalReferenceDesignator);
 end;
 
-function TPortConnectorInformation.GetConnectorType(Connector : Byte) : AnsiString;
+function TPortConnectorInformation.GetConnectorType(Connector: Byte): AnsiString;
 begin
   case Connector of
     $00 :
@@ -6359,13 +6359,13 @@ begin
   end;
 end;
 
-function TPortConnectorInformation.InternalReferenceDesignatorStr : AnsiString;
+function TPortConnectorInformation.InternalReferenceDesignatorStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWPortConnectorInformation^, RAWPortConnectorInformation^.Header.Length,
     RAWPortConnectorInformation^.InternalReferenceDesignator);
 end;
 
-function TPortConnectorInformation.PortTypeStr : AnsiString;
+function TPortConnectorInformation.PortTypeStr: AnsiString;
 begin
   case RAWPortConnectorInformation^.PortType of
     $00 :
@@ -6449,7 +6449,7 @@ end;
 
 { TSystemSlotInformation }
 
-function TSystemSlotInformation.GetCurrentUsage : AnsiString;
+function TSystemSlotInformation.GetCurrentUsage: AnsiString;
 begin
   case RAWSystemSlotInformation^.CurrentUsage of
     $01 :
@@ -6465,7 +6465,7 @@ begin
   end;
 end;
 
-function TSystemSlotInformation.GetSlotDataBusWidth : AnsiString;
+function TSystemSlotInformation.GetSlotDataBusWidth: AnsiString;
 begin
   case RAWSystemSlotInformation^.SlotDataBusWidth of
     $01 :
@@ -6501,7 +6501,7 @@ begin
   end;
 end;
 
-function TSystemSlotInformation.GetSlotLength : AnsiString;
+function TSystemSlotInformation.GetSlotLength: AnsiString;
 begin
   case RAWSystemSlotInformation^.SlotLength of
     $01 :
@@ -6517,7 +6517,7 @@ begin
   end;
 end;
 
-function TSystemSlotInformation.GetSlotType : AnsiString;
+function TSystemSlotInformation.GetSlotType: AnsiString;
 begin
   case RAWSystemSlotInformation^.SlotType of
     $01 :
@@ -6609,87 +6609,87 @@ begin
   end;
 end;
 
-function TSystemSlotInformation.SlotDesignationStr : AnsiString;
+function TSystemSlotInformation.SlotDesignationStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWSystemSlotInformation^, RAWSystemSlotInformation^.Header.Length, RAWSystemSlotInformation^.SlotDesignation);
 end;
 
 { TBIOSLanguageInformation }
 
-function TBIOSLanguageInformation.GetCurrentLanguageStr : AnsiString;
+function TBIOSLanguageInformation.GetCurrentLanguageStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWBIOSLanguageInformation^, RAWBIOSLanguageInformation^.Header.Length, RAWBIOSLanguageInformation^.CurrentLanguage);
 end;
 
-function TBIOSLanguageInformation.GetLanguageString(index : Integer) : AnsiString;
+function TBIOSLanguageInformation.GetLanguageString(index: Integer): AnsiString;
 begin
   Result := GetSMBiosString(@RAWBIOSLanguageInformation^, RAWBIOSLanguageInformation^.Header.Length, index);
 end;
 
 { TBiosInformation }
 
-function TBiosInformation.ReleaseDateStr : AnsiString;
+function TBiosInformation.ReleaseDateStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWBiosInformation^, RAWBiosInformation^.Header.Length, RAWBiosInformation^.ReleaseDate);
 end;
 
-function TBiosInformation.VendorStr : AnsiString;
+function TBiosInformation.VendorStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWBiosInformation^, RAWBiosInformation^.Header.Length, RAWBiosInformation^.Vendor);
 end;
 
-function TBiosInformation.VersionStr : AnsiString;
+function TBiosInformation.VersionStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWBiosInformation^, RAWBiosInformation^.Header.Length, RAWBiosInformation^.Version);
 end;
 
 { TSystemInformation }
 
-function TSystemInformation.FamilyStr : AnsiString;
+function TSystemInformation.FamilyStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWSystemInformation^, RAWSystemInformation^.Header.Length, RAWSystemInformation^.Family);
 end;
 
-function TSystemInformation.ManufacturerStr : AnsiString;
+function TSystemInformation.ManufacturerStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWSystemInformation^, RAWSystemInformation^.Header.Length, RAWSystemInformation^.Manufacturer);
 end;
 
-function TSystemInformation.ProductNameStr : AnsiString;
+function TSystemInformation.ProductNameStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWSystemInformation^, RAWSystemInformation^.Header.Length, RAWSystemInformation^.ProductName);
 end;
 
-function TSystemInformation.SerialNumberStr : AnsiString;
+function TSystemInformation.SerialNumberStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWSystemInformation^, RAWSystemInformation^.Header.Length, RAWSystemInformation^.SerialNumber);
 end;
 
-function TSystemInformation.SKUNumberStr : AnsiString;
+function TSystemInformation.SKUNumberStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWSystemInformation^, RAWSystemInformation^.Header.Length, RAWSystemInformation^.SKUNumber);
 end;
 
-function TSystemInformation.VersionStr : AnsiString;
+function TSystemInformation.VersionStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWSystemInformation^, RAWSystemInformation^.Header.Length, RAWSystemInformation^.Version);
 end;
 
 { TOEMStringsInformation }
 
-function TOEMStringsInformation.GetOEMString(index : Integer) : AnsiString;
+function TOEMStringsInformation.GetOEMString(index: Integer): AnsiString;
 begin
   Result := GetSMBiosString(@RAWOEMStringsInformation^, RAWOEMStringsInformation^.Header.Length, index);
 end;
 
 { TBaseBoardInformation }
 
-function TBaseBoardInformation.AssetTagStr : AnsiString;
+function TBaseBoardInformation.AssetTagStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWBaseBoardInformation^, RAWBaseBoardInformation^.Header.Length, RAWBaseBoardInformation^.AssetTag);
 end;
 
-function TBaseBoardInformation.BoardTypeStr : AnsiString;
+function TBaseBoardInformation.BoardTypeStr: AnsiString;
 begin
   case RAWBaseBoardInformation^.BoardType of
     $01 :
@@ -6723,41 +6723,41 @@ begin
   end;
 end;
 
-function TBaseBoardInformation.LocationinChassisStr : AnsiString;
+function TBaseBoardInformation.LocationinChassisStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWBaseBoardInformation^, RAWBaseBoardInformation^.Header.Length, RAWBaseBoardInformation^.LocationinChassis);
 end;
 
-function TBaseBoardInformation.ManufacturerStr : AnsiString;
+function TBaseBoardInformation.ManufacturerStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWBaseBoardInformation^, RAWBaseBoardInformation^.Header.Length, RAWBaseBoardInformation^.Manufacturer);
 end;
 
-function TBaseBoardInformation.ProductStr : AnsiString;
+function TBaseBoardInformation.ProductStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWBaseBoardInformation^, RAWBaseBoardInformation^.Header.Length, RAWBaseBoardInformation^.Product);
 end;
 
-function TBaseBoardInformation.SerialNumberStr : AnsiString;
+function TBaseBoardInformation.SerialNumberStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWBaseBoardInformation^, RAWBaseBoardInformation^.Header.Length, RAWBaseBoardInformation^.SerialNumber);
 end;
 
-function TBaseBoardInformation.VersionStr : AnsiString;
+function TBaseBoardInformation.VersionStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWBaseBoardInformation^, RAWBaseBoardInformation^.Header.Length, RAWBaseBoardInformation^.Version);
 end;
 
 { TSystemConfInformation }
 
-function TSystemConfInformation.GetConfString(index : Integer) : AnsiString;
+function TSystemConfInformation.GetConfString(index: Integer): AnsiString;
 begin
   Result := GetSMBiosString(@RAWSystemConfInformation^, RAWSystemConfInformation^.Header.Length, index);
 end;
 
 { TPhysicalMemoryArrayInformation }
 
-function TPhysicalMemoryArrayInformation.GetErrorCorrectionStr : AnsiString;
+function TPhysicalMemoryArrayInformation.GetErrorCorrectionStr: AnsiString;
 begin
   case RAWPhysicalMemoryArrayInformation^.MemoryErrorCorrection of
     $01 :
@@ -6779,7 +6779,7 @@ begin
   end;
 end;
 
-function TPhysicalMemoryArrayInformation.GetLocationStr : AnsiString;
+function TPhysicalMemoryArrayInformation.GetLocationStr: AnsiString;
 begin
   case RAWPhysicalMemoryArrayInformation^.Location of
     $01 :
@@ -6797,7 +6797,7 @@ begin
   end;
 end;
 
-function TPhysicalMemoryArrayInformation.GetUseStr : AnsiString;
+function TPhysicalMemoryArrayInformation.GetUseStr: AnsiString;
 begin
   case RAWPhysicalMemoryArrayInformation^.Use of
     $01 :
@@ -6821,22 +6821,22 @@ end;
 
 { TMemoryDeviceInformation }
 
-function TMemoryDeviceInformation.AssetTagStr : AnsiString;
+function TMemoryDeviceInformation.AssetTagStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWMemoryDeviceInfo^, RAWMemoryDeviceInfo^.Header.Length, RAWMemoryDeviceInfo^.AssetTag);
 end;
 
-function TMemoryDeviceInformation.GetBankLocatorStr : AnsiString;
+function TMemoryDeviceInformation.GetBankLocatorStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWMemoryDeviceInfo^, RAWMemoryDeviceInfo^.Header.Length, RAWMemoryDeviceInfo^.BankLocator);
 end;
 
-function TMemoryDeviceInformation.GetDeviceLocatorStr : AnsiString;
+function TMemoryDeviceInformation.GetDeviceLocatorStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWMemoryDeviceInfo^, RAWMemoryDeviceInfo^.Header.Length, RAWMemoryDeviceInfo^.DeviceLocator);
 end;
 
-function TMemoryDeviceInformation.GetFormFactor : AnsiString;
+function TMemoryDeviceInformation.GetFormFactor: AnsiString;
 begin
   case RAWMemoryDeviceInfo^.FormFactor of
     $01 :
@@ -6874,7 +6874,7 @@ begin
   end;
 end;
 
-function TMemoryDeviceInformation.GetMemoryTypeStr : AnsiString;
+function TMemoryDeviceInformation.GetMemoryTypeStr: AnsiString;
 begin
   case RAWMemoryDeviceInfo^.MemoryType of
     $01 :
@@ -6928,7 +6928,7 @@ begin
   end;
 end;
 
-function TMemoryDeviceInformation.GetSize : DWORD;
+function TMemoryDeviceInformation.GetSize: DWORD;
 begin
   if RAWMemoryDeviceInfo^.Size = 0 then
     Result := 0
@@ -6943,24 +6943,24 @@ begin
   end;
 end;
 
-function TMemoryDeviceInformation.ManufacturerStr : AnsiString;
+function TMemoryDeviceInformation.ManufacturerStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWMemoryDeviceInfo^, RAWMemoryDeviceInfo^.Header.Length, RAWMemoryDeviceInfo^.Manufacturer);
 end;
 
-function TMemoryDeviceInformation.PartNumberStr : AnsiString;
+function TMemoryDeviceInformation.PartNumberStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWMemoryDeviceInfo^, RAWMemoryDeviceInfo^.Header.Length, RAWMemoryDeviceInfo^.PartNumber);
 end;
 
-function TMemoryDeviceInformation.SerialNumberStr : AnsiString;
+function TMemoryDeviceInformation.SerialNumberStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWMemoryDeviceInfo^, RAWMemoryDeviceInfo^.Header.Length, RAWMemoryDeviceInfo^.SerialNumber);
 end;
 
 { TBatteryInformation }
 
-function TBatteryInformation.GetDeviceChemistry : AnsiString;
+function TBatteryInformation.GetDeviceChemistry: AnsiString;
 begin
   case RAWBatteryInfo^.DeviceChemistry of
     $01 :
@@ -6984,34 +6984,34 @@ begin
   end;
 end;
 
-function TBatteryInformation.GetDeviceNameStr : AnsiString;
+function TBatteryInformation.GetDeviceNameStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWBatteryInfo^, RAWBatteryInfo^.Header.Length, RAWBatteryInfo^.DeviceName);
 end;
 
-function TBatteryInformation.GetLocationStr : AnsiString;
+function TBatteryInformation.GetLocationStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWBatteryInfo^, RAWBatteryInfo^.Header.Length, RAWBatteryInfo^.Location);
 end;
 
-function TBatteryInformation.GetManufacturerDateStr : AnsiString;
+function TBatteryInformation.GetManufacturerDateStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWBatteryInfo^, RAWBatteryInfo^.Header.Length, RAWBatteryInfo^.ManufacturerDate);
 end;
 
-function TBatteryInformation.GetManufacturerStr : AnsiString;
+function TBatteryInformation.GetManufacturerStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWBatteryInfo^, RAWBatteryInfo^.Header.Length, RAWBatteryInfo^.Manufacturer);
 end;
 
-function TBatteryInformation.GetSBDSDeviceChemistryStr : AnsiString;
+function TBatteryInformation.GetSBDSDeviceChemistryStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWBatteryInfo^, RAWBatteryInfo^.Header.Length, RAWBatteryInfo^.SBDSDeviceChemistry);
 end;
 
-function TBatteryInformation.GetSBDSManufacturerDate : TDateTime;
+function TBatteryInformation.GetSBDSManufacturerDate: TDateTime;
 var
-  Year, Month, Day : Word;
+  Year, Month, Day: Word;
 begin
   // Writeln(WordToBinStr(RAWBatteryInfo^.SBDSManufacturerDate));
   Year := 1980 + GetBitsValue(RAWBatteryInfo^.SBDSManufacturerDate, 15, 9);
@@ -7020,19 +7020,19 @@ begin
   Result := EncodeDate(Year, Month, Day);
 end;
 
-function TBatteryInformation.GetSBDSVersionNumberStr : AnsiString;
+function TBatteryInformation.GetSBDSVersionNumberStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWBatteryInfo^, RAWBatteryInfo^.Header.Length, RAWBatteryInfo^.SBDSVersionNumber);
 end;
 
-function TBatteryInformation.GetSerialNumberStr : AnsiString;
+function TBatteryInformation.GetSerialNumberStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWBatteryInfo^, RAWBatteryInfo^.Header.Length, RAWBatteryInfo^.SerialNumber);
 end;
 
 { TBuiltInPointingDeviceInformation }
 
-function TBuiltInPointingDeviceInformation.GetInterface : string;
+function TBuiltInPointingDeviceInformation.GetInterface: string;
 begin
   case RAWBuiltInPointingDeviceInfo^._Interface of
     $01 :
@@ -7062,7 +7062,7 @@ begin
   end;
 end;
 
-function TBuiltInPointingDeviceInformation.GetType : string;
+function TBuiltInPointingDeviceInformation.GetType: string;
 begin
   case RAWBuiltInPointingDeviceInfo^._Type of
     $01 :
@@ -7090,14 +7090,14 @@ end;
 
 { TVoltageProbeInformation }
 
-function TVoltageProbeInformation.GetDescriptionStr : AnsiString;
+function TVoltageProbeInformation.GetDescriptionStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWVoltageProbeInfo^, RAWVoltageProbeInfo^.Header.Length, RAWVoltageProbeInfo^.Description);
 end;
 
-function TVoltageProbeInformation.GetLocation : AnsiString;
+function TVoltageProbeInformation.GetLocation: AnsiString;
 var
-  BitStr : string;
+  BitStr: string;
 begin
   Result := 'Unknown';
   BitStr := ByteToBinStr(RAWVoltageProbeInfo^.LocationandStatus);
@@ -7126,9 +7126,9 @@ begin
     Result := 'Add-in Card';
 end;
 
-function TVoltageProbeInformation.GetStatus : AnsiString;
+function TVoltageProbeInformation.GetStatus: AnsiString;
 var
-  BitStr : string;
+  BitStr: string;
 begin
   Result := 'Unknown';
   BitStr := ByteToBinStr(RAWVoltageProbeInfo^.LocationandStatus);
@@ -7149,14 +7149,14 @@ end;
 
 { TCoolingDeviceInformation }
 
-function TCoolingDeviceInformation.GetDescriptionStr : AnsiString;
+function TCoolingDeviceInformation.GetDescriptionStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWCoolingDeviceInfo^, RAWCoolingDeviceInfo^.Header.Length, RAWCoolingDeviceInfo^.Description);
 end;
 
-function TCoolingDeviceInformation.GetStatus : AnsiString;
+function TCoolingDeviceInformation.GetStatus: AnsiString;
 var
-  BitStr : string;
+  BitStr: string;
 begin
   Result := 'Unknown';
   BitStr := ByteToBinStr(RAWCoolingDeviceInfo^.DeviceTypeandStatus);
@@ -7175,9 +7175,9 @@ begin
     Result := 'Non-recoverable';
 end;
 
-function TCoolingDeviceInformation.GetDeviceType : AnsiString;
+function TCoolingDeviceInformation.GetDeviceType: AnsiString;
 var
-  BitStr : string;
+  BitStr: string;
 begin
   Result := 'Unknown';
   BitStr := ByteToBinStr(RAWCoolingDeviceInfo^.DeviceTypeandStatus);
@@ -7207,14 +7207,14 @@ begin
 end;
 
 { TTemperatureProbeInformation }
-function TTemperatureProbeInformation.GetDescriptionStr : AnsiString;
+function TTemperatureProbeInformation.GetDescriptionStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWTemperatureProbeInfo^, RAWTemperatureProbeInfo^.Header.Length, RAWTemperatureProbeInfo^.Description);
 end;
 
-function TTemperatureProbeInformation.GetLocation : AnsiString;
+function TTemperatureProbeInformation.GetLocation: AnsiString;
 var
-  BitStr : string;
+  BitStr: string;
 begin
   Result := 'Unknown';
   BitStr := ByteToBinStr(RAWTemperatureProbeInfo^.LocationandStatus);
@@ -7249,9 +7249,9 @@ begin
     Result := 'Drive Back Plane';
 end;
 
-function TTemperatureProbeInformation.GetStatus : AnsiString;
+function TTemperatureProbeInformation.GetStatus: AnsiString;
 var
-  BitStr : string;
+  BitStr: string;
 begin
   Result := 'Unknown';
   BitStr := ByteToBinStr(RAWTemperatureProbeInfo^.LocationandStatus);
@@ -7271,14 +7271,14 @@ begin
 end;
 
 { TElectricalCurrentProbeInformation }
-function TElectricalCurrentProbeInformation.GetDescriptionStr : AnsiString;
+function TElectricalCurrentProbeInformation.GetDescriptionStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWElectricalCurrentProbeInfo^, RAWElectricalCurrentProbeInfo^.Header.Length, RAWElectricalCurrentProbeInfo^.Description);
 end;
 
-function TElectricalCurrentProbeInformation.GetLocation : AnsiString;
+function TElectricalCurrentProbeInformation.GetLocation: AnsiString;
 var
-  BitStr : string;
+  BitStr: string;
 begin
   Result := 'Unknown';
   BitStr := ByteToBinStr(RAWElectricalCurrentProbeInfo^.LocationandStatus);
@@ -7307,9 +7307,9 @@ begin
     Result := 'Add-in Card';
 end;
 
-function TElectricalCurrentProbeInformation.GetStatus : AnsiString;
+function TElectricalCurrentProbeInformation.GetStatus: AnsiString;
 var
-  BitStr : string;
+  BitStr: string;
 begin
   Result := 'Unknown';
   BitStr := ByteToBinStr(RAWElectricalCurrentProbeInfo^.LocationandStatus);
@@ -7329,19 +7329,19 @@ begin
 end;
 
 { TOnBoardSystemInformation }
-function TOnBoardSystemInformation.Enabled : Boolean;
+function TOnBoardSystemInformation.Enabled: Boolean;
 begin
   Result := GetBit(RAWOnBoardSystemInfo^.DeviceType, 7);
 end;
 
-function TOnBoardSystemInformation.GetDescription : AnsiString;
+function TOnBoardSystemInformation.GetDescription: AnsiString;
 begin
   Result := GetSMBiosString(@RAWOnBoardSystemInfo^, RAWOnBoardSystemInfo^.Header.Length, RAWOnBoardSystemInfo^.DescriptionString);
 end;
 
-function TOnBoardSystemInformation.GetTypeDescription : AnsiString;
+function TOnBoardSystemInformation.GetTypeDescription: AnsiString;
 var
-  _Type : Integer;
+  _Type: Integer;
 begin
   _Type := GetBitsValue(RAWOnBoardSystemInfo^.DeviceType, 6, 0);
 
@@ -7374,7 +7374,7 @@ end;
 
 { TMemoryControllerInformation }
 
-function TMemoryControllerInformation.GetCurrentInterleaveDescr : string;
+function TMemoryControllerInformation.GetCurrentInterleaveDescr: string;
 begin
   case RAWMemoryControllerInformation^.CurrentInterleave of
     $01 :
@@ -7396,7 +7396,7 @@ begin
   end;
 end;
 
-function TMemoryControllerInformation.GetSupportedInterleaveDescr : string;
+function TMemoryControllerInformation.GetSupportedInterleaveDescr: string;
 begin
   case RAWMemoryControllerInformation^.SupportedInterleave of
     $01 :
@@ -7418,7 +7418,7 @@ begin
   end;
 end;
 
-function TMemoryControllerInformation.GetErrorDetectingMethodDescr : string;
+function TMemoryControllerInformation.GetErrorDetectingMethodDescr: string;
 begin
   case RAWMemoryControllerInformation^.ErrorDetectingMethod of
     $01 :
@@ -7442,12 +7442,12 @@ begin
   end;
 end;
 
-function TMemoryModuleInformation.GetSocketDesignationDescr : AnsiString;
+function TMemoryModuleInformation.GetSocketDesignationDescr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWMemoryModuleInformation^, RAWMemoryModuleInformation^.Header.Length, RAWMemoryModuleInformation^.SocketDesignation);
 end;
 
-function TGroupAssociationsInformation.GetGroupName : AnsiString;
+function TGroupAssociationsInformation.GetGroupName: AnsiString;
 begin
   Result := GetSMBiosString(@RAWGroupAssociationsInformation^, RAWGroupAssociationsInformation^.Header.Length, RAWGroupAssociationsInformation^.GroupName);
 end;

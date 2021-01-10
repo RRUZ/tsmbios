@@ -9,8 +9,8 @@ uses
 
 procedure GetBatteryInfo;
   Var
-    SMBios : TSMBios;
-    LBatteryInfo : TBatteryInformation;
+    SMBios: TSMBios;
+    LBatteryInfo: TBatteryInformation;
   begin
     SMBios := TSMBios.Create;
     try
@@ -49,7 +49,7 @@ begin
   try
     GetBatteryInfo;
   except
-    on E : Exception do
+    on E: Exception do
       WriteLn(E.Classname, ':', E.Message);
   end;
   WriteLn('Press Enter to exit');
