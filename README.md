@@ -3,14 +3,14 @@
 ![logo](https://github.com/RRUZ/tsmbios/blob/master/images/logo.png)The TSMBIOS libary allows access the System Management BIOS (SMBIOS) using the Object Pascal language (Delphi or Free Pascal). 
 
 ## Features
-Some features of this project are
+
 
 * Source Full documented compatible with the help insight feature, available since Delphi 2005.
 * Supports SMBIOS Version from 2.1 to 2.8
 * Supports Delphi 5, 6, 7. 
 * Supports RAD Studio 2005-2010 
 * Supports RAD Studio XE-XE8 
-* Supports RAD Studio 10 Seattle, RAD Studio 10.1 Berlin, RAD Studio 10.2 Tokyo
+* Supports RAD Studio 10, 10.1, 10.2, 10.3, 10.4
 * Compatible with FPC 2.4.0+
 * Supports Windows, Linux.
 * SMBIOS Data can be saved and/or load to a file.
@@ -72,10 +72,10 @@ uses
 
 procedure GetMemoryDeviceInfo;
 Var
-  SMBios : TSMBios;
-  LMemoryDevice  : TMemoryDeviceInformation;
+  SMBios: TSMBios;
+  LMemoryDevice: TMemoryDeviceInformation;
 begin
-  SMBios:=TSMBios.Create;
+  SMBios := TSMBios.Create;
   try
       WriteLn('Memory Device Information');
       WriteLn('-------------------------');
