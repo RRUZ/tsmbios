@@ -51,6 +51,7 @@ interface
 uses
  SysUtils,
  {$IFDEF MSWINDOWS}
+ AnsiStrings,
  Windows,
  {$ENDIF}
  {$IFNDEF NOGENERICS}
@@ -4594,7 +4595,7 @@ function GetSMBiosString(FBuffer: PByteArray;  Entry, index: Integer): AnsiStrin
         Break;
       end
       else
-        inc(Entry, StrLen(p) + 1);
+        inc(Entry, {$IFNDEF FPC}AnsiStrings.{$ENDIF}StrLen(p) + 1);
     end;
   end;
  {$ENDIF}
