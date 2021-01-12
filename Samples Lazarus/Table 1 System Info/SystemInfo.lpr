@@ -11,9 +11,9 @@ uses
 
 procedure GetSystemInfo;
 Var
-  SMBios : TSMBios;
+  SMBios: TSMBios;
   LSystem: TSystemInformation;
-  UUID   : Array[0..31] of AnsiChar;
+  UUID: Array[0..31] of AnsiChar;
 begin
   SMBios:=TSMBios.Create;
   try

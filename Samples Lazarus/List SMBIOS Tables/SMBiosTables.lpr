@@ -11,10 +11,10 @@ uses
 
 procedure ListSMBiosTables;
 Var
-  SMBios : TSMBios;
-  Entry  : TSMBiosTableEntry;
+  SMBios: TSMBios;
+  Entry: TSMBiosTableEntry;
 begin
-  SMBios:=TSMBios.Create;
+  SMBios := TSMBios.Create;
   try
     Writeln(Format('SMBIOS Version %s',[SMBios.SmbiosVersion]));
     Writeln(Format('%d SMBios tables found',[Length(SMBios.SMBiosTablesList)]));

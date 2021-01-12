@@ -11,8 +11,8 @@ uses
 
 procedure GetPhysicalMemArrayInfo;
 Var
-  SMBios : TSMBios;
-  LPhysicalMemArr  : TPhysicalMemoryArrayInformation;
+  SMBios: TSMBios;
+  LPhysicalMemArr: TPhysicalMemoryArrayInformation;
 begin
   SMBios:=TSMBios.Create;
   try

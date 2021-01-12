@@ -11,8 +11,8 @@ uses
 
 procedure GetPortConnectorInfo;
 Var
-  SMBios : TSMBios;
-  LPort  : TPortConnectorInformation;
+  SMBios: TSMBios;
+  LPort: TPortConnectorInformation;
 begin
   SMBios:=TSMBios.Create;
   try

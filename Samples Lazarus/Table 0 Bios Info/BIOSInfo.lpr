@@ -10,10 +10,10 @@ uses
 
 procedure GetBIOSInfo;
 Var
-  SMBios  : TSMBios;
-  LBIOS   : TBiosInformation;
-  OEMStr  : TOEMStringsInformation;
-  i : Integer;
+  SMBios: TSMBios;
+  LBIOS: TBiosInformation;
+  OEMStr: TOEMStringsInformation;
+  i: Integer;
 begin
   SMBios:=TSMBios.Create;
   try

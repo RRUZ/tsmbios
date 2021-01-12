@@ -11,9 +11,9 @@ uses
 
 procedure GetBIOSInfo;
 Var
-  SMBios  : TSMBios;
-  i : Integer;
-  LSystemConf : TSystemConfInformation;
+  SMBios: TSMBios;
+  i: Integer;
+  LSystemConf: TSystemConfInformation;
 begin
   SMBios:=TSMBios.Create;
   try

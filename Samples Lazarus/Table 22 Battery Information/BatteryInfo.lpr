@@ -11,8 +11,8 @@ uses
 
 procedure GetBatteryInfo;
 Var
-  SMBios : TSMBios;
-  LBatteryInfo  : TBatteryInformation;
+  SMBios: TSMBios;
+  LBatteryInfo: TBatteryInformation;
 begin
   SMBios:=TSMBios.Create;
   try

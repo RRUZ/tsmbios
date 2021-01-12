@@ -11,8 +11,8 @@ uses
 
 procedure GetMemArrayMappedInfo;
 Var
-  SMBios : TSMBios;
-  LMemArrMappedAddress  : TMemoryArrayMappedAddressInformation;
+  SMBios: TSMBios;
+  LMemArrMappedAddress: TMemoryArrayMappedAddressInformation;
 begin
   SMBios:=TSMBios.Create;
   try

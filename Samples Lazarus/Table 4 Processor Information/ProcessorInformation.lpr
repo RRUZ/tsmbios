@@ -48,9 +48,9 @@ end;
 
 procedure GetPtrocessorInfo;
 Var
-  SMBios             : TSMBios;
-  LProcessorInfo     : TProcessorInformation;
-  LSRAMTypes         : TCacheSRAMTypes;
+  SMBios: TSMBios;
+  LProcessorInfo: TProcessorInformation;
+  LSRAMTypes: TCacheSRAMTypes;
 begin
   SMBios:=TSMBios.Create;
   try

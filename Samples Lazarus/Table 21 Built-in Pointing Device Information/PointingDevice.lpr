@@ -11,8 +11,8 @@ uses
 
 procedure GetPointingDeviceInfo;
 Var
-  SMBios : TSMBios;
-  LPointDevice  : TBuiltInPointingDeviceInformation;
+  SMBios: TSMBios;
+  LPointDevice: TBuiltInPointingDeviceInformation;
 begin
   SMBios:=TSMBios.Create;
   try

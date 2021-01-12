@@ -11,8 +11,8 @@ uses
 
 procedure GetMemoryDeviceInfo;
 Var
-  SMBios : TSMBios;
-  LMemoryDevice  : TMemoryDeviceInformation;
+  SMBios: TSMBios;
+  LMemoryDevice: TMemoryDeviceInformation;
 begin
   SMBios:=TSMBios.Create;
   try

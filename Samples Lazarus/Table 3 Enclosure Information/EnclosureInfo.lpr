@@ -11,8 +11,8 @@ uses
 
 procedure GetEnclosureInfo;
 Var
-  SMBios : TSMBios;
-  LEnclosure  : TEnclosureInformation;
+  SMBios: TSMBios;
+  LEnclosure: TEnclosureInformation;
 begin
   SMBios:=TSMBios.Create;
   try

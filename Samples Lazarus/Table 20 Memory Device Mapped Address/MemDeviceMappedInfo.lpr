@@ -11,8 +11,8 @@ uses
 
 procedure GetMemDeviceMappedInfo;
 Var
-  SMBios : TSMBios;
-  LMemDevMappedAddress  : TMemoryDeviceMappedAddressInformation;
+  SMBios: TSMBios;
+  LMemDevMappedAddress: TMemoryDeviceMappedAddressInformation;
 begin
   SMBios:=TSMBios.Create;
   try

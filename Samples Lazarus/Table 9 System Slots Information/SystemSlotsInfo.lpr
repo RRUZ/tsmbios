@@ -11,7 +11,7 @@ uses
 
 function ByteToBinStr(AValue:Byte):string;
 const
-  Bits : array[1..8] of byte = (128,64,32,16,8,4,2,1);
+  Bits: array[1..8] of byte = (128,64,32,16,8,4,2,1);
   var i: integer;
 begin
   Result:='00000000';
@@ -22,8 +22,8 @@ end;
 
 procedure GetSystemSlotInfo;
 Var
-  SMBios : TSMBios;
-  LSlot  : TSystemSlotInformation;
+  SMBios: TSMBios;
+  LSlot: TSystemSlotInformation;
 begin
   SMBios:=TSMBios.Create;
   try
