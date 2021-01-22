@@ -4,19 +4,13 @@
 
 ## Features
 
-
 * Source Full documented compatible with the help insight feature, available since Delphi 2005.
 * Supports SMBIOS Version from 2.1 to 2.8
-* Supports Delphi 5, 6, 7. 
-* Supports RAD Studio 2005-2010 
-* Supports RAD Studio XE-XE8 
-* Supports RAD Studio 10, 10.1, 10.2, 10.3, 10.4
+* Compatible with Delphi 5 - 10.4 
 * Compatible with FPC 2.4.0+
 * Supports Windows, Linux.
-* SMBIOS Data can be saved and/or load to a file.
-* SMBIOS Data can be obtained from remote machines (via WMI).
+* Read SMBIOS Data from remote machines using WMI.
  
-
 ## SMBIOS Tables supported
 
 * [BIOS Information](https://github.com/RRUZ/tsmbios/blob/wiki/BIOSInformation.md) (Type 0)
