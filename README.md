@@ -75,7 +75,7 @@ begin
       WriteLn('-------------------------');
 
       if SMBios.HasPhysicalMemoryArrayInfo then
-      for LMemoryDevice in SMBios.MemoryDeviceInformation do
+      for LMemoryDevice in SMBios.MemoryDeviceInfo do
       begin
         WriteLn(Format('Total Width    %d bits',[LMemoryDevice.RAWMemoryDeviceInfo.TotalWidth]));
         WriteLn(Format('Data Width     %d bits',[LMemoryDevice.RAWMemoryDeviceInfo.DataWidth]));
