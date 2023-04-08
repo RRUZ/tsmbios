@@ -4,12 +4,12 @@
 
 ## Features
 
-* Source Full documented (XMLDoc) compatible with the help insight feature, available since Delphi 2005.
-* Supports SMBIOS Version from 2.1 to 2.8
-* Compatible with Delphi 5 - Delphi 11 Alexandria
-* Works with FPC 2.4.0+
-* Supports Windows, Linux.
-* Read SMBIOS Data from remote machines using WMI.
+* Fully documented (XMLDoc), compatible with the Help Insight feature, available since Delphi 2005.
+* Supports SMBIOS Version 2.1 to 2.8.
+* Compatible with Delphi 5 through Delphi 11 Alexandria.
+* Works with FPC 2.4.0 or later.
+* Supports Windows and Linux.
+* Can read SMBIOS data from remote machines using WMI.
  
 ## SMBIOS Tables supported
 
@@ -52,7 +52,7 @@
 * Management Controller Host Interface (Type 42) - Not Implemented
 
 ## Sample source code
-This code shows how you can retrieve the information related to the memory device installed on the system.
+This code demonstrates how to retrieve information related to the memory devices installed on the system.
 
 ```delphi
 {$APPTYPE CONSOLE}
