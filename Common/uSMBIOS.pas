@@ -5771,7 +5771,11 @@ begin
         Result := '68020';
       101 :
         Result := '68030';
-      102 .. 111 :
+      102 .. 106 :
+        Result := 'Available for assignment';
+      107 :
+        Result := 'AMD Ryzen Processor Family';
+      108 .. 111 :
         Result := 'Available for assignment';
       112 :
         Result := 'Hobbit Family';
