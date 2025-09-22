@@ -6,7 +6,7 @@
 
 * Fully documented (XMLDoc), compatible with the Help Insight feature, available since Delphi 2005.
 * Supports SMBIOS Version 2.1 to 2.8.
-* Compatible with Delphi 5 through Delphi 11 Alexandria.
+* Compatible with Delphi 5 through Delphi 13 Florence.
 * Works with FPC 2.4.0 or later.
 * Supports Windows and Linux.
 * Can read SMBIOS data from remote machines using WMI.
