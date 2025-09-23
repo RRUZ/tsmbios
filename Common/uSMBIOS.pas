@@ -488,6 +488,12 @@ type
       /// </summary>
       { $ENDREGION }
       function FamilyStr: AnsiString;
+      { $REGION 'Documentation' }
+      /// <summary>
+      /// Get the string of UUID equivelent to "wmic csproduct get UUID"
+      /// </summary>
+      { $ENDREGION }
+      function UUIDStr: AnsiString;
   end;
 
   { $REGION 'Documentation' }
@@ -6674,6 +6680,46 @@ end;
 function TSystemInformation.VersionStr: AnsiString;
 begin
   Result := GetSMBiosString(@RAWSystemInformation^, RAWSystemInformation^.Header.Length, RAWSystemInformation^.Version);
+end;
+
+// Equivelent to "wmic csproduct get UUID"
+function TSystemInformation.UUIDStr: AnsiString;
+var
+  G1: array [0 .. 3] of byte;
+  G2: array [0 .. 1] of byte;
+  G3: array [0 .. 1] of byte;
+  G4: array [0 .. 1] of byte;
+  G5: array [0 .. 5] of byte;
+  sG1, sG2, sG3, sG4, sG5: AnsiString;
+begin
+  SetLength(sG1, 8);
+  G1[0] := RAWSystemInformation.UUID[3];
+  G1[1] := RAWSystemInformation.UUID[2];
+  G1[2] := RAWSystemInformation.UUID[1];
+  G1[3] := RAWSystemInformation.UUID[0];
+
+  SetLength(sG2, 4);
+  G2[0] := RAWSystemInformation.UUID[5];
+  G2[1] := RAWSystemInformation.UUID[4];
+
+  SetLength(sG3, 4);
+  G3[0] := RAWSystemInformation.UUID[7];
+  G3[1] := RAWSystemInformation.UUID[6];
+
+  SetLength(sG4, 4);
+  G4[0] := RAWSystemInformation.UUID[8];
+  G4[1] := RAWSystemInformation.UUID[9];
+
+  SetLength(sG5, 12);
+  Move(RAWSystemInformation.UUID[10], G5[0], Length(G5));
+
+  BinToHex(G1, PAnsiChar(sG1), SizeOf(G1));
+  BinToHex(G2, PAnsiChar(sG2), SizeOf(G2));
+  BinToHex(G3, PAnsiChar(sG3), SizeOf(G3));
+  BinToHex(G4, PAnsiChar(sG4), SizeOf(G4));
+  BinToHex(G5, PAnsiChar(sG5), SizeOf(G5));
+
+  Result := Format('%s-%s-%s-%s-%s', [sG1, sG2, sG3, sG4, sG5]);
 end;
 
 { TOEMStringsInformation }
