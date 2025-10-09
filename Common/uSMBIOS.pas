@@ -25,6 +25,9 @@ interface
 {$IFDEF FPC}
   {$DEFINE NOGENERICS}
   {$MODE objfpc}
+  {$IFDEF MSWINDOWS}
+  {$H+}
+  {$ENDIF}
 {$ELSE}
   {$IFDEF LINUX}
     {$DEFINE UNIX}
@@ -51,7 +54,6 @@ interface
 uses
  SysUtils,
  {$IFDEF MSWINDOWS}
- AnsiStrings,
  Windows,
  {$ENDIF}
  {$IFNDEF NOGENERICS}
@@ -4038,7 +4040,7 @@ type
 const
   SMBIOS_ANCHOR_STRING_VALUE = $5F4D535F;
   // '_DMI_'
-  SMBIOS_INTERMEDIATE_ANCHOR_STRING_VALUE = [$5F, $44, $4D, $49, $5F];
+  SMBIOS_INTERMEDIATE_ANCHOR_STRING_VALUE = [$5F, $44, $4D, $49];
 
 function GetBit(const AValue: DWORD; const Bit: Byte): Boolean;
 begin
