@@ -2,6 +2,10 @@
   <img src="https://github.com/RRUZ/tsmbios/blob/master/images/banner.png?raw=true" alt="tsmbios"/>
 </p>
 
+<p align="center">
+  <a href="https://rruz.github.io/tsmbios/">Project website</a>
+</p>
+
 ## Features
 
 * Supports SMBIOS Version 2.1 to 3.9.
