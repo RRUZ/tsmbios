@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TSMBIOS — SMBIOS Library for Delphi and Free Pascal</title>
+  <meta name="description" content="TSMBIOS is an Object Pascal library for accessing SMBIOS hardware and firmware information from Delphi and Free Pascal on Windows and Linux, with support for SMBIOS 2.1 through 3.9.">
+  <meta name="theme-color" content="#060a0e">
+  <link rel="canonical" href="https://rruz.github.io/tsmbios/">
+  <link rel="icon" type="image/png" href="./assets/tsmbios-logo.png">
+  <link rel="stylesheet" href="./styles.css">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="TSMBIOS">
+  <meta property="og:title" content="TSMBIOS — SMBIOS Library for Delphi and Free Pascal">
+  <meta property="og:description" content="Typed access to SMBIOS 2.1–3.9 hardware and firmware structures from Delphi and Free Pascal on Windows and Linux.">
+  <meta property="og:url" content="https://rruz.github.io/tsmbios/">
+  <meta property="og:image" content="https://rruz.github.io/tsmbios/assets/tsmbios-banner.png">
+  <meta property="og:image:width" content="2172">
+  <meta property="og:image:height" content="724">
+  <meta property="og:image:alt" content="TSMBIOS — SMBIOS access using Object Pascal">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="TSMBIOS — SMBIOS Library for Delphi and Free Pascal">
+  <meta name="twitter:description" content="Typed access to SMBIOS 2.1–3.9 hardware and firmware structures from Object Pascal.">
+  <meta name="twitter:image" content="https://rruz.github.io/tsmbios/assets/tsmbios-banner.png">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <svg class="icon-sprite" aria-hidden="true" focusable="false">
+    <symbol id="icon-types" viewBox="0 0 24 24">
+      <path d="M7 4H5.5A1.5 1.5 0 0 0 4 5.5V9c0 1.7-1 3-2 3 1 0 2 1.3 2 3v3.5A1.5 1.5 0 0 0 5.5 20H7M17 4h1.5A1.5 1.5 0 0 1 20 5.5V9c0 1.7 1 3 2 3-1 0-2 1.3-2 3v3.5a1.5 1.5 0 0 1-1.5 1.5H17M10 8h5M10 12h5M10 16h3"></path>
+    </symbol>
+    <symbol id="icon-grid" viewBox="0 0 24 24">
+      <rect x="3" y="4" width="18" height="16" rx="2"></rect>
+      <path d="M3 9h18M3 14h18M8 4v16M11 6.5h7M11 11.5h5M11 16.5h7"></path>
+    </symbol>
+    <symbol id="icon-terminal" viewBox="0 0 24 24">
+      <path d="M4 5h7l2 3h7v11H4zM8 11l2 2-2 2M13 15h3"></path>
+      <circle cx="18.5" cy="6" r="2.5"></circle>
+      <path d="m17.4 6 0.8.8 1.4-1.6"></path>
+    </symbol>
+    <symbol id="icon-platform" viewBox="0 0 24 24">
+      <rect x="2.5" y="4" width="8" height="16" rx="1.5"></rect>
+      <rect x="13.5" y="4" width="8" height="16" rx="1.5"></rect>
+      <path d="M5 8h3M5 11h3M16 9l2 2-2 2M18.5 15h1"></path>
+    </symbol>
+    <symbol id="icon-remote" viewBox="0 0 24 24">
+      <circle cx="5" cy="12" r="2.5"></circle>
+      <circle cx="19" cy="6" r="2.5"></circle>
+      <circle cx="19" cy="18" r="2.5"></circle>
+      <path d="m7.3 11 9.2-4M7.3 13l9.2 4"></path>
+    </symbol>
+    <symbol id="icon-docs" viewBox="0 0 24 24">
+      <path d="M5 3h10l4 4v14H5zM15 3v5h5M8 12h8M8 16h6"></path>
+    </symbol>
+    <symbol id="icon-chip" viewBox="0 0 24 24">
+      <path d="M6 3h8l4 4v10H6zM14 3v5h5M9 11h6M9 14h4"></path>
+      <path d="M4 19h16M7 19v2M11 19v2M15 19v2M19 19v2"></path>
+    </symbol>
+    <symbol id="icon-cpu" viewBox="0 0 24 24">
+      <rect x="5" y="5" width="14" height="14" rx="3"></rect>
+      <path d="M9 9h6v6H9zM12 9v6M9 12h6"></path>
+      <path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"></path>
+    </symbol>
+    <symbol id="icon-memory" viewBox="0 0 24 24">
+      <rect x="2.5" y="6" width="19" height="12" rx="2"></rect>
+      <path d="M6 10h3v4H6zM11 10h3v4h-3zM16 10h2v4h-2zM6 18v3M10 18v3M14 18v3M18 18v3"></path>
+    </symbol>
+    <symbol id="icon-slots" viewBox="0 0 24 24">
+      <rect x="3" y="4" width="18" height="16" rx="2"></rect>
+      <path d="M7 8v8M11 8v8M15 8v8M19 8v8"></path>
+    </symbol>
+    <symbol id="icon-sensor" viewBox="0 0 24 24">
+      <path d="M5.6 17a8 8 0 1 1 12.8 0M8 17h8M12 13l3.5-3M12 5v2M5 12h2M17 12h2"></path>
+      <circle cx="12" cy="13" r="1.2"></circle>
+    </symbol>
+    <symbol id="icon-security" viewBox="0 0 24 24">
+      <path d="m12 3 7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6zM13 7l-3 6h4l-3 5"></path>
+    </symbol>
+  </svg>
+
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="#top" aria-label="TSMBIOS home">
+        <img src="./assets/tsmbios-logo.png" width="256" height="200" alt="">
+        <span>TSMBIOS</span>
+      </a>
+
+      <nav class="nav" aria-label="Primary navigation">
+        <a href="#overview">Overview</a>
+        <a href="#features">Features</a>
+        <a href="#coverage">Coverage</a>
+        <a href="#code">Code</a>
+        <a href="#compatibility">Compatibility</a>
+      </nav>
+
+      <a class="header-action" href="https://github.com/RRUZ/tsmbios">
+        GitHub <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="hero__grid" aria-hidden="true"></div>
+      <div class="container hero__inner">
+        <div class="hero__content">
+          <p class="eyebrow">Object Pascal <span>·</span> SMBIOS 2.1–3.9</p>
+          <h1 id="hero-title">Typed SMBIOS access for Delphi and Free Pascal.</h1>
+          <p class="hero__description">TSMBIOS exposes BIOS, system, processor, memory, slot, firmware and other SMBIOS structures through a documented Object Pascal API for Windows and Linux.</p>
+
+          <div class="hero__actions">
+            <a class="button button--primary" href="https://github.com/RRUZ/tsmbios">View on GitHub <span aria-hidden="true">↗</span></a>
+            <a class="button button--secondary" href="https://github.com/RRUZ/tsmbios/tree/master/samples%20-%20Delphi">Browse samples <span aria-hidden="true">→</span></a>
+          </div>
+
+          <ul class="meta-strip" aria-label="Project compatibility summary">
+            <li><strong>2.1–3.9</strong><span>SMBIOS</span></li>
+            <li><strong>5–13</strong><span>Delphi</span></li>
+            <li><strong>2.4.0+</strong><span>FPC</span></li>
+            <li><strong>Win + Linux</strong><span>Platforms</span></li>
+            <li><strong>MPL 2.0</strong><span>License</span></li>
+          </ul>
+        </div>
+
+        <div class="hero__visual">
+          <img class="hero__logo" src="./assets/tsmbios-logo.png" width="256" height="200" alt="TSMBIOS chip and wordmark">
+          <div class="code-panel code-panel--hero">
+            <div class="code-panel__header">
+              <span>Object Pascal</span>
+              <span aria-hidden="true">Type 17 · Memory Device</span>
+            </div>
+            <pre tabindex="0"><code><span class="code-keyword">var</span>
+  SMBios: <span class="code-type">TSMBios</span>;
+  Memory: <span class="code-type">TMemoryDeviceInformation</span>;
+<span class="code-keyword">begin</span>
+  SMBios := <span class="code-type">TSMBios</span>.Create;
+  <span class="code-keyword">try</span>
+    <span class="code-keyword">if</span> SMBios.HasMemoryDeviceInfo <span class="code-keyword">then</span>
+      <span class="code-keyword">for</span> Memory <span class="code-keyword">in</span> SMBios.MemoryDeviceInfo <span class="code-keyword">do</span>
+        WriteLn(Memory.ManufacturerStr);
+  <span class="code-keyword">finally</span>
+    SMBios.Free;
+  <span class="code-keyword">end</span>;
+<span class="code-keyword">end</span>;</code></pre>
+          </div>
+          <div class="hero__signal hero__signal--one" aria-hidden="true"></div>
+          <div class="hero__signal hero__signal--two" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--overview" id="overview" aria-labelledby="overview-title">
+      <div class="container overview-grid">
+        <div>
+          <p class="eyebrow">The library</p>
+          <h2 class="section-title" id="overview-title">SMBIOS structures as native Object Pascal types.</h2>
+          <p class="section-lead">SMBIOS describes hardware and firmware information exposed by the system firmware. TSMBIOS reads that data and maps supported structures into Object Pascal records and classes that can be used directly from Delphi and Free Pascal code.</p>
+        </div>
+
+        <div class="data-flow" aria-label="Data flows from system firmware through SMBIOS and TSMBIOS into typed Object Pascal structures">
+          <div class="data-flow__source">
+            <span class="data-flow__label">Source</span>
+            <strong>System firmware</strong>
+          </div>
+          <span class="data-flow__arrow" aria-hidden="true">→</span>
+          <div class="data-flow__core">
+            <span class="data-flow__label">Standard</span>
+            <strong>SMBIOS</strong>
+            <small>raw structures</small>
+          </div>
+          <span class="data-flow__arrow" aria-hidden="true">→</span>
+          <div class="data-flow__output">
+            <span class="data-flow__label">Typed API</span>
+            <strong>TSMBIOS</strong>
+            <ul>
+              <li>BIOS</li>
+              <li>System</li>
+              <li>Processor</li>
+              <li>Memory</li>
+              <li>Slots</li>
+              <li>Firmware</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="features" aria-labelledby="features-title">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">Capabilities</p>
+          <h2 class="section-title" id="features-title">Low-level hardware information without leaving Object Pascal.</h2>
+        </div>
+
+        <div class="feature-grid">
+          <article class="feature-card">
+            <span class="card-icon"><svg aria-hidden="true"><use href="#icon-types"></use></svg></span>
+            <h3>Typed SMBIOS structures</h3>
+            <p>Work with supported table types through Object Pascal records, classes, properties and helper methods.</p>
+          </article>
+          <article class="feature-card">
+            <span class="card-icon"><svg aria-hidden="true"><use href="#icon-grid"></use></svg></span>
+            <h3>Broad SMBIOS coverage</h3>
+            <p>Support spans SMBIOS 2.1 through 3.9, including modern fixed-layout fields introduced across SMBIOS 3.x.</p>
+          </article>
+          <article class="feature-card">
+            <span class="card-icon"><svg aria-hidden="true"><use href="#icon-terminal"></use></svg></span>
+            <h3>Delphi + Free Pascal</h3>
+            <p>Broad compiler support preserves compatibility with both long-lived and current Object Pascal codebases.</p>
+          </article>
+          <article class="feature-card">
+            <span class="card-icon"><svg aria-hidden="true"><use href="#icon-platform"></use></svg></span>
+            <h3>Windows + Linux</h3>
+            <p>Use the library in Object Pascal applications on supported Windows and Linux systems.</p>
+          </article>
+          <article class="feature-card">
+            <span class="card-icon"><svg aria-hidden="true"><use href="#icon-remote"></use></svg></span>
+            <h3>Remote access with WMI</h3>
+            <p>On supported Windows scenarios, SMBIOS data can also be read from remote machines through WMI.</p>
+          </article>
+          <article class="feature-card">
+            <span class="card-icon"><svg aria-hidden="true"><use href="#icon-docs"></use></svg></span>
+            <h3>Built-in documentation</h3>
+            <p>XMLDoc integrates with Delphi Help Insight, keeping structure and field information available while coding.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--band" id="compatibility" aria-labelledby="compatibility-title">
+      <div class="container">
+        <div class="section-heading section-heading--wide">
+          <div>
+            <p class="eyebrow">Compatibility</p>
+            <h2 class="section-title" id="compatibility-title">Designed for legacy and current Object Pascal toolchains.</h2>
+          </div>
+          <p class="section-note">One source library, maintained across a deliberately broad compiler range.</p>
+        </div>
+
+        <div class="compatibility-grid">
+          <article class="compatibility-card">
+            <span class="compatibility-card__label">Delphi</span>
+            <div class="compatibility-card__range">
+              <strong>5</strong><span aria-hidden="true">→</span><strong>13</strong>
+            </div>
+            <p class="compatibility-card__meta">Florence</p>
+            <p>Broad compiler coverage for existing and modern Delphi codebases.</p>
+          </article>
+          <article class="compatibility-card">
+            <span class="compatibility-card__label">Free Pascal</span>
+            <div class="compatibility-card__range compatibility-card__range--single">
+              <strong>2.4.0+</strong>
+            </div>
+            <p class="compatibility-card__meta">FPC</p>
+            <p>Object Pascal samples for supported Windows and Linux targets.</p>
+          </article>
+          <article class="compatibility-card">
+            <span class="compatibility-card__label">Platforms</span>
+            <div class="compatibility-card__range compatibility-card__range--platforms">
+              <strong>Windows</strong><strong>Linux</strong>
+            </div>
+            <p class="compatibility-card__meta">Local acquisition</p>
+            <p>Platform-specific loading is exposed through the same TSMBIOS API.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="coverage" aria-labelledby="coverage-title">
+      <div class="container">
+        <div class="coverage-intro">
+          <div>
+            <p class="eyebrow">SMBIOS tables</p>
+            <h2 class="section-title" id="coverage-title">Coverage from BIOS information to modern firmware inventory.</h2>
+          </div>
+          <div class="coverage-count" aria-label="Supported standard table types 0 through 46">
+            <span>Standard types</span>
+            <strong>0–46</strong>
+          </div>
+        </div>
+
+        <div class="coverage-grid">
+          <article class="coverage-card">
+            <header><span class="card-icon"><svg aria-hidden="true"><use href="#icon-chip"></use></svg></span><h3>System + firmware</h3></header>
+            <ul>
+              <li><code>Type 0</code> BIOS Information</li>
+              <li><code>Type 1</code> System Information</li>
+              <li><code>Type 2</code> Baseboard Information</li>
+              <li><code>Type 3</code> System Enclosure</li>
+              <li><code>Type 45</code> Firmware Inventory</li>
+              <li><code>Type 46</code> String Property</li>
+            </ul>
+          </article>
+          <article class="coverage-card">
+            <header><span class="card-icon"><svg aria-hidden="true"><use href="#icon-cpu"></use></svg></span><h3>Processor + cache</h3></header>
+            <ul>
+              <li><code>Type 4</code> Processor Information</li>
+              <li><code>Type 7</code> Cache Information</li>
+              <li><code>Type 44</code> Processor Additional Information</li>
+            </ul>
+          </article>
+          <article class="coverage-card">
+            <header><span class="card-icon"><svg aria-hidden="true"><use href="#icon-memory"></use></svg></span><h3>Memory</h3></header>
+            <ul>
+              <li><code>Type 16</code> Physical Memory Array</li>
+              <li><code>Type 17</code> Memory Device</li>
+              <li><code>Type 19</code> Array Mapped Address</li>
+              <li><code>Type 20</code> Device Mapped Address</li>
+              <li><code>Type 33</code> 64-Bit Memory Error</li>
+              <li><code>Type 37</code> Memory Channel</li>
+            </ul>
+          </article>
+          <article class="coverage-card">
+            <header><span class="card-icon"><svg aria-hidden="true"><use href="#icon-slots"></use></svg></span><h3>Slots + onboard</h3></header>
+            <ul>
+              <li><code>Type 8</code> Port Connector</li>
+              <li><code>Type 9</code> System Slots</li>
+              <li><code>Type 10</code> On Board Devices</li>
+              <li><code>Type 41</code> Onboard Devices Extended</li>
+            </ul>
+          </article>
+          <article class="coverage-card">
+            <header><span class="card-icon"><svg aria-hidden="true"><use href="#icon-sensor"></use></svg></span><h3>Management + sensors</h3></header>
+            <ul>
+              <li><code>Type 15</code> System Event Log</li>
+              <li><code>Types 26–29</code> Hardware probes</li>
+              <li><code>Types 34–36</code> Management devices</li>
+              <li><code>Type 38</code> IPMI Device Information</li>
+              <li><code>Type 42</code> Controller Host Interface</li>
+            </ul>
+          </article>
+          <article class="coverage-card">
+            <header><span class="card-icon"><svg aria-hidden="true"><use href="#icon-security"></use></svg></span><h3>Security + power</h3></header>
+            <ul>
+              <li><code>Type 22</code> Portable Battery</li>
+              <li><code>Type 23</code> System Reset</li>
+              <li><code>Type 24</code> Hardware Security</li>
+              <li><code>Type 39</code> System Power Supply</li>
+              <li><code>Type 43</code> TPM Device</li>
+            </ul>
+          </article>
+        </div>
+
+        <a class="text-link coverage-link" href="https://github.com/RRUZ/tsmbios#smbios-tables-supported">View complete table coverage on GitHub <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+
+    <section class="section section--modern" aria-labelledby="modern-title">
+      <div class="container modern-grid">
+        <div>
+          <p class="eyebrow">Modern SMBIOS</p>
+          <h2 class="section-title" id="modern-title">Current structures, not just legacy DMI fields.</h2>
+          <p class="section-lead">The typed API exposes fixed-layout fields added across SMBIOS 3.x while retaining the table coverage used by older systems.</p>
+        </div>
+
+        <div class="field-grid" aria-label="Examples of supported modern SMBIOS fields">
+          <span>BIOS ROM size</span>
+          <span>Core / thread counts</span>
+          <span>Extended cache sizes</span>
+          <span>System slot bus data</span>
+          <span>Memory technology</span>
+          <span>Memory firmware</span>
+          <span>Persistent-memory sizes</span>
+          <span>Configured memory speed</span>
+          <span>PMIC information</span>
+          <span>RCD information</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="code" aria-labelledby="code-title">
+      <div class="container code-section-grid">
+        <div class="code-section__copy">
+          <p class="eyebrow">Object Pascal API</p>
+          <h2 class="section-title" id="code-title">Read hardware information with normal Pascal code.</h2>
+          <p class="section-lead">Create a <code>TSMBios</code> instance, test whether a structure is present, then work with typed information objects and helpers.</p>
+          <ol class="code-steps">
+            <li><span>01</span>Create the SMBIOS reader</li>
+            <li><span>02</span>Query available table types</li>
+            <li><span>03</span>Read typed fields and strings</li>
+          </ol>
+          <div class="inline-links">
+            <a class="text-link" href="https://github.com/RRUZ/tsmbios/tree/master/samples%20-%20Delphi">Delphi samples <span aria-hidden="true">→</span></a>
+            <a class="text-link" href="https://github.com/RRUZ/tsmbios/tree/master/samples%20-%20FPC">FPC samples <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+
+        <div class="code-panel code-panel--large">
+          <div class="code-panel__header">
+            <span>MemoryDeviceInfo.dpr</span>
+            <span>Object Pascal</span>
+          </div>
+          <pre tabindex="0"><code><span class="code-keyword">procedure</span> <span class="code-symbol">ShowMemoryDevices</span>;
+<span class="code-keyword">var</span>
+  SMBios: <span class="code-type">TSMBios</span>;
+  Memory: <span class="code-type">TMemoryDeviceInformation</span>;
+<span class="code-keyword">begin</span>
+  SMBios := <span class="code-type">TSMBios</span>.Create;
+  <span class="code-keyword">try</span>
+    <span class="code-keyword">if</span> SMBios.HasMemoryDeviceInfo <span class="code-keyword">then</span>
+      <span class="code-keyword">for</span> Memory <span class="code-keyword">in</span> SMBios.MemoryDeviceInfo <span class="code-keyword">do</span>
+      <span class="code-keyword">begin</span>
+        WriteLn(Format(<span class="code-string">'Size: %d MB'</span>,
+          [Memory.GetSize]));
+        WriteLn(Format(<span class="code-string">'Type: %s'</span>,
+          [Memory.GetMemoryTypeStr]));
+        WriteLn(Format(<span class="code-string">'Speed: %d MT/s'</span>,
+          [Memory.GetSpeed]));
+        WriteLn(Format(<span class="code-string">'Manufacturer: %s'</span>,
+          [Memory.ManufacturerStr]));
+      <span class="code-keyword">end</span>;
+  <span class="code-keyword">finally</span>
+    SMBios.Free;
+  <span class="code-keyword">end</span>;
+<span class="code-keyword">end</span>;</code></pre>
+          <div class="code-panel__footer">Adapted from the repository's Type 17 Delphi sample.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--docs" aria-labelledby="docs-title">
+      <div class="container docs-grid">
+        <div class="docs-source" aria-label="Extract from uSMBIOS.pas showing XMLDoc for the L1CacheHandle field">
+          <div class="docs-source__header">
+            <span>uSMBIOS.pas</span>
+            <span>Type 4 · Processor Information</span>
+          </div>
+          <pre tabindex="0"><code><span class="code-comment">/// &lt;summary&gt;</span>
+<span class="code-comment">/// The handle of a Cache Information structure</span>
+<span class="code-comment">/// that defines the attributes of the primary</span>
+<span class="code-comment">/// (Level 1) cache for this processor.</span>
+<span class="code-comment">/// &lt;/summary&gt;</span>
+<span class="code-comment">/// &lt;remarks&gt;</span>
+<span class="code-comment">/// 2.1+</span>
+<span class="code-comment">/// &lt;/remarks&gt;</span>
+<span class="code-symbol">L1CacheHandle</span>: <span class="code-type">Word</span>;</code></pre>
+          <p>Source XMLDoc · available through Delphi Help Insight.</p>
+        </div>
+
+        <div class="docs-copy">
+          <p class="eyebrow">Documented API</p>
+          <h2 class="section-title" id="docs-title">SMBIOS documentation where you write code.</h2>
+          <p class="section-lead">TSMBIOS includes XMLDoc documentation that can be surfaced through Delphi Help Insight, making structure definitions and version-specific field information available directly in the IDE. The excerpt shown here comes from the library source.</p>
+          <div class="docs-facts">
+            <div><span>Format</span><strong>XMLDoc</strong></div>
+            <div><span>IDE surface</span><strong>Help Insight</strong></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="platform-title">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">Platforms</p>
+          <h2 class="section-title" id="platform-title">Local hardware. Remote Windows systems.</h2>
+        </div>
+
+        <div class="access-grid">
+          <article class="access-card">
+            <header>
+              <span class="status-dot" aria-hidden="true"></span>
+              <div><span>Local</span><h3>Windows + Linux</h3></div>
+            </header>
+            <p>Read SMBIOS information from supported Windows and Linux systems through the library.</p>
+            <div class="access-flow" aria-label="Application to TSMBIOS to local SMBIOS data">
+              <span>Application</span><b aria-hidden="true">→</b><span>TSMBIOS</span><b aria-hidden="true">→</b><span>SMBIOS</span>
+            </div>
+          </article>
+
+          <article class="access-card">
+            <header>
+              <span class="status-dot status-dot--remote" aria-hidden="true"></span>
+              <div><span>Remote / Windows</span><h3>WMI access</h3></div>
+            </header>
+            <p>Read SMBIOS data from remote machines using WMI where the Windows environment and credentials allow it.</p>
+            <div class="access-flow" aria-label="Application to WMI to remote system SMBIOS data">
+              <span>Application</span><b aria-hidden="true">→</b><span>WMI</span><b aria-hidden="true">→</b><span>Remote SMBIOS</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--samples" aria-labelledby="samples-title">
+      <div class="container">
+        <div class="section-heading section-heading--wide">
+          <div>
+            <p class="eyebrow">Samples</p>
+            <h2 class="section-title" id="samples-title">Examples for the major SMBIOS table types.</h2>
+          </div>
+          <p class="section-note">The repository organizes table-focused examples by toolchain.</p>
+        </div>
+
+        <div class="sample-grid">
+          <a class="sample-card" href="https://github.com/RRUZ/tsmbios/tree/master/samples%20-%20Delphi">
+            <span class="sample-card__mark">.PAS</span>
+            <div><h3>Delphi</h3><p>Table-oriented Object Pascal sample projects, plus a utility that lists discovered SMBIOS tables.</p></div>
+            <span class="sample-card__arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="sample-card" href="https://github.com/RRUZ/tsmbios/tree/master/samples%20-%20FPC">
+            <span class="sample-card__mark">.LPR</span>
+            <div><h3>Free Pascal</h3><p>FPC examples covering the same SMBIOS hardware-information domain on supported targets.</p></div>
+            <span class="sample-card__arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="sample-card" href="https://github.com/RRUZ/tsmbios/tree/master/samples%20-%20C%2B%2BBuilder">
+            <span class="sample-card__mark">.CPP</span>
+            <div><h3>C++Builder</h3><p>Table-focused C++Builder examples using the project’s generated interface.</p></div>
+            <span class="sample-card__arrow" aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section final-cta" aria-labelledby="cta-title">
+      <div class="container final-cta__inner">
+        <div>
+          <p class="eyebrow">Open source <span>·</span> MPL 2.0</p>
+          <h2 id="cta-title">Bring SMBIOS data into your Object Pascal code.</h2>
+          <p>Explore the source, browse table-specific samples, and use TSMBIOS in Delphi or Free Pascal projects.</p>
+        </div>
+        <div class="final-cta__actions">
+          <a class="button button--primary" href="https://github.com/RRUZ/tsmbios">View on GitHub <span aria-hidden="true">↗</span></a>
+          <a class="button button--secondary" href="https://github.com/RRUZ/tsmbios/tree/master/samples%20-%20Delphi">Browse samples <span aria-hidden="true">→</span></a>
+          <a class="text-link" href="https://github.com/RRUZ/tsmbios/blob/master/LICENSE.md">Mozilla Public License 2.0</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <div class="site-footer__brand">
+        <strong>TSMBIOS</strong>
+        <span>SMBIOS access for Object Pascal.</span>
+      </div>
+      <nav aria-label="Footer navigation">
+        <a href="https://github.com/RRUZ/tsmbios">GitHub</a>
+        <a href="https://github.com/RRUZ/tsmbios/tree/master/samples%20-%20Delphi">Delphi samples</a>
+        <a href="https://github.com/RRUZ/tsmbios/tree/master/samples%20-%20FPC">FPC samples</a>
+        <a href="https://github.com/RRUZ/tsmbios/blob/master/LICENSE.md">MPL 2.0</a>
+      </nav>
+      <p>© 2026 Rodrigo Ruz.</p>
+    </div>
+  </footer>
+</body>
+</html>
