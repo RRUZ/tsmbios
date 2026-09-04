@@ -1,0 +1,3945 @@
+[
+  {
+    "id": 0,
+    "name": "BIOS Information",
+    "group": "system",
+    "brief": "BIOS vendor, release, capabilities and ROM size.",
+    "property": "BiosInfo",
+    "className": "TBiosInformation",
+    "enumName": "BIOSInformation",
+    "fields": [
+      {
+        "name": "Vendor",
+        "type": "Byte",
+        "description": "String number of the BIOS Vendors Name.",
+        "version": "2.0+"
+      },
+      {
+        "name": "Version",
+        "type": "Byte",
+        "description": "String number of the BIOS Version. This is a freeform string that may contain Core and OEM version information.",
+        "version": "2.0+"
+      },
+      {
+        "name": "StartingSegment",
+        "type": "Word",
+        "description": "Segment location of BIOS starting address (for example, 0E800h). NOTE: The size of the runtime BIOS image can be computed by subtracting the Starting Address Segment from 10000h and multiplying the result by 16.",
+        "version": "2.0+"
+      },
+      {
+        "name": "ReleaseDate",
+        "type": "Byte",
+        "description": "String number of the BIOS release date. The date string, if supplied, is in either mm/dd/yy or mm/dd/yyyy format. If the year portion of the string is two digits, the year is assumed to be 19yy. NOTE: The mm/dd/yyyy format is required for SMBIOS version 2.3 and later.",
+        "version": "2.0+"
+      },
+      {
+        "name": "BiosRomSize",
+        "type": "Byte",
+        "description": "Size (n) where 64K * (n+1) is the size of the physical device containing the BIOS, in bytes",
+        "version": "2.0+"
+      },
+      {
+        "name": "Characteristics",
+        "type": "Int64",
+        "description": "Defines which functions the BIOS supports: PCI, PCMCIA, Flash, etc.",
+        "version": "2.0+"
+      },
+      {
+        "name": "ExtensionBytes",
+        "type": "array [0 .. 1] of Byte",
+        "description": "Optional space reserved for future supported functions. The number of Extension Bytes that are present is indicated by the Length in offset 1 minus 12h.For version 2.4 and later implementations, two BIOS Characteristics Extension Bytes are defined (12-13h) and bytes 14- 17h are also defined",
+        "version": "2.0+"
+      },
+      {
+        "name": "SystemBIOSMajorRelease",
+        "type": "Byte",
+        "description": "Identifies the major release of the System BIOS; for example, the value is 0Ah for revision 10.22 and 02h for revision 2.1. This field and/or the System BIOS Minor Release field is updated each time a System BIOS update for a given system is released. If the system does not support the use of this field, the value is 0FFh for both this field and the System BIOS Minor Release field.",
+        "version": "2.0+"
+      },
+      {
+        "name": "SystemBIOSMinorRelease",
+        "type": "Byte",
+        "description": "Identifies the minor release of the System BIOS; for example, the value is 16h for revision 10.22 and 01h for revision 2.1.",
+        "version": "2.0+"
+      },
+      {
+        "name": "EmbeddedControllerFirmwareMajorRelease",
+        "type": "Byte",
+        "description": "Identifies the major release of the embedded controller firmware; for example, the value would be 0Ah for revision 10.22 and 02h for revision 2.1. This field and/or the Embedded Controller Firmware Minor Release field is updated each time an embedded controller firmware update for a given system is released. If the system does not have field upgradeable embedded controller firmware, the value is 0FFh.",
+        "version": "2.0+"
+      },
+      {
+        "name": "EmbeddedControllerFirmwareMinorRelease",
+        "type": "Byte",
+        "description": "Identifies the minor release of the embedded controller firmware; for example, the value is 16h for revision 10.22 and 01h for revision 2.1. If the system does not have field upgradeable embedded controller firmware, the value is 0FFh.",
+        "version": "2.0+"
+      },
+      {
+        "name": "ExtendedBiosRomSize",
+        "type": "Word",
+        "description": "Extended BIOS ROM size. Used when BiosRomSize is FFh. Bits 13:0 contain the size, and bits 15:14 select MB or GB units.",
+        "version": "3.1+"
+      }
+    ],
+    "methods": [
+      "VendorStr: AnsiString",
+      "VersionStr: AnsiString",
+      "ReleaseDateStr: AnsiString",
+      "HasExtendedBiosRomSize: Boolean",
+      "GetExtendedBiosRomSize: Word"
+    ],
+    "relations": [],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%200%20Bios%20Info/BIOSInfo.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%200%20Bios%20Info/BIOSInfo.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%200%20Bios%20Info/BIOSInfo.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L334",
+    "legacy": false
+  },
+  {
+    "id": 1,
+    "name": "System Information",
+    "group": "system",
+    "brief": "System manufacturer, product, UUID and identifying strings.",
+    "property": "SysInfo",
+    "className": "TSystemInformation",
+    "enumName": "SystemInformation",
+    "fields": [
+      {
+        "name": "Manufacturer",
+        "type": "Byte",
+        "description": "Number of Null terminated string",
+        "version": "2.0+"
+      },
+      {
+        "name": "ProductName",
+        "type": "Byte",
+        "description": "Number of Null terminated string",
+        "version": "2.0+"
+      },
+      {
+        "name": "Version",
+        "type": "Byte",
+        "description": "Number of Null terminated string",
+        "version": "2.0+"
+      },
+      {
+        "name": "SerialNumber",
+        "type": "Byte",
+        "description": "Number of Null terminated string",
+        "version": "2.0+"
+      },
+      {
+        "name": "UUID",
+        "type": "array [0 .. 15] of Byte",
+        "description": "Universal Unique ID number, A UUID is an identifier that is designed to be unique across both time and space. It requires no central registration process. The UUID is 128 bits long. Its format is described in RFC 4122, but the actual field contents are opaque and not significant to the SMBIOS specification, which is only concerned with the byte order.",
+        "version": "2.1+"
+      },
+      {
+        "name": "WakeUpType",
+        "type": "Byte",
+        "description": "Identifies the event that caused the system to power up.",
+        "version": "2.1+"
+      },
+      {
+        "name": "SKUNumber",
+        "type": "Byte",
+        "description": "Number of Null terminated string This text string is used to identify a particular computer configuration for sale. It is sometimes also called a product ID or purchase order number. This number is frequently found in existing fields, but there is no standard format. Typically for a given system board from a given OEM, there are tens of unique processor, memory, hard drive, and optical drive configurations.",
+        "version": "2.4+"
+      },
+      {
+        "name": "Family",
+        "type": "Byte",
+        "description": "Number of Null terminated string This text string is used to identify the family a particular computer belongs to. A family refers to a set of computers that are similar but not identical from a hardware or software point of view. Typically, a family is composed of different computer models, which have different configurations and pricing points. Computers in the same family often have similar branding and cosmetic features",
+        "version": "2.4+"
+      }
+    ],
+    "methods": [
+      "ManufacturerStr: AnsiString",
+      "ProductNameStr: AnsiString",
+      "VersionStr: AnsiString",
+      "SerialNumberStr: AnsiString",
+      "HasUUID: Boolean",
+      "UUIDStr: AnsiString",
+      "HasWakeUpType: Boolean",
+      "WakeUpTypeStr: AnsiString",
+      "SKUNumberStr: AnsiString",
+      "HasSKUNumber: Boolean",
+      "FamilyStr: AnsiString",
+      "HasFamily: Boolean"
+    ],
+    "relations": [],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%201%20System%20Info/SystemInfo.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%201%20System%20Info/SystemInfo.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%201%20System%20Info/SystemInfo.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L471",
+    "legacy": false
+  },
+  {
+    "id": 2,
+    "name": "Baseboard (or Module) Information",
+    "group": "system",
+    "brief": "Baseboard identity, features and the containing chassis.",
+    "property": "BaseBoardInfo",
+    "className": "TBaseBoardInformation",
+    "enumName": "BaseBoardInformation",
+    "fields": [
+      {
+        "name": "Manufacturer",
+        "type": "Byte",
+        "description": "Number of Null terminated string",
+        "version": "2.0+"
+      },
+      {
+        "name": "Product",
+        "type": "Byte",
+        "description": "Number of Null terminated string",
+        "version": "2.0+"
+      },
+      {
+        "name": "Version",
+        "type": "Byte",
+        "description": "Number of Null terminated string",
+        "version": "2.0+"
+      },
+      {
+        "name": "SerialNumber",
+        "type": "Byte",
+        "description": "Number of Null terminated string",
+        "version": "2.0+"
+      },
+      {
+        "name": "AssetTag",
+        "type": "Byte",
+        "description": "Number of a null-terminated string",
+        "version": "2.0+"
+      },
+      {
+        "name": "FeatureFlags",
+        "type": "Byte",
+        "description": "A collection of flags that identify features of this baseboard.",
+        "version": "2.0+"
+      },
+      {
+        "name": "LocationinChassis",
+        "type": "Byte",
+        "description": "Number of a null-terminated string that describes this board's location within the chassis referenced by the Chassis Handle NOTE: This field supports a CIM_Container class mapping where: LocationWithinContainer is this field. GroupComponent is the chassis referenced by Chassis Handle. PartComponent is this baseboard.",
+        "version": "2.0+"
+      },
+      {
+        "name": "ChassisHandle",
+        "type": "Word",
+        "description": "The handle, or instance number, associated with the chassis in which this board resides",
+        "version": "2.0+"
+      },
+      {
+        "name": "BoardType",
+        "type": "Byte",
+        "description": "Identifies the type of board",
+        "version": "2.0+"
+      },
+      {
+        "name": "NumberofContainedObjectHandles",
+        "type": "Byte",
+        "description": "Identifies the number (0 to 255) of Contained Object Handles that follow",
+        "version": "2.0+"
+      }
+    ],
+    "methods": [
+      "BoardTypeStr: AnsiString",
+      "ManufacturerStr: AnsiString",
+      "ProductStr: AnsiString",
+      "VersionStr: AnsiString",
+      "SerialNumberStr: AnsiString",
+      "AssetTagStr: AnsiString",
+      "LocationinChassisStr: AnsiString"
+    ],
+    "relations": [
+      [
+        3,
+        "Containing chassis"
+      ]
+    ],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%202%20Base%20Board%20Information/BaseBoardInformation.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%202%20Base%20Board%20Information/BaseBoardInformation.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%202%20Base%20Board%20Information/BaseBoardInformation.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L687",
+    "legacy": false
+  },
+  {
+    "id": 3,
+    "name": "System Enclosure or Chassis",
+    "group": "system",
+    "brief": "Chassis type, manufacturer, asset identity and reported state.",
+    "property": "EnclosureInfo",
+    "className": "TEnclosureInformation",
+    "enumName": "EnclosureInformation",
+    "fields": [
+      {
+        "name": "Manufacturer",
+        "type": "Byte",
+        "description": "Number of Null terminated string",
+        "version": "2.0+"
+      },
+      {
+        "name": "_Type",
+        "type": "Byte",
+        "description": "Bit 7 Chassis lock is present if 1. Otherwise, either a lock is not present or it is unknown if the enclosure has a lock. Bits 6:0 Enumeration value.",
+        "version": "2.0+"
+      },
+      {
+        "name": "Version",
+        "type": "Byte",
+        "description": "Number of Null terminated string",
+        "version": "2.0+"
+      },
+      {
+        "name": "SerialNumber",
+        "type": "Byte",
+        "description": "Number of Null terminated string",
+        "version": ""
+      },
+      {
+        "name": "AssetTagNumber",
+        "type": "Byte",
+        "description": "Number of Null terminated string",
+        "version": "2.0+"
+      },
+      {
+        "name": "BootUpState",
+        "type": "Byte",
+        "description": "Identifies the state of the enclosure when it was last booted.",
+        "version": "2.1+"
+      },
+      {
+        "name": "PowerSupplyState",
+        "type": "Byte",
+        "description": "Identifies the state of the enclosures power supply (or supplies) when last booted.",
+        "version": "2.1+"
+      },
+      {
+        "name": "ThermalState",
+        "type": "Byte",
+        "description": "Identifies the enclosures thermal state when last booted.",
+        "version": "2.1+"
+      },
+      {
+        "name": "SecurityStatus",
+        "type": "Byte",
+        "description": "Identifies the enclosures physical security status when last booted.",
+        "version": "2.1+"
+      },
+      {
+        "name": "OEM_Defined",
+        "type": "DWORD",
+        "description": "Contains OEM- or BIOS vendor-specific information.",
+        "version": "2.3+"
+      },
+      {
+        "name": "Height",
+        "type": "Byte",
+        "description": "The height of the enclosure, in 'U's. A U is a standard unit of measure for the height of a rack or rack-mountable component and is equal to 1.75 inches or 4.445 cm. A value of 00h indicates that the enclosure height is unspecified.",
+        "version": "2.3+"
+      },
+      {
+        "name": "NumberofPowerCords",
+        "type": "Byte",
+        "description": "Identifies the number of power cords associated with the enclosure or chassis. A value of 00h indicates that the number is unspecified.",
+        "version": "2.3+"
+      },
+      {
+        "name": "ContainedElementCount",
+        "type": "Byte",
+        "description": "Identifies the number of Contained Element records that follow, in the range 0 to 255. Each Contained Element group comprises m bytes, as specified by the Contained Element Record Length field that follows. If no Contained Elements are included, this field is set to 0.",
+        "version": "2.3+"
+      },
+      {
+        "name": "ContainedElementRecordLength",
+        "type": "Byte",
+        "description": "Identifies the byte length of each Contained Element record that follows, in the range 0 to 255. If no Contained Elements are included, this field is set to 0. For version 2.3.2 and later of this specification, this field is set to at least 03h when Contained Elements are specified.",
+        "version": "2.3+"
+      }
+    ],
+    "methods": [
+      "ManufacturerStr: AnsiString",
+      "VersionStr: AnsiString",
+      "SerialNumberStr: AnsiString",
+      "AssetTagNumberStr: AnsiString",
+      "TypeStr: AnsiString",
+      "BootUpStateStr: AnsiString",
+      "PowerSupplyStateStr: AnsiString"
+    ],
+    "relations": [],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%203%20Enclosure%20Information/EnclosureInfo.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%203%20Enclosure%20Information/EnclosureInfo.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%203%20Enclosure%20Information/EnclosureInfo.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L889",
+    "legacy": false
+  },
+  {
+    "id": 4,
+    "name": "Processor Information",
+    "group": "processor",
+    "brief": "Processor sockets, families, core counts and linked caches.",
+    "property": "ProcessorInfo",
+    "className": "TProcessorInformation",
+    "enumName": "ProcessorInformation",
+    "fields": [
+      {
+        "name": "SocketDesignation",
+        "type": "Byte",
+        "description": "String number for Reference Designation EXAMPLE: J202,0",
+        "version": "2.0+"
+      },
+      {
+        "name": "ProcessorType",
+        "type": "Byte",
+        "description": "",
+        "version": "2.0+"
+      },
+      {
+        "name": "ProcessorFamily",
+        "type": "Byte",
+        "description": "",
+        "version": "2.0+"
+      },
+      {
+        "name": "ProcessorManufacturer",
+        "type": "Byte",
+        "description": "String number of Processor Manufacturer",
+        "version": "2.0+"
+      },
+      {
+        "name": "ProcessorID",
+        "type": "Int64",
+        "description": "Raw processor identification data. The Processor ID field contains processor-specific information that describes the processors features. x86-Class CPUs For x86 class CPUs, the fields format depends on the processors support of the CPUID instruction. If the instruction is supported, the Processor ID field contains two DWORD-formatted values. The first (offsets 08h-0Bh) is the EAX value returned by a CPUID instruction with input EAX set to 1; the second (offsets 0Ch-0Fh) is the EDX value returned by that instruction. Otherwise, only the first two bytes of the Processor ID field are significant (all others are set to 0) and contain (in WORD-format) the contents of the DX register at CPU reset.",
+        "version": "2.0+"
+      },
+      {
+        "name": "ProcessorVersion",
+        "type": "Byte",
+        "description": "String number describing the Processor",
+        "version": "2.0+"
+      },
+      {
+        "name": "Voltaje",
+        "type": "Byte",
+        "description": "Two forms of information can be specified by the SMBIOS in this field, dependent on the value present in bit 7 (the most-significant bit). If bit 7 is 0 (legacy mode), the remaining bits of the field represent the specific voltages that the processor socket can accept.",
+        "version": "2.0+"
+      },
+      {
+        "name": "ExternalClock",
+        "type": "Word",
+        "description": "External Clock Frequency, in MHz. If the value is unknown, the field is set to 0.",
+        "version": "2.0+"
+      },
+      {
+        "name": "MaxSpeed",
+        "type": "Word",
+        "description": "Maximum processor speed (in MHz) supported by the system for this processor socket. 0E9h for a 233 MHz processor. If the value is unknown, the field is set to 0. NOTE: This field identifies a capability for the system, not the processor itself.",
+        "version": "2.0+"
+      },
+      {
+        "name": "CurrentSpeed",
+        "type": "Word",
+        "description": "Same format as Max Speed NOTE: This field identifies the processor's speed at system boot, and the Processor ID field implies the processor's additional speed characteristics (that is, single speed or multiple speed).",
+        "version": "2.0+"
+      },
+      {
+        "name": "Status",
+        "type": "Byte",
+        "description": "Bit 7 Reserved, must be zero Bit 6 CPU Socket Populated 1 CPU Socket Populated 0 CPU Socket Unpopulated Bits 5:3 Reserved, must be zero Bits 2:0 CPU Status 0h Unknown 1h CPU Enabled 2h CPU Disabled by User through BIOS Setup 3h CPU Disabled By BIOS (POST Error) 4h CPU is Idle, waiting to be enabled. 5-6h Reserved 7h Other",
+        "version": "2.0+"
+      },
+      {
+        "name": "ProcessorUpgrade",
+        "type": "Byte",
+        "description": "",
+        "version": "2.0+"
+      },
+      {
+        "name": "L1CacheHandle",
+        "type": "Word",
+        "description": "The handle of a Cache Information structure that defines the attributes of the primary (Level 1) cache for this processor. For version 2.1 and version 2.2 implementations, the value is 0FFFFh if the processor has no L1 cache. For version 2.3 and later implementations, the value is 0FFFFh if the Cache Information structure is not provided.",
+        "version": "2.1+"
+      },
+      {
+        "name": "L2CacheHandle",
+        "type": "Word",
+        "description": "The handle of a Cache Information structure that defines the attributes of the secondary (Level 2) cache for this processor. For version 2.1 and version 2.2 implementations, the value is 0FFFFh if the processor has no L2 cache. For version 2.3 and later implementations, the value is 0FFFFh if the Cache Information structure is not provided.",
+        "version": "2.1+"
+      },
+      {
+        "name": "L3CacheHandle",
+        "type": "Word",
+        "description": "The handle of a Cache Information structure that defines the attributes of the tertiary (Level 3) cache for this processor. For version 2.1 and version 2.2 implementations, the value is 0FFFFh if the processor has no L3 cache. For version 2.3 and later implementations, the value is 0FFFFh if the Cache Information structure is not provided.",
+        "version": "2.1+"
+      },
+      {
+        "name": "SerialNumber",
+        "type": "Byte",
+        "description": "String number for the serial number of this processor. This value is set by the manufacturer and normally not changeable.",
+        "version": "2.3+"
+      },
+      {
+        "name": "AssetTag",
+        "type": "Byte",
+        "description": "String number for the asset tag of this processor.",
+        "version": "2.3+"
+      },
+      {
+        "name": "PartNumber",
+        "type": "Byte",
+        "description": "String number for the part number of this processor. This value is set by the manufacturer and normally not changeable.",
+        "version": "2.3+"
+      },
+      {
+        "name": "CoreCount",
+        "type": "Byte",
+        "description": "Number of cores per processor socket. If the value is unknown, the field is set to 0. Co Count is the number of cores detected by the BIOS for this processor socket. It does not necessarily indicate the full capability of the processor. For example, platform hardware may have the capability to limit the number of cores reported by the processor without BIOS intervention or knowledge. For a dual processor installed in a platform where the hardware is set to limit it to one core, the BIOS reports a value of 1 in Core Count. For a dual-core processor with multi-core support disabled by BIOS, the BIOS reports a value of 2 in Core Count.",
+        "version": "2.5+"
+      },
+      {
+        "name": "CoreEnabled",
+        "type": "Byte",
+        "description": "Number of enabled cores per processor socket.�If the value is unknown, the field is set 0. Core Enabled is the number of cores that are enabled by the BIOS and available for Operating System use. For example, if the BIOS detects a dual-core processor, it would report a value of 2 if it leaves both cores enabled, and it would report a value of 1 if it disables multi-core support.",
+        "version": "2.5+"
+      },
+      {
+        "name": "ThreadCount",
+        "type": "Byte",
+        "description": "Number of threads per processor socket. If the value is unknown, the field is set to 0. Thread Count is the total number of threads detected by the BIOS for this processor socket. It is a processor-wide count, not a thread-per-core count. It does not necessarily indicate the full capability of the processor. For example, platform hardware may have the capability to limit the number of threads reported by the processor without BIOS intervention or knowledge. For a dual-thread processor installed in a platform where the hardware is set to limit it to one thread, the BIOS reports a value of 1 in Thread Count. For a dual-thread processor with multi-threading disabled by BIOS, the BIOS reports a value of 2 in Thread Count. For a dual-core, dual-thread-per-core processor, the BIOS reports a value of 4 in Thread Count.",
+        "version": "2.5+"
+      },
+      {
+        "name": "ProcessorCharacteristics",
+        "type": "Word",
+        "description": "Defines which functions the processor supports.",
+        "version": "2.5+"
+      },
+      {
+        "name": "ProcessorFamily2",
+        "type": "Word",
+        "description": "Extended processor family value. This field is used when ProcessorFamily is FEh.",
+        "version": "2.6+"
+      },
+      {
+        "name": "CoreCount2",
+        "type": "Word",
+        "description": "Extended core count. Used when CoreCount is FFh.",
+        "version": "3.0+"
+      },
+      {
+        "name": "CoreEnabled2",
+        "type": "Word",
+        "description": "Extended enabled core count. Used when CoreEnabled is FFh.",
+        "version": "3.0+"
+      },
+      {
+        "name": "ThreadCount2",
+        "type": "Word",
+        "description": "Extended thread count. Used when ThreadCount is FFh.",
+        "version": "3.0+"
+      },
+      {
+        "name": "ThreadEnabled",
+        "type": "Word",
+        "description": "Number of enabled threads per processor socket.",
+        "version": "3.6+"
+      }
+    ],
+    "methods": [
+      "ProcessorManufacturerStr: AnsiString",
+      "SocketDesignationStr: AnsiString",
+      "ProcessorTypeStr: AnsiString",
+      "ProcessorFamilyStr: AnsiString",
+      "HasCoreCount2: Boolean",
+      "GetCoreCount: Word",
+      "HasCoreEnabled2: Boolean",
+      "GetCoreEnabled: Word",
+      "HasThreadCount2: Boolean",
+      "GetThreadCount: Word",
+      "HasThreadEnabled: Boolean",
+      "GetThreadEnabled: Word",
+      "ProcessorVersionStr: AnsiString",
+      "GetProcessorVoltaje: Double",
+      "ProcessorUpgradeStr: AnsiString",
+      "SerialNumberStr: AnsiString",
+      "AssetTagStr: AnsiString",
+      "PartNumberStr: AnsiString"
+    ],
+    "relations": [
+      [
+        7,
+        "L1 / L2 / L3 cache handles"
+      ],
+      [
+        44,
+        "Additional processor information"
+      ]
+    ],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%204%20Processor%20Information/ProcessorInformation.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%204%20Processor%20Information/ProcessorInformation.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%204%20Processor%20Information/ProcessorInformation.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L1888",
+    "legacy": false
+  },
+  {
+    "id": 5,
+    "name": "Memory Controller Information",
+    "group": "memory",
+    "brief": "Legacy memory-controller capabilities and supported configurations.",
+    "property": "MemoryControllerInfo",
+    "className": "TMemoryControllerInformation",
+    "enumName": "MemoryControllerInformation",
+    "fields": [
+      {
+        "name": "ErrorDetectingMethod",
+        "type": "Byte",
+        "description": "ENUM",
+        "version": "2.0+"
+      },
+      {
+        "name": "ErrorCorrectingCapability",
+        "type": "Byte",
+        "description": "Bit Field",
+        "version": "2.0+"
+      },
+      {
+        "name": "SupportedInterleave",
+        "type": "Byte",
+        "description": "ENUM",
+        "version": "+2.0"
+      },
+      {
+        "name": "CurrentInterleave",
+        "type": "Byte",
+        "description": "ENUM",
+        "version": "+2.0"
+      },
+      {
+        "name": "MaximumMemoryModuleSize",
+        "type": "Byte",
+        "description": "Size of the largest memory module supported (per slot), specified as n, where 2**n is the maximum size in MB The maximum amount of memory supported by this controller is that value times the number of slots, as specified in offset 0Eh of this structure.",
+        "version": "+2.0"
+      },
+      {
+        "name": "SupportedSpeeds",
+        "type": "Word",
+        "description": "Bit Field",
+        "version": "2.0+"
+      },
+      {
+        "name": "SupportedMemoryTypes",
+        "type": "Word",
+        "description": "Bit Field",
+        "version": "2.0+"
+      },
+      {
+        "name": "MemoryModuleVoltage",
+        "type": "Byte",
+        "description": "Describes the required voltages for each of the memory module sockets controlled by this controller: Bits 7:3 Reserved, must be zero Bit 2���� 2.9V Bit 1���� 3.3V Bit 0���� 5V NOTE: Setting of multiple bits indicates that the sockets are configurable.",
+        "version": "2.0+"
+      },
+      {
+        "name": "NumberofAssociatedMemorySlots",
+        "type": "Byte",
+        "description": "Defines how many of the Memory Module Information blocks are controlled by this controller",
+        "version": "+2.0"
+      },
+      {
+        "name": "MemoryModuleConfigurationHandles",
+        "type": "Word",
+        "description": "Lists memory information structure handles controlled by this controller",
+        "version": "2.0+"
+      },
+      {
+        "name": "EnabledErrorCorrectingCapabilities",
+        "type": "Byte",
+        "description": "Identifies the error-correcting capabilities that were enabled when the structure was built",
+        "version": "2.0+"
+      }
+    ],
+    "methods": [
+      "GetErrorDetectingMethodDescr: string",
+      "GetSupportedInterleaveDescr: string",
+      "GetCurrentInterleaveDescr: string"
+    ],
+    "relations": [],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%205%20Memory%20Controller%20Information/MemoryControllerInfo.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%205%20Memory%20Controller%20Information/MemoryControllerInfo.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%205%20Memory%20Controller%20Information/MemoryControllerInfo.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L1079",
+    "legacy": true
+  },
+  {
+    "id": 6,
+    "name": "Memory Module Information",
+    "group": "memory",
+    "brief": "Legacy module size, speed and error status.",
+    "property": "MemoryModuleInfo",
+    "className": "TMemoryModuleInformation",
+    "enumName": "MemoryModuleInformation",
+    "fields": [
+      {
+        "name": "SocketDesignation",
+        "type": "Byte",
+        "description": "String number for reference designation EXAMPLE: �J202�,0",
+        "version": "2.0+"
+      },
+      {
+        "name": "BankConnections",
+        "type": "Byte",
+        "description": "Each nibble indicates a bank (RAS#) connection; 0xF means no connection. EXAMPLE: If banks 1 &amp; 3 (RAS# 1 &amp; 3) were connected to a SIMM socket the byte for that socket would be 13h. If only bank 2 (RAS 2) were connected, the byte for that socket would be 2Fh.",
+        "version": "2.0+"
+      },
+      {
+        "name": "CurrentSpeed",
+        "type": "Byte",
+        "description": "Speed of the memory module, in ns (for example, 70d for a 70ns module) If the speed is unknown, the field is set to 0.",
+        "version": "2.0+"
+      },
+      {
+        "name": "CurrentMemoryType",
+        "type": "Word",
+        "description": "This field describes the physical characteristics of the memory modules that are supported by (and currently installed in) the system",
+        "version": "2.0+"
+      },
+      {
+        "name": "InstalledSize",
+        "type": "Byte",
+        "description": "The Installed Size fields identify the size of the memory module that is installed in the socket, as determined by reading and correlating the module�s presence-detect information. If the system does not support presence-detect mechanisms, the Installed Size field is set to 7Dh to indicate that the installed size is not determinable.",
+        "version": "2.0+"
+      },
+      {
+        "name": "EnabledSize",
+        "type": "Byte",
+        "description": "The Enabled Size field identifies the amount of memory currently enabled for the system�s use from the module. If a module is known to be installed in a connector, but all memory in the module has been disabled due to error, the Enabled Size field is set to 7Eh.",
+        "version": "2.0+"
+      },
+      {
+        "name": "ErrorStatus",
+        "type": "Byte",
+        "description": "Bits 7:3 Reserved, set to 0s Bit 2 If set, the Error Status information should be obtained from the event log; bits 1 and 0 are reserved. Bit 1 Correctable errors received for the module, if set. This bit is reset only during a system reset. Bit 0 Uncorrectable errors received for the module, if set. All or a portion of the module has been disabled. This bit is only reset on power-on.",
+        "version": "2.0+"
+      }
+    ],
+    "methods": [
+      "GetSocketDesignationDescr: AnsiString"
+    ],
+    "relations": [],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%206%20Memory%20Module%20Information/MemoryModuleInfo.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%206%20Memory%20Module%20Information/MemoryModuleInfo.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%206%20Memory%20Module%20Information/MemoryModuleInfo.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L1217",
+    "legacy": true
+  },
+  {
+    "id": 7,
+    "name": "Cache Information",
+    "group": "processor",
+    "brief": "Cache level, installed capacity, associativity and error correction.",
+    "property": "CacheInfo",
+    "className": "TCacheInformation",
+    "enumName": "CacheInformation",
+    "fields": [
+      {
+        "name": "SocketDesignation",
+        "type": "Byte",
+        "description": "String Number for Reference Designation EXAMPLE: CACHE1, 0",
+        "version": "2.0+"
+      },
+      {
+        "name": "CacheConfiguration",
+        "type": "Word",
+        "description": "Bits 15:10 Reserved, must be zero Bits 9:8 Operational Mode 00b Write Through 01b Write Back 10b Varies with Memory Address 11b Unknown Bit 7 Enabled/Disabled (at boot time) 1b Enabled 0b Disabled Bits 6:5 Location, relative to the CPU module: 00b Internal 01b External 10b Reserved 11b Unknown Bit 4 Reserved, must be zero Bit 3 Cache Socketed 1b Socketed 0b Not Socketed Bits 2:0 Cache Level 1 through 8 (For example, an L1 cache would use value 000b and an L3",
+        "version": "2.0+"
+      },
+      {
+        "name": "MaximumCacheSize",
+        "type": "Word",
+        "description": "Maximum size that can be installed Bit 15 Granularity 0 1K granularity 1 64K granularity Bits 14:0 Max size in given granularity For multi-core processors, the cache size for the different levels of the cache (L1, L2, L3) is the total amount of cache per level per processor socket. The cache size is independent of the core count. For example, the cache size is 2 MB for both a dual core processor with a 2 MB L3 cache shared between the cores and a dual core processor with 1 MB L3 cache (non-shared) per core.",
+        "version": "2.0+"
+      },
+      {
+        "name": "InstalledSize",
+        "type": "Word",
+        "description": "Same format as Max Cache Size field; set to 0 if no cache is installed.",
+        "version": "2.0+"
+      },
+      {
+        "name": "SupportedSRAMType",
+        "type": "Word",
+        "description": "",
+        "version": "2.0+"
+      },
+      {
+        "name": "CurrentSRAMType",
+        "type": "Word",
+        "description": "",
+        "version": "2.0+"
+      },
+      {
+        "name": "CacheSpeed",
+        "type": "Byte",
+        "description": "The cache module speed, in nanoseconds. The value is 0 if the speed is unknown.",
+        "version": "2.1+"
+      },
+      {
+        "name": "ErrorCorrectionType",
+        "type": "Byte",
+        "description": "The error-correction scheme supported by this cache component",
+        "version": "2.1+"
+      },
+      {
+        "name": "SystemCacheType",
+        "type": "Byte",
+        "description": "The logical type of cache",
+        "version": "2.1+"
+      },
+      {
+        "name": "Associativity",
+        "type": "Byte",
+        "description": "The associativity of the cache.",
+        "version": "2.1+"
+      },
+      {
+        "name": "MaximumCacheSize2",
+        "type": "DWORD",
+        "description": "Extended maximum cache size. Used when MaximumCacheSize is FFFFh. Bit 31 selects 64 KB granularity; otherwise the value is in KB.",
+        "version": "3.1+"
+      },
+      {
+        "name": "InstalledSize2",
+        "type": "DWORD",
+        "description": "Extended installed cache size. Used when InstalledSize is FFFFh. Bit 31 selects 64 KB granularity; otherwise the value is in KB.",
+        "version": "3.1+"
+      }
+    ],
+    "methods": [
+      "SocketDesignationStr: AnsiString",
+      "GetMaximumCacheSize: Integer",
+      "HasMaximumCacheSize2: Boolean",
+      "GetInstalledCacheSize: Integer",
+      "HasInstalledCacheSize2: Boolean",
+      "GetSupportedSRAMType: TCacheSRAMTypes",
+      "GetCurrentSRAMType: TCacheSRAMTypes",
+      "GetErrorCorrectionType: TErrorCorrectionType",
+      "GetSystemCacheType: TSystemCacheType",
+      "AssociativityStr: AnsiString"
+    ],
+    "relations": [
+      [
+        4,
+        "Referenced by processors"
+      ]
+    ],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%207%20Cache%20Information/CacheInformation.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%207%20Cache%20Information/CacheInformation.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%207%20Cache%20Information/CacheInformation.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L1452",
+    "legacy": false
+  },
+  {
+    "id": 8,
+    "name": "Port Connector Information",
+    "group": "expansion",
+    "brief": "Internal and external port designators and connector types.",
+    "property": "PortConnectorInfo",
+    "className": "TPortConnectorInformation",
+    "enumName": "PortConnectorInformation",
+    "fields": [
+      {
+        "name": "InternalReferenceDesignator",
+        "type": "Byte",
+        "description": "String number for Internal Reference Designator, that is, internal to the system enclosure EXAMPLE: J101, 0",
+        "version": "+2.0"
+      },
+      {
+        "name": "InternalConnectorType",
+        "type": "Byte",
+        "description": "Internal Connector type",
+        "version": "+2.0"
+      },
+      {
+        "name": "ExternalReferenceDesignator",
+        "type": "Byte",
+        "description": "String number for the External Reference Designation external to the system enclosure EXAMPLE: COM A, 0",
+        "version": "+2.0"
+      },
+      {
+        "name": "ExternalConnectorType",
+        "type": "Byte",
+        "description": "External Connector type.",
+        "version": "+2.0"
+      },
+      {
+        "name": "PortType",
+        "type": "Byte",
+        "description": "Describes the function of the port",
+        "version": "+2.0"
+      }
+    ],
+    "methods": [
+      "InternalReferenceDesignatorStr: AnsiString",
+      "GetConnectorType(Connector: Byte): AnsiString",
+      "ExternalReferenceDesignatorStr: AnsiString",
+      "PortTypeStr: AnsiString"
+    ],
+    "relations": [],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%208%20Port%20Connector%20Information/PortConnectorInfo.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%208%20Port%20Connector%20Information/PortConnectorInfo.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%208%20Port%20Connector%20Information/PortConnectorInfo.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L2068",
+    "legacy": false
+  },
+  {
+    "id": 9,
+    "name": "System Slots",
+    "group": "expansion",
+    "brief": "Expansion slot type, usage, width and bus information.",
+    "property": "SystemSlotInfo",
+    "className": "TSystemSlotInformation",
+    "enumName": "SystemSlotsInformation",
+    "fields": [
+      {
+        "name": "SlotDesignation",
+        "type": "Byte",
+        "description": "String number for reference designation EXAMPLE: PCI-1,0",
+        "version": "2.0+"
+      },
+      {
+        "name": "SlotType",
+        "type": "Byte",
+        "description": "Identifies the system slot type.",
+        "version": "2.0+"
+      },
+      {
+        "name": "SlotDataBusWidth",
+        "type": "Byte",
+        "description": "Identifies the width of the slot data bus.",
+        "version": "2.0+"
+      },
+      {
+        "name": "CurrentUsage",
+        "type": "Byte",
+        "description": "Identifies the current usage state of the system slot.",
+        "version": "2.0+"
+      },
+      {
+        "name": "SlotLength",
+        "type": "Byte",
+        "description": "Identifies the length of the system slot.",
+        "version": "2.0+"
+      },
+      {
+        "name": "SlotID",
+        "type": "Word",
+        "description": "The Slot ID field of the System Slot structure provides a mechanism to correlate the physical attributes of� the slot to its logical access method (which varies based on the Slot Type field).",
+        "version": "2.0+"
+      },
+      {
+        "name": "SlotCharacteristics1",
+        "type": "Byte",
+        "description": "Bit field that describes the characteristics of the system slot.",
+        "version": "2.0+"
+      },
+      {
+        "name": "SlotCharacteristics2",
+        "type": "Byte",
+        "description": "Additional bit field that describes the characteristics of the system slot.",
+        "version": "2.1+"
+      },
+      {
+        "name": "SegmentGroupNumber",
+        "type": "Word",
+        "description": "For slots that are not of types PCI, AGP, PCI-X, or PCI-Express that do not have bus/device/function information, 0FFh should be populated in the fields of Segment Group Number, Bus Number, Device/Function Number. Segment Group Number is defined in the PCI Firmware Specification. The value is 0 for a single-segment topology.",
+        "version": "2.6+"
+      },
+      {
+        "name": "BusNumber",
+        "type": "Byte",
+        "description": "Bus number for this slot. For slot types without bus/device/function information, this field is set to FFh.",
+        "version": "2.6+"
+      },
+      {
+        "name": "DeviceFunctionNumber",
+        "type": "Byte",
+        "description": "Bits 7:3 device number Bits 2:0 function number",
+        "version": "2.6+"
+      },
+      {
+        "name": "DataBusWidth",
+        "type": "Byte",
+        "description": "Electrical width of the slot data bus.",
+        "version": "3.2+"
+      },
+      {
+        "name": "PeerGroupingCount",
+        "type": "Byte",
+        "description": "Number of peer grouping records that follow this fixed field.",
+        "version": "3.2+"
+      }
+    ],
+    "methods": [
+      "SlotDesignationStr: AnsiString",
+      "GetSlotType: AnsiString",
+      "GetSlotDataBusWidth: AnsiString",
+      "GetCurrentUsage: AnsiString",
+      "GetSlotLength: AnsiString",
+      "HasDataBusWidth: Boolean",
+      "GetDataBusWidth: Byte",
+      "HasPeerGroupingCount: Boolean",
+      "GetPeerGroupingCount: Byte"
+    ],
+    "relations": [],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%209%20System%20Slots%20Information/SystemSlotsInfo.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%209%20System%20Slots%20Information/SystemSlotsInfo.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%209%20System%20Slots%20Information/SystemSlotsInfo.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L2249",
+    "legacy": false
+  },
+  {
+    "id": 10,
+    "name": "On Board Devices Information",
+    "group": "expansion",
+    "brief": "Legacy onboard-device descriptions and enabled state.",
+    "property": "OnBoardSystemInfo",
+    "className": "TOnBoardSystemInformation",
+    "enumName": "OnBoardDevicesInformation",
+    "fields": [
+      {
+        "name": "DeviceType",
+        "type": "Byte",
+        "description": "",
+        "version": ""
+      },
+      {
+        "name": "DescriptionString",
+        "type": "Byte",
+        "description": "",
+        "version": ""
+      }
+    ],
+    "methods": [
+      "GetDescription: AnsiString",
+      "Enabled: Boolean",
+      "GetTypeDescription: AnsiString"
+    ],
+    "relations": [],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%2010%20Onboard%20System%20Information/OnboardSystemInfo.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%2010%20Onboard%20System%20Information/OnboardSystemInfo.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%2010%20Onboard%20System%20Information/OnboardSystemInfo.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L2323",
+    "legacy": true
+  },
+  {
+    "id": 11,
+    "name": "OEM Strings",
+    "group": "system",
+    "brief": "Manufacturer-supplied strings stored in the SMBIOS table.",
+    "property": "OEMStringsInfo",
+    "className": "TOEMStringsInformation",
+    "enumName": "OEMStrings",
+    "fields": [
+      {
+        "name": "Count",
+        "type": "Byte",
+        "description": "Number of strings",
+        "version": ""
+      }
+    ],
+    "methods": [
+      "GetOEMString(index: Integer): AnsiString"
+    ],
+    "relations": [],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%2011%20OEM%20Strings/OEMStringsInfo.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%2011%20OEM%20Strings/OEMStringsInfo.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%2011%20OEM%20Strings/OEMStringsInfo.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L2414",
+    "legacy": false
+  },
+  {
+    "id": 12,
+    "name": "System Configuration Options",
+    "group": "system",
+    "brief": "System configuration strings supplied by the manufacturer.",
+    "property": "SystemConfInfo",
+    "className": "TSystemConfInformation",
+    "enumName": "SystemConfigurationOptions",
+    "fields": [
+      {
+        "name": "Count",
+        "type": "Byte",
+        "description": "Number of strings",
+        "version": ""
+      }
+    ],
+    "methods": [
+      "GetConfString(index: Integer): AnsiString"
+    ],
+    "relations": [],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%2012%20System%20Configuration%20Options/SystemConfInfo.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%2012%20System%20Configuration%20Options/SystemConfInfo.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%2012%20System%20Configuration%20Options/SystemConfInfo.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L2441",
+    "legacy": false
+  },
+  {
+    "id": 13,
+    "name": "BIOS Language Information",
+    "group": "system",
+    "brief": "Installed BIOS languages and the current language.",
+    "property": "BIOSLanguageInfo",
+    "className": "TBIOSLanguageInformation",
+    "enumName": "BIOSLanguageInformation",
+    "fields": [
+      {
+        "name": "InstallableLanguages",
+        "type": "Byte",
+        "description": "Number of languages available. Each available language has a description string. This field contains the number of strings that follow the formatted area of the structure.",
+        "version": "2.0+"
+      },
+      {
+        "name": "Flags",
+        "type": "Byte",
+        "description": "Bits 7:1 Reserved Bit 0 If set to 1, the Current Language strings use the abbreviated format. Otherwise, the strings use the long",
+        "version": "2.1+"
+      },
+      {
+        "name": "Reserved",
+        "type": "array [0 .. 14] of Byte",
+        "description": "Reserved for future use",
+        "version": "2.0+"
+      },
+      {
+        "name": "CurrentLanguage",
+        "type": "Byte",
+        "description": "String number (one-based) of the currently installed language",
+        "version": "2.0+"
+      }
+    ],
+    "methods": [
+      "GetLanguageString(index: Integer): AnsiString",
+      "GetCurrentLanguageStr: AnsiString"
+    ],
+    "relations": [],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%2013%20BIOS%20Language%20Information/BIOSLanguageInfo.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%2013%20BIOS%20Language%20Information/BIOSLanguageInfo.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%2013%20BIOS%20Language%20Information/BIOSLanguageInfo.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L2506",
+    "legacy": false
+  },
+  {
+    "id": 14,
+    "name": "Group Associations",
+    "group": "system",
+    "brief": "Named groups of related structures, referenced by handle.",
+    "property": "GroupAssociationsInformation",
+    "className": "TGroupAssociationsInformation",
+    "enumName": "GroupAssociations",
+    "fields": [
+      {
+        "name": "GroupName",
+        "type": "Byte",
+        "description": "String number of string describing the group",
+        "version": "2.0+"
+      },
+      {
+        "name": "ItemType",
+        "type": "Byte",
+        "description": "Item (Structure) Type of this member",
+        "version": "2.0+"
+      },
+      {
+        "name": "ItemHandle",
+        "type": "Word",
+        "description": "Handle corresponding to this structure",
+        "version": "2.0+"
+      }
+    ],
+    "methods": [
+      "GetGroupName: AnsiString"
+    ],
+    "relations": [
+      [
+        14,
+        "Members are referenced by type and handle"
+      ]
+    ],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%2014%20Group%20Associations/GroupAssociations.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%2014%20Group%20Associations/GroupAssociations.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%2014%20Group%20Associations/GroupAssociations.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L2403",
+    "legacy": false
+  },
+  {
+    "id": 15,
+    "name": "System Event Log",
+    "group": "management",
+    "brief": "Event-log layout, access method and supported descriptors.",
+    "property": "SystemEventLogInfo",
+    "className": "TSystemEventLogInformation",
+    "enumName": "SystemEventLog",
+    "fields": [
+      {
+        "name": "LogAreaLength",
+        "type": "Word",
+        "description": "Length, in bytes, of the overall event log area.",
+        "version": ""
+      },
+      {
+        "name": "LogHeaderStartOffset",
+        "type": "Word",
+        "description": "Starting offset within nonvolatile storage of the event log header.",
+        "version": ""
+      },
+      {
+        "name": "LogDataStartOffset",
+        "type": "Word",
+        "description": "Starting offset within nonvolatile storage of the first event log data byte.",
+        "version": ""
+      },
+      {
+        "name": "AccessMethod",
+        "type": "Byte",
+        "description": "Location and method used by higher-level software to access the log area.",
+        "version": ""
+      },
+      {
+        "name": "LogStatus",
+        "type": "Byte",
+        "description": "System event log status bit field.",
+        "version": ""
+      },
+      {
+        "name": "LogChangeToken",
+        "type": "DWORD",
+        "description": "Token that changes when the event log changes; 00000000h means not implemented.",
+        "version": ""
+      },
+      {
+        "name": "AccessMethodAddress",
+        "type": "DWORD",
+        "description": "Address data associated with the access method.",
+        "version": ""
+      },
+      {
+        "name": "LogHeaderFormat",
+        "type": "Byte",
+        "description": "SMBIOS 2.1+ log header format enumeration.",
+        "version": ""
+      },
+      {
+        "name": "NumberOfSupportedLogTypeDescriptors",
+        "type": "Byte",
+        "description": "SMBIOS 2.1+ number of supported event log type descriptors.",
+        "version": ""
+      },
+      {
+        "name": "LengthOfEachLogTypeDescriptor",
+        "type": "Byte",
+        "description": "SMBIOS 2.1+ length of each supported event log type descriptor.",
+        "version": ""
+      }
+    ],
+    "methods": [
+      "GetAccessMethodStr: AnsiString",
+      "LogAreaIsValid: Boolean",
+      "LogAreaIsFull: Boolean",
+      "HasLogHeaderDescriptorFields: Boolean",
+      "GetLogHeaderFormatStr: AnsiString",
+      "GetAccessMethodIndexAddress: Word",
+      "GetAccessMethodDataAddress: Word",
+      "GetAccessMethodGPNVHandle: Word",
+      "HasSupportedLogTypeDescriptor(Index: Integer): Boolean",
+      "GetSupportedLogType(Index: Integer): Byte",
+      "GetSupportedLogTypeStr(Index: Integer): AnsiString",
+      "GetSupportedVariableDataFormatType(Index: Integer): Byte",
+      "GetSupportedVariableDataFormatTypeStr(Index: Integer): AnsiString"
+    ],
+    "relations": [],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%2015%20System%20Event%20Log/SystemEventLogInfo.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%2015%20System%20Event%20Log/SystemEventLogInfo.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%2015%20System%20Event%20Log/SystemEventLogInfo.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L2554",
+    "legacy": false
+  },
+  {
+    "id": 16,
+    "name": "Physical Memory Array",
+    "group": "memory",
+    "brief": "Memory-array location, purpose, capacity and error correction.",
+    "property": "PhysicalMemoryArrayInfo",
+    "className": "TPhysicalMemoryArrayInformation",
+    "enumName": "PhysicalMemoryArray",
+    "fields": [
+      {
+        "name": "Location",
+        "type": "Byte",
+        "description": "The physical location of the Memory Array, whether on the system board or an add-in board.",
+        "version": "2.1+"
+      },
+      {
+        "name": "Use",
+        "type": "Byte",
+        "description": "The function for which the array is used.",
+        "version": "2.1+"
+      },
+      {
+        "name": "MemoryErrorCorrection",
+        "type": "Byte",
+        "description": "The primary hardware error correction or detection method supported by this memory array.",
+        "version": "2.1+"
+      },
+      {
+        "name": "MaximumCapacity",
+        "type": "DWORD",
+        "description": "The maximum memory capacity, in kilobytes, for this array. If the capacity is not represented in this field, then this field contains 8000 0000h and the Extended Maximum Capacity field should be used. Values 2 TB (8000 0000h) or greater must be represented in the Extended Maximum Capacity field.",
+        "version": "2.1+"
+      },
+      {
+        "name": "MemoryErrorInformationHandle",
+        "type": "Word",
+        "description": "The handle, or instance number, associated with any error that was previously detected for the array. If the system does not provide the error information structure, the field contains FFFEh; otherwise, the field contains either FFFFh (if no error was detected) or the handle of the errorinformation structure.",
+        "version": "2.1+"
+      },
+      {
+        "name": "NumberofMemoryDevices",
+        "type": "Word",
+        "description": "The number of slots or sockets available for Memory Devices in this array. This value represents the number of Memory Device structures that comprise this Memory Array. Each Memory Device has a reference to the owning Memory Array.",
+        "version": "2.1+"
+      },
+      {
+        "name": "ExtendedMaximumCapacity",
+        "type": "Int64",
+        "description": "The maximum memory capacity, in bytes, for this array. This field is only valid when the Maximum Capacity field contains 8000 0000h. When Maximum Capacity contains a value that is not 8000 0000h, Extended Maximum Capacity must contain zeros.",
+        "version": "2.7+"
+      }
+    ],
+    "methods": [
+      "GetLocationStr: AnsiString",
+      "GetUseStr: AnsiString",
+      "GetErrorCorrectionStr: AnsiString",
+      "HasExtendedMaximumCapacity: Boolean",
+      "GetExtendedMaximumCapacity: Int64"
+    ],
+    "relations": [
+      [
+        17,
+        "Memory devices"
+      ],
+      [
+        19,
+        "Mapped address ranges"
+      ]
+    ],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%2016%20Physical%20Memory%20Array/PhysicalMemArrayInfo.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%2016%20Physical%20Memory%20Array/PhysicalMemArrayInfo.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%2016%20Physical%20Memory%20Array/PhysicalMemArrayInfo.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L2667",
+    "legacy": false
+  },
+  {
+    "id": 17,
+    "name": "Memory Device",
+    "group": "memory",
+    "brief": "Individual memory modules, locators, capacity, technology and speed.",
+    "property": "MemoryDeviceInfo",
+    "className": "TMemoryDeviceInformation",
+    "enumName": "MemoryDevice",
+    "fields": [
+      {
+        "name": "PhysicalMemoryArrayHandle",
+        "type": "Word",
+        "description": "The handle, or instance number, associated with the Physical Memory Array to which this device belongs",
+        "version": "2.1+"
+      },
+      {
+        "name": "MemoryErrorInformationHandle",
+        "type": "Word",
+        "description": "The handle, or instance number, associated with any error that was previously detected for the device. if the system does not provide the error information structure, the field contains FFFEh; otherwise, the field contains either FFFFh (if no error was detected) or the handle of the errorinformation structure.",
+        "version": "2.1+"
+      },
+      {
+        "name": "TotalWidth",
+        "type": "Word",
+        "description": "The total width, in bits, of this memory device, including any check or error-correction bits. If there are no error-correction bits, this value should be equal to Data Width. If the width is unknown, the field is set to FFFFh.",
+        "version": "2.1+"
+      },
+      {
+        "name": "DataWidth",
+        "type": "Word",
+        "description": "The data width, in bits, of this memory device. A Data Width of 0 and a Total Width of 8 indicates that the device is being used solely to provide 8 errorcorrection bits. If the width is unknown, the field is set to FFFFh.",
+        "version": "2.1+"
+      },
+      {
+        "name": "Size",
+        "type": "Word",
+        "description": "The size of the memory device. If the value is 0, no memory device is installed in the socket; if the size is unknown, the field value is FFFFh. If the size is 32 GB-1 MB or greater, the field value is 7FFFh and the actual size is stored in the Extended Size field. The granularity in which the value is specified depends on the setting of the most-significant bit (bit 15). If the bit is 0, the value is specified in megabyte units; if the bit is 1, the value is specified in kilobyte units. For example, the value 8100h identifies a 256 KB memory device and",
+        "version": "2.1+"
+      },
+      {
+        "name": "FormFactor",
+        "type": "Byte",
+        "description": "The implementation form factor for this memory device.",
+        "version": "2.1+"
+      },
+      {
+        "name": "DeviceSet",
+        "type": "Byte",
+        "description": "Identifies when the Memory Device is one of a set of Memory Devices that must be populated with all devices of the same type and size, and the set to which this device belongs. A value of 0 indicates that the device is not part of a set; a value of FFh indicates that the attribute is unknown. NOTE: A Device Set number must be unique within the context of the Memory Array containing this Memory Device.",
+        "version": "2.1+"
+      },
+      {
+        "name": "DeviceLocator",
+        "type": "Byte",
+        "description": "The string number of the string that identifies the physically-labeled socket or board position where the memory device is located EXAMPLE: SIMM 3",
+        "version": "2.1+"
+      },
+      {
+        "name": "BankLocator",
+        "type": "Byte",
+        "description": "The string number of the string that identifies the physically labeled bank where the memory device is located, EXAMPLE: Bank 0 or A",
+        "version": "2.1+"
+      },
+      {
+        "name": "MemoryType",
+        "type": "Byte",
+        "description": "The type of memory used in this device",
+        "version": "2.1+"
+      },
+      {
+        "name": "TypeDetail",
+        "type": "Word",
+        "description": "Additional detail on the memory device type;",
+        "version": "2.1+"
+      },
+      {
+        "name": "Speed",
+        "type": "Word",
+        "description": "Identifies the maximum capable speed of the device, in megahertz (MHz). If the value is 0, the speed is unknown. NOTE: n MHz = (1000 / n) nanoseconds (ns)",
+        "version": "2.3+"
+      },
+      {
+        "name": "Manufacturer",
+        "type": "Byte",
+        "description": "String number for the manufacturer of this memory device",
+        "version": "2.3+"
+      },
+      {
+        "name": "SerialNumber",
+        "type": "Byte",
+        "description": "String number for the serial number of this memory device. This value is set by the manufacturer and normally is not changeable.",
+        "version": "2.3+"
+      },
+      {
+        "name": "AssetTag",
+        "type": "Byte",
+        "description": "String number for the asset tag of this memory device",
+        "version": "2.3+"
+      },
+      {
+        "name": "PartNumber",
+        "type": "Byte",
+        "description": "String number for the part number of this memory device. This value is set by the manufacturer and normally is not changeable.",
+        "version": "2.3+"
+      },
+      {
+        "name": "Attributes",
+        "type": "Byte",
+        "description": "Bits 7-4: reserved Bits 3-0: rank Value=0 for unknown rank information",
+        "version": "2.6+"
+      },
+      {
+        "name": "ExtendedSize",
+        "type": "DWORD",
+        "description": "The extended size of the memory device (complements the Size field at offset 0Ch)",
+        "version": "2.7+"
+      },
+      {
+        "name": "ConfiguredMemoryClockSpeed",
+        "type": "Word",
+        "description": "Identifies the configured clock speed to the memory device, in megahertz (MHz). If the value is 0, the speed is unknown. NOTE: n MHz = (1000 / n) nanoseconds (ns)",
+        "version": "2.7+"
+      },
+      {
+        "name": "MinimumVoltage",
+        "type": "Word",
+        "description": "Minimum operating voltage for this device, in millivolts If the value is 0, the voltage is unknown.",
+        "version": "2.8+"
+      },
+      {
+        "name": "MaximumVoltage",
+        "type": "Word",
+        "description": "Maximum operating voltage for this device, in millivolts If the value is 0, the voltage is unknown.",
+        "version": "2.8+"
+      },
+      {
+        "name": "ConfiguredVoltage",
+        "type": "Word",
+        "description": "Configured voltage for this device, in millivolts If the value is 0, the voltage is unknown.",
+        "version": "2.8+"
+      },
+      {
+        "name": "MemoryTechnology",
+        "type": "Byte",
+        "description": "Identifies the technology of the memory device.",
+        "version": "3.2+"
+      },
+      {
+        "name": "MemoryOperatingModeCapability",
+        "type": "Word",
+        "description": "Bit field that describes supported volatile and persistent memory modes.",
+        "version": "3.2+"
+      },
+      {
+        "name": "FirmwareVersion",
+        "type": "Byte",
+        "description": "String number for the firmware version of this memory device.",
+        "version": "3.2+"
+      },
+      {
+        "name": "ModuleManufacturerID",
+        "type": "Word",
+        "description": "Manufacturer ID for the memory module.",
+        "version": "3.2+"
+      },
+      {
+        "name": "ModuleProductID",
+        "type": "Word",
+        "description": "Product ID for the memory module.",
+        "version": "3.2+"
+      },
+      {
+        "name": "MemorySubsystemControllerManufacturerID",
+        "type": "Word",
+        "description": "Manufacturer ID for the memory subsystem controller.",
+        "version": "3.2+"
+      },
+      {
+        "name": "MemorySubsystemControllerProductID",
+        "type": "Word",
+        "description": "Product ID for the memory subsystem controller.",
+        "version": "3.2+"
+      },
+      {
+        "name": "NonVolatileSize",
+        "type": "Int64",
+        "description": "Size of the non-volatile portion of the memory device in bytes.",
+        "version": "3.2+"
+      },
+      {
+        "name": "VolatileSize",
+        "type": "Int64",
+        "description": "Size of the volatile portion of the memory device in bytes.",
+        "version": "3.2+"
+      },
+      {
+        "name": "CacheSize",
+        "type": "Int64",
+        "description": "Size of the cache portion of the memory device in bytes.",
+        "version": "3.2+"
+      },
+      {
+        "name": "LogicalSize",
+        "type": "Int64",
+        "description": "Logical size of the memory device in bytes.",
+        "version": "3.2+"
+      },
+      {
+        "name": "ExtendedSpeed",
+        "type": "DWORD",
+        "description": "Extended maximum capable speed of the memory device in megatransfers per second.",
+        "version": "3.3+"
+      },
+      {
+        "name": "ExtendedConfiguredMemorySpeed",
+        "type": "DWORD",
+        "description": "Extended configured memory speed of the memory device in megatransfers per second.",
+        "version": "3.3+"
+      },
+      {
+        "name": "PMIC0ManufacturerID",
+        "type": "Word",
+        "description": "PMIC0 manufacturer ID.",
+        "version": "3.7+"
+      },
+      {
+        "name": "PMIC0RevisionNumber",
+        "type": "Word",
+        "description": "PMIC0 revision number.",
+        "version": "3.7+"
+      },
+      {
+        "name": "RCDManufacturerID",
+        "type": "Word",
+        "description": "RCD manufacturer ID.",
+        "version": "3.7+"
+      },
+      {
+        "name": "RCDRevisionNumber",
+        "type": "Word",
+        "description": "RCD revision number.",
+        "version": "3.7+"
+      }
+    ],
+    "methods": [
+      "GetSize: DWORD",
+      "GetFormFactor: AnsiString",
+      "GetDeviceLocatorStr: AnsiString",
+      "GetBankLocatorStr: AnsiString",
+      "GetMemoryTypeStr: AnsiString",
+      "HasMemoryTechnology: Boolean",
+      "GetMemoryTechnologyStr: AnsiString",
+      "HasFirmwareVersion: Boolean",
+      "FirmwareVersionStr: AnsiString",
+      "HasExtendedSpeed: Boolean",
+      "GetSpeed: DWORD",
+      "HasConfiguredMemorySpeed: Boolean",
+      "HasExtendedConfiguredMemorySpeed: Boolean",
+      "GetConfiguredMemorySpeed: DWORD",
+      "HasNonVolatileSize: Boolean",
+      "GetNonVolatileSize: Int64",
+      "HasVolatileSize: Boolean",
+      "GetVolatileSize: Int64",
+      "HasCacheSize: Boolean",
+      "GetCacheSize: Int64",
+      "HasLogicalSize: Boolean",
+      "GetLogicalSize: Int64",
+      "HasPMIC0: Boolean",
+      "GetPMIC0ManufacturerID: Word",
+      "GetPMIC0RevisionNumber: Word",
+      "HasRCD: Boolean",
+      "GetRCDManufacturerID: Word",
+      "GetRCDRevisionNumber: Word",
+      "ManufacturerStr: AnsiString",
+      "SerialNumberStr: AnsiString",
+      "AssetTagStr: AnsiString",
+      "PartNumberStr: AnsiString"
+    ],
+    "relations": [
+      [
+        16,
+        "PhysicalMemoryArray object"
+      ],
+      [
+        20,
+        "Device address ranges"
+      ]
+    ],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%2017%20Memory%20Device/MemoryDeviceInfo.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%2017%20Memory%20Device/MemoryDeviceInfo.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%2017%20Memory%20Device/MemoryDeviceInfo.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L3422",
+    "legacy": false
+  },
+  {
+    "id": 18,
+    "name": "32-Bit Memory Error Information",
+    "group": "memory",
+    "brief": "32-bit memory error details and reported error addresses.",
+    "property": "MemoryErrorInfo",
+    "className": "TMemoryErrorInformation",
+    "enumName": "MemoryErrorInformation",
+    "fields": [
+      {
+        "name": "ErrorType",
+        "type": "Byte",
+        "description": "Type of error associated with the current memory error status.",
+        "version": ""
+      },
+      {
+        "name": "ErrorGranularity",
+        "type": "Byte",
+        "description": "Granularity to which the memory error can be resolved.",
+        "version": ""
+      },
+      {
+        "name": "ErrorOperation",
+        "type": "Byte",
+        "description": "Memory access operation that caused the error.",
+        "version": ""
+      },
+      {
+        "name": "VendorSyndrome",
+        "type": "DWORD",
+        "description": "Vendor-specific syndrome value associated with the error.",
+        "version": ""
+      },
+      {
+        "name": "MemoryArrayErrorAddress",
+        "type": "DWORD",
+        "description": "32-bit physical address of the error, relative to the memory array.",
+        "version": ""
+      },
+      {
+        "name": "DeviceErrorAddress",
+        "type": "DWORD",
+        "description": "32-bit physical address of the error, relative to the device.",
+        "version": ""
+      },
+      {
+        "name": "ErrorResolution",
+        "type": "DWORD",
+        "description": "Range, in bytes, within which the error can be determined.",
+        "version": ""
+      }
+    ],
+    "methods": [
+      "GetErrorTypeStr: AnsiString",
+      "GetErrorGranularityStr: AnsiString",
+      "GetErrorOperationStr: AnsiString",
+      "MemoryArrayErrorAddressIsUnknown: Boolean",
+      "DeviceErrorAddressIsUnknown: Boolean",
+      "ErrorResolutionIsUnknown: Boolean"
+    ],
+    "relations": [],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%2018%2032-Bit%20Memory%20Error%20Information/MemoryErrorInfo.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%2018%2032-Bit%20Memory%20Error%20Information/MemoryErrorInfo.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%2018%2032-Bit%20Memory%20Error%20Information/MemoryErrorInfo.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L2726",
+    "legacy": false
+  },
+  {
+    "id": 19,
+    "name": "Memory Array Mapped Address",
+    "group": "memory",
+    "brief": "Address ranges mapped to physical memory arrays.",
+    "property": "MemoryArrayMappedAddressInformation",
+    "className": "TMemoryArrayMappedAddressInformation",
+    "enumName": "MemoryArrayMappedAddress",
+    "fields": [
+      {
+        "name": "StartingAddress",
+        "type": "DWORD",
+        "description": "The physical address, in kilobytes, of a range of memory mapped to the specified Physical Memory Array. When the field value is FFFF FFFFh, the actual address is stored in the Extended Starting Address field. When this field contains a valid address, Ending Address must also contain a valid address. When this field contains FFFF FFFFh, Ending Address must also contain FFFF FFFFh.",
+        "version": "2.1+"
+      },
+      {
+        "name": "EndingAddress",
+        "type": "DWORD",
+        "description": "The physical ending address of the last kilobyte of a range of addresses mapped to the specified Physical Memory Array. When the field value is FFFF FFFFh and the Starting Address field also contains FFFF FFFFh, the actual address is stored in the Extended Ending Address field. When this field contains a valid address, Starting Address must also contain a valid address.",
+        "version": "2.1+"
+      },
+      {
+        "name": "MemoryArrayHandle",
+        "type": "Word",
+        "description": "The handle, or instance number, associated with the Physical Memory Array to which this address range is mapped. Multiple address ranges can be mapped to a single Physical Memory Array.",
+        "version": "2.1+"
+      },
+      {
+        "name": "PartitionWidth",
+        "type": "Byte",
+        "description": "Identifies the number of Memory Devices that form a single row of memory for the address partition defined by this structure",
+        "version": "2.1+"
+      },
+      {
+        "name": "ExtendedStartingAddress",
+        "type": "Int64",
+        "description": "The physical address, in bytes, of a range of memory mapped to the specified Physical Memory Array. This field is valid when Starting Address contains the value FFFF FFFFh. If Starting Address contains a value other than FFFF FFFFh, this field contains zeros. When this field contains a valid address, Extended Ending Address must also contain a valid address.",
+        "version": "2.7+"
+      },
+      {
+        "name": "ExtendedEndingAddress",
+        "type": "Int64",
+        "description": "The physical ending address, in bytes, of the last of a range of addresses mapped to the specified Physical Memory Array. This field is valid when both Starting Address and Ending Address contain the value FFFF FFFFh. If Ending Address contains a value other than FFFF FFFFh, this field contains zeros. When this field contains a valid address, Extended Starting Address must also contain a valid address.",
+        "version": "2.7+"
+      }
+    ],
+    "methods": [
+      "HasExtendedAddresses: Boolean",
+      "GetExtendedStartingAddress: Int64",
+      "GetExtendedEndingAddress: Int64"
+    ],
+    "relations": [
+      [
+        16,
+        "Physical memory array"
+      ]
+    ],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%2019%20Memory%20Array%20Mapped%20Address/MemArrayMappedInfo.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%2019%20Memory%20Array%20Mapped%20Address/MemArrayMappedInfo.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%2019%20Memory%20Array%20Mapped%20Address/MemArrayMappedInfo.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L2823",
+    "legacy": false
+  },
+  {
+    "id": 20,
+    "name": "Memory Device Mapped Address",
+    "group": "memory",
+    "brief": "Address ranges mapped to individual memory devices.",
+    "property": "MemoryDeviceMappedAddressInformation",
+    "className": "TMemoryDeviceMappedAddressInformation",
+    "enumName": "MemoryDeviceMappedAddress",
+    "fields": [
+      {
+        "name": "StartingAddress",
+        "type": "DWORD",
+        "description": "The physical address, in kilobytes, of a range of memory mapped to the referenced Memory Device. When the field value is FFFF FFFFh the actual address is stored in the Extended Starting Address field. When this field contains a valid address, Ending Address must also contain a valid address. When this field contains FFFF FFFFh, Ending Address must also contain FFFF FFFFh.",
+        "version": "2.1+"
+      },
+      {
+        "name": "EndingAddress",
+        "type": "DWORD",
+        "description": "The physical ending address of the last kilobyte of a range of addresses mapped to the referenced Memory Device. When the field value is FFFF FFFFh the actual address is stored in the Extended Ending Address field. When this field contains a valid address, Starting Address must also contain a valid address.",
+        "version": "2.1+"
+      },
+      {
+        "name": "MemoryDeviceHandle",
+        "type": "Word",
+        "description": "The handle, or instance number, associated with the Memory Device structure to which this address range is mapped. Multiple address ranges can be mapped to a single Memory Device.",
+        "version": "2.1+"
+      },
+      {
+        "name": "MemoryArrayMappedAddressHandle",
+        "type": "Word",
+        "description": "The handle, or instance number, associated with the Memory Array Mapped Address structure to which this device address range is mapped. Multiple address ranges can be mapped to a single Memory Array Mapped Address.",
+        "version": "2.1+"
+      },
+      {
+        "name": "PartitionRowPosition",
+        "type": "Byte",
+        "description": "Identifies the position of the referenced Memory Device in a row of the address partition. For example, if two 8-bit devices form a 16-bit row, this fields value is either 1 or 2. The value 0 is reserved. If the position is unknown, the field contains FFh.",
+        "version": "2.1+"
+      },
+      {
+        "name": "InterleavePosition",
+        "type": "Byte",
+        "description": "The position of the referenced Memory Device in an interleave. The value 0 indicates noninterleaved, 1 indicates first interleave position, 2 the second interleave position, and so on. If the position is unknown, the field contains FFh. EXAMPLES: In a 2:1 interleave, the value 1 indicates the device in the even position. In a 4:1 interleave, the value 1 indicates the first of four possible positions.",
+        "version": "2.1+"
+      },
+      {
+        "name": "InterleavedDataDepth",
+        "type": "Byte",
+        "description": "The maximum number of consecutive rows from the referenced Memory Device that are accessed in a single interleaved transfer. If the device is not part of an interleave, the field contains 0; if the interleave configuration is unknown, the value is FFh. EXAMPLES: If a device transfers two rows each time it is read, its Interleaved Data Depth is set to 2. If that device is 2:1 interleaved and in Interleave Position 1, the rows mapped to that device are 1, 2, 5, 6, 9, 10, etc.",
+        "version": "2.1+"
+      },
+      {
+        "name": "ExtendedStartingAddress",
+        "type": "Int64",
+        "description": "The physical address, in bytes, of a range of memory mapped to the referenced Memory Device. This field is valid when Starting Address contains the value FFFF FFFFh. If Starting Address contains a value other than FFFF FFFFh, this field contains zeros. When this field contains a valid address, Extended Ending Address must also contain a valid address.",
+        "version": "2.7+"
+      },
+      {
+        "name": "ExtendedEndingAddress",
+        "type": "Int64",
+        "description": "The physical ending address, in bytes, of the last of a range of addresses mapped to the referenced Memory Device. This field is valid when both Starting Address and Ending Address contain the value FFFF FFFFh. If Ending Address contains a value other than FFFF FFFFh, this field contains zeros. When this field contains a valid address, Extended Starting Address must also contain a valid address.",
+        "version": "2.7+"
+      }
+    ],
+    "methods": [
+      "HasExtendedAddresses: Boolean",
+      "GetExtendedStartingAddress: Int64",
+      "GetExtendedEndingAddress: Int64"
+    ],
+    "relations": [
+      [
+        17,
+        "Memory device"
+      ],
+      [
+        19,
+        "Array mapped address"
+      ]
+    ],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%2020%20Memory%20Device%20Mapped%20Address/MemDeviceMappedInfo.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%2020%20Memory%20Device%20Mapped%20Address/MemDeviceMappedInfo.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%2020%20Memory%20Device%20Mapped%20Address/MemDeviceMappedInfo.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L2985",
+    "legacy": false
+  },
+  {
+    "id": 21,
+    "name": "Built-in Pointing Device",
+    "group": "expansion",
+    "brief": "Built-in pointing-device type, interface and button count.",
+    "property": "BuiltInPointingDeviceInformation",
+    "className": "TBuiltInPointingDeviceInformation",
+    "enumName": "BuiltinPointingDevice",
+    "fields": [
+      {
+        "name": "_Type",
+        "type": "Byte",
+        "description": "The type of pointing device",
+        "version": "2.1+"
+      },
+      {
+        "name": "_Interface",
+        "type": "Byte",
+        "description": "The interface type for the pointing device;",
+        "version": "2.1+"
+      },
+      {
+        "name": "NumberofButtons",
+        "type": "Byte",
+        "description": "The number of buttons on the pointing device. If the device has three buttons, the field value is 03h.",
+        "version": "2.1+"
+      }
+    ],
+    "methods": [
+      "GetType: string",
+      "GetInterface: string"
+    ],
+    "relations": [],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%2021%20Built-in%20Pointing%20Device%20Information/PointingDevice.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%2021%20Built-in%20Pointing%20Device%20Information/PointingDevice.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%2021%20Built-in%20Pointing%20Device%20Information/PointingDevice.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L3664",
+    "legacy": false
+  },
+  {
+    "id": 22,
+    "name": "Portable Battery",
+    "group": "security",
+    "brief": "Battery identity, chemistry, design capacity and voltage.",
+    "property": "BatteryInformation",
+    "className": "TBatteryInformation",
+    "enumName": "PortableBattery",
+    "fields": [
+      {
+        "name": "Location",
+        "type": "Byte",
+        "description": "The number of the string that identifies the location of the battery EXAMPLE: in the back, on the left-hand side",
+        "version": "2.1+"
+      },
+      {
+        "name": "Manufacturer",
+        "type": "Byte",
+        "description": "The number of the string that names the company that manufactured the battery",
+        "version": "2.1+"
+      },
+      {
+        "name": "ManufacturerDate",
+        "type": "Byte",
+        "description": "The number of the string that identifies the date on which the battery was manufactured. Version 2.2+ implementations that use a Smart Battery set this field to 0 (no string) to indicate that the SBDS Manufacture Date field contains the information.",
+        "version": "2.1+"
+      },
+      {
+        "name": "SerialNumber",
+        "type": "Byte",
+        "description": "The number of the string that contains the serial number for the battery. Version 2.2+ implementations that use a Smart Battery set this field to 0 (no string) to indicate that the SBDS Serial Number field contains the information.",
+        "version": "2.1+"
+      },
+      {
+        "name": "DeviceName",
+        "type": "Byte",
+        "description": "The number of the string that names the battery device EXAMPLE: DR-36",
+        "version": "2.1+"
+      },
+      {
+        "name": "DeviceChemistry",
+        "type": "Byte",
+        "description": "Identifies the battery chemistry; Version 2.2+ implementations that use a Smart Battery set this field to 02h (Unknown) to indicate that the SBDS Device Chemistry field contains the information.",
+        "version": "2.1+"
+      },
+      {
+        "name": "DesignCapacity",
+        "type": "Word",
+        "description": "The design capacity of the battery in mWatthours. If the value is unknown, the field contains 0. For version 2.2+ implementations, this value is multiplied by the Design Capacity Multiplier to produce the actual value.",
+        "version": "2.1+"
+      },
+      {
+        "name": "DesignVoltage",
+        "type": "Word",
+        "description": "The design voltage of the battery in mVolts. If the value is unknown, the field contains 0.",
+        "version": "2.1+"
+      },
+      {
+        "name": "SBDSVersionNumber",
+        "type": "Byte",
+        "description": "The number of the string that contains the Smart Battery Data Specification version number supported by this battery. If the battery does not support the function, no string is supplied.",
+        "version": "2.1+"
+      },
+      {
+        "name": "MaximumErrorInBatteryData",
+        "type": "Byte",
+        "description": "The maximum error (as a percentage in the range 0 to 100) in the Watt-hour data reported by the battery, indicating an upper bound on how much additional energy the battery might have above the energy it reports having. If the value is unknown, the field contains FFh.",
+        "version": "2.1+"
+      },
+      {
+        "name": "SBDSSerialNumber",
+        "type": "Word",
+        "description": "The 16-bit value that identifies the batterys serial number. This value, when combined with the Manufacturer, Device Name, and Manufacture Date uniquely identifies the battery. The Serial Number field must be set to 0 (no string) for this field to be valid.",
+        "version": "2.2+"
+      },
+      {
+        "name": "SBDSManufacturerDate",
+        "type": "Word",
+        "description": "The date the cell pack was manufactured, in packed format: Bits 15:9 Year, biased by 1980, in the range 0 to 127 Bits 8:5 Month, in the range 1 to 12 Bits 4:0 Date, in the range 1 to 31 EXAMPLE: 01 February 2000 would be identified as 0010 1000 0100 0001b (0x2841) The Manufacture Date field must be set to 0 (no string) for this field to be valid.",
+        "version": "2.2+"
+      },
+      {
+        "name": "SBDSDeviceChemistry",
+        "type": "Byte",
+        "description": "The number of the string that identifies the battery chemistry (for example, PbAc). The Device Chemistry field must be set to 02h (Unknown) for this field to be valid.",
+        "version": "2.2+"
+      },
+      {
+        "name": "DesignCapacityMultiplier",
+        "type": "Byte",
+        "description": "The multiplication factor of the Design Capacity value, which assures that the mWatt hours value does not overflow for SBDS implementations. The multiplier default is 1, SBDS implementations use the value 10 to correspond to the data as returned from the SBDS Function 18h.",
+        "version": "2.2+"
+      },
+      {
+        "name": "OEM_Specific",
+        "type": "DWORD",
+        "description": "Contains OEM- or BIOS vendor-specific information",
+        "version": "2.2+"
+      }
+    ],
+    "methods": [
+      "GetLocationStr: AnsiString",
+      "GetManufacturerStr: AnsiString",
+      "GetManufacturerDateStr: AnsiString",
+      "GetSerialNumberStr: AnsiString",
+      "GetDeviceNameStr: AnsiString",
+      "GetDeviceChemistry: AnsiString",
+      "GetSBDSVersionNumberStr: AnsiString",
+      "GetSBDSManufacturerDate: TDateTime",
+      "GetSBDSDeviceChemistryStr: AnsiString"
+    ],
+    "relations": [],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%2022%20Battery%20Information/BatteryInfo.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%2022%20Battery%20Information/BatteryInfo.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%2022%20Battery%20Information/BatteryInfo.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L3880",
+    "legacy": false
+  },
+  {
+    "id": 23,
+    "name": "System Reset",
+    "group": "security",
+    "brief": "Reset capabilities, counts, limits and watchdog settings.",
+    "property": "SystemResetInformation",
+    "className": "TSystemResetInformation",
+    "enumName": "SystemReset",
+    "fields": [
+      {
+        "name": "Capabilities",
+        "type": "Byte",
+        "description": "Bit field containing reset status, boot option, boot option on limit, and watchdog-timer presence.",
+        "version": ""
+      },
+      {
+        "name": "ResetCount",
+        "type": "Word",
+        "description": "Number of resets since the last count reset. FFFFh means unknown.",
+        "version": ""
+      },
+      {
+        "name": "ResetLimit",
+        "type": "Word",
+        "description": "Number of resets that trigger the Boot Option On Limit policy. FFFFh means unknown.",
+        "version": ""
+      },
+      {
+        "name": "TimerInterval",
+        "type": "Word",
+        "description": "Number of minutes before the watchdog timer expires. FFFFh means unknown.",
+        "version": ""
+      },
+      {
+        "name": "Timeout",
+        "type": "Word",
+        "description": "Number of minutes before a reset timeout condition. FFFFh means unknown.",
+        "version": ""
+      }
+    ],
+    "methods": [
+      "ResetEnabledByUser: Boolean",
+      "GetBootOptionStr: AnsiString",
+      "GetBootOptionOnLimitStr: AnsiString",
+      "ContainsWatchdogTimer: Boolean",
+      "GetResetCountStr: AnsiString",
+      "GetResetLimitStr: AnsiString",
+      "GetTimerIntervalStr: AnsiString",
+      "GetTimeoutStr: AnsiString"
+    ],
+    "relations": [],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%2023%20System%20Reset%20Information/SystemResetInfo.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%2023%20System%20Reset%20Information/SystemResetInfo.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%2023%20System%20Reset%20Information/SystemResetInfo.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L3982",
+    "legacy": false
+  },
+  {
+    "id": 24,
+    "name": "Hardware Security",
+    "group": "security",
+    "brief": "Firmware-reported password and hardware-security settings.",
+    "property": "HardwareSecurityInformation",
+    "className": "THardwareSecurityInformation",
+    "enumName": "HardwareSecurity",
+    "fields": [
+      {
+        "name": "HardwareSecuritySettings",
+        "type": "Byte",
+        "description": "Bit field containing front-panel reset, administrator password, keyboard password, and power-on password status values.",
+        "version": ""
+      }
+    ],
+    "methods": [
+      "GetFrontPanelResetStatusStr: AnsiString",
+      "GetAdministratorPasswordStatusStr: AnsiString",
+      "GetKeyboardPasswordStatusStr: AnsiString",
+      "GetPowerOnPasswordStatusStr: AnsiString"
+    ],
+    "relations": [],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%2024%20Hardware%20Security/HardwareSecurityInfo.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%2024%20Hardware%20Security/HardwareSecurityInfo.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%2024%20Hardware%20Security/HardwareSecurityInfo.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L4054",
+    "legacy": false
+  },
+  {
+    "id": 25,
+    "name": "System Power Controls",
+    "group": "security",
+    "brief": "Scheduled power-on values reported by the firmware.",
+    "property": "SystemPowerControlsInformation",
+    "className": "TSystemPowerControlsInformation",
+    "enumName": "SystemPowerControls",
+    "fields": [
+      {
+        "name": "NextScheduledPowerOnMonth",
+        "type": "Byte",
+        "description": "BCD month for the next scheduled power-on time.",
+        "version": ""
+      },
+      {
+        "name": "NextScheduledPowerOnDayOfMonth",
+        "type": "Byte",
+        "description": "BCD day of month for the next scheduled power-on time.",
+        "version": ""
+      },
+      {
+        "name": "NextScheduledPowerOnHour",
+        "type": "Byte",
+        "description": "BCD hour for the next scheduled power-on time.",
+        "version": ""
+      },
+      {
+        "name": "NextScheduledPowerOnMinute",
+        "type": "Byte",
+        "description": "BCD minute for the next scheduled power-on time.",
+        "version": ""
+      },
+      {
+        "name": "NextScheduledPowerOnSecond",
+        "type": "Byte",
+        "description": "BCD second for the next scheduled power-on time.",
+        "version": ""
+      }
+    ],
+    "methods": [
+      "HasValidScheduledPowerOnTime: Boolean",
+      "GetNextScheduledPowerOnMonth: Byte",
+      "GetNextScheduledPowerOnDayOfMonth: Byte",
+      "GetNextScheduledPowerOnHour: Byte",
+      "GetNextScheduledPowerOnMinute: Byte",
+      "GetNextScheduledPowerOnSecond: Byte"
+    ],
+    "relations": [],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%2025%20System%20Power%20Controls/SystemPowerControlsInfo.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%2025%20System%20Power%20Controls/SystemPowerControlsInfo.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%2025%20System%20Power%20Controls/SystemPowerControlsInfo.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L4125",
+    "legacy": false
+  },
+  {
+    "id": 26,
+    "name": "Voltage Probe",
+    "group": "management",
+    "brief": "Voltage-probe description, limits and nominal value when present.",
+    "property": "VoltageProbeInformation",
+    "className": "TVoltageProbeInformation",
+    "enumName": "VoltageProbe",
+    "fields": [
+      {
+        "name": "Description",
+        "type": "Byte",
+        "description": "The number of the string that contains additional descriptive information about the probe or its location",
+        "version": "2.2+"
+      },
+      {
+        "name": "LocationandStatus",
+        "type": "Byte",
+        "description": "Defines the probes physical location and status of the voltage monitored by this voltage probe.",
+        "version": "2.2+"
+      },
+      {
+        "name": "MaximumValue",
+        "type": "Word",
+        "description": "The maximum voltage level readable by this probe, in millivolts. If the value is unknown, the field is set to 0x8000.",
+        "version": "2.2+"
+      },
+      {
+        "name": "MinimumValue",
+        "type": "Word",
+        "description": "The minimum voltage level readable by this probe, in millivolts. If the value is unknown, the field is set to 0x8000.",
+        "version": "2.2+"
+      },
+      {
+        "name": "Resolution",
+        "type": "Word",
+        "description": "The resolution for the probes reading, in tenths of millivolts. If the value is unknown, the field is set to 0x8000.",
+        "version": "2.2+"
+      },
+      {
+        "name": "Tolerance",
+        "type": "Word",
+        "description": "The tolerance for reading from this probe, in plus/minus millivolts. If the value is unknown, the field is set to 0x8000.",
+        "version": "2.2+"
+      },
+      {
+        "name": "Accuracy",
+        "type": "Word",
+        "description": "The accuracy for reading from this probe, in plus/minus 1/100th of a percent. If the value is unknown, the field is set to 0x8000.",
+        "version": "2.2+"
+      },
+      {
+        "name": "OEMdefined",
+        "type": "DWORD",
+        "description": "Contains OEM- or BIOS vendor-specific information.",
+        "version": "2.2+"
+      },
+      {
+        "name": "NominalValue",
+        "type": "Word",
+        "description": "The nominal value for the probes reading in millivolts. If the value is unknown, the field is set to 0x8000. This field is present in the structure only if the structures Length is larger than 14h.",
+        "version": "2.2+"
+      }
+    ],
+    "methods": [
+      "GetDescriptionStr: AnsiString",
+      "GetLocation: AnsiString",
+      "GetStatus: AnsiString",
+      "HasNominalValue: Boolean",
+      "GetNominalValue: Word"
+    ],
+    "relations": [],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%2026%20Voltage%20Probe%20Information/VoltageProbeInfo.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%2026%20Voltage%20Probe%20Information/VoltageProbeInfo.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%2026%20Voltage%20Probe%20Information/VoltageProbeInfo.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L4270",
+    "legacy": false
+  },
+  {
+    "id": 27,
+    "name": "Cooling Device",
+    "group": "management",
+    "brief": "Cooling-device type, location and nominal speed when reported.",
+    "property": "CoolingDeviceInformation",
+    "className": "TCoolingDeviceInformation",
+    "enumName": "CoolingDevice",
+    "fields": [
+      {
+        "name": "TemperatureProbeHandle",
+        "type": "Word",
+        "description": "The handle, or instance number, of the temperature probe monitoring this cooling device. A value of 0xFFFF indicates that no probe is provided.",
+        "version": "2.2+"
+      },
+      {
+        "name": "DeviceTypeandStatus",
+        "type": "Byte",
+        "description": "Identifies the cooling device type and the status of this cooling device;",
+        "version": "2.2+"
+      },
+      {
+        "name": "CoolingUnitGroup",
+        "type": "Byte",
+        "description": "Identifies the cooling unit group to which this cooling device is associated. Having multiple cooling devices in the same cooling unit implies a redundant configuration. The value is 00h if the cooling device is not a member of a redundant cooling unit. Non-zero values imply redundancy and that at least one other cooling device will be enumerated with the same value.",
+        "version": "2.2+"
+      },
+      {
+        "name": "OEMdefined",
+        "type": "DWORD",
+        "description": "Contains OEM- or BIOS vendor-specific information.",
+        "version": "2.2+"
+      },
+      {
+        "name": "NominalSpeed",
+        "type": "Word",
+        "description": "The nominal value for the cooling devices rotational speed, in revolutions-per-minute (rpm). If the value is unknown or the cooling device is nonrotating, the field is set to 0x8000. This field is present in the structure only if the structures Length is larger than 0Ch.",
+        "version": "2.2+"
+      },
+      {
+        "name": "Description",
+        "type": "Byte",
+        "description": "The number of the string that contains additional descriptive information about the cooling device or its location This field is present in the structure only if the structures Length is 0Fh or larger.",
+        "version": "2.7+"
+      }
+    ],
+    "methods": [
+      "GetDescriptionStr: AnsiString",
+      "HasDescription: Boolean",
+      "GetDeviceType: AnsiString",
+      "GetStatus: AnsiString"
+    ],
+    "relations": [
+      [
+        28,
+        "Temperature-probe handle"
+      ]
+    ],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%2027%20Cooling%20Device%20Information/CoolingDeviceInfo.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%2027%20Cooling%20Device%20Information/CoolingDeviceInfo.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%2027%20Cooling%20Device%20Information/CoolingDeviceInfo.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L4389",
+    "legacy": false
+  },
+  {
+    "id": 28,
+    "name": "Temperature Probe",
+    "group": "management",
+    "brief": "Temperature-probe description, limits and nominal value.",
+    "property": "TemperatureProbeInformation",
+    "className": "TTemperatureProbeInformation",
+    "enumName": "TemperatureProbe",
+    "fields": [
+      {
+        "name": "Description",
+        "type": "Byte",
+        "description": "The number of the string that contains additional descriptive information about the probe or its location",
+        "version": "2.2+"
+      },
+      {
+        "name": "LocationandStatus",
+        "type": "Byte",
+        "description": "Defines the probes physical location and the status of the temperature monitored by this temperature probe.",
+        "version": "2.2+"
+      },
+      {
+        "name": "MaximumValue",
+        "type": "Word",
+        "description": "The maximum temperature readable by this probe, in 1/10th degrees C. If the value is unknown, the field is set to 0x8000.",
+        "version": "2.2+"
+      },
+      {
+        "name": "MinimumValue",
+        "type": "Word",
+        "description": "The minimum temperature readable by this probe, in 1/10th degrees C. If the value is unknown, the field is set to 0x8000.",
+        "version": "2.2+"
+      },
+      {
+        "name": "Resolution",
+        "type": "Word",
+        "description": "The resolution for the probes reading, in 1/1000th degrees C. If the value is unknown, the field is set to 0x8000.",
+        "version": "2.2+"
+      },
+      {
+        "name": "Tolerance",
+        "type": "Word",
+        "description": "The tolerance for reading from this probe, in plus/minus 1/10th degrees C. If the value is unknown, the field is set to 0x8000.",
+        "version": "2.2+"
+      },
+      {
+        "name": "Accuracy",
+        "type": "Word",
+        "description": "The accuracy for reading from this probe, in plus/minus 1/100th of a percent. If the value is unknown, the field is set to 0x8000.",
+        "version": "2.2+"
+      },
+      {
+        "name": "OEMdefined",
+        "type": "DWORD",
+        "description": "Contains OEM- or BIOS vendor-specific information.",
+        "version": "2.2+"
+      },
+      {
+        "name": "NominalValue",
+        "type": "Word",
+        "description": "The nominal value for the probes reading in 1/10th degrees C. If the value is unknown, the field is set to 0x8000. This field is present in the structure only if the structures Length is larger than 14h.",
+        "version": "2.2+"
+      }
+    ],
+    "methods": [
+      "GetDescriptionStr: AnsiString",
+      "GetLocation: AnsiString",
+      "GetStatus: AnsiString",
+      "HasNominalValue: Boolean",
+      "GetNominalValue: Word"
+    ],
+    "relations": [],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%2028%20Temperature%20Probe%20Information/TemperatureProbeInfo.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%2028%20Temperature%20Probe%20Information/TemperatureProbeInfo.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%2028%20Temperature%20Probe%20Information/TemperatureProbeInfo.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L4512",
+    "legacy": false
+  },
+  {
+    "id": 29,
+    "name": "Electrical Current Probe",
+    "group": "management",
+    "brief": "Current-probe description, limits and nominal value.",
+    "property": "ElectricalCurrentProbeInformation",
+    "className": "TElectricalCurrentProbeInformation",
+    "enumName": "ElectricalCurrentProbe",
+    "fields": [
+      {
+        "name": "Description",
+        "type": "Byte",
+        "description": "The number of the string that contains additional descriptive information about the probe or its location",
+        "version": "2.2+"
+      },
+      {
+        "name": "LocationandStatus",
+        "type": "Byte",
+        "description": "Defines the probes physical location and the status of the current monitored by this current probe.",
+        "version": "2.2+"
+      },
+      {
+        "name": "MaximumValue",
+        "type": "Word",
+        "description": "The maximum current readable by this probe, in milliamps. If the value is unknown, the field is set to 0x8000.",
+        "version": "2.2+"
+      },
+      {
+        "name": "MinimumValue",
+        "type": "Word",
+        "description": "The minimum current readable by this probe, in milliamps. If the value is unknown, the field is set to 0x8000.",
+        "version": "2.2+"
+      },
+      {
+        "name": "Resolution",
+        "type": "Word",
+        "description": "The resolution for the probes reading, in tenths of milliamps. If the value is unknown, the field is set to 0x8000.",
+        "version": "2.2+"
+      },
+      {
+        "name": "Tolerance",
+        "type": "Word",
+        "description": "The tolerance for reading from this probe, in plus/minus milliamps. If the value is unknown, the field is set to 0x8000.",
+        "version": "2.2+"
+      },
+      {
+        "name": "Accuracy",
+        "type": "Word",
+        "description": "The accuracy for reading from this probe, in plus/minus 1/100th of a percent. If the value is unknown, the field is set to 0x8000.",
+        "version": "2.2+"
+      },
+      {
+        "name": "OEMdefined",
+        "type": "DWORD",
+        "description": "Contains OEM- or BIOS vendor-specific information.",
+        "version": "2.2+"
+      },
+      {
+        "name": "NominalValue",
+        "type": "Word",
+        "description": "The nominal value for the probes reading in milliamps. If the value is unknown, the field is set to 0x8000. This field is present in the structure only if the structures Length is larger than 14h.",
+        "version": "2.2+"
+      }
+    ],
+    "methods": [
+      "GetDescriptionStr: AnsiString",
+      "GetLocation: AnsiString",
+      "GetStatus: AnsiString",
+      "HasNominalValue: Boolean",
+      "GetNominalValue: Word"
+    ],
+    "relations": [],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%2029%20Electrical%20Current%20Probe%20Information/ElectricalProbeInfo.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%2029%20Electrical%20Current%20Probe%20Information/ElectricalProbeInfo.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%2029%20Electrical%20Current%20Probe%20Information/ElectricalProbeInfo.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L4648",
+    "legacy": false
+  },
+  {
+    "id": 30,
+    "name": "Out-of-Band Remote Access",
+    "group": "management",
+    "brief": "Remote-access connection description and enabled directions.",
+    "property": "OutOfBandRemoteAccessInformation",
+    "className": "TOutOfBandRemoteAccessInformation",
+    "enumName": "OutofBandRemoteAccess",
+    "fields": [
+      {
+        "name": "ManufacturerName",
+        "type": "Byte",
+        "description": "String number for the manufacturer name.",
+        "version": "2.2+"
+      },
+      {
+        "name": "Connections",
+        "type": "Byte",
+        "description": "Bit field that identifies enabled inbound and outbound out-of-band connections.",
+        "version": "2.2+. Bit 0 indicates inbound connection enabled; bit 1 indicates outbound connection enabled."
+      }
+    ],
+    "methods": [
+      "GetManufacturerNameStr: AnsiString",
+      "InboundConnectionEnabled: Boolean",
+      "OutboundConnectionEnabled: Boolean"
+    ],
+    "relations": [],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%2030%20Out-of-Band%20Remote%20Access/OutOfBandRemoteAccessInfo.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%2030%20Out-of-Band%20Remote%20Access/OutOfBandRemoteAccessInfo.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%2030%20Out-of-Band%20Remote%20Access/OutOfBandRemoteAccessInfo.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L4712",
+    "legacy": false
+  },
+  {
+    "id": 31,
+    "name": "Boot Integrity Services Entry Point",
+    "group": "system",
+    "brief": "Boot-integrity entry-point information reported by firmware.",
+    "property": "BootIntegrityServicesEntryPointInformation",
+    "className": "TBootIntegrityServicesEntryPointInformation",
+    "enumName": "BootIntegrityServicesEntryPoint",
+    "fields": [
+      {
+        "name": "Checksum",
+        "type": "Byte",
+        "description": "Structure-level checksum. The 8-bit sum of all bytes in the formatted structure must be zero.",
+        "version": "2.3+"
+      },
+      {
+        "name": "Reserved1",
+        "type": "Byte",
+        "description": "Reserved byte.",
+        "version": "2.3+"
+      },
+      {
+        "name": "Reserved2",
+        "type": "Word",
+        "description": "Reserved word.",
+        "version": "2.3+"
+      },
+      {
+        "name": "EntryPoint16",
+        "type": "LongWord",
+        "description": "16-bit BIS entry point encoded as segment:offset.",
+        "version": "2.3+"
+      },
+      {
+        "name": "EntryPoint32",
+        "type": "LongWord",
+        "description": "32-bit physical address of the BIS entry point.",
+        "version": "2.3+"
+      },
+      {
+        "name": "Reserved3",
+        "type": "array [0 .. 11] of Byte",
+        "description": "Reserved bytes.",
+        "version": "2.3+"
+      }
+    ],
+    "methods": [
+      "IsStructureLengthValid: Boolean",
+      "ChecksumIsValid: Boolean",
+      "GetEntryPoint16Segment: Word",
+      "GetEntryPoint16Offset: Word",
+      "EntryPoint16IsValid: Boolean",
+      "EntryPoint32IsValid: Boolean"
+    ],
+    "relations": [],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%2031%20Boot%20Integrity%20Services%20Entry%20Point/BootIntegrityServicesInfo.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%2031%20Boot%20Integrity%20Services%20Entry%20Point/BootIntegrityServicesInfo.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%2031%20Boot%20Integrity%20Services%20Entry%20Point/BootIntegrityServicesInfo.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L4800",
+    "legacy": false
+  },
+  {
+    "id": 32,
+    "name": "System Boot Information",
+    "group": "system",
+    "brief": "Firmware-reported status of the last system boot.",
+    "property": "SystemBootInfo",
+    "className": "TSystemBootInformation",
+    "enumName": "SystemBootInformation",
+    "fields": [
+      {
+        "name": "Reserved",
+        "type": "array [0 .. 5] of Byte",
+        "description": "Reserved bytes. This field must be set to zero.",
+        "version": "2.3+"
+      },
+      {
+        "name": "BootStatus",
+        "type": "Byte",
+        "description": "Boot status bit field. Bits 3:0 encode the boot status value.",
+        "version": "2.3+"
+      },
+      {
+        "name": "BootStatusAdditionalData",
+        "type": "array [0 .. 8] of Byte",
+        "description": "Additional boot status data bytes. The interpretation depends on the BootStatus value.",
+        "version": "2.3+"
+      }
+    ],
+    "methods": [
+      "GetBootStatusStr: AnsiString",
+      "GetBootStatusAdditionalDataByte(const Index: Integer): Byte"
+    ],
+    "relations": [],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%2032%20System%20Boot%20Information/SystemBootInfo.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%2032%20System%20Boot%20Information/SystemBootInfo.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%2032%20System%20Boot%20Information/SystemBootInfo.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L4879",
+    "legacy": false
+  },
+  {
+    "id": 33,
+    "name": "64-Bit Memory Error Information",
+    "group": "memory",
+    "brief": "64-bit memory error details and reported error addresses.",
+    "property": "x64BitMemoryErrorInfo",
+    "className": "Tx64BitMemoryErrorInformation",
+    "enumName": "x64BitMemoryErrorInformation",
+    "fields": [
+      {
+        "name": "ErrorType",
+        "type": "Byte",
+        "description": "Type of error associated with the current memory error status.",
+        "version": "2.3+"
+      },
+      {
+        "name": "ErrorGranularity",
+        "type": "Byte",
+        "description": "Granularity to which the memory error can be resolved.",
+        "version": "2.3+"
+      },
+      {
+        "name": "ErrorOperation",
+        "type": "Byte",
+        "description": "Memory access operation that caused the error.",
+        "version": "2.3+"
+      },
+      {
+        "name": "VendorSyndrome",
+        "type": "DWORD",
+        "description": "Vendor-specific syndrome value associated with the error.",
+        "version": "2.3+"
+      },
+      {
+        "name": "MemoryArrayErrorAddress",
+        "type": "Int64",
+        "description": "64-bit physical address of the error, relative to the memory array.",
+        "version": "2.3+"
+      },
+      {
+        "name": "DeviceErrorAddress",
+        "type": "Int64",
+        "description": "64-bit physical address of the error, relative to the device.",
+        "version": "2.3+"
+      },
+      {
+        "name": "ErrorResolution",
+        "type": "DWORD",
+        "description": "Range, in bytes, within which the error can be determined.",
+        "version": "2.3+"
+      }
+    ],
+    "methods": [
+      "GetErrorTypeStr: AnsiString",
+      "GetErrorGranularityStr: AnsiString",
+      "GetErrorOperationStr: AnsiString"
+    ],
+    "relations": [],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%2033%2064-Bit%20Memory%20Error%20Information/x64BitMemoryErrorInfo.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%2033%2064-Bit%20Memory%20Error%20Information/x64BitMemoryErrorInfo.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%2033%2064-Bit%20Memory%20Error%20Information/x64BitMemoryErrorInfo.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L4970",
+    "legacy": false
+  },
+  {
+    "id": 34,
+    "name": "Management Device",
+    "group": "management",
+    "brief": "Management-device type, address and addressing scheme.",
+    "property": "ManagementDeviceInfo",
+    "className": "TManagementDeviceInformation",
+    "enumName": "ManagementDevice",
+    "fields": [
+      {
+        "name": "Description",
+        "type": "Byte",
+        "description": "String number for the management device description.",
+        "version": ""
+      },
+      {
+        "name": "DeviceType",
+        "type": "Byte",
+        "description": "Management device type.",
+        "version": ""
+      },
+      {
+        "name": "Address",
+        "type": "DWORD",
+        "description": "Management device address.",
+        "version": ""
+      },
+      {
+        "name": "AddressType",
+        "type": "Byte",
+        "description": "Management device address type.",
+        "version": ""
+      }
+    ],
+    "methods": [
+      "GetDescriptionStr: AnsiString",
+      "GetDeviceTypeStr: AnsiString",
+      "GetAddressTypeStr: AnsiString"
+    ],
+    "relations": [],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%2034%20Management%20Device/ManagementDeviceInfo.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%2034%20Management%20Device/ManagementDeviceInfo.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%2034%20Management%20Device/ManagementDeviceInfo.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L5005",
+    "legacy": false
+  },
+  {
+    "id": 35,
+    "name": "Management Device Component",
+    "group": "management",
+    "brief": "Links between management devices, components and thresholds.",
+    "property": "ManagementDeviceComponentInfo",
+    "className": "TManagementDeviceComponentInformation",
+    "enumName": "ManagementDeviceComponent",
+    "fields": [
+      {
+        "name": "Description",
+        "type": "Byte",
+        "description": "String number for the management device component description.",
+        "version": ""
+      },
+      {
+        "name": "ManagementDeviceHandle",
+        "type": "Word",
+        "description": "Handle of the associated Management Device structure.",
+        "version": ""
+      },
+      {
+        "name": "ComponentHandle",
+        "type": "Word",
+        "description": "Handle of the component associated with the management device.",
+        "version": ""
+      },
+      {
+        "name": "ThresholdHandle",
+        "type": "Word",
+        "description": "Handle of the associated Management Device Threshold Data structure.",
+        "version": ""
+      }
+    ],
+    "methods": [
+      "GetDescriptionStr: AnsiString"
+    ],
+    "relations": [
+      [
+        34,
+        "Management-device handle"
+      ],
+      [
+        36,
+        "Threshold-data handle"
+      ]
+    ],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%2035%20Management%20Device%20Component/ManagementDeviceComponentInfo.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%2035%20Management%20Device%20Component/ManagementDeviceComponentInfo.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%2035%20Management%20Device%20Component/ManagementDeviceComponentInfo.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L5029",
+    "legacy": false
+  },
+  {
+    "id": 36,
+    "name": "Management Device Threshold Data",
+    "group": "management",
+    "brief": "Threshold values associated with management components.",
+    "property": "ManagementDeviceThresholdDataInfo",
+    "className": "TManagementDeviceThresholdDataInformation",
+    "enumName": "ManagementDeviceThresholdData",
+    "fields": [
+      {
+        "name": "LowerThresholdNonCritical",
+        "type": "Word",
+        "description": "Lower non-critical threshold value.",
+        "version": ""
+      },
+      {
+        "name": "UpperThresholdNonCritical",
+        "type": "Word",
+        "description": "Upper non-critical threshold value.",
+        "version": ""
+      },
+      {
+        "name": "LowerThresholdCritical",
+        "type": "Word",
+        "description": "Lower critical threshold value.",
+        "version": ""
+      },
+      {
+        "name": "UpperThresholdCritical",
+        "type": "Word",
+        "description": "Upper critical threshold value.",
+        "version": ""
+      },
+      {
+        "name": "LowerThresholdNonRecoverable",
+        "type": "Word",
+        "description": "Lower non-recoverable threshold value.",
+        "version": ""
+      },
+      {
+        "name": "UpperThresholdNonRecoverable",
+        "type": "Word",
+        "description": "Upper non-recoverable threshold value.",
+        "version": ""
+      }
+    ],
+    "methods": [],
+    "relations": [],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%2036%20Management%20Device%20Threshold%20Data/ManagementDeviceThresholdInfo.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%2036%20Management%20Device%20Threshold%20Data/ManagementDeviceThresholdInfo.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%2036%20Management%20Device%20Threshold%20Data/ManagementDeviceThresholdInfo.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L5053",
+    "legacy": false
+  },
+  {
+    "id": 37,
+    "name": "Memory Channel",
+    "group": "memory",
+    "brief": "Memory-channel information and device references.",
+    "property": "MemoryChannelInfo",
+    "className": "TMemoryChannelInformation",
+    "enumName": "MemoryChannel",
+    "fields": [
+      {
+        "name": "ChannelType",
+        "type": "Byte",
+        "description": "Memory channel type.",
+        "version": ""
+      },
+      {
+        "name": "MaximumChannelLoad",
+        "type": "Byte",
+        "description": "Maximum channel load supported by this channel.",
+        "version": ""
+      },
+      {
+        "name": "MemoryDeviceCount",
+        "type": "Byte",
+        "description": "Number of memory device load/handle entries following this fixed area.",
+        "version": ""
+      }
+    ],
+    "methods": [
+      "GetChannelTypeStr: AnsiString",
+      "HasMemoryDeviceEntry(Index: Integer): Boolean",
+      "GetMemoryDeviceLoad(Index: Integer): Byte",
+      "GetMemoryDeviceHandle(Index: Integer): Word"
+    ],
+    "relations": [
+      [
+        17,
+        "Memory-device handles"
+      ]
+    ],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%2037%20Memory%20Channel/MemoryChannelInfo.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%2037%20Memory%20Channel/MemoryChannelInfo.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%2037%20Memory%20Channel/MemoryChannelInfo.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L5068",
+    "legacy": false
+  },
+  {
+    "id": 38,
+    "name": "IPMI Device Information",
+    "group": "management",
+    "brief": "IPMI interface type, specification revision and address.",
+    "property": "IPMIDeviceInfo",
+    "className": "TIPMIDeviceInformation",
+    "enumName": "IPMIDeviceInformation",
+    "fields": [
+      {
+        "name": "InterfaceType",
+        "type": "Byte",
+        "description": "Baseboard Management Controller host interface type.",
+        "version": ""
+      },
+      {
+        "name": "IPMISpecificationRevision",
+        "type": "Byte",
+        "description": "IPMI specification revision in BCD format.",
+        "version": ""
+      },
+      {
+        "name": "I2CSlaveAddress",
+        "type": "Byte",
+        "description": "I2C slave address of the Baseboard Management Controller.",
+        "version": ""
+      },
+      {
+        "name": "NVStorageDeviceAddress",
+        "type": "Byte",
+        "description": "NV storage device I2C slave address, or FFh when no device is present.",
+        "version": ""
+      },
+      {
+        "name": "BaseAddress",
+        "type": "Int64",
+        "description": "Base address used by the host interface.",
+        "version": ""
+      },
+      {
+        "name": "BaseAddressModifierInterruptInfo",
+        "type": "Byte",
+        "description": "Register spacing, least-significant-bit, and interrupt information.",
+        "version": ""
+      },
+      {
+        "name": "InterruptNumber",
+        "type": "Byte",
+        "description": "Interrupt number for the IPMI interface.",
+        "version": ""
+      }
+    ],
+    "methods": [
+      "GetInterfaceTypeStr: AnsiString",
+      "GetSpecificationVersionStr: AnsiString"
+    ],
+    "relations": [],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%2038%20IPMI%20Device%20Information/IPMIDeviceInfo.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%2038%20IPMI%20Device%20Information/IPMIDeviceInfo.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%2038%20IPMI%20Device%20Information/IPMIDeviceInfo.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L5099",
+    "legacy": false
+  },
+  {
+    "id": 39,
+    "name": "System Power Supply",
+    "group": "security",
+    "brief": "Power-supply identity, capacity and linked probe information.",
+    "property": "SystemPowerSupplyInfo",
+    "className": "TSystemPowerSupplyInformation",
+    "enumName": "SystemPowerSupply",
+    "fields": [
+      {
+        "name": "PowerUnitGroup",
+        "type": "Byte",
+        "description": "Power unit group number for redundant or associated power supplies.",
+        "version": ""
+      },
+      {
+        "name": "Location",
+        "type": "Byte",
+        "description": "String number for the power supply location.",
+        "version": ""
+      },
+      {
+        "name": "DeviceName",
+        "type": "Byte",
+        "description": "String number for the device name.",
+        "version": ""
+      },
+      {
+        "name": "Manufacturer",
+        "type": "Byte",
+        "description": "String number for the manufacturer.",
+        "version": ""
+      },
+      {
+        "name": "SerialNumber",
+        "type": "Byte",
+        "description": "String number for the serial number.",
+        "version": ""
+      },
+      {
+        "name": "AssetTagNumber",
+        "type": "Byte",
+        "description": "String number for the asset tag number.",
+        "version": ""
+      },
+      {
+        "name": "ModelPartNumber",
+        "type": "Byte",
+        "description": "String number for the model part number.",
+        "version": ""
+      },
+      {
+        "name": "RevisionLevel",
+        "type": "Byte",
+        "description": "String number for the revision level.",
+        "version": ""
+      },
+      {
+        "name": "MaxPowerCapacity",
+        "type": "Word",
+        "description": "Maximum sustained power output in watts; 8000h indicates unknown.",
+        "version": ""
+      },
+      {
+        "name": "PowerSupplyCharacteristics",
+        "type": "Word",
+        "description": "Power supply characteristics bit field.",
+        "version": ""
+      },
+      {
+        "name": "InputVoltageProbeHandle",
+        "type": "Word",
+        "description": "Handle of the input voltage probe associated with this supply.",
+        "version": ""
+      },
+      {
+        "name": "CoolingDeviceHandle",
+        "type": "Word",
+        "description": "Handle of the cooling device associated with this supply.",
+        "version": ""
+      },
+      {
+        "name": "InputCurrentProbeHandle",
+        "type": "Word",
+        "description": "Handle of the input current probe associated with this supply.",
+        "version": ""
+      }
+    ],
+    "methods": [
+      "LocationStr: AnsiString",
+      "DeviceNameStr: AnsiString",
+      "ManufacturerStr: AnsiString",
+      "SerialNumberStr: AnsiString",
+      "AssetTagNumberStr: AnsiString",
+      "ModelPartNumberStr: AnsiString",
+      "RevisionLevelStr: AnsiString",
+      "MaxPowerCapacityIsUnknown: Boolean",
+      "IsHotReplaceable: Boolean",
+      "IsPresent: Boolean",
+      "IsUnplugged: Boolean",
+      "GetInputVoltageRangeSwitching: Byte",
+      "GetInputVoltageRangeSwitchingStr: AnsiString",
+      "GetStatus: Byte",
+      "GetStatusStr: AnsiString",
+      "GetPowerSupplyType: Byte",
+      "GetPowerSupplyTypeStr: AnsiString"
+    ],
+    "relations": [
+      [
+        26,
+        "Voltage-probe handle"
+      ],
+      [
+        27,
+        "Cooling-device handle"
+      ],
+      [
+        29,
+        "Current-probe handle"
+      ]
+    ],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%2039%20System%20Power%20Supply/SystemPowerSupplyInfo.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%2039%20System%20Power%20Supply/SystemPowerSupplyInfo.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%2039%20System%20Power%20Supply/SystemPowerSupplyInfo.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L5139",
+    "legacy": false
+  },
+  {
+    "id": 40,
+    "name": "Additional Information",
+    "group": "system",
+    "brief": "Additional entries referring to fields in other structures.",
+    "property": "AdditionalInformationInfo",
+    "className": "TAdditionalInformationInformation",
+    "enumName": "AdditionalInformation",
+    "fields": [
+      {
+        "name": "NumberOfAdditionalInformationEntries",
+        "type": "Byte",
+        "description": "Number of Additional Information Entry instances following this byte.",
+        "version": ""
+      }
+    ],
+    "methods": [
+      "HasAdditionalInformationEntry(Index: Integer): Boolean",
+      "GetAdditionalInformationEntryLength(Index: Integer): Byte",
+      "GetReferencedHandle(Index: Integer): Word",
+      "GetReferencedOffset(Index: Integer): Byte",
+      "GetEntryStringStr(Index: Integer): AnsiString",
+      "GetEntryValueSize(Index: Integer): Byte",
+      "GetEntryValueByte(Index, ValueIndex: Integer): Byte"
+    ],
+    "relations": [],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%2040%20Additional%20Information/AdditionalInfo.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%2040%20Additional%20Information/AdditionalInfo.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%2040%20Additional%20Information/AdditionalInfo.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L5185",
+    "legacy": false
+  },
+  {
+    "id": 41,
+    "name": "Onboard Devices Extended Information",
+    "group": "expansion",
+    "brief": "Onboard-device descriptions and bus addressing information.",
+    "property": "OnboardDevicesExtendedInfo",
+    "className": "TOnboardDevicesExtendedInformation",
+    "enumName": "OnboardDevicesExtendedInformation",
+    "fields": [
+      {
+        "name": "ReferenceDesignation",
+        "type": "Byte",
+        "description": "String number for the onboard device reference designation.",
+        "version": ""
+      },
+      {
+        "name": "DeviceType",
+        "type": "Byte",
+        "description": "Device type in bits 6:0 and enabled state in bit 7.",
+        "version": ""
+      },
+      {
+        "name": "DeviceTypeInstance",
+        "type": "Byte",
+        "description": "Instance number for devices with the same type and designation.",
+        "version": ""
+      },
+      {
+        "name": "SegmentGroupNumber",
+        "type": "Word",
+        "description": "PCI segment group number for the device.",
+        "version": ""
+      },
+      {
+        "name": "BusNumber",
+        "type": "Byte",
+        "description": "PCI bus number for the device.",
+        "version": ""
+      },
+      {
+        "name": "DeviceFunctionNumber",
+        "type": "Byte",
+        "description": "PCI device number in bits 7:3 and function number in bits 2:0.",
+        "version": ""
+      }
+    ],
+    "methods": [
+      "ReferenceDesignationStr: AnsiString",
+      "Enabled: Boolean",
+      "GetDeviceTypeStr: AnsiString",
+      "GetDeviceNumber: Byte",
+      "number encoded in bits 2:0.</summary>\r\n      function GetFunctionNumber: Byte"
+    ],
+    "relations": [],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%2041%20Onboard%20Devices%20Extended%20Information/OnboardDevicesExtendedInfo.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%2041%20Onboard%20Devices%20Extended%20Information/OnboardDevicesExtendedInfo.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%2041%20Onboard%20Devices%20Extended%20Information/OnboardDevicesExtendedInfo.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L5221",
+    "legacy": false
+  },
+  {
+    "id": 42,
+    "name": "Management Controller Host Interface",
+    "group": "management",
+    "brief": "Management-controller host interfaces and protocol records.",
+    "property": "ManagementControllerHostInterfaceInfo",
+    "className": "TManagementControllerHostInterfaceInformation",
+    "enumName": "ManagementControllerHostInterface",
+    "fields": [
+      {
+        "name": "InterfaceType",
+        "type": "Byte",
+        "description": "Management controller host interface type.",
+        "version": ""
+      },
+      {
+        "name": "InterfaceTypeSpecificDataLength",
+        "type": "Byte",
+        "description": "Length in bytes of the interface-type-specific data following this field.",
+        "version": ""
+      }
+    ],
+    "methods": [
+      "GetInterfaceTypeStr: AnsiString",
+      "HasInterfaceTypeSpecificData: Boolean",
+      "GetInterfaceTypeSpecificDataByte(Index: Integer): Byte",
+      "GetProtocolRecordCount: Byte",
+      "HasProtocolRecord(Index: Integer): Boolean",
+      "GetProtocolType(Index: Integer): Byte",
+      "GetProtocolTypeStr(Index: Integer): AnsiString",
+      "GetProtocolTypeSpecificDataLength(Index: Integer): Byte",
+      "GetProtocolTypeSpecificDataByte(Index, DataIndex: Integer): Byte"
+    ],
+    "relations": [],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%2042%20Management%20Controller%20Host%20Interface/ManagementControllerHostInterfaceInfo.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%2042%20Management%20Controller%20Host%20Interface/ManagementControllerHostInterfaceInfo.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%2042%20Management%20Controller%20Host%20Interface/ManagementControllerHostInterfaceInfo.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L5245",
+    "legacy": false
+  },
+  {
+    "id": 43,
+    "name": "TPM Device",
+    "group": "security",
+    "brief": "TPM vendor, specification version and device description.",
+    "property": "TPMDeviceInfo",
+    "className": "TTPMDeviceInformation",
+    "enumName": "TPMDevice",
+    "fields": [
+      {
+        "name": "VendorID",
+        "type": "array [0 .. 3] of AnsiChar",
+        "description": "Four-character Trusted Computing Group vendor identifier.",
+        "version": ""
+      },
+      {
+        "name": "MajorSpecVersion",
+        "type": "Byte",
+        "description": "Major version of the TPM specification.",
+        "version": ""
+      },
+      {
+        "name": "MinorSpecVersion",
+        "type": "Byte",
+        "description": "Minor version of the TPM specification.",
+        "version": ""
+      },
+      {
+        "name": "FirmwareVersion1",
+        "type": "DWORD",
+        "description": "Vendor-specific TPM firmware version component 1.",
+        "version": ""
+      },
+      {
+        "name": "FirmwareVersion2",
+        "type": "DWORD",
+        "description": "Vendor-specific TPM firmware version component 2.",
+        "version": ""
+      },
+      {
+        "name": "Description",
+        "type": "Byte",
+        "description": "String number for an optional TPM device description.",
+        "version": ""
+      },
+      {
+        "name": "Characteristics",
+        "type": "Int64",
+        "description": "TPM device characteristics bit field.",
+        "version": ""
+      },
+      {
+        "name": "OEMDefined",
+        "type": "DWORD",
+        "description": "OEM-specific information.",
+        "version": ""
+      }
+    ],
+    "methods": [
+      "VendorIDStr: AnsiString",
+      "GetSpecificationVersionStr: AnsiString",
+      "DescriptionStr: AnsiString"
+    ],
+    "relations": [],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%2043%20TPM%20Device/TPMDeviceInfo.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%2043%20TPM%20Device/TPMDeviceInfo.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%2043%20TPM%20Device/TPMDeviceInfo.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L5309",
+    "legacy": false
+  },
+  {
+    "id": 44,
+    "name": "Processor Additional Information",
+    "group": "processor",
+    "brief": "Processor architecture and the associated processor handle.",
+    "property": "ProcessorAdditionalInfo",
+    "className": "TProcessorAdditionalInformation",
+    "enumName": "ProcessorAdditionalInformation",
+    "fields": [
+      {
+        "name": "ReferencedHandle",
+        "type": "Word",
+        "description": "Handle of the associated Type 4 Processor Information structure.",
+        "version": ""
+      },
+      {
+        "name": "ProcessorSpecificBlockLength",
+        "type": "Byte",
+        "description": "Length of the processor-specific block, including the architecture type byte.",
+        "version": ""
+      },
+      {
+        "name": "ProcessorType",
+        "type": "Byte",
+        "description": "Processor architecture type at the start of the processor-specific block.",
+        "version": ""
+      }
+    ],
+    "methods": [
+      "GetProcessorTypeStr: AnsiString",
+      "GetProcessorSpecificDataSize: Byte"
+    ],
+    "relations": [
+      [
+        4,
+        "Referenced processor handle"
+      ]
+    ],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%2044%20Processor%20Additional%20Information/ProcessorAdditionalInfo.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%2044%20Processor%20Additional%20Information/ProcessorAdditionalInfo.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%2044%20Processor%20Additional%20Information/ProcessorAdditionalInfo.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L5331",
+    "legacy": false
+  },
+  {
+    "id": 45,
+    "name": "Firmware Inventory Information",
+    "group": "system",
+    "brief": "Firmware components, versions, state and associated handles.",
+    "property": "FirmwareInventoryInfo",
+    "className": "TFirmwareInventoryInformation",
+    "enumName": "FirmwareInventoryInformation",
+    "fields": [
+      {
+        "name": "FirmwareComponentName",
+        "type": "Byte",
+        "description": "String number for the firmware component name.",
+        "version": ""
+      },
+      {
+        "name": "FirmwareVersion",
+        "type": "Byte",
+        "description": "String number for the firmware version.",
+        "version": ""
+      },
+      {
+        "name": "FirmwareVersionFormat",
+        "type": "Byte",
+        "description": "Format of the firmware version string.",
+        "version": ""
+      },
+      {
+        "name": "FirmwareID",
+        "type": "Byte",
+        "description": "String number for the firmware identifier.",
+        "version": ""
+      },
+      {
+        "name": "FirmwareIDFormat",
+        "type": "Byte",
+        "description": "Format of the firmware identifier string.",
+        "version": ""
+      },
+      {
+        "name": "ReleaseDate",
+        "type": "Byte",
+        "description": "String number for the firmware release date.",
+        "version": ""
+      },
+      {
+        "name": "Manufacturer",
+        "type": "Byte",
+        "description": "String number for the firmware manufacturer.",
+        "version": ""
+      },
+      {
+        "name": "LowestSupportedFirmwareVersion",
+        "type": "Byte",
+        "description": "String number for the lowest supported firmware version.",
+        "version": ""
+      },
+      {
+        "name": "ImageSize",
+        "type": "Int64",
+        "description": "Firmware image size in bytes, or unknown when all bits are set.",
+        "version": ""
+      },
+      {
+        "name": "Characteristics",
+        "type": "Word",
+        "description": "Firmware inventory characteristics bit field.",
+        "version": ""
+      },
+      {
+        "name": "State",
+        "type": "Byte",
+        "description": "Current firmware state.",
+        "version": ""
+      },
+      {
+        "name": "AssociatedComponentCount",
+        "type": "Byte",
+        "description": "Number of associated component handles following this fixed area.",
+        "version": ""
+      }
+    ],
+    "methods": [
+      "FirmwareComponentNameStr: AnsiString",
+      "FirmwareVersionStr: AnsiString",
+      "FirmwareIDStr: AnsiString",
+      "ReleaseDateStr: AnsiString",
+      "ManufacturerStr: AnsiString",
+      "LowestSupportedFirmwareVersionStr: AnsiString",
+      "GetStateStr: AnsiString",
+      "GetAssociatedComponentHandle(Index: Byte): Word"
+    ],
+    "relations": [
+      [
+        46,
+        "String properties may reference this structure"
+      ]
+    ],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%2045%20Firmware%20Inventory%20Information/FirmwareInventoryInfo.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%2045%20Firmware%20Inventory%20Information/FirmwareInventoryInfo.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%2045%20Firmware%20Inventory%20Information/FirmwareInventoryInfo.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L5369",
+    "legacy": false
+  },
+  {
+    "id": 46,
+    "name": "String Property",
+    "group": "system",
+    "brief": "String properties attached to a parent structure.",
+    "property": "StringPropertyInfo",
+    "className": "TStringPropertyInformation",
+    "enumName": "StringProperty",
+    "fields": [
+      {
+        "name": "StringPropertyID",
+        "type": "Word",
+        "description": "Identifier of the string property described by this structure.",
+        "version": ""
+      },
+      {
+        "name": "StringPropertyValue",
+        "type": "Byte",
+        "description": "String number for the string property value.",
+        "version": ""
+      },
+      {
+        "name": "ParentHandle",
+        "type": "Word",
+        "description": "Handle of the structure this string property applies to.",
+        "version": ""
+      }
+    ],
+    "methods": [
+      "GetStringPropertyIDStr: AnsiString",
+      "StringPropertyValueStr: AnsiString"
+    ],
+    "relations": [
+      [
+        45,
+        "ParentHandle can reference a firmware component"
+      ]
+    ],
+    "samples": [
+      {
+        "label": "Delphi",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20Delphi/Table%2046%20String%20Property/StringPropertyInfo.dpr"
+      },
+      {
+        "label": "FPC",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20FPC/Table%2046%20String%20Property/StringPropertyInfo.lpr"
+      },
+      {
+        "label": "C++ Builder",
+        "url": "https://github.com/RRUZ/tsmbios/blob/master/samples%20-%20C%2B%2BBuilder/Table%2046%20String%20Property/StringPropertyInfo.cpp"
+      }
+    ],
+    "source": "https://github.com/RRUZ/tsmbios/blob/master/source/uSMBIOS.pas#L5300",
+    "legacy": false
+  }
+]

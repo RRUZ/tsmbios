@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://rruz.github.io/tsmbios/</loc>
-  </url>
+  <url><loc>https://rruz.github.io/tsmbios/</loc></url>
+  <url><loc>https://rruz.github.io/tsmbios/explorer.html</loc></url>
 </urlset>

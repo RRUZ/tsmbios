@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Structure Explorer — TSMBIOS</title>
+  <meta name="description" content="Browse 47 SMBIOS structure types, declared fields, Pascal helper methods, relationships and table-specific TSMBIOS samples.">
+  <meta name="theme-color" content="#060a0e"><link rel="canonical" href="https://rruz.github.io/tsmbios/explorer.html">
+  <link rel="icon" type="image/png" href="./assets/tsmbios-logo.png"><link rel="stylesheet" href="./styles.css?v=atlas-1">
+  <meta property="og:title" content="Structure Explorer — TSMBIOS"><meta property="og:description" content="Explore the fields, helpers and relationships behind 47 SMBIOS structure types."><meta property="og:type" content="website"><meta property="og:url" content="https://rruz.github.io/tsmbios/explorer.html"><meta property="og:image" content="https://rruz.github.io/tsmbios/assets/tsmbios-banner.png">
+  <script src="./site.js?v=atlas-1" defer></script>
+</head>
+<body data-page="explorer">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="site-header"><div class="container header-inner"><a class="brand" href="./" aria-label="TSMBIOS home"><img src="./assets/tsmbios-logo.png" width="48" height="38" alt=""><span>TSMBIOS<span class="brand-caption">OBJECT PASCAL / HARDWARE</span></span></a><nav aria-label="Primary navigation"><a href="./#atlas">Hardware atlas</a><a href="./explorer.html" aria-current="page">Structure explorer</a><a href="./#code">Get started</a></nav><a class="github-link" href="https://github.com/RRUZ/tsmbios">GitHub ↗</a></div></header>
+  <main class="container explorer-main" id="main-content">
+    <div class="explorer-intro"><div><p class="eyebrow">REFERENCE / SMBIOS TYPES 0–46</p><h1>Inside the structures.</h1><p>Find a hardware component. Inspect its fields. Take it into Pascal.</p></div><a class="text-link" href="./#memory">Explore the memory example ↗</a></div>
+    <div class="explorer-layout">
+      <aside class="explorer-sidebar" aria-label="Find a structure"><div class="search-controls"><label for="structure-search">Search structures, fields or helpers</label><div class="search-box"><span aria-hidden="true">⌕</span><input type="search" id="structure-search" placeholder="Try PMIC, cache or Type 17" autocomplete="off"></div><label for="group-filter" class="sr-only">Hardware category</label><select id="group-filter"><option value="all">All hardware categories</option><option value="system">System + firmware</option><option value="processor">Processor + cache</option><option value="memory">Memory</option><option value="expansion">Expansion + onboard</option><option value="management">Management + sensors</option><option value="security">Security + power</option></select><div class="result-summary"><span id="result-count" role="status">Loading structures…</span><button type="button" id="clear-filters">Reset</button></div></div><nav class="structure-list" id="structure-list" aria-label="SMBIOS structures"></nav></aside>
+      <article class="structure-detail" id="structure-detail" aria-label="Selected structure"><div class="empty-state"><h2>The field reference is loading.</h2><p>Fields and helper signatures are extracted from the library source.</p></div></article>
+    </div>
+    <p class="reference-note">This is a source-derived field reference, not a hardware scan. Declared fields may be absent on a given machine or firmware version. Use the library’s presence checks and the specification when interpreting raw values.</p>
+    <noscript><p class="no-script">The searchable explorer requires JavaScript. <a href="https://github.com/RRUZ/tsmbios#smbios-tables-supported">Browse all supported tables and samples on GitHub.</a></p></noscript>
+  </main>
+  <footer class="site-footer"><div class="container footer-inner"><div><strong>TSMBIOS</strong><span>Hardware information, in Object Pascal.</span></div><nav aria-label="Footer navigation"><a href="./">Hardware atlas</a><a href="https://github.com/RRUZ/tsmbios">GitHub ↗</a><a href="https://github.com/RRUZ/tsmbios/blob/master/LICENSE.md">MPL 2.0</a></nav><span>© 2026 Rodrigo Ruz</span></div></footer>
+  <div class="sr-only" id="copy-status" role="status"></div>
+</body>
+</html>
